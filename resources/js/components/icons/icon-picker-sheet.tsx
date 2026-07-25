@@ -6,6 +6,7 @@ import { IconPickerTrigger } from '@/components/icons/icon-picker-trigger';
 import type {
     LucideIconPickerClassNames,
     LucideIconPickerDensity,
+    LucideIconPickerSize,
     LucideIconPickerTriggerVariant,
 } from '@/components/icons/lucide-icon-picker-types';
 import type { IconPickerState } from '@/components/icons/use-icon-picker-state';
@@ -30,12 +31,25 @@ type IconPickerSheetProps = {
     showCategories?: boolean;
     triggerVariant?: LucideIconPickerTriggerVariant;
     density?: LucideIconPickerDensity;
+    size?: LucideIconPickerSize;
     classNames?: LucideIconPickerClassNames;
     dialogTitle: string;
     dialogDescription: string;
     state: IconPickerState;
     triggerRef: Ref<HTMLButtonElement>;
 };
+
+function sheetMaxWidth(size: LucideIconPickerSize): string {
+    if (size === 'sm') {
+        return 'sm:max-w-md';
+    }
+
+    if (size === 'lg') {
+        return 'sm:max-w-xl';
+    }
+
+    return 'sm:max-w-lg';
+}
 
 export function IconPickerSheet({
     id,
@@ -48,6 +62,7 @@ export function IconPickerSheet({
     showCategories = true,
     triggerVariant = 'field',
     density = 'comfortable',
+    size = 'md',
     classNames,
     dialogTitle,
     dialogDescription,
@@ -83,6 +98,7 @@ export function IconPickerSheet({
         recentOptions,
         clearRecents,
         pendingIcon,
+        labels,
     } = state;
 
     return (
@@ -120,7 +136,8 @@ export function IconPickerSheet({
             <SheetContent
                 side="right"
                 className={cn(
-                    'flex h-full w-full flex-col gap-0 overflow-hidden bg-background p-0 text-foreground sm:max-w-lg',
+                    'flex h-full w-full flex-col gap-0 overflow-hidden bg-background p-0 text-foreground',
+                    sheetMaxWidth(size),
                     classNames?.sheetContent,
                 )}
             >
@@ -162,6 +179,7 @@ export function IconPickerSheet({
                         showRecents={showRecents}
                         density={density}
                         fillHeight
+                        labels={labels}
                         classNames={classNames}
                     />
                 </div>
@@ -177,6 +195,7 @@ export function IconPickerSheet({
                         setOpen(false);
                         focus();
                     }}
+                    labels={labels}
                     classNames={classNames}
                 />
             </SheetContent>

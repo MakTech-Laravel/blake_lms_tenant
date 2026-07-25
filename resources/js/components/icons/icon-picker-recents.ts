@@ -1,13 +1,17 @@
-const STORAGE_KEY = 'blake.lucide-icon-picker.recents';
+const STORAGE_PREFIX = 'blake.lucide-icon-picker.recents';
 const MAX_RECENTS = 12;
 
-export function readRecentIcons(): string[] {
+function storageKey(scope: string): string {
+    return `${STORAGE_PREFIX}:${scope || 'global'}`;
+}
+
+export function readRecentIcons(scope = 'global'): string[] {
     if (typeof window === 'undefined') {
         return [];
     }
 
     try {
-        const raw = window.localStorage.getItem(STORAGE_KEY);
+        const raw = window.localStorage.getItem(storageKey(scope));
 
         if (!raw) {
             return [];
@@ -25,15 +29,15 @@ export function readRecentIcons(): string[] {
     }
 }
 
-export function pushRecentIcon(key: string): string[] {
+export function pushRecentIcon(key: string, scope = 'global'): string[] {
     const next = [
         key,
-        ...readRecentIcons().filter((item) => item !== key),
+        ...readRecentIcons(scope).filter((item) => item !== key),
     ].slice(0, MAX_RECENTS);
 
     if (typeof window !== 'undefined') {
         try {
-            window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+            window.localStorage.setItem(storageKey(scope), JSON.stringify(next));
         } catch {
             // Ignore quota / private-mode failures.
         }
@@ -42,10 +46,10 @@ export function pushRecentIcon(key: string): string[] {
     return next;
 }
 
-export function clearRecentIcons(): string[] {
+export function clearRecentIcons(scope = 'global'): string[] {
     if (typeof window !== 'undefined') {
         try {
-            window.localStorage.removeItem(STORAGE_KEY);
+            window.localStorage.removeItem(storageKey(scope));
         } catch {
             // Ignore.
         }

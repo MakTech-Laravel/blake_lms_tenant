@@ -4,6 +4,7 @@ import { CachedLucideIcon } from '@/components/icons/cached-lucide-icon';
 import { IconPickerCategoryRail } from '@/components/icons/icon-picker-category-rail';
 import type {
     CatalogIconOption,
+    IconPickerLabels,
     LucideIconPickerClassNames,
     LucideIconPickerDensity,
 } from '@/components/icons/lucide-icon-picker-types';
@@ -39,8 +40,8 @@ type IconPickerPanelProps = {
     showCategories?: boolean;
     showRecents?: boolean;
     density?: LucideIconPickerDensity;
-    /** Fill parent height; only the icon grid scrolls. */
     fillHeight?: boolean;
+    labels: IconPickerLabels;
     classNames?: LucideIconPickerClassNames;
 };
 
@@ -73,6 +74,7 @@ export function IconPickerPanel({
     showRecents = true,
     density = 'comfortable',
     fillHeight = false,
+    labels,
     classNames,
 }: IconPickerPanelProps) {
     return (
@@ -85,8 +87,7 @@ export function IconPickerPanel({
         >
             {hadInvalidDefault ? (
                 <p className="shrink-0 text-xs text-amber-700 dark:text-amber-400">
-                    The previous icon was not recognized. Pick one from the list
-                    below.
+                    {labels.invalidValue}
                 </p>
             ) : null}
 
@@ -103,7 +104,7 @@ export function IconPickerPanel({
                     htmlFor={searchId}
                     className="text-xs font-medium tracking-wide text-muted-foreground uppercase"
                 >
-                    {label}
+                    {label || labels.search}
                 </label>
                 <div className="relative">
                     <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -149,7 +150,7 @@ export function IconPickerPanel({
                 >
                     <div className="flex items-center justify-between gap-2">
                         <p className="text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
-                            Recent
+                            {labels.recent}
                         </p>
                         {onClearRecents ? (
                             <button
@@ -158,7 +159,7 @@ export function IconPickerPanel({
                                 onClick={onClearRecents}
                                 className="text-[11px] font-medium text-muted-foreground transition-colors hover:text-foreground"
                             >
-                                Clear
+                                {labels.clearRecents}
                             </button>
                         ) : null}
                     </div>
@@ -235,7 +236,7 @@ export function IconPickerPanel({
                         classNames?.empty,
                     )}
                 >
-                    No icons match your filters.
+                    {labels.empty}
                 </p>
             ) : (
                 <div

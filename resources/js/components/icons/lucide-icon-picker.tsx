@@ -12,14 +12,19 @@ import { useIconPickerState } from '@/components/icons/use-icon-picker-state';
 import { cn } from '@/lib/utils';
 
 export type {
+    IconPickerLabels,
     LucideIconPickerClassNames,
     LucideIconPickerDensity,
     LucideIconPickerHandle,
     LucideIconPickerMode,
+    LucideIconPickerPanelAlign,
     LucideIconPickerPanelBehavior,
     LucideIconPickerProps,
+    LucideIconPickerSize,
     LucideIconPickerTriggerVariant,
 } from '@/components/icons/lucide-icon-picker-types';
+
+export { prefetchIconCatalog } from '@/components/icons/icon-catalog-loader';
 
 function resolveMode(
     mode: LucideIconPickerMode | undefined,
@@ -49,8 +54,10 @@ export const LucideIconPicker = forwardRef<
         value,
         onChange,
         onPendingChange,
+        onInvalidValue,
         label = 'Search icons',
         description = '',
+        fallbackIcon = 'pen-line',
         defaultIcon = 'pen-line',
         defaultOpen = false,
         open,
@@ -60,6 +67,11 @@ export const LucideIconPicker = forwardRef<
         error,
         placeholder,
         allowedIcons,
+        categories,
+        labels,
+        size = 'md',
+        panelAlign = 'auto',
+        recentsScope = 'global',
         showSparkles = false,
         mode: modeProp,
         triggerVariant = 'field',
@@ -83,6 +95,8 @@ export const LucideIconPicker = forwardRef<
         value,
         onChange,
         onPendingChange,
+        onInvalidValue,
+        fallbackIcon,
         defaultIcon,
         defaultOpen,
         open,
@@ -90,6 +104,9 @@ export const LucideIconPicker = forwardRef<
         disabled,
         placeholder,
         allowedIcons,
+        categories,
+        labels,
+        recentsScope,
         closeOnSelect,
         clearSearchOnSelect,
         confirmSelection,
@@ -146,12 +163,14 @@ export const LucideIconPicker = forwardRef<
             {mode === 'dialog' ? (
                 <IconPickerDialog
                     {...sharedShellProps}
+                    size={size}
                     dialogTitle={dialogTitle}
                     dialogDescription={dialogDescription}
                 />
             ) : mode === 'sheet' ? (
                 <IconPickerSheet
                     {...sharedShellProps}
+                    size={size}
                     dialogTitle={dialogTitle}
                     dialogDescription={dialogDescription}
                 />
@@ -159,6 +178,7 @@ export const LucideIconPicker = forwardRef<
                 <IconPickerCollapsible
                     {...sharedShellProps}
                     panelBehavior={panelBehavior}
+                    panelAlign={panelAlign}
                 />
             )}
 

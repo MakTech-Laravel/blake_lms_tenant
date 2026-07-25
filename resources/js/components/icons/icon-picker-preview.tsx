@@ -2,7 +2,11 @@ import { Check, ClipboardCopy } from 'lucide-react';
 import { useState } from 'react';
 
 import { CachedLucideIcon } from '@/components/icons/cached-lucide-icon';
-import type { LucideIconPickerClassNames } from '@/components/icons/lucide-icon-picker-types';
+import type {
+    IconPickerLabels,
+    LucideIconPickerClassNames,
+} from '@/components/icons/lucide-icon-picker-types';
+import { DEFAULT_ICON_PICKER_LABELS } from '@/components/icons/lucide-icon-picker-types';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -14,6 +18,7 @@ type IconPickerPreviewProps = {
     confirmSelection?: boolean;
     onConfirm?: () => void;
     onCancel?: () => void;
+    labels?: Partial<IconPickerLabels>;
     classNames?: LucideIconPickerClassNames;
 };
 
@@ -25,8 +30,10 @@ export function IconPickerPreview({
     confirmSelection = false,
     onConfirm,
     onCancel,
+    labels: labelsProp,
     classNames,
 }: IconPickerPreviewProps) {
+    const labels = { ...DEFAULT_ICON_PICKER_LABELS, ...labelsProp };
     const [copied, setCopied] = useState(false);
     const isPreview =
         confirmSelection &&
@@ -60,7 +67,7 @@ export function IconPickerPreview({
                 </div>
                 <div className="min-w-0 flex-1">
                     <p className="text-[10px] font-medium tracking-wide text-muted-foreground uppercase">
-                        {isPreview ? 'Preview' : 'Selected'}
+                        {isPreview ? labels.preview : labels.selected}
                     </p>
                     <p className="truncate text-sm font-medium text-foreground">
                         {label}
@@ -77,7 +84,7 @@ export function IconPickerPreview({
                             size="sm"
                             onClick={onCancel}
                         >
-                            Cancel
+                            {labels.cancel}
                         </Button>
                         <Button
                             type="button"
@@ -85,7 +92,7 @@ export function IconPickerPreview({
                             onClick={onConfirm}
                             className={classNames?.confirmButton}
                         >
-                            Use icon
+                            {labels.confirm}
                         </Button>
                     </div>
                 ) : null}
@@ -102,7 +109,7 @@ export function IconPickerPreview({
         >
             <div className="flex flex-1 flex-col items-center justify-center gap-4">
                 <p className="text-[10px] font-medium tracking-wide text-muted-foreground uppercase">
-                    {isPreview ? 'Preview' : 'Selected'}
+                    {isPreview ? labels.preview : labels.selected}
                 </p>
                 <div className="flex size-24 items-center justify-center rounded-2xl border border-border bg-background shadow-xs">
                     <CachedLucideIcon
@@ -131,7 +138,7 @@ export function IconPickerPreview({
                     ) : (
                         <ClipboardCopy className="size-3.5" />
                     )}
-                    {copied ? 'Copied' : 'Copy key'}
+                    {copied ? labels.copied : labels.copyKey}
                 </Button>
             </div>
 
@@ -142,7 +149,7 @@ export function IconPickerPreview({
                         onClick={onConfirm}
                         className={cn('w-full', classNames?.confirmButton)}
                     >
-                        Use icon
+                        {labels.confirm}
                     </Button>
                     <Button
                         type="button"
@@ -150,7 +157,7 @@ export function IconPickerPreview({
                         onClick={onCancel}
                         className="w-full"
                     >
-                        Cancel
+                        {labels.cancel}
                     </Button>
                 </div>
             ) : null}

@@ -29,9 +29,16 @@ export function isValidLucideIconKey(
     return Boolean(value && VALID_LUCIDE_KEYS.has(value));
 }
 
-export function resolveIconKey(value: string | null | undefined): string {
+export function resolveIconKey(
+    value: string | null | undefined,
+    fallback: string = DEFAULT_ICON_KEY,
+): string {
+    const safeFallback = VALID_LUCIDE_KEYS.has(fallback)
+        ? fallback
+        : DEFAULT_ICON_KEY;
+
     if (!value) {
-        return DEFAULT_ICON_KEY;
+        return safeFallback;
     }
 
     const normalized = normalizeIconKey(value);
@@ -40,7 +47,7 @@ export function resolveIconKey(value: string | null | undefined): string {
         return normalized;
     }
 
-    return DEFAULT_ICON_KEY;
+    return safeFallback;
 }
 
 export function getIconLabel(key: string): string {

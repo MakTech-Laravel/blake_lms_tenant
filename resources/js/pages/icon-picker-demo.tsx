@@ -1,9 +1,12 @@
 import { Form, Head } from '@inertiajs/react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import IconPickerDemoController from '@/actions/App/Http/Controllers/IconPickerDemoController';
 import Heading from '@/components/heading';
-import { LucideIconPicker } from '@/components/icons/lucide-icon-picker';
+import {
+    LucideIconPicker,
+    prefetchIconCatalog,
+} from '@/components/icons/lucide-icon-picker';
 import type { LucideIconPickerHandle } from '@/components/icons/lucide-icon-picker';
 import InputError from '@/components/input-error';
 import { Badge } from '@/components/ui/badge';
@@ -369,6 +372,10 @@ function ImperativeRefDemo() {
 export default function IconPickerDemo({ icon }: { icon: string }) {
     const [savedIcon, setSavedIcon] = useState(icon);
     const [selectedIcon, setSelectedIcon] = useState(icon);
+
+    useEffect(() => {
+        prefetchIconCatalog();
+    }, []);
 
     if (icon !== savedIcon) {
         setSavedIcon(icon);

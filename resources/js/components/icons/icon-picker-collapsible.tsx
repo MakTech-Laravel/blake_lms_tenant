@@ -1,10 +1,11 @@
-import { useEffect, useRef, type Ref } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type Ref } from 'react';
 
 import { IconPickerPanel } from '@/components/icons/icon-picker-panel';
 import { IconPickerTrigger } from '@/components/icons/icon-picker-trigger';
 import type {
     LucideIconPickerClassNames,
     LucideIconPickerDensity,
+    LucideIconPickerPanelAlign,
     LucideIconPickerPanelBehavior,
     LucideIconPickerTriggerVariant,
 } from '@/components/icons/lucide-icon-picker-types';
@@ -27,11 +28,22 @@ type IconPickerCollapsibleProps = {
     showCategories?: boolean;
     triggerVariant?: LucideIconPickerTriggerVariant;
     panelBehavior?: LucideIconPickerPanelBehavior;
+    panelAlign?: LucideIconPickerPanelAlign;
     density?: LucideIconPickerDensity;
     classNames?: LucideIconPickerClassNames;
     state: IconPickerState;
     triggerRef: Ref<HTMLButtonElement>;
 };
+
+type AlignSide = 'start' | 'end';
+
+function focusableWithin(root: HTMLElement): HTMLElement[] {
+    return Array.from(
+        root.querySelectorAll<HTMLElement>(
+            'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+    ).filter((el) => !el.hasAttribute('disabled') && el.tabIndex !== -1);
+}
 
 export function IconPickerCollapsible({
     id,
@@ -44,6 +56,7 @@ export function IconPickerCollapsible({
     showCategories = true,
     triggerVariant = 'field',
     panelBehavior: panelBehaviorProp,
+    panelAlign = 'auto',
     density = 'comfortable',
     classNames,
     state,
@@ -56,6 +69,9 @@ export function IconPickerCollapsible({
             : 'inline');
 
     const shellRef = useRef<HTMLDivElement>(null);
+    const [alignSide, setAlignSide] = useState<AlignSide>(
+        triggerVariant === 'compact' ? 'end' : 'start',
+    );
 
     const {
         open,
@@ -76,17 +92,46 @@ export function IconPickerCollapsible({
         deferredQuery,
         selectIcon,
         focus,
+        focusSearch,
         category,
         setCategory,
         availableCategories,
         recentOptions,
         clearRecents,
+        labels,
     } = state;
+
+    useLayoutEffect(() => {
+        if (!open || panelBehavior !== 'overlay' || panelAlign !== 'auto') {
+            if (panelAlign === 'start' || panelAlign === 'end') {
+                setAlignSide(panelAlign);
+            }
+
+            return;
+        }
+
+        const shell = shellRef.current;
+
+        if (!shell) {
+            return;
+        }
+
+        const rect = shell.getBoundingClientRect();
+        const panelWidth = Math.min(window.innerWidth - 32, 352);
+        const spaceRight = window.innerWidth - rect.left;
+        const spaceLeft = rect.right;
+
+        setAlignSide(spaceRight >= panelWidth || spaceRight >= spaceLeft ? 'start' : 'end');
+    }, [open, panelAlign, panelBehavior]);
 
     useEffect(() => {
         if (!open || panelBehavior !== 'overlay') {
             return;
         }
+
+        const frame = window.requestAnimationFrame(() => {
+            focusSearch();
+        });
 
         const onPointerDown = (event: MouseEvent) => {
             const target = event.target as Node | null;
@@ -97,10 +142,39 @@ export function IconPickerCollapsible({
             }
         };
 
-        document.addEventListener('mousedown', onPointerDown);
+        const onKeyDown = (event: KeyboardEvent) => {
+            if (event.key !== 'Tab' || !shellRef.current) {
+                return;
+            }
 
-        return () => document.removeEventListener('mousedown', onPointerDown);
-    }, [focus, open, panelBehavior, setOpen]);
+            const focusables = focusableWithin(shellRef.current);
+
+            if (focusables.length === 0) {
+                return;
+            }
+
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+            const active = document.activeElement as HTMLElement | null;
+
+            if (event.shiftKey && active === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && active === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        };
+
+        document.addEventListener('mousedown', onPointerDown);
+        document.addEventListener('keydown', onKeyDown);
+
+        return () => {
+            window.cancelAnimationFrame(frame);
+            document.removeEventListener('mousedown', onPointerDown);
+            document.removeEventListener('keydown', onKeyDown);
+        };
+    }, [focus, focusSearch, open, panelBehavior, setOpen]);
 
     return (
         <Collapsible open={open} onOpenChange={setOpen}>
@@ -136,9 +210,7 @@ export function IconPickerCollapsible({
                         panelBehavior === 'overlay' &&
                             cn(
                                 'absolute top-full z-50 mt-2 w-[min(calc(100vw-2rem),22rem)]',
-                                triggerVariant === 'compact'
-                                    ? 'right-0'
-                                    : 'left-0',
+                                alignSide === 'end' ? 'right-0' : 'left-0',
                             ),
                         panelBehavior === 'inline' && 'mt-2',
                     )}
@@ -182,6 +254,7 @@ export function IconPickerCollapsible({
                             showCategories={showCategories}
                             showRecents={showRecents}
                             density={density}
+                            labels={labels}
                             classNames={classNames}
                         />
                     </div>

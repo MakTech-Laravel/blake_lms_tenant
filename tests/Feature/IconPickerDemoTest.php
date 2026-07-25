@@ -53,3 +53,13 @@ test('icon is required', function () {
         ->post(route('icon-picker-demo.store'), [])
         ->assertSessionHasErrors('icon');
 });
+
+test('icon must exist in the lucide catalog', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->post(route('icon-picker-demo.store'), [
+            'icon' => 'not-a-real-icon-zzz',
+        ])
+        ->assertSessionHasErrors('icon');
+});

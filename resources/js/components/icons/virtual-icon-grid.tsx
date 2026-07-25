@@ -10,13 +10,8 @@ import {
 import type { KeyboardEvent } from 'react';
 
 import { CachedLucideIcon } from '@/components/icons/cached-lucide-icon';
+import { IconPickerHoverTip } from '@/components/icons/icon-picker-hover-tip';
 import type { LucideIconPickerDensity } from '@/components/icons/lucide-icon-picker-types';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { prefetchLucideIcons } from '@/lib/lucide-icon-cache';
 import { cn } from '@/lib/utils';
 
@@ -41,9 +36,17 @@ type VirtualIconGridProps = {
     optionLabelClassName?: string;
 };
 
+type HoverTipState = {
+    key: string;
+    label: string;
+    x: number;
+    y: number;
+};
+
 const OVERSCAN_ROWS = 2;
 const MIN_COLUMNS = 4;
 const MAX_COLUMNS = 10;
+const TIP_DELAY_MS = 280;
 
 function densityConfig(density: LucideIconPickerDensity) {
     if (density === 'compact') {
@@ -96,6 +99,7 @@ export function VirtualIconGrid({
     const scrollRef = useRef<HTMLDivElement>(null);
     const scrollRafRef = useRef<number | null>(null);
     const scrollTopRef = useRef(0);
+    const tipDelayRef = useRef<number | null>(null);
     const [scrollTop, setScrollTop] = useState(0);
     const [viewportHeight, setViewportHeight] = useState(384);
     const [columnCount, setColumnCount] = useState(MIN_COLUMNS);
@@ -107,8 +111,36 @@ export function VirtualIconGrid({
 
         return selectedIndex >= 0 ? selectedIndex : 0;
     });
-    const [tooltipsEnabled, setTooltipsEnabled] = useState(true);
-    const tipResumeRef = useRef<number | null>(null);
+    const [hoverTip, setHoverTip] = useState<HoverTipState | null>(null);
+
+    const clearHoverTip = useCallback(() => {
+        if (tipDelayRef.current != null) {
+            window.clearTimeout(tipDelayRef.current);
+            tipDelayRef.current = null;
+        }
+
+        setHoverTip(null);
+    }, []);
+
+    const scheduleHoverTip = useCallback(
+        (option: VirtualIconOption, target: HTMLElement) => {
+            if (tipDelayRef.current != null) {
+                window.clearTimeout(tipDelayRef.current);
+            }
+
+            tipDelayRef.current = window.setTimeout(() => {
+                const rect = target.getBoundingClientRect();
+                setHoverTip({
+                    key: option.key,
+                    label: option.label,
+                    x: rect.left + rect.width / 2,
+                    y: rect.top,
+                });
+                tipDelayRef.current = null;
+            }, TIP_DELAY_MS);
+        },
+        [],
+    );
 
     useLayoutEffect(() => {
         const element = scrollRef.current;
@@ -213,17 +245,7 @@ export function VirtualIconGrid({
             return;
         }
 
-        setTooltipsEnabled(false);
-
-        if (tipResumeRef.current != null) {
-            window.clearTimeout(tipResumeRef.current);
-        }
-
-        tipResumeRef.current = window.setTimeout(() => {
-            setTooltipsEnabled(true);
-            tipResumeRef.current = null;
-        }, 120);
-
+        clearHoverTip();
         scrollTopRef.current = element.scrollTop;
 
         if (scrollRafRef.current !== null) {
@@ -247,7 +269,7 @@ export function VirtualIconGrid({
                 setScrollTop(nextScrollTop);
             }
         });
-    }, [rowStride, scrollTop]);
+    }, [clearHoverTip, rowStride, scrollTop]);
 
     useEffect(() => {
         return () => {
@@ -255,8 +277,8 @@ export function VirtualIconGrid({
                 cancelAnimationFrame(scrollRafRef.current);
             }
 
-            if (tipResumeRef.current != null) {
-                window.clearTimeout(tipResumeRef.current);
+            if (tipDelayRef.current != null) {
+                window.clearTimeout(tipDelayRef.current);
             }
         };
     }, []);
@@ -310,6 +332,7 @@ export function VirtualIconGrid({
                 }
                 case 'Escape':
                     event.preventDefault();
+                    clearHoverTip();
                     onEscape?.();
                     break;
                 default:
@@ -317,6 +340,7 @@ export function VirtualIconGrid({
             }
         },
         [
+            clearHoverTip,
             columnCount,
             disabled,
             focusedIndex,
@@ -333,7 +357,7 @@ export function VirtualIconGrid({
             : Math.max(0, Math.min(focusedIndex, options.length - 1));
 
     return (
-        <TooltipProvider delayDuration={280} skipDelayDuration={0}>
+        <>
             <div
                 ref={scrollRef}
                 id={id}
@@ -371,99 +395,94 @@ export function VirtualIconGrid({
                                 const isFocused = index === safeFocusedIndex;
 
                                 return (
-                                    <Tooltip
+                                    <button
                                         key={option.key}
-                                        open={
-                                            tooltipsEnabled
-                                                ? undefined
-                                                : false
-                                        }
+                                        id={`${id ?? 'icon-grid'}-option-${option.key}`}
+                                        type="button"
+                                        role="option"
+                                        aria-selected={isSelected || isPending}
+                                        aria-label={option.label}
+                                        tabIndex={-1}
+                                        disabled={disabled}
+                                        onClick={() => onSelect(option.key)}
+                                        onMouseEnter={(event) => {
+                                            setFocusedIndex(index);
+                                            scheduleHoverTip(
+                                                option,
+                                                event.currentTarget,
+                                            );
+                                        }}
+                                        onMouseLeave={clearHoverTip}
+                                        onFocus={(event) => {
+                                            setFocusedIndex(index);
+                                            scheduleHoverTip(
+                                                option,
+                                                event.currentTarget,
+                                            );
+                                        }}
+                                        onBlur={clearHoverTip}
+                                        className={cn(
+                                            'relative flex w-full flex-col items-center justify-center gap-1.5 rounded-lg border border-transparent bg-background px-1.5 py-1 text-center transition-colors hover:bg-muted/40',
+                                            isSelected &&
+                                                cn(
+                                                    'border-primary bg-primary/15 text-primary shadow-xs',
+                                                    optionSelectedClassName,
+                                                ),
+                                            isPending &&
+                                                !isSelected &&
+                                                cn(
+                                                    'border-2 border-dashed border-primary bg-primary/10 text-primary',
+                                                    optionPendingClassName,
+                                                ),
+                                            isFocused &&
+                                                !isSelected &&
+                                                !isPending &&
+                                                'bg-muted/60 ring-1 ring-border',
+                                            optionClassName,
+                                        )}
                                     >
-                                        <TooltipTrigger asChild>
-                                            <button
-                                                id={`${id ?? 'icon-grid'}-option-${option.key}`}
-                                                type="button"
-                                                role="option"
-                                                aria-selected={
-                                                    isSelected || isPending
-                                                }
-                                                aria-label={option.label}
-                                                tabIndex={-1}
-                                                disabled={disabled}
-                                                onClick={() =>
-                                                    onSelect(option.key)
-                                                }
-                                                onMouseEnter={() =>
-                                                    setFocusedIndex(index)
-                                                }
+                                        {isSelected ? (
+                                            <Check
+                                                className="absolute top-1 right-1 size-3 text-primary"
+                                                aria-hidden
+                                            />
+                                        ) : null}
+                                        {isPending && !isSelected ? (
+                                            <span className="absolute top-1 right-1 size-1.5 rounded-full bg-primary" />
+                                        ) : null}
+                                        <CachedLucideIcon
+                                            name={option.key}
+                                            className="size-5 shrink-0"
+                                        />
+                                        {showLabel ? (
+                                            <span
                                                 className={cn(
-                                                    'relative flex w-full flex-col items-center justify-center gap-1.5 rounded-lg border border-transparent bg-background px-1.5 py-1 text-center transition-colors hover:bg-muted/40',
-                                                    isSelected &&
-                                                        cn(
-                                                            'border-primary bg-primary/15 text-primary shadow-xs',
-                                                            optionSelectedClassName,
-                                                        ),
-                                                    isPending &&
-                                                        !isSelected &&
-                                                        cn(
-                                                            'border-2 border-dashed border-primary bg-primary/10 text-primary',
-                                                            optionPendingClassName,
-                                                        ),
-                                                    isFocused &&
-                                                        !isSelected &&
-                                                        !isPending &&
-                                                        'bg-muted/60 ring-1 ring-border',
-                                                    optionClassName,
+                                                    'line-clamp-1 w-full px-0.5 text-[10px] leading-tight font-medium text-muted-foreground',
+                                                    optionLabelClassName,
                                                 )}
                                             >
-                                                {isSelected ? (
-                                                    <Check
-                                                        className="absolute top-1 right-1 size-3 text-primary"
-                                                        aria-hidden
-                                                    />
-                                                ) : null}
-                                                {isPending &&
-                                                !isSelected ? (
-                                                    <span className="absolute top-1 right-1 size-1.5 rounded-full bg-primary" />
-                                                ) : null}
-                                                <CachedLucideIcon
-                                                    name={option.key}
-                                                    className="size-5 shrink-0"
-                                                />
-                                                {showLabel ? (
-                                                    <span
-                                                        className={cn(
-                                                            'line-clamp-1 w-full px-0.5 text-[10px] leading-tight font-medium text-muted-foreground',
-                                                            optionLabelClassName,
-                                                        )}
-                                                    >
-                                                        {option.label}
-                                                    </span>
-                                                ) : (
-                                                    <span className="sr-only">
-                                                        {option.label}
-                                                    </span>
-                                                )}
-                                            </button>
-                                        </TooltipTrigger>
-                                        <TooltipContent
-                                            side="top"
-                                            sideOffset={8}
-                                        >
-                                            <p className="font-medium">
                                                 {option.label}
-                                            </p>
-                                            <p className="mt-0.5 font-mono text-[10px] opacity-80">
-                                                {option.key}
-                                            </p>
-                                        </TooltipContent>
-                                    </Tooltip>
+                                            </span>
+                                        ) : (
+                                            <span className="sr-only">
+                                                {option.label}
+                                            </span>
+                                        )}
+                                    </button>
                                 );
                             })}
                         </div>
                     ))}
                 </div>
             </div>
-        </TooltipProvider>
+
+            <IconPickerHoverTip
+                open={hoverTip != null}
+                label={hoverTip?.label ?? ''}
+                iconKey={hoverTip?.key ?? ''}
+                x={hoverTip?.x ?? 0}
+                y={hoverTip?.y ?? 0}
+            />
+        </>
     );
 }

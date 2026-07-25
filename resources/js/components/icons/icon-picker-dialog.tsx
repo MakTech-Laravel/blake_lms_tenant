@@ -6,6 +6,7 @@ import { IconPickerTrigger } from '@/components/icons/icon-picker-trigger';
 import type {
     LucideIconPickerClassNames,
     LucideIconPickerDensity,
+    LucideIconPickerSize,
     LucideIconPickerTriggerVariant,
 } from '@/components/icons/lucide-icon-picker-types';
 import type { IconPickerState } from '@/components/icons/use-icon-picker-state';
@@ -30,12 +31,25 @@ type IconPickerDialogProps = {
     showCategories?: boolean;
     triggerVariant?: LucideIconPickerTriggerVariant;
     density?: LucideIconPickerDensity;
+    size?: LucideIconPickerSize;
     classNames?: LucideIconPickerClassNames;
     dialogTitle: string;
     dialogDescription: string;
     state: IconPickerState;
     triggerRef: Ref<HTMLButtonElement>;
 };
+
+function dialogMaxWidth(size: LucideIconPickerSize): string {
+    if (size === 'sm') {
+        return 'sm:max-w-lg';
+    }
+
+    if (size === 'lg') {
+        return 'sm:max-w-3xl lg:max-w-4xl';
+    }
+
+    return 'sm:max-w-2xl lg:max-w-3xl';
+}
 
 export function IconPickerDialog({
     id,
@@ -48,6 +62,7 @@ export function IconPickerDialog({
     showCategories = true,
     triggerVariant = 'field',
     density = 'comfortable',
+    size = 'md',
     classNames,
     dialogTitle,
     dialogDescription,
@@ -83,6 +98,7 @@ export function IconPickerDialog({
         recentOptions,
         clearRecents,
         pendingIcon,
+        labels,
     } = state;
 
     return (
@@ -119,7 +135,8 @@ export function IconPickerDialog({
 
             <DialogContent
                 className={cn(
-                    'flex max-h-[min(90vh,720px)] w-full flex-col gap-0 overflow-hidden bg-background p-0 text-foreground sm:max-w-3xl lg:max-w-4xl',
+                    'flex max-h-[min(90vh,720px)] w-full flex-col gap-0 overflow-hidden bg-background p-0 text-foreground',
+                    dialogMaxWidth(size),
                     classNames?.dialogContent,
                 )}
                 onKeyDown={(event) => {
@@ -177,6 +194,7 @@ export function IconPickerDialog({
                             showRecents={showRecents}
                             density={density}
                             fillHeight
+                            labels={labels}
                             classNames={classNames}
                         />
                     </div>
@@ -193,6 +211,7 @@ export function IconPickerDialog({
                                 setOpen(false);
                                 focus();
                             }}
+                            labels={labels}
                             classNames={classNames}
                         />
                     </div>
@@ -210,6 +229,7 @@ export function IconPickerDialog({
                             setOpen(false);
                             focus();
                         }}
+                        labels={labels}
                         classNames={classNames}
                     />
                 </div>

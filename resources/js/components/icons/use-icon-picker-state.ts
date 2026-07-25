@@ -9,15 +9,21 @@ import {
 } from 'react';
 
 import {
+    buildAllowListOptions,
+    loadIconCatalog,
+} from '@/components/icons/icon-catalog-loader';
+import {
     clearRecentIcons,
     pushRecentIcon,
     readRecentIcons,
 } from '@/components/icons/icon-picker-recents';
 import type {
     CatalogIconOption,
+    IconPickerLabels,
     LucideIconPickerMode,
     LucideIconPickerProps,
 } from '@/components/icons/lucide-icon-picker-types';
+import { DEFAULT_ICON_PICKER_LABELS } from '@/components/icons/lucide-icon-picker-types';
 import {
     getIconLabel,
     isValidLucideIconKey,
@@ -31,6 +37,9 @@ type UseIconPickerStateOptions = Pick<
     | 'defaultValue'
     | 'value'
     | 'onChange'
+    | 'onPendingChange'
+    | 'onInvalidValue'
+    | 'fallbackIcon'
     | 'defaultIcon'
     | 'defaultOpen'
     | 'open'
@@ -38,15 +47,23 @@ type UseIconPickerStateOptions = Pick<
     | 'disabled'
     | 'placeholder'
     | 'allowedIcons'
+    | 'categories'
+    | 'labels'
+    | 'recentsScope'
     | 'closeOnSelect'
     | 'clearSearchOnSelect'
     | 'confirmSelection'
     | 'showRecents'
     | 'mode'
-    | 'onPendingChange'
 > & {
     mode: LucideIconPickerMode;
 };
+
+function mergeLabels(
+    overrides?: Partial<IconPickerLabels>,
+): IconPickerLabels {
+    return { ...DEFAULT_ICON_PICKER_LABELS, ...overrides };
+}
 
 export function useIconPickerState({
     id,
@@ -54,6 +71,8 @@ export function useIconPickerState({
     value,
     onChange,
     onPendingChange,
+    onInvalidValue,
+    fallbackIcon = 'pen-line',
     defaultIcon = 'pen-line',
     defaultOpen = false,
     open: openProp,
@@ -61,6 +80,9 @@ export function useIconPickerState({
     disabled = false,
     placeholder,
     allowedIcons,
+    categories: categoriesProp,
+    labels: labelsProp,
+    recentsScope = 'global',
     closeOnSelect = false,
     clearSearchOnSelect = false,
     confirmSelection: confirmSelectionProp,
@@ -72,34 +94,72 @@ export function useIconPickerState({
     const gridId = id ? `${id}-grid` : `${reactId}-grid`;
     const statusId = id ? `${id}-status` : `${reactId}-status`;
     const triggerRef = useRef<HTMLButtonElement>(null);
+    const invalidNotifiedRef = useRef<string | null>(null);
+
+    const labels = useMemo(() => mergeLabels(labelsProp), [labelsProp]);
 
     const confirmSelection =
         confirmSelectionProp ?? (mode === 'dialog' || mode === 'sheet');
 
     const isControlledValue = value !== undefined;
     const isControlledOpen = openProp !== undefined;
+    const useAllowListOnly = Boolean(
+        allowedIcons && allowedIcons.length > 0,
+    );
+
+    const rawIncoming = isControlledValue
+        ? value
+        : (defaultValue ?? defaultIcon);
 
     const [selected, setSelected] = useState(() =>
-        resolveIconKey(
-            isControlledValue ? value : (defaultValue ?? defaultIcon),
-        ),
+        resolveIconKey(rawIncoming, fallbackIcon),
     );
     const [query, setQuery] = useState('');
     const deferredQuery = useDeferredValue(query);
     const [category, setCategory] = useState<string | null>(null);
     const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
     const [catalog, setCatalog] = useState<readonly CatalogIconOption[] | null>(
-        null,
+        () => (useAllowListOnly ? buildAllowListOptions(allowedIcons ?? []) : null),
     );
-    const [categories, setCategories] = useState<readonly string[]>([]);
+    const [categories, setCategories] = useState<readonly string[]>(() =>
+        useAllowListOnly ? [] : [],
+    );
     const [recents, setRecents] = useState<string[]>([]);
     const [pendingIcon, setPendingIcon] = useState<string | null>(null);
 
     const open = isControlledOpen ? openProp : uncontrolledOpen;
 
     const displayIcon = isControlledValue
-        ? resolveIconKey(value)
+        ? resolveIconKey(value, fallbackIcon)
         : selected;
+
+    const hadInvalidValue = useMemo(() => {
+        const raw = isControlledValue ? value : defaultValue;
+
+        return raw != null && raw !== '' && !isValidLucideIconKey(raw);
+    }, [defaultValue, isControlledValue, value]);
+
+    useEffect(() => {
+        if (!hadInvalidValue) {
+            return;
+        }
+
+        const raw = (isControlledValue ? value : defaultValue) ?? '';
+
+        if (invalidNotifiedRef.current === raw) {
+            return;
+        }
+
+        invalidNotifiedRef.current = raw;
+        onInvalidValue?.(raw, resolveIconKey(raw, fallbackIcon));
+    }, [
+        defaultValue,
+        fallbackIcon,
+        hadInvalidValue,
+        isControlledValue,
+        onInvalidValue,
+        value,
+    ]);
 
     const setOpen = useCallback(
         (nextOpen: boolean) => {
@@ -120,7 +180,7 @@ export function useIconPickerState({
                 onPendingChange?.(null);
             } else {
                 if (showRecents) {
-                    setRecents(readRecentIcons());
+                    setRecents(readRecentIcons(recentsScope));
                 }
 
                 if (confirmSelection) {
@@ -136,63 +196,54 @@ export function useIconPickerState({
             isControlledOpen,
             onOpenChange,
             onPendingChange,
+            recentsScope,
             showRecents,
         ],
     );
 
-    const catalogLoading = open && catalog === null;
+    const catalogLoading = open && catalog === null && !useAllowListOnly;
 
     useEffect(() => {
         void prefetchLucideIcons([displayIcon]);
     }, [displayIcon]);
 
     useEffect(() => {
+        if (useAllowListOnly) {
+            setCatalog(buildAllowListOptions(allowedIcons ?? []));
+            setCategories([]);
+
+            return;
+        }
+
         if (!open || catalog) {
             return;
         }
 
         let cancelled = false;
 
-        void import('@/lib/icon-catalog')
-            .then((module) => {
-                if (!cancelled) {
-                    setCatalog(
-                        module.ICON_OPTIONS as readonly CatalogIconOption[],
-                    );
-                    setCategories(module.ICON_CATEGORIES as readonly string[]);
-                }
-            })
-            .catch(() => {
-                if (!cancelled) {
-                    setCatalog([]);
-                    setCategories([]);
-                }
-            });
+        void loadIconCatalog().then((loaded) => {
+            if (!cancelled) {
+                setCatalog(loaded.options);
+                setCategories(loaded.categories);
+            }
+        });
 
         return () => {
             cancelled = true;
         };
-    }, [catalog, open]);
-
-    const allowedSet = useMemo(() => {
-        if (!allowedIcons || allowedIcons.length === 0) {
-            return null;
-        }
-
-        return new Set(allowedIcons);
-    }, [allowedIcons]);
+    }, [allowedIcons, catalog, open, useAllowListOnly]);
 
     const baseOptions = useMemo(() => {
         if (!catalog) {
             return [] as CatalogIconOption[];
         }
 
-        if (!allowedSet) {
-            return [...catalog];
+        if (useAllowListOnly) {
+            return catalog as CatalogIconOption[];
         }
 
-        return catalog.filter((option) => allowedSet.has(option.key));
-    }, [allowedSet, catalog]);
+        return catalog as CatalogIconOption[];
+    }, [catalog, useAllowListOnly]);
 
     const categoryOptions = useMemo(() => {
         if (!category) {
@@ -217,7 +268,7 @@ export function useIconPickerState({
     }, [categoryOptions, deferredQuery]);
 
     const availableCategories = useMemo(() => {
-        if (categories.length === 0) {
+        if (useAllowListOnly || categories.length === 0) {
             return [] as string[];
         }
 
@@ -229,8 +280,16 @@ export function useIconPickerState({
             }
         }
 
-        return categories.filter((item) => present.has(item));
-    }, [baseOptions, categories]);
+        const fromCatalog = categories.filter((item) => present.has(item));
+
+        if (!categoriesProp || categoriesProp.length === 0) {
+            return fromCatalog;
+        }
+
+        const allow = new Set(categoriesProp);
+
+        return fromCatalog.filter((item) => allow.has(item));
+    }, [baseOptions, categories, categoriesProp, useAllowListOnly]);
 
     const recentOptions = useMemo(() => {
         if (!showRecents || recents.length === 0) {
@@ -279,7 +338,7 @@ export function useIconPickerState({
             onChange?.(key);
 
             if (showRecents) {
-                setRecents(pushRecentIcon(key));
+                setRecents(pushRecentIcon(key, recentsScope));
             }
 
             if (clearSearchOnSelect) {
@@ -299,6 +358,7 @@ export function useIconPickerState({
             disabled,
             isControlledValue,
             onChange,
+            recentsScope,
             setOpen,
             showRecents,
         ],
@@ -329,25 +389,20 @@ export function useIconPickerState({
     }, [commitIcon, displayIcon, onPendingChange, pendingIcon]);
 
     const clearRecents = useCallback(() => {
-        setRecents(clearRecentIcons());
-    }, []);
-
-    const hadInvalidDefault =
-        defaultValue != null &&
-        defaultValue !== '' &&
-        !isValidLucideIconKey(defaultValue);
+        setRecents(clearRecentIcons(recentsScope));
+    }, [recentsScope]);
 
     const statusMessage = catalogLoading
-        ? 'Loading icons…'
+        ? labels.loading
         : filteredOptions.length === 0
-          ? 'No icons match your filters.'
+          ? labels.empty
           : `${filteredOptions.length.toLocaleString()} icons`;
 
     const searchPlaceholder =
         placeholder ??
         (catalog
             ? `Search ${baseOptions.length.toLocaleString()} icons…`
-            : 'Search icons…');
+            : labels.search);
 
     const clearSearch = useCallback(() => {
         setQuery('');
@@ -356,6 +411,10 @@ export function useIconPickerState({
     const focus = useCallback(() => {
         triggerRef.current?.focus();
     }, []);
+
+    const focusSearch = useCallback(() => {
+        document.getElementById(searchId)?.focus();
+    }, [searchId]);
 
     return {
         searchId,
@@ -383,11 +442,13 @@ export function useIconPickerState({
         selectIcon,
         confirmPending,
         clearRecents,
-        hadInvalidDefault,
+        hadInvalidDefault: hadInvalidValue,
         statusMessage,
         searchPlaceholder,
         clearSearch,
         focus,
+        focusSearch,
+        labels,
     };
 }
 
