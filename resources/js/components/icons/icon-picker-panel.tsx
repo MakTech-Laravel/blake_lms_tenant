@@ -34,6 +34,7 @@ type IconPickerPanelProps = {
     activeCategory?: string | null;
     onCategoryChange?: (category: string | null) => void;
     recentOptions?: CatalogIconOption[];
+    onClearRecents?: () => void;
     showCategories?: boolean;
     showRecents?: boolean;
     density?: LucideIconPickerDensity;
@@ -64,13 +65,14 @@ export function IconPickerPanel({
     activeCategory = null,
     onCategoryChange,
     recentOptions = [],
+    onClearRecents,
     showCategories = true,
     showRecents = true,
     density = 'comfortable',
     classNames,
 }: IconPickerPanelProps) {
     return (
-        <div className={cn('flex min-h-0 flex-col gap-3 p-4', classNames?.panel)}>
+        <div className={cn('flex min-h-0 flex-col gap-4 p-4', classNames?.panel)}>
             {hadInvalidDefault ? (
                 <p className="text-xs text-amber-700 dark:text-amber-400">
                     The previous icon was not recognized. Pick one from the list
@@ -78,7 +80,7 @@ export function IconPickerPanel({
                 </p>
             ) : null}
 
-            <div className={cn('grid gap-1.5', classNames?.search)}>
+            <div className={cn('sticky top-0 z-10 grid gap-1.5 bg-popover/95 pb-1 backdrop-blur-sm', classNames?.search)}>
                 <label
                     htmlFor={searchId}
                     className="text-xs font-medium tracking-wide text-muted-foreground uppercase"
@@ -122,9 +124,21 @@ export function IconPickerPanel({
 
             {showRecents && recentOptions.length > 0 ? (
                 <div className={cn('space-y-1.5', classNames?.recents)}>
-                    <p className="text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
-                        Recent
-                    </p>
+                    <div className="flex items-center justify-between gap-2">
+                        <p className="text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
+                            Recent
+                        </p>
+                        {onClearRecents ? (
+                            <button
+                                type="button"
+                                disabled={disabled}
+                                onClick={onClearRecents}
+                                className="text-[11px] font-medium text-muted-foreground transition-colors hover:text-foreground"
+                            >
+                                Clear
+                            </button>
+                        ) : null}
+                    </div>
                     <div className="flex gap-1.5 overflow-x-auto pb-0.5">
                         {recentOptions.map((option) => (
                             <button
@@ -171,7 +185,7 @@ export function IconPickerPanel({
                                       'border-foreground/20 bg-foreground text-background',
                                       classNames?.categoryActive,
                                   )
-                                : 'border-border/70 bg-background text-muted-foreground hover:bg-muted/40',
+                                : 'border-border/70 bg-muted text-muted-foreground hover:bg-muted/80',
                         )}
                     >
                         All
@@ -190,7 +204,7 @@ export function IconPickerPanel({
                                           'border-foreground/20 bg-foreground text-background',
                                           classNames?.categoryActive,
                                       )
-                                    : 'border-border/70 bg-background text-muted-foreground hover:bg-muted/40',
+                                    : 'border-border/70 bg-muted text-muted-foreground hover:bg-muted/80',
                             )}
                         >
                             {item}

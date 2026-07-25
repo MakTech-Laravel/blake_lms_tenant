@@ -126,8 +126,8 @@ function CompactToolbarDemo() {
     return (
         <Canvas
             title="2 · Compact toolbar"
-            badge='triggerVariant="compact"'
-            caption="Icon-only footprint for toolbars and table actions."
+            badge='mode="dialog" · compact'
+            caption="Icon-only footprint for toolbars — opens a dialog so the row stays intact."
         >
             <div className="flex items-center gap-2 rounded-xl border border-border/60 bg-background px-3 py-2">
                 <span className="mr-auto text-sm text-muted-foreground">
@@ -135,6 +135,7 @@ function CompactToolbarDemo() {
                 </span>
                 <LucideIconPicker
                     id="toolbar-icon"
+                    mode="dialog"
                     value={icon}
                     onChange={setIcon}
                     triggerVariant="compact"
@@ -257,12 +258,13 @@ function ThemedClassNamesDemo() {
     return (
         <Canvas
             title="7 · Themed classNames"
-            badge="slot styling"
-            caption="Three skins via classNames — elevated, minimal, and soft tint."
+            badge="slot styling · dialog"
+            caption="Three skins via classNames — each opens a dialog so triggers stay side-by-side without overlapping panels."
         >
             <div className="grid gap-6 md:grid-cols-3">
                 <LucideIconPicker
                     id="skin-elevated"
+                    mode="dialog"
                     value={elevated}
                     onChange={setElevated}
                     triggerVariant="field"
@@ -270,12 +272,13 @@ function ThemedClassNamesDemo() {
                     classNames={{
                         trigger:
                             'border-transparent bg-background shadow-md hover:shadow-lg',
-                        panel: 'bg-background',
+                        dialogContent: 'bg-background',
                         grid: 'border-transparent bg-muted/20',
                     }}
                 />
                 <LucideIconPicker
                     id="skin-minimal"
+                    mode="dialog"
                     value={minimal}
                     onChange={setMinimal}
                     triggerVariant="ghost"
@@ -287,6 +290,7 @@ function ThemedClassNamesDemo() {
                 />
                 <LucideIconPicker
                     id="skin-tint"
+                    mode="dialog"
                     value={tint}
                     onChange={setTint}
                     description={tint}
@@ -295,6 +299,8 @@ function ThemedClassNamesDemo() {
                             'border-emerald-200/80 bg-emerald-50/50 hover:bg-emerald-50 dark:border-emerald-900 dark:bg-emerald-950/30',
                         optionSelected:
                             'border-emerald-500/40 bg-emerald-100 text-emerald-900 dark:bg-emerald-900/40 dark:text-emerald-100',
+                        optionPending:
+                            'border-emerald-500/50 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-100',
                     }}
                 />
             </div>

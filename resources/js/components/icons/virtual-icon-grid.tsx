@@ -359,28 +359,33 @@ export function VirtualIconGrid({
                                     onClick={() => onSelect(option.key)}
                                     onMouseEnter={() => setFocusedIndex(index)}
                                     className={cn(
-                                        'relative flex flex-col items-center justify-center gap-1 rounded-lg border border-transparent bg-background/80 px-1 text-center transition-colors hover:bg-muted/50',
+                                        'relative flex flex-col items-center justify-center gap-1 rounded-lg border border-transparent bg-background px-1 text-center transition-colors hover:bg-muted/40',
                                         isSelected &&
                                             cn(
-                                                'border-primary/40 bg-primary/10 text-primary',
+                                                'border-primary bg-primary/15 text-primary shadow-xs',
                                                 optionSelectedClassName,
                                             ),
                                         isPending &&
                                             !isSelected &&
                                             cn(
-                                                'border-dashed border-primary/50 bg-primary/5',
+                                                'border-2 border-dashed border-primary bg-primary/10 text-primary',
                                                 optionPendingClassName,
                                             ),
                                         isFocused &&
-                                            'ring-2 ring-ring ring-offset-1 ring-offset-background',
+                                            !isSelected &&
+                                            !isPending &&
+                                            'bg-muted/60 ring-1 ring-border',
                                         optionClassName,
                                     )}
                                 >
                                     {isSelected ? (
                                         <Check
-                                            className="absolute top-1 right-1 size-3"
+                                            className="absolute top-1 right-1 size-3 text-primary"
                                             aria-hidden
                                         />
+                                    ) : null}
+                                    {isPending && !isSelected ? (
+                                        <span className="absolute top-1 right-1 size-1.5 rounded-full bg-primary" />
                                     ) : null}
                                     <CachedLucideIcon
                                         name={option.key}

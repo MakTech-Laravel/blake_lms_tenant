@@ -1,10 +1,11 @@
-import type { Ref } from 'react';
+import { useEffect, useRef, type Ref } from 'react';
 
 import { IconPickerPanel } from '@/components/icons/icon-picker-panel';
 import { IconPickerTrigger } from '@/components/icons/icon-picker-trigger';
 import type {
     LucideIconPickerClassNames,
     LucideIconPickerDensity,
+    LucideIconPickerPanelBehavior,
     LucideIconPickerTriggerVariant,
 } from '@/components/icons/lucide-icon-picker-types';
 import type { IconPickerState } from '@/components/icons/use-icon-picker-state';
@@ -25,6 +26,7 @@ type IconPickerCollapsibleProps = {
     showRecents?: boolean;
     showCategories?: boolean;
     triggerVariant?: LucideIconPickerTriggerVariant;
+    panelBehavior?: LucideIconPickerPanelBehavior;
     density?: LucideIconPickerDensity;
     classNames?: LucideIconPickerClassNames;
     state: IconPickerState;
@@ -41,11 +43,20 @@ export function IconPickerCollapsible({
     showRecents = true,
     showCategories = true,
     triggerVariant = 'field',
+    panelBehavior: panelBehaviorProp,
     density = 'comfortable',
     classNames,
     state,
     triggerRef,
 }: IconPickerCollapsibleProps) {
+    const panelBehavior =
+        panelBehaviorProp ??
+        (triggerVariant === 'compact' || triggerVariant === 'ghost'
+            ? 'overlay'
+            : 'inline');
+
+    const shellRef = useRef<HTMLDivElement>(null);
+
     const {
         open,
         setOpen,
@@ -69,11 +80,37 @@ export function IconPickerCollapsible({
         setCategory,
         availableCategories,
         recentOptions,
+        clearRecents,
     } = state;
+
+    useEffect(() => {
+        if (!open || panelBehavior !== 'overlay') {
+            return;
+        }
+
+        const onPointerDown = (event: MouseEvent) => {
+            const target = event.target as Node | null;
+
+            if (!target || !shellRef.current?.contains(target)) {
+                setOpen(false);
+                focus();
+            }
+        };
+
+        document.addEventListener('mousedown', onPointerDown);
+
+        return () => document.removeEventListener('mousedown', onPointerDown);
+    }, [focus, open, panelBehavior, setOpen]);
 
     return (
         <Collapsible open={open} onOpenChange={setOpen}>
-            <div className={cn(classNames?.shell)}>
+            <div
+                ref={shellRef}
+                className={cn(
+                    'relative flex min-w-0 flex-col items-stretch',
+                    classNames?.shell,
+                )}
+            >
                 <CollapsibleTrigger asChild>
                     <IconPickerTrigger
                         ref={triggerRef}
@@ -93,10 +130,25 @@ export function IconPickerCollapsible({
                     />
                 </CollapsibleTrigger>
 
-                <CollapsibleContent className="data-[state=closed]:animate-out data-[state=open]:animate-in">
+                <CollapsibleContent
+                    className={cn(
+                        'data-[state=closed]:animate-out data-[state=open]:animate-in',
+                        panelBehavior === 'overlay' &&
+                            cn(
+                                'absolute top-full z-50 mt-2 w-[min(calc(100vw-2rem),22rem)]',
+                                triggerVariant === 'compact'
+                                    ? 'right-0'
+                                    : 'left-0',
+                            ),
+                        panelBehavior === 'inline' && 'mt-2',
+                    )}
+                >
                     <div
                         className={cn(
-                            'mt-2 overflow-hidden rounded-xl border border-border/70 bg-background shadow-xs',
+                            'overflow-hidden rounded-xl border border-border bg-popover text-popover-foreground',
+                            panelBehavior === 'overlay'
+                                ? 'shadow-lg'
+                                : 'shadow-xs',
                             disabled && 'pointer-events-none opacity-60',
                         )}
                     >
@@ -126,6 +178,7 @@ export function IconPickerCollapsible({
                             activeCategory={category}
                             onCategoryChange={setCategory}
                             recentOptions={recentOptions}
+                            onClearRecents={clearRecents}
                             showCategories={showCategories}
                             showRecents={showRecents}
                             density={density}

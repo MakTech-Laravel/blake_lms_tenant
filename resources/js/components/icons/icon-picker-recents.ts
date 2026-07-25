@@ -41,3 +41,15 @@ export function pushRecentIcon(key: string): string[] {
 
     return next;
 }
+
+export function clearRecentIcons(): string[] {
+    if (typeof window !== 'undefined') {
+        try {
+            window.localStorage.removeItem(STORAGE_KEY);
+        } catch {
+            // Ignore.
+        }
+    }
+
+    return [];
+}

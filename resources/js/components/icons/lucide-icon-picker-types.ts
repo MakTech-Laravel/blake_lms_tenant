@@ -8,6 +8,8 @@ export type LucideIconPickerTriggerVariant =
 
 export type LucideIconPickerDensity = 'comfortable' | 'compact';
 
+export type LucideIconPickerPanelBehavior = 'inline' | 'overlay';
+
 /** Per-slot className overrides — pass only what you need. */
 export interface LucideIconPickerClassNames {
     wrapper?: string;
@@ -55,6 +57,8 @@ export type LucideIconPickerProps = {
     defaultValue?: string | null;
     value?: string;
     onChange?: (icon: string) => void;
+    /** Fires when pending (unconfirmed) icon changes in dialog/sheet. */
+    onPendingChange?: (icon: string | null) => void;
     label?: string;
     description?: string;
     defaultIcon?: string;
@@ -69,7 +73,7 @@ export type LucideIconPickerProps = {
     showSparkles?: boolean;
     /**
      * Presentation shell.
-     * @default 'collapsible'
+     * When omitted: `compact`/`ghost` → dialog; otherwise collapsible.
      */
     mode?: LucideIconPickerMode;
     /**
@@ -78,19 +82,16 @@ export type LucideIconPickerProps = {
      */
     triggerVariant?: LucideIconPickerTriggerVariant;
     /**
+     * How the collapsible panel is positioned.
+     * @default 'overlay' for compact/ghost, 'inline' for field
+     */
+    panelBehavior?: LucideIconPickerPanelBehavior;
+    /**
      * Grid density.
      * @default 'comfortable'
      */
     density?: LucideIconPickerDensity;
-    /**
-     * Close the panel after selecting (collapsible) or after confirm (modal).
-     * @default false for collapsible; modals close after confirm regardless.
-     */
     closeOnSelect?: boolean;
-    /**
-     * Clear the search query after selecting an icon.
-     * @default false
-     */
     clearSearchOnSelect?: boolean;
     /**
      * Require Confirm in dialog/sheet before committing.

@@ -81,6 +81,7 @@ export function IconPickerDialog({
         setCategory,
         availableCategories,
         recentOptions,
+        clearRecents,
         pendingIcon,
     } = state;
 
@@ -118,7 +119,7 @@ export function IconPickerDialog({
 
             <DialogContent
                 className={cn(
-                    'flex max-h-[min(90vh,720px)] w-full flex-col gap-0 overflow-hidden p-0 sm:max-w-3xl lg:max-w-4xl',
+                    'flex max-h-[min(90vh,720px)] w-full flex-col gap-0 overflow-hidden bg-background p-0 text-foreground sm:max-w-3xl lg:max-w-4xl',
                     classNames?.dialogContent,
                 )}
                 onKeyDown={(event) => {
@@ -171,6 +172,7 @@ export function IconPickerDialog({
                             activeCategory={category}
                             onCategoryChange={setCategory}
                             recentOptions={recentOptions}
+                            onClearRecents={clearRecents}
                             showCategories={showCategories}
                             showRecents={showRecents}
                             density={density}
@@ -182,6 +184,7 @@ export function IconPickerDialog({
                         <IconPickerPreview
                             icon={activeIcon}
                             label={activeLabel}
+                            committedIcon={displayIcon}
                             layout="rail"
                             confirmSelection={confirmSelection}
                             onConfirm={confirmPending}
@@ -198,6 +201,7 @@ export function IconPickerDialog({
                     <IconPickerPreview
                         icon={activeIcon}
                         label={activeLabel}
+                        committedIcon={displayIcon}
                         layout="bar"
                         confirmSelection={confirmSelection}
                         onConfirm={confirmPending}

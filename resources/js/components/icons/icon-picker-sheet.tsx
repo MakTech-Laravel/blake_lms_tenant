@@ -81,6 +81,7 @@ export function IconPickerSheet({
         setCategory,
         availableCategories,
         recentOptions,
+        clearRecents,
         pendingIcon,
     } = state;
 
@@ -119,7 +120,7 @@ export function IconPickerSheet({
             <SheetContent
                 side="right"
                 className={cn(
-                    'flex w-full flex-col gap-0 p-0 sm:max-w-md',
+                    'flex w-full flex-col gap-0 bg-background p-0 text-foreground sm:max-w-lg',
                     classNames?.sheetContent,
                 )}
             >
@@ -156,6 +157,7 @@ export function IconPickerSheet({
                         activeCategory={category}
                         onCategoryChange={setCategory}
                         recentOptions={recentOptions}
+                        onClearRecents={clearRecents}
                         showCategories={showCategories}
                         showRecents={showRecents}
                         density={density}
@@ -166,6 +168,7 @@ export function IconPickerSheet({
                 <IconPickerPreview
                     icon={activeIcon}
                     label={activeLabel}
+                    committedIcon={displayIcon}
                     layout="bar"
                     confirmSelection={confirmSelection}
                     onConfirm={confirmPending}

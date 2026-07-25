@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 type IconPickerPreviewProps = {
     icon: string;
     label: string;
+    committedIcon?: string;
     layout?: 'rail' | 'bar';
     confirmSelection?: boolean;
     onConfirm?: () => void;
@@ -19,6 +20,7 @@ type IconPickerPreviewProps = {
 export function IconPickerPreview({
     icon,
     label,
+    committedIcon,
     layout = 'rail',
     confirmSelection = false,
     onConfirm,
@@ -26,6 +28,10 @@ export function IconPickerPreview({
     classNames,
 }: IconPickerPreviewProps) {
     const [copied, setCopied] = useState(false);
+    const isPreview =
+        confirmSelection &&
+        committedIcon != null &&
+        committedIcon !== icon;
 
     const copyKey = async () => {
         try {
@@ -41,15 +47,24 @@ export function IconPickerPreview({
         return (
             <div
                 className={cn(
-                    'flex items-center gap-3 border-t border-border/70 bg-background px-4 py-3',
+                    'flex items-center gap-3 border-t border-border bg-background px-4 py-3',
                     classNames?.preview,
                 )}
             >
-                <div className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-border/70 bg-muted/30">
-                    <CachedLucideIcon name={icon} className="size-5" />
+                <div className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-border bg-muted/40">
+                    <CachedLucideIcon
+                        key={icon}
+                        name={icon}
+                        className="size-5"
+                    />
                 </div>
                 <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-medium">{label}</p>
+                    <p className="text-[10px] font-medium tracking-wide text-muted-foreground uppercase">
+                        {isPreview ? 'Preview' : 'Selected'}
+                    </p>
+                    <p className="truncate text-sm font-medium text-foreground">
+                        {label}
+                    </p>
                     <p className="truncate font-mono text-[11px] text-muted-foreground">
                         {icon}
                     </p>
@@ -81,13 +96,20 @@ export function IconPickerPreview({
     return (
         <aside
             className={cn(
-                'flex h-full flex-col gap-4 border-l border-border/70 bg-muted/15 p-5',
+                'flex h-full flex-col gap-4 border-l border-border bg-muted/20 p-5',
                 classNames?.preview,
             )}
         >
             <div className="flex flex-1 flex-col items-center justify-center gap-4">
-                <div className="flex size-24 items-center justify-center rounded-2xl border border-border/70 bg-background shadow-xs">
-                    <CachedLucideIcon name={icon} className="size-12" />
+                <p className="text-[10px] font-medium tracking-wide text-muted-foreground uppercase">
+                    {isPreview ? 'Preview' : 'Selected'}
+                </p>
+                <div className="flex size-24 items-center justify-center rounded-2xl border border-border bg-background shadow-xs">
+                    <CachedLucideIcon
+                        key={icon}
+                        name={icon}
+                        className="size-12"
+                    />
                 </div>
                 <div className="space-y-1 text-center">
                     <p className="text-sm font-semibold text-foreground">

@@ -9,6 +9,7 @@ import {
 } from 'react';
 
 import {
+    clearRecentIcons,
     pushRecentIcon,
     readRecentIcons,
 } from '@/components/icons/icon-picker-recents';
@@ -42,6 +43,7 @@ type UseIconPickerStateOptions = Pick<
     | 'confirmSelection'
     | 'showRecents'
     | 'mode'
+    | 'onPendingChange'
 > & {
     mode: LucideIconPickerMode;
 };
@@ -51,6 +53,7 @@ export function useIconPickerState({
     defaultValue,
     value,
     onChange,
+    onPendingChange,
     defaultIcon = 'pen-line',
     defaultOpen = false,
     open: openProp,
@@ -114,6 +117,7 @@ export function useIconPickerState({
                 setQuery('');
                 setCategory(null);
                 setPendingIcon(null);
+                onPendingChange?.(null);
             } else {
                 if (showRecents) {
                     setRecents(readRecentIcons());
@@ -121,6 +125,7 @@ export function useIconPickerState({
 
                 if (confirmSelection) {
                     setPendingIcon(displayIcon);
+                    onPendingChange?.(displayIcon);
                 }
             }
         },
@@ -130,6 +135,7 @@ export function useIconPickerState({
             displayIcon,
             isControlledOpen,
             onOpenChange,
+            onPendingChange,
             showRecents,
         ],
     );
@@ -306,19 +312,25 @@ export function useIconPickerState({
 
             if (confirmSelection) {
                 setPendingIcon(key);
+                onPendingChange?.(key);
 
                 return;
             }
 
             commitIcon(key);
         },
-        [commitIcon, confirmSelection, disabled],
+        [commitIcon, confirmSelection, disabled, onPendingChange],
     );
 
     const confirmPending = useCallback(() => {
         const key = pendingIcon ?? displayIcon;
         commitIcon(key, { close: true });
-    }, [commitIcon, displayIcon, pendingIcon]);
+        onPendingChange?.(null);
+    }, [commitIcon, displayIcon, onPendingChange, pendingIcon]);
+
+    const clearRecents = useCallback(() => {
+        setRecents(clearRecentIcons());
+    }, []);
 
     const hadInvalidDefault =
         defaultValue != null &&
@@ -370,6 +382,7 @@ export function useIconPickerState({
         confirmSelection,
         selectIcon,
         confirmPending,
+        clearRecents,
         hadInvalidDefault,
         statusMessage,
         searchPlaceholder,

@@ -5,6 +5,7 @@ import { IconPickerDialog } from '@/components/icons/icon-picker-dialog';
 import { IconPickerSheet } from '@/components/icons/icon-picker-sheet';
 import type {
     LucideIconPickerHandle,
+    LucideIconPickerMode,
     LucideIconPickerProps,
 } from '@/components/icons/lucide-icon-picker-types';
 import { useIconPickerState } from '@/components/icons/use-icon-picker-state';
@@ -15,9 +16,25 @@ export type {
     LucideIconPickerDensity,
     LucideIconPickerHandle,
     LucideIconPickerMode,
+    LucideIconPickerPanelBehavior,
     LucideIconPickerProps,
     LucideIconPickerTriggerVariant,
 } from '@/components/icons/lucide-icon-picker-types';
+
+function resolveMode(
+    mode: LucideIconPickerMode | undefined,
+    triggerVariant: LucideIconPickerProps['triggerVariant'],
+): LucideIconPickerMode {
+    if (mode) {
+        return mode;
+    }
+
+    if (triggerVariant === 'compact' || triggerVariant === 'ghost') {
+        return 'dialog';
+    }
+
+    return 'collapsible';
+}
 
 export const LucideIconPicker = forwardRef<
     LucideIconPickerHandle,
@@ -31,6 +48,7 @@ export const LucideIconPicker = forwardRef<
         defaultValue,
         value,
         onChange,
+        onPendingChange,
         label = 'Search icons',
         description = '',
         defaultIcon = 'pen-line',
@@ -43,8 +61,9 @@ export const LucideIconPicker = forwardRef<
         placeholder,
         allowedIcons,
         showSparkles = false,
-        mode = 'collapsible',
+        mode: modeProp,
         triggerVariant = 'field',
+        panelBehavior,
         density = 'comfortable',
         closeOnSelect = false,
         clearSearchOnSelect = false,
@@ -56,11 +75,14 @@ export const LucideIconPicker = forwardRef<
     },
     ref,
 ) {
+    const mode = resolveMode(modeProp, triggerVariant);
+
     const state = useIconPickerState({
         id,
         defaultValue,
         value,
         onChange,
+        onPendingChange,
         defaultIcon,
         defaultOpen,
         open,
@@ -134,7 +156,10 @@ export const LucideIconPicker = forwardRef<
                     dialogDescription={dialogDescription}
                 />
             ) : (
-                <IconPickerCollapsible {...sharedShellProps} />
+                <IconPickerCollapsible
+                    {...sharedShellProps}
+                    panelBehavior={panelBehavior}
+                />
             )}
 
             {error ? (
