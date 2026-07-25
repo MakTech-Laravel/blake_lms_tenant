@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { usePermission } from '@/hooks/use-permissions';
 import { dashboard, login, register } from '@/routes';
 import { PERMISSIONS } from '@/types/permissions';
-import { LucideIconPicker } from '@/components/icons/lucide-icon-picker';
 
 // Strict TypeScript Interfaces
 interface FeatureCardProps {
@@ -370,9 +369,6 @@ export default function Welcome({
                                 </motion.div>
                             ))}
                         </div>
-                    </motion.div>
-                    <motion.div className="mt-10">
-                        <LucideIconPicker />
                     </motion.div>
                 </main>
 

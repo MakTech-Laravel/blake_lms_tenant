@@ -2,7047 +2,8809 @@
 export const ICON_OPTIONS = [
     {
         "key": "a-arrow-down",
-        "label": "A Arrow Down"
+        "label": "A Arrow Down",
+        "searchText": "a-arrow-down a arrow down"
     },
     {
         "key": "a-arrow-up",
-        "label": "A Arrow Up"
+        "label": "A Arrow Up",
+        "searchText": "a-arrow-up a arrow up"
     },
     {
         "key": "a-large-small",
-        "label": "A Large Small"
+        "label": "A Large Small",
+        "searchText": "a-large-small a large small"
     },
     {
         "key": "accessibility",
-        "label": "Accessibility"
+        "label": "Accessibility",
+        "searchText": "accessibility accessibility"
     },
     {
         "key": "activity",
-        "label": "Activity"
+        "label": "Activity",
+        "searchText": "activity activity"
     },
     {
         "key": "activity-square",
-        "label": "Activity Square"
-    },
-    {
-        "key": "wand-sparkles",
-        "label": "AI writing"
+        "label": "Activity Square",
+        "searchText": "activity-square activity square"
     },
     {
         "key": "air-vent",
-        "label": "Air Vent"
+        "label": "Air Vent",
+        "searchText": "air-vent air vent"
     },
     {
         "key": "airplay",
-        "label": "Airplay"
+        "label": "Airplay",
+        "searchText": "airplay airplay"
     },
     {
         "key": "alarm-check",
-        "label": "Alarm Check"
+        "label": "Alarm Check",
+        "searchText": "alarm-check alarm check"
     },
     {
         "key": "alarm-clock",
-        "label": "Alarm Clock"
+        "label": "Alarm Clock",
+        "searchText": "alarm-clock alarm clock"
     },
     {
         "key": "alarm-clock-check",
-        "label": "Alarm Clock Check"
+        "label": "Alarm Clock Check",
+        "searchText": "alarm-clock-check alarm clock check"
     },
     {
         "key": "alarm-clock-minus",
-        "label": "Alarm Clock Minus"
+        "label": "Alarm Clock Minus",
+        "searchText": "alarm-clock-minus alarm clock minus"
     },
     {
         "key": "alarm-clock-off",
-        "label": "Alarm Clock Off"
+        "label": "Alarm Clock Off",
+        "searchText": "alarm-clock-off alarm clock off"
     },
     {
         "key": "alarm-clock-plus",
-        "label": "Alarm Clock Plus"
+        "label": "Alarm Clock Plus",
+        "searchText": "alarm-clock-plus alarm clock plus"
     },
     {
         "key": "alarm-minus",
-        "label": "Alarm Minus"
+        "label": "Alarm Minus",
+        "searchText": "alarm-minus alarm minus"
     },
     {
         "key": "alarm-plus",
-        "label": "Alarm Plus"
+        "label": "Alarm Plus",
+        "searchText": "alarm-plus alarm plus"
     },
     {
         "key": "alarm-smoke",
-        "label": "Alarm Smoke"
+        "label": "Alarm Smoke",
+        "searchText": "alarm-smoke alarm smoke"
     },
     {
         "key": "album",
-        "label": "Album"
+        "label": "Album",
+        "searchText": "album album"
     },
     {
         "key": "alert-circle",
-        "label": "Alert Circle"
+        "label": "Alert Circle",
+        "searchText": "alert-circle alert circle"
     },
     {
         "key": "alert-octagon",
-        "label": "Alert Octagon"
+        "label": "Alert Octagon",
+        "searchText": "alert-octagon alert octagon"
     },
     {
         "key": "alert-triangle",
-        "label": "Alert Triangle"
+        "label": "Alert Triangle",
+        "searchText": "alert-triangle alert triangle"
     },
     {
         "key": "align-center",
-        "label": "Align Center"
+        "label": "Align Center",
+        "searchText": "align-center align center"
     },
     {
         "key": "align-center-horizontal",
-        "label": "Align Center Horizontal"
+        "label": "Align Center Horizontal",
+        "searchText": "align-center-horizontal align center horizontal"
     },
     {
         "key": "align-center-vertical",
-        "label": "Align Center Vertical"
+        "label": "Align Center Vertical",
+        "searchText": "align-center-vertical align center vertical"
     },
     {
         "key": "align-end-horizontal",
-        "label": "Align End Horizontal"
+        "label": "Align End Horizontal",
+        "searchText": "align-end-horizontal align end horizontal"
     },
     {
         "key": "align-end-vertical",
-        "label": "Align End Vertical"
+        "label": "Align End Vertical",
+        "searchText": "align-end-vertical align end vertical"
     },
     {
         "key": "align-horizontal-distribute-center",
-        "label": "Align Horizontal Distribute Center"
+        "label": "Align Horizontal Distribute Center",
+        "searchText": "align-horizontal-distribute-center align horizontal distribute center"
     },
     {
         "key": "align-horizontal-distribute-end",
-        "label": "Align Horizontal Distribute End"
+        "label": "Align Horizontal Distribute End",
+        "searchText": "align-horizontal-distribute-end align horizontal distribute end"
     },
     {
         "key": "align-horizontal-distribute-start",
-        "label": "Align Horizontal Distribute Start"
+        "label": "Align Horizontal Distribute Start",
+        "searchText": "align-horizontal-distribute-start align horizontal distribute start"
     },
     {
         "key": "align-horizontal-justify-center",
-        "label": "Align Horizontal Justify Center"
+        "label": "Align Horizontal Justify Center",
+        "searchText": "align-horizontal-justify-center align horizontal justify center"
     },
     {
         "key": "align-horizontal-justify-end",
-        "label": "Align Horizontal Justify End"
+        "label": "Align Horizontal Justify End",
+        "searchText": "align-horizontal-justify-end align horizontal justify end"
     },
     {
         "key": "align-horizontal-justify-start",
-        "label": "Align Horizontal Justify Start"
+        "label": "Align Horizontal Justify Start",
+        "searchText": "align-horizontal-justify-start align horizontal justify start"
     },
     {
         "key": "align-horizontal-space-around",
-        "label": "Align Horizontal Space Around"
+        "label": "Align Horizontal Space Around",
+        "searchText": "align-horizontal-space-around align horizontal space around"
     },
     {
         "key": "align-horizontal-space-between",
-        "label": "Align Horizontal Space Between"
+        "label": "Align Horizontal Space Between",
+        "searchText": "align-horizontal-space-between align horizontal space between"
     },
     {
         "key": "align-justify",
-        "label": "Align Justify"
+        "label": "Align Justify",
+        "searchText": "align-justify align justify"
     },
     {
         "key": "align-left",
-        "label": "Align Left"
+        "label": "Align Left",
+        "searchText": "align-left align left"
     },
     {
         "key": "align-right",
-        "label": "Align Right"
+        "label": "Align Right",
+        "searchText": "align-right align right"
     },
     {
         "key": "align-start-horizontal",
-        "label": "Align Start Horizontal"
+        "label": "Align Start Horizontal",
+        "searchText": "align-start-horizontal align start horizontal"
     },
     {
         "key": "align-start-vertical",
-        "label": "Align Start Vertical"
+        "label": "Align Start Vertical",
+        "searchText": "align-start-vertical align start vertical"
     },
     {
         "key": "align-vertical-distribute-center",
-        "label": "Align Vertical Distribute Center"
+        "label": "Align Vertical Distribute Center",
+        "searchText": "align-vertical-distribute-center align vertical distribute center"
     },
     {
         "key": "align-vertical-distribute-end",
-        "label": "Align Vertical Distribute End"
+        "label": "Align Vertical Distribute End",
+        "searchText": "align-vertical-distribute-end align vertical distribute end"
     },
     {
         "key": "align-vertical-distribute-start",
-        "label": "Align Vertical Distribute Start"
+        "label": "Align Vertical Distribute Start",
+        "searchText": "align-vertical-distribute-start align vertical distribute start"
     },
     {
         "key": "align-vertical-justify-center",
-        "label": "Align Vertical Justify Center"
+        "label": "Align Vertical Justify Center",
+        "searchText": "align-vertical-justify-center align vertical justify center"
     },
     {
         "key": "align-vertical-justify-end",
-        "label": "Align Vertical Justify End"
+        "label": "Align Vertical Justify End",
+        "searchText": "align-vertical-justify-end align vertical justify end"
     },
     {
         "key": "align-vertical-justify-start",
-        "label": "Align Vertical Justify Start"
+        "label": "Align Vertical Justify Start",
+        "searchText": "align-vertical-justify-start align vertical justify start"
     },
     {
         "key": "align-vertical-space-around",
-        "label": "Align Vertical Space Around"
+        "label": "Align Vertical Space Around",
+        "searchText": "align-vertical-space-around align vertical space around"
     },
     {
         "key": "align-vertical-space-between",
-        "label": "Align Vertical Space Between"
+        "label": "Align Vertical Space Between",
+        "searchText": "align-vertical-space-between align vertical space between"
     },
     {
         "key": "ambulance",
-        "label": "Ambulance"
+        "label": "Ambulance",
+        "searchText": "ambulance ambulance"
     },
     {
         "key": "ampersand",
-        "label": "Ampersand"
+        "label": "Ampersand",
+        "searchText": "ampersand ampersand"
     },
     {
         "key": "ampersands",
-        "label": "Ampersands"
+        "label": "Ampersands",
+        "searchText": "ampersands ampersands"
     },
     {
         "key": "amphora",
-        "label": "Amphora"
+        "label": "Amphora",
+        "searchText": "amphora amphora"
     },
     {
         "key": "anchor",
-        "label": "Anchor"
+        "label": "Anchor",
+        "searchText": "anchor anchor"
     },
     {
         "key": "angry",
-        "label": "Angry"
+        "label": "Angry",
+        "searchText": "angry angry"
     },
     {
         "key": "annoyed",
-        "label": "Annoyed"
+        "label": "Annoyed",
+        "searchText": "annoyed annoyed"
     },
     {
         "key": "antenna",
-        "label": "Antenna"
+        "label": "Antenna",
+        "searchText": "antenna antenna"
     },
     {
         "key": "anvil",
-        "label": "Anvil"
+        "label": "Anvil",
+        "searchText": "anvil anvil"
     },
     {
         "key": "aperture",
-        "label": "Aperture"
+        "label": "Aperture",
+        "searchText": "aperture aperture"
     },
     {
         "key": "app-window",
-        "label": "App Window"
+        "label": "App Window",
+        "searchText": "app-window app window"
     },
     {
         "key": "app-window-mac",
-        "label": "App Window Mac"
+        "label": "App Window Mac",
+        "searchText": "app-window-mac app window mac"
     },
     {
         "key": "apple",
-        "label": "Apple"
+        "label": "Apple",
+        "searchText": "apple apple"
     },
     {
         "key": "archive",
-        "label": "Archive"
+        "label": "Archive",
+        "searchText": "archive archive"
     },
     {
         "key": "archive-restore",
-        "label": "Archive Restore"
+        "label": "Archive Restore",
+        "searchText": "archive-restore archive restore"
     },
     {
         "key": "archive-x",
-        "label": "Archive X"
+        "label": "Archive X",
+        "searchText": "archive-x archive x"
     },
     {
         "key": "area-chart",
-        "label": "Area Chart"
+        "label": "Area Chart",
+        "searchText": "area-chart area chart"
     },
     {
         "key": "armchair",
-        "label": "Armchair"
+        "label": "Armchair",
+        "searchText": "armchair armchair"
     },
     {
         "key": "arrow-big-down",
-        "label": "Arrow Big Down"
+        "label": "Arrow Big Down",
+        "searchText": "arrow-big-down arrow big down"
     },
     {
         "key": "arrow-big-down-dash",
-        "label": "Arrow Big Down Dash"
+        "label": "Arrow Big Down Dash",
+        "searchText": "arrow-big-down-dash arrow big down dash"
     },
     {
         "key": "arrow-big-left",
-        "label": "Arrow Big Left"
+        "label": "Arrow Big Left",
+        "searchText": "arrow-big-left arrow big left"
     },
     {
         "key": "arrow-big-left-dash",
-        "label": "Arrow Big Left Dash"
+        "label": "Arrow Big Left Dash",
+        "searchText": "arrow-big-left-dash arrow big left dash"
     },
     {
         "key": "arrow-big-right",
-        "label": "Arrow Big Right"
+        "label": "Arrow Big Right",
+        "searchText": "arrow-big-right arrow big right"
     },
     {
         "key": "arrow-big-right-dash",
-        "label": "Arrow Big Right Dash"
+        "label": "Arrow Big Right Dash",
+        "searchText": "arrow-big-right-dash arrow big right dash"
     },
     {
         "key": "arrow-big-up",
-        "label": "Arrow Big Up"
+        "label": "Arrow Big Up",
+        "searchText": "arrow-big-up arrow big up"
     },
     {
         "key": "arrow-big-up-dash",
-        "label": "Arrow Big Up Dash"
+        "label": "Arrow Big Up Dash",
+        "searchText": "arrow-big-up-dash arrow big up dash"
     },
     {
         "key": "arrow-down",
-        "label": "Arrow Down"
+        "label": "Arrow Down",
+        "searchText": "arrow-down arrow down"
     },
     {
         "key": "arrow-down-0-1",
-        "label": "Arrow Down 0 1"
+        "label": "Arrow Down 0 1",
+        "searchText": "arrow-down-0-1 arrow down 0 1"
     },
     {
         "key": "arrow-down-01",
-        "label": "Arrow Down 01"
+        "label": "Arrow Down 01",
+        "searchText": "arrow-down-01 arrow down 01"
     },
     {
         "key": "arrow-down-1-0",
-        "label": "Arrow Down 1 0"
+        "label": "Arrow Down 1 0",
+        "searchText": "arrow-down-1-0 arrow down 1 0"
     },
     {
         "key": "arrow-down-10",
-        "label": "Arrow Down 10"
+        "label": "Arrow Down 10",
+        "searchText": "arrow-down-10 arrow down 10"
     },
     {
         "key": "arrow-down-a-z",
-        "label": "Arrow Down A Z"
+        "label": "Arrow Down A Z",
+        "searchText": "arrow-down-a-z arrow down a z"
     },
     {
         "key": "arrow-down-az",
-        "label": "Arrow Down Az"
+        "label": "Arrow Down Az",
+        "searchText": "arrow-down-az arrow down az"
     },
     {
         "key": "arrow-down-circle",
-        "label": "Arrow Down Circle"
+        "label": "Arrow Down Circle",
+        "searchText": "arrow-down-circle arrow down circle"
     },
     {
         "key": "arrow-down-from-line",
-        "label": "Arrow Down From Line"
+        "label": "Arrow Down From Line",
+        "searchText": "arrow-down-from-line arrow down from line"
     },
     {
         "key": "arrow-down-left",
-        "label": "Arrow Down Left"
+        "label": "Arrow Down Left",
+        "searchText": "arrow-down-left arrow down left"
     },
     {
         "key": "arrow-down-left-from-circle",
-        "label": "Arrow Down Left From Circle"
+        "label": "Arrow Down Left From Circle",
+        "searchText": "arrow-down-left-from-circle arrow down left from circle"
     },
     {
         "key": "arrow-down-left-from-square",
-        "label": "Arrow Down Left From Square"
+        "label": "Arrow Down Left From Square",
+        "searchText": "arrow-down-left-from-square arrow down left from square"
     },
     {
         "key": "arrow-down-left-square",
-        "label": "Arrow Down Left Square"
+        "label": "Arrow Down Left Square",
+        "searchText": "arrow-down-left-square arrow down left square"
     },
     {
         "key": "arrow-down-narrow-wide",
-        "label": "Arrow Down Narrow Wide"
+        "label": "Arrow Down Narrow Wide",
+        "searchText": "arrow-down-narrow-wide arrow down narrow wide"
     },
     {
         "key": "arrow-down-right",
-        "label": "Arrow Down Right"
+        "label": "Arrow Down Right",
+        "searchText": "arrow-down-right arrow down right"
     },
     {
         "key": "arrow-down-right-from-circle",
-        "label": "Arrow Down Right From Circle"
+        "label": "Arrow Down Right From Circle",
+        "searchText": "arrow-down-right-from-circle arrow down right from circle"
     },
     {
         "key": "arrow-down-right-from-square",
-        "label": "Arrow Down Right From Square"
+        "label": "Arrow Down Right From Square",
+        "searchText": "arrow-down-right-from-square arrow down right from square"
     },
     {
         "key": "arrow-down-right-square",
-        "label": "Arrow Down Right Square"
+        "label": "Arrow Down Right Square",
+        "searchText": "arrow-down-right-square arrow down right square"
     },
     {
         "key": "arrow-down-square",
-        "label": "Arrow Down Square"
+        "label": "Arrow Down Square",
+        "searchText": "arrow-down-square arrow down square"
     },
     {
         "key": "arrow-down-to-dot",
-        "label": "Arrow Down To Dot"
+        "label": "Arrow Down To Dot",
+        "searchText": "arrow-down-to-dot arrow down to dot"
     },
     {
         "key": "arrow-down-to-line",
-        "label": "Arrow Down To Line"
+        "label": "Arrow Down To Line",
+        "searchText": "arrow-down-to-line arrow down to line"
     },
     {
         "key": "arrow-down-up",
-        "label": "Arrow Down Up"
+        "label": "Arrow Down Up",
+        "searchText": "arrow-down-up arrow down up"
     },
     {
         "key": "arrow-down-wide-narrow",
-        "label": "Arrow Down Wide Narrow"
+        "label": "Arrow Down Wide Narrow",
+        "searchText": "arrow-down-wide-narrow arrow down wide narrow"
     },
     {
         "key": "arrow-down-z-a",
-        "label": "Arrow Down Z A"
+        "label": "Arrow Down Z A",
+        "searchText": "arrow-down-z-a arrow down z a"
     },
     {
         "key": "arrow-down-za",
-        "label": "Arrow Down Za"
+        "label": "Arrow Down Za",
+        "searchText": "arrow-down-za arrow down za"
     },
     {
         "key": "arrow-left",
-        "label": "Arrow Left"
+        "label": "Arrow Left",
+        "searchText": "arrow-left arrow left"
     },
     {
         "key": "arrow-left-circle",
-        "label": "Arrow Left Circle"
+        "label": "Arrow Left Circle",
+        "searchText": "arrow-left-circle arrow left circle"
     },
     {
         "key": "arrow-left-from-line",
-        "label": "Arrow Left From Line"
+        "label": "Arrow Left From Line",
+        "searchText": "arrow-left-from-line arrow left from line"
     },
     {
         "key": "arrow-left-right",
-        "label": "Arrow Left Right"
+        "label": "Arrow Left Right",
+        "searchText": "arrow-left-right arrow left right"
     },
     {
         "key": "arrow-left-square",
-        "label": "Arrow Left Square"
+        "label": "Arrow Left Square",
+        "searchText": "arrow-left-square arrow left square"
     },
     {
         "key": "arrow-left-to-line",
-        "label": "Arrow Left To Line"
+        "label": "Arrow Left To Line",
+        "searchText": "arrow-left-to-line arrow left to line"
     },
     {
         "key": "arrow-right",
-        "label": "Arrow Right"
+        "label": "Arrow Right",
+        "searchText": "arrow-right arrow right"
     },
     {
         "key": "arrow-right-circle",
-        "label": "Arrow Right Circle"
+        "label": "Arrow Right Circle",
+        "searchText": "arrow-right-circle arrow right circle"
     },
     {
         "key": "arrow-right-from-line",
-        "label": "Arrow Right From Line"
+        "label": "Arrow Right From Line",
+        "searchText": "arrow-right-from-line arrow right from line"
     },
     {
         "key": "arrow-right-left",
-        "label": "Arrow Right Left"
+        "label": "Arrow Right Left",
+        "searchText": "arrow-right-left arrow right left"
     },
     {
         "key": "arrow-right-square",
-        "label": "Arrow Right Square"
+        "label": "Arrow Right Square",
+        "searchText": "arrow-right-square arrow right square"
     },
     {
         "key": "arrow-right-to-line",
-        "label": "Arrow Right To Line"
+        "label": "Arrow Right To Line",
+        "searchText": "arrow-right-to-line arrow right to line"
     },
     {
         "key": "arrow-up",
-        "label": "Arrow Up"
+        "label": "Arrow Up",
+        "searchText": "arrow-up arrow up"
     },
     {
         "key": "arrow-up-0-1",
-        "label": "Arrow Up 0 1"
+        "label": "Arrow Up 0 1",
+        "searchText": "arrow-up-0-1 arrow up 0 1"
     },
     {
         "key": "arrow-up-01",
-        "label": "Arrow Up 01"
+        "label": "Arrow Up 01",
+        "searchText": "arrow-up-01 arrow up 01"
     },
     {
         "key": "arrow-up-1-0",
-        "label": "Arrow Up 1 0"
+        "label": "Arrow Up 1 0",
+        "searchText": "arrow-up-1-0 arrow up 1 0"
     },
     {
         "key": "arrow-up-10",
-        "label": "Arrow Up 10"
+        "label": "Arrow Up 10",
+        "searchText": "arrow-up-10 arrow up 10"
     },
     {
         "key": "arrow-up-a-z",
-        "label": "Arrow Up A Z"
+        "label": "Arrow Up A Z",
+        "searchText": "arrow-up-a-z arrow up a z"
     },
     {
         "key": "arrow-up-az",
-        "label": "Arrow Up Az"
+        "label": "Arrow Up Az",
+        "searchText": "arrow-up-az arrow up az"
     },
     {
         "key": "arrow-up-circle",
-        "label": "Arrow Up Circle"
+        "label": "Arrow Up Circle",
+        "searchText": "arrow-up-circle arrow up circle"
     },
     {
         "key": "arrow-up-down",
-        "label": "Arrow Up Down"
+        "label": "Arrow Up Down",
+        "searchText": "arrow-up-down arrow up down"
     },
     {
         "key": "arrow-up-from-dot",
-        "label": "Arrow Up From Dot"
+        "label": "Arrow Up From Dot",
+        "searchText": "arrow-up-from-dot arrow up from dot"
     },
     {
         "key": "arrow-up-from-line",
-        "label": "Arrow Up From Line"
+        "label": "Arrow Up From Line",
+        "searchText": "arrow-up-from-line arrow up from line"
     },
     {
         "key": "arrow-up-left",
-        "label": "Arrow Up Left"
+        "label": "Arrow Up Left",
+        "searchText": "arrow-up-left arrow up left"
     },
     {
         "key": "arrow-up-left-from-circle",
-        "label": "Arrow Up Left From Circle"
+        "label": "Arrow Up Left From Circle",
+        "searchText": "arrow-up-left-from-circle arrow up left from circle"
     },
     {
         "key": "arrow-up-left-from-square",
-        "label": "Arrow Up Left From Square"
+        "label": "Arrow Up Left From Square",
+        "searchText": "arrow-up-left-from-square arrow up left from square"
     },
     {
         "key": "arrow-up-left-square",
-        "label": "Arrow Up Left Square"
+        "label": "Arrow Up Left Square",
+        "searchText": "arrow-up-left-square arrow up left square"
     },
     {
         "key": "arrow-up-narrow-wide",
-        "label": "Arrow Up Narrow Wide"
+        "label": "Arrow Up Narrow Wide",
+        "searchText": "arrow-up-narrow-wide arrow up narrow wide"
     },
     {
         "key": "arrow-up-right",
-        "label": "Arrow Up Right"
+        "label": "Arrow Up Right",
+        "searchText": "arrow-up-right arrow up right"
     },
     {
         "key": "arrow-up-right-from-circle",
-        "label": "Arrow Up Right From Circle"
+        "label": "Arrow Up Right From Circle",
+        "searchText": "arrow-up-right-from-circle arrow up right from circle"
     },
     {
         "key": "arrow-up-right-from-square",
-        "label": "Arrow Up Right From Square"
+        "label": "Arrow Up Right From Square",
+        "searchText": "arrow-up-right-from-square arrow up right from square"
     },
     {
         "key": "arrow-up-right-square",
-        "label": "Arrow Up Right Square"
+        "label": "Arrow Up Right Square",
+        "searchText": "arrow-up-right-square arrow up right square"
     },
     {
         "key": "arrow-up-square",
-        "label": "Arrow Up Square"
+        "label": "Arrow Up Square",
+        "searchText": "arrow-up-square arrow up square"
     },
     {
         "key": "arrow-up-to-line",
-        "label": "Arrow Up To Line"
+        "label": "Arrow Up To Line",
+        "searchText": "arrow-up-to-line arrow up to line"
     },
     {
         "key": "arrow-up-wide-narrow",
-        "label": "Arrow Up Wide Narrow"
+        "label": "Arrow Up Wide Narrow",
+        "searchText": "arrow-up-wide-narrow arrow up wide narrow"
     },
     {
         "key": "arrow-up-z-a",
-        "label": "Arrow Up Z A"
+        "label": "Arrow Up Z A",
+        "searchText": "arrow-up-z-a arrow up z a"
     },
     {
         "key": "arrow-up-za",
-        "label": "Arrow Up Za"
+        "label": "Arrow Up Za",
+        "searchText": "arrow-up-za arrow up za"
     },
     {
         "key": "arrows-up-from-line",
-        "label": "Arrows Up From Line"
+        "label": "Arrows Up From Line",
+        "searchText": "arrows-up-from-line arrows up from line"
     },
     {
         "key": "asterisk",
-        "label": "Asterisk"
+        "label": "Asterisk",
+        "searchText": "asterisk asterisk"
     },
     {
         "key": "asterisk-square",
-        "label": "Asterisk Square"
+        "label": "Asterisk Square",
+        "searchText": "asterisk-square asterisk square"
     },
     {
         "key": "at-sign",
-        "label": "At Sign"
+        "label": "At Sign",
+        "searchText": "at-sign at sign"
     },
     {
         "key": "atom",
-        "label": "Atom"
+        "label": "Atom",
+        "searchText": "atom atom"
     },
     {
         "key": "audio-lines",
-        "label": "Audio Lines"
+        "label": "Audio Lines",
+        "searchText": "audio-lines audio lines"
     },
     {
         "key": "audio-waveform",
-        "label": "Audio Waveform"
+        "label": "Audio Waveform",
+        "searchText": "audio-waveform audio waveform"
     },
     {
         "key": "award",
-        "label": "Award"
+        "label": "Award",
+        "searchText": "award award"
     },
     {
         "key": "axe",
-        "label": "Axe"
+        "label": "Axe",
+        "searchText": "axe axe"
     },
     {
         "key": "axis-3-d",
-        "label": "Axis 3 D"
+        "label": "Axis 3 D",
+        "searchText": "axis-3-d axis 3 d"
     },
     {
         "key": "axis-3d",
-        "label": "Axis 3d"
+        "label": "Axis 3d",
+        "searchText": "axis-3d axis 3d"
     },
     {
         "key": "baby",
-        "label": "Baby"
+        "label": "Baby",
+        "searchText": "baby baby"
     },
     {
         "key": "backpack",
-        "label": "Backpack"
+        "label": "Backpack",
+        "searchText": "backpack backpack"
     },
     {
         "key": "badge",
-        "label": "Badge"
+        "label": "Badge",
+        "searchText": "badge badge"
     },
     {
         "key": "badge-alert",
-        "label": "Badge Alert"
+        "label": "Badge Alert",
+        "searchText": "badge-alert badge alert"
     },
     {
         "key": "badge-cent",
-        "label": "Badge Cent"
+        "label": "Badge Cent",
+        "searchText": "badge-cent badge cent"
     },
     {
         "key": "badge-check",
-        "label": "Badge Check"
+        "label": "Badge Check",
+        "searchText": "badge-check badge check"
     },
     {
         "key": "badge-dollar-sign",
-        "label": "Badge Dollar Sign"
+        "label": "Badge Dollar Sign",
+        "searchText": "badge-dollar-sign badge dollar sign"
     },
     {
         "key": "badge-euro",
-        "label": "Badge Euro"
+        "label": "Badge Euro",
+        "searchText": "badge-euro badge euro"
     },
     {
         "key": "badge-help",
-        "label": "Badge Help"
+        "label": "Badge Help",
+        "searchText": "badge-help badge help"
     },
     {
         "key": "badge-indian-rupee",
-        "label": "Badge Indian Rupee"
+        "label": "Badge Indian Rupee",
+        "searchText": "badge-indian-rupee badge indian rupee"
     },
     {
         "key": "badge-info",
-        "label": "Badge Info"
+        "label": "Badge Info",
+        "searchText": "badge-info badge info"
     },
     {
         "key": "badge-japanese-yen",
-        "label": "Badge Japanese Yen"
+        "label": "Badge Japanese Yen",
+        "searchText": "badge-japanese-yen badge japanese yen"
     },
     {
         "key": "badge-minus",
-        "label": "Badge Minus"
+        "label": "Badge Minus",
+        "searchText": "badge-minus badge minus"
     },
     {
         "key": "badge-percent",
-        "label": "Badge Percent"
+        "label": "Badge Percent",
+        "searchText": "badge-percent badge percent"
     },
     {
         "key": "badge-plus",
-        "label": "Badge Plus"
+        "label": "Badge Plus",
+        "searchText": "badge-plus badge plus"
     },
     {
         "key": "badge-pound-sterling",
-        "label": "Badge Pound Sterling"
+        "label": "Badge Pound Sterling",
+        "searchText": "badge-pound-sterling badge pound sterling"
     },
     {
         "key": "badge-russian-ruble",
-        "label": "Badge Russian Ruble"
+        "label": "Badge Russian Ruble",
+        "searchText": "badge-russian-ruble badge russian ruble"
     },
     {
         "key": "badge-swiss-franc",
-        "label": "Badge Swiss Franc"
+        "label": "Badge Swiss Franc",
+        "searchText": "badge-swiss-franc badge swiss franc"
     },
     {
         "key": "badge-x",
-        "label": "Badge X"
+        "label": "Badge X",
+        "searchText": "badge-x badge x"
     },
     {
         "key": "baggage-claim",
-        "label": "Baggage Claim"
+        "label": "Baggage Claim",
+        "searchText": "baggage-claim baggage claim"
     },
     {
         "key": "ban",
-        "label": "Ban"
+        "label": "Ban",
+        "searchText": "ban ban"
     },
     {
         "key": "banana",
-        "label": "Banana"
+        "label": "Banana",
+        "searchText": "banana banana"
     },
     {
         "key": "bandage",
-        "label": "Bandage"
+        "label": "Bandage",
+        "searchText": "bandage bandage"
     },
     {
         "key": "banknote",
-        "label": "Banknote"
+        "label": "Banknote",
+        "searchText": "banknote banknote"
     },
     {
         "key": "bar-chart",
-        "label": "Bar Chart"
+        "label": "Bar Chart",
+        "searchText": "bar-chart bar chart"
     },
     {
         "key": "bar-chart-2",
-        "label": "Bar Chart 2"
+        "label": "Bar Chart 2",
+        "searchText": "bar-chart-2 bar chart 2"
     },
     {
         "key": "bar-chart-3",
-        "label": "Bar Chart 3"
+        "label": "Bar Chart 3",
+        "searchText": "bar-chart-3 bar chart 3"
     },
     {
         "key": "bar-chart-4",
-        "label": "Bar Chart 4"
+        "label": "Bar Chart 4",
+        "searchText": "bar-chart-4 bar chart 4"
     },
     {
         "key": "bar-chart-big",
-        "label": "Bar Chart Big"
+        "label": "Bar Chart Big",
+        "searchText": "bar-chart-big bar chart big"
     },
     {
         "key": "bar-chart-horizontal",
-        "label": "Bar Chart Horizontal"
+        "label": "Bar Chart Horizontal",
+        "searchText": "bar-chart-horizontal bar chart horizontal"
     },
     {
         "key": "bar-chart-horizontal-big",
-        "label": "Bar Chart Horizontal Big"
+        "label": "Bar Chart Horizontal Big",
+        "searchText": "bar-chart-horizontal-big bar chart horizontal big"
     },
     {
         "key": "barcode",
-        "label": "Barcode"
+        "label": "Barcode",
+        "searchText": "barcode barcode"
     },
     {
         "key": "baseline",
-        "label": "Baseline"
+        "label": "Baseline",
+        "searchText": "baseline baseline"
     },
     {
         "key": "bath",
-        "label": "Bath"
+        "label": "Bath",
+        "searchText": "bath bath"
     },
     {
         "key": "battery",
-        "label": "Battery"
+        "label": "Battery",
+        "searchText": "battery battery"
     },
     {
         "key": "battery-charging",
-        "label": "Battery Charging"
+        "label": "Battery Charging",
+        "searchText": "battery-charging battery charging"
     },
     {
         "key": "battery-full",
-        "label": "Battery Full"
+        "label": "Battery Full",
+        "searchText": "battery-full battery full"
     },
     {
         "key": "battery-low",
-        "label": "Battery Low"
+        "label": "Battery Low",
+        "searchText": "battery-low battery low"
     },
     {
         "key": "battery-medium",
-        "label": "Battery Medium"
+        "label": "Battery Medium",
+        "searchText": "battery-medium battery medium"
     },
     {
         "key": "battery-plus",
-        "label": "Battery Plus"
+        "label": "Battery Plus",
+        "searchText": "battery-plus battery plus"
     },
     {
         "key": "battery-warning",
-        "label": "Battery Warning"
+        "label": "Battery Warning",
+        "searchText": "battery-warning battery warning"
     },
     {
         "key": "beaker",
-        "label": "Beaker"
+        "label": "Beaker",
+        "searchText": "beaker beaker"
     },
     {
         "key": "bean",
-        "label": "Bean"
+        "label": "Bean",
+        "searchText": "bean bean"
     },
     {
         "key": "bean-off",
-        "label": "Bean Off"
+        "label": "Bean Off",
+        "searchText": "bean-off bean off"
     },
     {
         "key": "bed",
-        "label": "Bed"
+        "label": "Bed",
+        "searchText": "bed bed"
     },
     {
         "key": "bed-double",
-        "label": "Bed Double"
+        "label": "Bed Double",
+        "searchText": "bed-double bed double"
     },
     {
         "key": "bed-single",
-        "label": "Bed Single"
+        "label": "Bed Single",
+        "searchText": "bed-single bed single"
     },
     {
         "key": "beef",
-        "label": "Beef"
+        "label": "Beef",
+        "searchText": "beef beef"
     },
     {
         "key": "beer",
-        "label": "Beer"
+        "label": "Beer",
+        "searchText": "beer beer"
     },
     {
         "key": "beer-off",
-        "label": "Beer Off"
+        "label": "Beer Off",
+        "searchText": "beer-off beer off"
     },
     {
         "key": "bell",
-        "label": "Bell"
+        "label": "Bell",
+        "searchText": "bell bell"
     },
     {
         "key": "bell-dot",
-        "label": "Bell Dot"
+        "label": "Bell Dot",
+        "searchText": "bell-dot bell dot"
     },
     {
         "key": "bell-electric",
-        "label": "Bell Electric"
+        "label": "Bell Electric",
+        "searchText": "bell-electric bell electric"
     },
     {
         "key": "bell-minus",
-        "label": "Bell Minus"
+        "label": "Bell Minus",
+        "searchText": "bell-minus bell minus"
     },
     {
         "key": "bell-off",
-        "label": "Bell Off"
+        "label": "Bell Off",
+        "searchText": "bell-off bell off"
     },
     {
         "key": "bell-plus",
-        "label": "Bell Plus"
+        "label": "Bell Plus",
+        "searchText": "bell-plus bell plus"
     },
     {
         "key": "bell-ring",
-        "label": "Bell Ring"
+        "label": "Bell Ring",
+        "searchText": "bell-ring bell ring"
     },
     {
         "key": "between-horizonal-end",
-        "label": "Between Horizonal End"
+        "label": "Between Horizonal End",
+        "searchText": "between-horizonal-end between horizonal end"
     },
     {
         "key": "between-horizonal-start",
-        "label": "Between Horizonal Start"
+        "label": "Between Horizonal Start",
+        "searchText": "between-horizonal-start between horizonal start"
     },
     {
         "key": "between-horizontal-end",
-        "label": "Between Horizontal End"
+        "label": "Between Horizontal End",
+        "searchText": "between-horizontal-end between horizontal end"
     },
     {
         "key": "between-horizontal-start",
-        "label": "Between Horizontal Start"
+        "label": "Between Horizontal Start",
+        "searchText": "between-horizontal-start between horizontal start"
     },
     {
         "key": "between-vertical-end",
-        "label": "Between Vertical End"
+        "label": "Between Vertical End",
+        "searchText": "between-vertical-end between vertical end"
     },
     {
         "key": "between-vertical-start",
-        "label": "Between Vertical Start"
+        "label": "Between Vertical Start",
+        "searchText": "between-vertical-start between vertical start"
     },
     {
         "key": "biceps-flexed",
-        "label": "Biceps Flexed"
+        "label": "Biceps Flexed",
+        "searchText": "biceps-flexed biceps flexed"
     },
     {
         "key": "bike",
-        "label": "Bike"
+        "label": "Bike",
+        "searchText": "bike bike"
     },
     {
         "key": "binary",
-        "label": "Binary"
+        "label": "Binary",
+        "searchText": "binary binary"
     },
     {
         "key": "binoculars",
-        "label": "Binoculars"
+        "label": "Binoculars",
+        "searchText": "binoculars binoculars"
     },
     {
         "key": "biohazard",
-        "label": "Biohazard"
+        "label": "Biohazard",
+        "searchText": "biohazard biohazard"
     },
     {
         "key": "bird",
-        "label": "Bird"
+        "label": "Bird",
+        "searchText": "bird bird"
     },
     {
         "key": "bitcoin",
-        "label": "Bitcoin"
+        "label": "Bitcoin",
+        "searchText": "bitcoin bitcoin"
     },
     {
         "key": "blend",
-        "label": "Blend"
+        "label": "Blend",
+        "searchText": "blend blend"
     },
     {
         "key": "blinds",
-        "label": "Blinds"
+        "label": "Blinds",
+        "searchText": "blinds blinds"
     },
     {
         "key": "blocks",
-        "label": "Blocks"
+        "label": "Blocks",
+        "searchText": "blocks blocks"
     },
     {
         "key": "bluetooth",
-        "label": "Bluetooth"
+        "label": "Bluetooth",
+        "searchText": "bluetooth bluetooth"
     },
     {
         "key": "bluetooth-connected",
-        "label": "Bluetooth Connected"
+        "label": "Bluetooth Connected",
+        "searchText": "bluetooth-connected bluetooth connected"
     },
     {
         "key": "bluetooth-off",
-        "label": "Bluetooth Off"
+        "label": "Bluetooth Off",
+        "searchText": "bluetooth-off bluetooth off"
     },
     {
         "key": "bluetooth-searching",
-        "label": "Bluetooth Searching"
+        "label": "Bluetooth Searching",
+        "searchText": "bluetooth-searching bluetooth searching"
     },
     {
         "key": "bold",
-        "label": "Bold"
+        "label": "Bold",
+        "searchText": "bold bold"
     },
     {
         "key": "bolt",
-        "label": "Bolt"
+        "label": "Bolt",
+        "searchText": "bolt bolt"
     },
     {
         "key": "bomb",
-        "label": "Bomb"
+        "label": "Bomb",
+        "searchText": "bomb bomb"
     },
     {
         "key": "bone",
-        "label": "Bone"
+        "label": "Bone",
+        "searchText": "bone bone"
     },
     {
         "key": "book",
-        "label": "Book"
+        "label": "Book",
+        "searchText": "book book"
     },
     {
         "key": "book-a",
-        "label": "Book A"
+        "label": "Book A",
+        "searchText": "book-a book a"
     },
     {
         "key": "book-audio",
-        "label": "Book Audio"
+        "label": "Book Audio",
+        "searchText": "book-audio book audio"
     },
     {
         "key": "book-check",
-        "label": "Book Check"
+        "label": "Book Check",
+        "searchText": "book-check book check"
     },
     {
         "key": "book-copy",
-        "label": "Book Copy"
+        "label": "Book Copy",
+        "searchText": "book-copy book copy"
     },
     {
         "key": "book-dashed",
-        "label": "Book Dashed"
+        "label": "Book Dashed",
+        "searchText": "book-dashed book dashed"
     },
     {
         "key": "book-down",
-        "label": "Book Down"
+        "label": "Book Down",
+        "searchText": "book-down book down"
     },
     {
         "key": "book-headphones",
-        "label": "Book Headphones"
+        "label": "Book Headphones",
+        "searchText": "book-headphones book headphones"
     },
     {
         "key": "book-heart",
-        "label": "Book Heart"
+        "label": "Book Heart",
+        "searchText": "book-heart book heart"
     },
     {
         "key": "book-image",
-        "label": "Book Image"
+        "label": "Book Image",
+        "searchText": "book-image book image"
     },
     {
         "key": "book-key",
-        "label": "Book Key"
+        "label": "Book Key",
+        "searchText": "book-key book key"
     },
     {
         "key": "book-lock",
-        "label": "Book Lock"
+        "label": "Book Lock",
+        "searchText": "book-lock book lock"
     },
     {
         "key": "book-marked",
-        "label": "Book Marked"
+        "label": "Book Marked",
+        "searchText": "book-marked book marked"
     },
     {
         "key": "book-minus",
-        "label": "Book Minus"
+        "label": "Book Minus",
+        "searchText": "book-minus book minus"
     },
     {
         "key": "book-open",
-        "label": "Book Open"
+        "label": "Book Open",
+        "searchText": "book-open book open"
     },
     {
         "key": "book-open-check",
-        "label": "Book Open Check"
+        "label": "Book Open Check",
+        "searchText": "book-open-check book open check"
     },
     {
         "key": "book-open-text",
-        "label": "Book Open Text"
+        "label": "Book Open Text",
+        "searchText": "book-open-text book open text"
     },
     {
         "key": "book-plus",
-        "label": "Book Plus"
+        "label": "Book Plus",
+        "searchText": "book-plus book plus"
     },
     {
         "key": "book-template",
-        "label": "Book Template"
+        "label": "Book Template",
+        "searchText": "book-template book template"
     },
     {
         "key": "book-text",
-        "label": "Book Text"
+        "label": "Book Text",
+        "searchText": "book-text book text"
     },
     {
         "key": "book-type",
-        "label": "Book Type"
+        "label": "Book Type",
+        "searchText": "book-type book type"
     },
     {
         "key": "book-up",
-        "label": "Book Up"
+        "label": "Book Up",
+        "searchText": "book-up book up"
     },
     {
         "key": "book-up-2",
-        "label": "Book Up 2"
+        "label": "Book Up 2",
+        "searchText": "book-up-2 book up 2"
     },
     {
         "key": "book-user",
-        "label": "Book User"
+        "label": "Book User",
+        "searchText": "book-user book user"
     },
     {
         "key": "book-x",
-        "label": "Book X"
+        "label": "Book X",
+        "searchText": "book-x book x"
     },
     {
         "key": "bookmark",
-        "label": "Bookmark"
+        "label": "Bookmark",
+        "searchText": "bookmark bookmark"
     },
     {
         "key": "bookmark-check",
-        "label": "Bookmark Check"
+        "label": "Bookmark Check",
+        "searchText": "bookmark-check bookmark check"
     },
     {
         "key": "bookmark-minus",
-        "label": "Bookmark Minus"
+        "label": "Bookmark Minus",
+        "searchText": "bookmark-minus bookmark minus"
     },
     {
         "key": "bookmark-plus",
-        "label": "Bookmark Plus"
+        "label": "Bookmark Plus",
+        "searchText": "bookmark-plus bookmark plus"
     },
     {
         "key": "bookmark-x",
-        "label": "Bookmark X"
+        "label": "Bookmark X",
+        "searchText": "bookmark-x bookmark x"
     },
     {
         "key": "boom-box",
-        "label": "Boom Box"
+        "label": "Boom Box",
+        "searchText": "boom-box boom box"
     },
     {
         "key": "bot",
-        "label": "Bot"
+        "label": "Bot",
+        "searchText": "bot bot"
     },
     {
         "key": "bot-message-square",
-        "label": "Bot Message Square"
+        "label": "Bot Message Square",
+        "searchText": "bot-message-square bot message square"
     },
     {
         "key": "bot-off",
-        "label": "Bot Off"
+        "label": "Bot Off",
+        "searchText": "bot-off bot off"
     },
     {
         "key": "box",
-        "label": "Box"
+        "label": "Box",
+        "searchText": "box box"
     },
     {
         "key": "box-select",
-        "label": "Box Select"
+        "label": "Box Select",
+        "searchText": "box-select box select"
     },
     {
         "key": "boxes",
-        "label": "Boxes"
+        "label": "Boxes",
+        "searchText": "boxes boxes"
     },
     {
         "key": "braces",
-        "label": "Braces"
+        "label": "Braces",
+        "searchText": "braces braces"
     },
     {
         "key": "brackets",
-        "label": "Brackets"
+        "label": "Brackets",
+        "searchText": "brackets brackets"
     },
     {
         "key": "brain",
-        "label": "Brain"
+        "label": "Brain",
+        "searchText": "brain brain"
     },
     {
         "key": "brain-circuit",
-        "label": "Brain Circuit"
+        "label": "Brain Circuit",
+        "searchText": "brain-circuit brain circuit"
     },
     {
         "key": "brain-cog",
-        "label": "Brain Cog"
+        "label": "Brain Cog",
+        "searchText": "brain-cog brain cog"
     },
     {
         "key": "brick-wall",
-        "label": "Brick Wall"
+        "label": "Brick Wall",
+        "searchText": "brick-wall brick wall"
     },
     {
         "key": "briefcase",
-        "label": "Briefcase"
+        "label": "Briefcase",
+        "searchText": "briefcase briefcase"
     },
     {
         "key": "briefcase-business",
-        "label": "Briefcase Business"
+        "label": "Briefcase Business",
+        "searchText": "briefcase-business briefcase business"
     },
     {
         "key": "briefcase-conveyor-belt",
-        "label": "Briefcase Conveyor Belt"
+        "label": "Briefcase Conveyor Belt",
+        "searchText": "briefcase-conveyor-belt briefcase conveyor belt"
     },
     {
         "key": "briefcase-medical",
-        "label": "Briefcase Medical"
+        "label": "Briefcase Medical",
+        "searchText": "briefcase-medical briefcase medical"
     },
     {
         "key": "bring-to-front",
-        "label": "Bring To Front"
+        "label": "Bring To Front",
+        "searchText": "bring-to-front bring to front"
     },
     {
         "key": "brush",
-        "label": "Brush"
+        "label": "Brush",
+        "searchText": "brush brush"
     },
     {
         "key": "bug",
-        "label": "Bug"
+        "label": "Bug",
+        "searchText": "bug bug"
     },
     {
         "key": "bug-off",
-        "label": "Bug Off"
+        "label": "Bug Off",
+        "searchText": "bug-off bug off"
     },
     {
         "key": "bug-play",
-        "label": "Bug Play"
+        "label": "Bug Play",
+        "searchText": "bug-play bug play"
     },
     {
         "key": "building",
-        "label": "Building"
+        "label": "Building",
+        "searchText": "building building"
     },
     {
         "key": "building-2",
-        "label": "Building 2"
+        "label": "Building 2",
+        "searchText": "building-2 building 2"
     },
     {
         "key": "bus",
-        "label": "Bus"
+        "label": "Bus",
+        "searchText": "bus bus"
     },
     {
         "key": "bus-front",
-        "label": "Bus Front"
+        "label": "Bus Front",
+        "searchText": "bus-front bus front"
     },
     {
         "key": "cable",
-        "label": "Cable"
+        "label": "Cable",
+        "searchText": "cable cable"
     },
     {
         "key": "cable-car",
-        "label": "Cable Car"
+        "label": "Cable Car",
+        "searchText": "cable-car cable car"
     },
     {
         "key": "cake",
-        "label": "Cake"
+        "label": "Cake",
+        "searchText": "cake cake"
     },
     {
         "key": "cake-slice",
-        "label": "Cake Slice"
+        "label": "Cake Slice",
+        "searchText": "cake-slice cake slice"
     },
     {
         "key": "calculator",
-        "label": "Calculator"
+        "label": "Calculator",
+        "searchText": "calculator calculator"
     },
     {
         "key": "calendar",
-        "label": "Calendar"
+        "label": "Calendar",
+        "searchText": "calendar calendar"
     },
     {
         "key": "calendar-1",
-        "label": "Calendar 1"
+        "label": "Calendar 1",
+        "searchText": "calendar-1 calendar 1"
     },
     {
         "key": "calendar-arrow-down",
-        "label": "Calendar Arrow Down"
+        "label": "Calendar Arrow Down",
+        "searchText": "calendar-arrow-down calendar arrow down"
     },
     {
         "key": "calendar-arrow-up",
-        "label": "Calendar Arrow Up"
+        "label": "Calendar Arrow Up",
+        "searchText": "calendar-arrow-up calendar arrow up"
     },
     {
         "key": "calendar-check",
-        "label": "Calendar Check"
+        "label": "Calendar Check",
+        "searchText": "calendar-check calendar check"
     },
     {
         "key": "calendar-check-2",
-        "label": "Calendar Check 2"
+        "label": "Calendar Check 2",
+        "searchText": "calendar-check-2 calendar check 2"
     },
     {
         "key": "calendar-clock",
-        "label": "Calendar Clock"
+        "label": "Calendar Clock",
+        "searchText": "calendar-clock calendar clock"
     },
     {
         "key": "calendar-cog",
-        "label": "Calendar Cog"
+        "label": "Calendar Cog",
+        "searchText": "calendar-cog calendar cog"
     },
     {
         "key": "calendar-days",
-        "label": "Calendar Days"
+        "label": "Calendar Days",
+        "searchText": "calendar-days calendar days"
     },
     {
         "key": "calendar-fold",
-        "label": "Calendar Fold"
+        "label": "Calendar Fold",
+        "searchText": "calendar-fold calendar fold"
     },
     {
         "key": "calendar-heart",
-        "label": "Calendar Heart"
+        "label": "Calendar Heart",
+        "searchText": "calendar-heart calendar heart"
     },
     {
         "key": "calendar-minus",
-        "label": "Calendar Minus"
+        "label": "Calendar Minus",
+        "searchText": "calendar-minus calendar minus"
     },
     {
         "key": "calendar-minus-2",
-        "label": "Calendar Minus 2"
+        "label": "Calendar Minus 2",
+        "searchText": "calendar-minus-2 calendar minus 2"
     },
     {
         "key": "calendar-off",
-        "label": "Calendar Off"
+        "label": "Calendar Off",
+        "searchText": "calendar-off calendar off"
     },
     {
         "key": "calendar-plus",
-        "label": "Calendar Plus"
+        "label": "Calendar Plus",
+        "searchText": "calendar-plus calendar plus"
     },
     {
         "key": "calendar-plus-2",
-        "label": "Calendar Plus 2"
+        "label": "Calendar Plus 2",
+        "searchText": "calendar-plus-2 calendar plus 2"
     },
     {
         "key": "calendar-range",
-        "label": "Calendar Range"
+        "label": "Calendar Range",
+        "searchText": "calendar-range calendar range"
     },
     {
         "key": "calendar-search",
-        "label": "Calendar Search"
+        "label": "Calendar Search",
+        "searchText": "calendar-search calendar search"
     },
     {
         "key": "calendar-sync",
-        "label": "Calendar Sync"
+        "label": "Calendar Sync",
+        "searchText": "calendar-sync calendar sync"
     },
     {
         "key": "calendar-x",
-        "label": "Calendar X"
+        "label": "Calendar X",
+        "searchText": "calendar-x calendar x"
     },
     {
         "key": "calendar-x-2",
-        "label": "Calendar X 2"
+        "label": "Calendar X 2",
+        "searchText": "calendar-x-2 calendar x 2"
     },
     {
         "key": "camera",
-        "label": "Camera"
+        "label": "Camera",
+        "searchText": "camera camera"
     },
     {
         "key": "camera-off",
-        "label": "Camera Off"
+        "label": "Camera Off",
+        "searchText": "camera-off camera off"
     },
     {
         "key": "candlestick-chart",
-        "label": "Candlestick Chart"
+        "label": "Candlestick Chart",
+        "searchText": "candlestick-chart candlestick chart"
     },
     {
         "key": "candy",
-        "label": "Candy"
+        "label": "Candy",
+        "searchText": "candy candy"
     },
     {
         "key": "candy-cane",
-        "label": "Candy Cane"
+        "label": "Candy Cane",
+        "searchText": "candy-cane candy cane"
     },
     {
         "key": "candy-off",
-        "label": "Candy Off"
+        "label": "Candy Off",
+        "searchText": "candy-off candy off"
     },
     {
         "key": "cannabis",
-        "label": "Cannabis"
+        "label": "Cannabis",
+        "searchText": "cannabis cannabis"
     },
     {
         "key": "captions",
-        "label": "Captions"
+        "label": "Captions",
+        "searchText": "captions captions"
     },
     {
         "key": "captions-off",
-        "label": "Captions Off"
+        "label": "Captions Off",
+        "searchText": "captions-off captions off"
     },
     {
         "key": "car",
-        "label": "Car"
+        "label": "Car",
+        "searchText": "car car"
     },
     {
         "key": "car-front",
-        "label": "Car Front"
+        "label": "Car Front",
+        "searchText": "car-front car front"
     },
     {
         "key": "car-taxi-front",
-        "label": "Car Taxi Front"
+        "label": "Car Taxi Front",
+        "searchText": "car-taxi-front car taxi front"
     },
     {
         "key": "caravan",
-        "label": "Caravan"
+        "label": "Caravan",
+        "searchText": "caravan caravan"
     },
     {
         "key": "carrot",
-        "label": "Carrot"
+        "label": "Carrot",
+        "searchText": "carrot carrot"
     },
     {
         "key": "case-lower",
-        "label": "Case Lower"
+        "label": "Case Lower",
+        "searchText": "case-lower case lower"
     },
     {
         "key": "case-sensitive",
-        "label": "Case Sensitive"
+        "label": "Case Sensitive",
+        "searchText": "case-sensitive case sensitive"
     },
     {
         "key": "case-upper",
-        "label": "Case Upper"
+        "label": "Case Upper",
+        "searchText": "case-upper case upper"
     },
     {
         "key": "cassette-tape",
-        "label": "Cassette Tape"
+        "label": "Cassette Tape",
+        "searchText": "cassette-tape cassette tape"
     },
     {
         "key": "cast",
-        "label": "Cast"
+        "label": "Cast",
+        "searchText": "cast cast"
     },
     {
         "key": "castle",
-        "label": "Castle"
+        "label": "Castle",
+        "searchText": "castle castle"
     },
     {
         "key": "cat",
-        "label": "Cat"
+        "label": "Cat",
+        "searchText": "cat cat"
     },
     {
         "key": "cctv",
-        "label": "Cctv"
+        "label": "Cctv",
+        "searchText": "cctv cctv"
     },
     {
         "key": "chart-area",
-        "label": "Chart Area"
+        "label": "Chart Area",
+        "searchText": "chart-area chart area"
     },
     {
         "key": "chart-bar",
-        "label": "Chart Bar"
+        "label": "Chart Bar",
+        "searchText": "chart-bar chart bar"
     },
     {
         "key": "chart-bar-big",
-        "label": "Chart Bar Big"
+        "label": "Chart Bar Big",
+        "searchText": "chart-bar-big chart bar big"
     },
     {
         "key": "chart-bar-decreasing",
-        "label": "Chart Bar Decreasing"
+        "label": "Chart Bar Decreasing",
+        "searchText": "chart-bar-decreasing chart bar decreasing"
     },
     {
         "key": "chart-bar-increasing",
-        "label": "Chart Bar Increasing"
+        "label": "Chart Bar Increasing",
+        "searchText": "chart-bar-increasing chart bar increasing"
     },
     {
         "key": "chart-bar-stacked",
-        "label": "Chart Bar Stacked"
+        "label": "Chart Bar Stacked",
+        "searchText": "chart-bar-stacked chart bar stacked"
     },
     {
         "key": "chart-candlestick",
-        "label": "Chart Candlestick"
+        "label": "Chart Candlestick",
+        "searchText": "chart-candlestick chart candlestick"
     },
     {
         "key": "chart-column",
-        "label": "Chart Column"
+        "label": "Chart Column",
+        "searchText": "chart-column chart column"
     },
     {
         "key": "chart-column-big",
-        "label": "Chart Column Big"
+        "label": "Chart Column Big",
+        "searchText": "chart-column-big chart column big"
     },
     {
         "key": "chart-column-decreasing",
-        "label": "Chart Column Decreasing"
+        "label": "Chart Column Decreasing",
+        "searchText": "chart-column-decreasing chart column decreasing"
     },
     {
         "key": "chart-column-increasing",
-        "label": "Chart Column Increasing"
+        "label": "Chart Column Increasing",
+        "searchText": "chart-column-increasing chart column increasing"
     },
     {
         "key": "chart-column-stacked",
-        "label": "Chart Column Stacked"
+        "label": "Chart Column Stacked",
+        "searchText": "chart-column-stacked chart column stacked"
     },
     {
         "key": "chart-gantt",
-        "label": "Chart Gantt"
+        "label": "Chart Gantt",
+        "searchText": "chart-gantt chart gantt"
     },
     {
         "key": "chart-line",
-        "label": "Chart Line"
+        "label": "Chart Line",
+        "searchText": "chart-line chart line"
     },
     {
         "key": "chart-network",
-        "label": "Chart Network"
+        "label": "Chart Network",
+        "searchText": "chart-network chart network"
     },
     {
         "key": "chart-no-axes-column",
-        "label": "Chart No Axes Column"
+        "label": "Chart No Axes Column",
+        "searchText": "chart-no-axes-column chart no axes column"
     },
     {
         "key": "chart-no-axes-column-decreasing",
-        "label": "Chart No Axes Column Decreasing"
+        "label": "Chart No Axes Column Decreasing",
+        "searchText": "chart-no-axes-column-decreasing chart no axes column decreasing"
     },
     {
         "key": "chart-no-axes-column-increasing",
-        "label": "Chart No Axes Column Increasing"
+        "label": "Chart No Axes Column Increasing",
+        "searchText": "chart-no-axes-column-increasing chart no axes column increasing"
     },
     {
         "key": "chart-no-axes-combined",
-        "label": "Chart No Axes Combined"
+        "label": "Chart No Axes Combined",
+        "searchText": "chart-no-axes-combined chart no axes combined"
     },
     {
         "key": "chart-no-axes-gantt",
-        "label": "Chart No Axes Gantt"
+        "label": "Chart No Axes Gantt",
+        "searchText": "chart-no-axes-gantt chart no axes gantt"
     },
     {
         "key": "chart-pie",
-        "label": "Chart Pie"
+        "label": "Chart Pie",
+        "searchText": "chart-pie chart pie"
     },
     {
         "key": "chart-scatter",
-        "label": "Chart Scatter"
+        "label": "Chart Scatter",
+        "searchText": "chart-scatter chart scatter"
     },
     {
         "key": "chart-spline",
-        "label": "Chart Spline"
+        "label": "Chart Spline",
+        "searchText": "chart-spline chart spline"
     },
     {
         "key": "check",
-        "label": "Check"
+        "label": "Check",
+        "searchText": "check check"
     },
     {
         "key": "check-check",
-        "label": "Check Check"
+        "label": "Check Check",
+        "searchText": "check-check check check"
     },
     {
         "key": "check-circle",
-        "label": "Check Circle"
+        "label": "Check Circle",
+        "searchText": "check-circle check circle"
     },
     {
         "key": "check-circle-2",
-        "label": "Check Circle 2"
+        "label": "Check Circle 2",
+        "searchText": "check-circle-2 check circle 2"
     },
     {
         "key": "check-square",
-        "label": "Check Square"
+        "label": "Check Square",
+        "searchText": "check-square check square"
     },
     {
         "key": "check-square-2",
-        "label": "Check Square 2"
+        "label": "Check Square 2",
+        "searchText": "check-square-2 check square 2"
     },
     {
         "key": "chef-hat",
-        "label": "Chef Hat"
+        "label": "Chef Hat",
+        "searchText": "chef-hat chef hat"
     },
     {
         "key": "cherry",
-        "label": "Cherry"
+        "label": "Cherry",
+        "searchText": "cherry cherry"
     },
     {
         "key": "chevron-down",
-        "label": "Chevron Down"
+        "label": "Chevron Down",
+        "searchText": "chevron-down chevron down"
     },
     {
         "key": "chevron-down-circle",
-        "label": "Chevron Down Circle"
+        "label": "Chevron Down Circle",
+        "searchText": "chevron-down-circle chevron down circle"
     },
     {
         "key": "chevron-down-square",
-        "label": "Chevron Down Square"
+        "label": "Chevron Down Square",
+        "searchText": "chevron-down-square chevron down square"
     },
     {
         "key": "chevron-first",
-        "label": "Chevron First"
+        "label": "Chevron First",
+        "searchText": "chevron-first chevron first"
     },
     {
         "key": "chevron-last",
-        "label": "Chevron Last"
+        "label": "Chevron Last",
+        "searchText": "chevron-last chevron last"
     },
     {
         "key": "chevron-left",
-        "label": "Chevron Left"
+        "label": "Chevron Left",
+        "searchText": "chevron-left chevron left"
     },
     {
         "key": "chevron-left-circle",
-        "label": "Chevron Left Circle"
+        "label": "Chevron Left Circle",
+        "searchText": "chevron-left-circle chevron left circle"
     },
     {
         "key": "chevron-left-square",
-        "label": "Chevron Left Square"
+        "label": "Chevron Left Square",
+        "searchText": "chevron-left-square chevron left square"
     },
     {
         "key": "chevron-right",
-        "label": "Chevron Right"
+        "label": "Chevron Right",
+        "searchText": "chevron-right chevron right"
     },
     {
         "key": "chevron-right-circle",
-        "label": "Chevron Right Circle"
+        "label": "Chevron Right Circle",
+        "searchText": "chevron-right-circle chevron right circle"
     },
     {
         "key": "chevron-right-square",
-        "label": "Chevron Right Square"
+        "label": "Chevron Right Square",
+        "searchText": "chevron-right-square chevron right square"
     },
     {
         "key": "chevron-up",
-        "label": "Chevron Up"
+        "label": "Chevron Up",
+        "searchText": "chevron-up chevron up"
     },
     {
         "key": "chevron-up-circle",
-        "label": "Chevron Up Circle"
+        "label": "Chevron Up Circle",
+        "searchText": "chevron-up-circle chevron up circle"
     },
     {
         "key": "chevron-up-square",
-        "label": "Chevron Up Square"
+        "label": "Chevron Up Square",
+        "searchText": "chevron-up-square chevron up square"
     },
     {
         "key": "chevrons-down",
-        "label": "Chevrons Down"
+        "label": "Chevrons Down",
+        "searchText": "chevrons-down chevrons down"
     },
     {
         "key": "chevrons-down-up",
-        "label": "Chevrons Down Up"
+        "label": "Chevrons Down Up",
+        "searchText": "chevrons-down-up chevrons down up"
     },
     {
         "key": "chevrons-left",
-        "label": "Chevrons Left"
+        "label": "Chevrons Left",
+        "searchText": "chevrons-left chevrons left"
     },
     {
         "key": "chevrons-left-right",
-        "label": "Chevrons Left Right"
+        "label": "Chevrons Left Right",
+        "searchText": "chevrons-left-right chevrons left right"
     },
     {
         "key": "chevrons-left-right-ellipsis",
-        "label": "Chevrons Left Right Ellipsis"
+        "label": "Chevrons Left Right Ellipsis",
+        "searchText": "chevrons-left-right-ellipsis chevrons left right ellipsis"
     },
     {
         "key": "chevrons-right",
-        "label": "Chevrons Right"
+        "label": "Chevrons Right",
+        "searchText": "chevrons-right chevrons right"
     },
     {
         "key": "chevrons-right-left",
-        "label": "Chevrons Right Left"
+        "label": "Chevrons Right Left",
+        "searchText": "chevrons-right-left chevrons right left"
     },
     {
         "key": "chevrons-up",
-        "label": "Chevrons Up"
+        "label": "Chevrons Up",
+        "searchText": "chevrons-up chevrons up"
     },
     {
         "key": "chevrons-up-down",
-        "label": "Chevrons Up Down"
+        "label": "Chevrons Up Down",
+        "searchText": "chevrons-up-down chevrons up down"
     },
     {
         "key": "chrome",
-        "label": "Chrome"
+        "label": "Chrome",
+        "searchText": "chrome chrome"
     },
     {
         "key": "church",
-        "label": "Church"
+        "label": "Church",
+        "searchText": "church church"
     },
     {
         "key": "cigarette",
-        "label": "Cigarette"
+        "label": "Cigarette",
+        "searchText": "cigarette cigarette"
     },
     {
         "key": "cigarette-off",
-        "label": "Cigarette Off"
+        "label": "Cigarette Off",
+        "searchText": "cigarette-off cigarette off"
     },
     {
         "key": "circle",
-        "label": "Circle"
+        "label": "Circle",
+        "searchText": "circle circle"
     },
     {
         "key": "circle-alert",
-        "label": "Circle Alert"
+        "label": "Circle Alert",
+        "searchText": "circle-alert circle alert"
     },
     {
         "key": "circle-arrow-down",
-        "label": "Circle Arrow Down"
+        "label": "Circle Arrow Down",
+        "searchText": "circle-arrow-down circle arrow down"
     },
     {
         "key": "circle-arrow-left",
-        "label": "Circle Arrow Left"
+        "label": "Circle Arrow Left",
+        "searchText": "circle-arrow-left circle arrow left"
     },
     {
         "key": "circle-arrow-out-down-left",
-        "label": "Circle Arrow Out Down Left"
+        "label": "Circle Arrow Out Down Left",
+        "searchText": "circle-arrow-out-down-left circle arrow out down left"
     },
     {
         "key": "circle-arrow-out-down-right",
-        "label": "Circle Arrow Out Down Right"
+        "label": "Circle Arrow Out Down Right",
+        "searchText": "circle-arrow-out-down-right circle arrow out down right"
     },
     {
         "key": "circle-arrow-out-up-left",
-        "label": "Circle Arrow Out Up Left"
+        "label": "Circle Arrow Out Up Left",
+        "searchText": "circle-arrow-out-up-left circle arrow out up left"
     },
     {
         "key": "circle-arrow-out-up-right",
-        "label": "Circle Arrow Out Up Right"
+        "label": "Circle Arrow Out Up Right",
+        "searchText": "circle-arrow-out-up-right circle arrow out up right"
     },
     {
         "key": "circle-arrow-right",
-        "label": "Circle Arrow Right"
+        "label": "Circle Arrow Right",
+        "searchText": "circle-arrow-right circle arrow right"
     },
     {
         "key": "circle-arrow-up",
-        "label": "Circle Arrow Up"
+        "label": "Circle Arrow Up",
+        "searchText": "circle-arrow-up circle arrow up"
     },
     {
         "key": "circle-check",
-        "label": "Circle Check"
+        "label": "Circle Check",
+        "searchText": "circle-check circle check"
     },
     {
         "key": "circle-check-big",
-        "label": "Circle Check Big"
+        "label": "Circle Check Big",
+        "searchText": "circle-check-big circle check big"
     },
     {
         "key": "circle-chevron-down",
-        "label": "Circle Chevron Down"
+        "label": "Circle Chevron Down",
+        "searchText": "circle-chevron-down circle chevron down"
     },
     {
         "key": "circle-chevron-left",
-        "label": "Circle Chevron Left"
+        "label": "Circle Chevron Left",
+        "searchText": "circle-chevron-left circle chevron left"
     },
     {
         "key": "circle-chevron-right",
-        "label": "Circle Chevron Right"
+        "label": "Circle Chevron Right",
+        "searchText": "circle-chevron-right circle chevron right"
     },
     {
         "key": "circle-chevron-up",
-        "label": "Circle Chevron Up"
+        "label": "Circle Chevron Up",
+        "searchText": "circle-chevron-up circle chevron up"
     },
     {
         "key": "circle-dashed",
-        "label": "Circle Dashed"
+        "label": "Circle Dashed",
+        "searchText": "circle-dashed circle dashed"
     },
     {
         "key": "circle-divide",
-        "label": "Circle Divide"
+        "label": "Circle Divide",
+        "searchText": "circle-divide circle divide"
     },
     {
         "key": "circle-dollar-sign",
-        "label": "Circle Dollar Sign"
+        "label": "Circle Dollar Sign",
+        "searchText": "circle-dollar-sign circle dollar sign"
     },
     {
         "key": "circle-dot",
-        "label": "Circle Dot"
+        "label": "Circle Dot",
+        "searchText": "circle-dot circle dot"
     },
     {
         "key": "circle-dot-dashed",
-        "label": "Circle Dot Dashed"
+        "label": "Circle Dot Dashed",
+        "searchText": "circle-dot-dashed circle dot dashed"
     },
     {
         "key": "circle-ellipsis",
-        "label": "Circle Ellipsis"
+        "label": "Circle Ellipsis",
+        "searchText": "circle-ellipsis circle ellipsis"
     },
     {
         "key": "circle-equal",
-        "label": "Circle Equal"
+        "label": "Circle Equal",
+        "searchText": "circle-equal circle equal"
     },
     {
         "key": "circle-fading-arrow-up",
-        "label": "Circle Fading Arrow Up"
+        "label": "Circle Fading Arrow Up",
+        "searchText": "circle-fading-arrow-up circle fading arrow up"
     },
     {
         "key": "circle-fading-plus",
-        "label": "Circle Fading Plus"
+        "label": "Circle Fading Plus",
+        "searchText": "circle-fading-plus circle fading plus"
     },
     {
         "key": "circle-gauge",
-        "label": "Circle Gauge"
+        "label": "Circle Gauge",
+        "searchText": "circle-gauge circle gauge"
     },
     {
         "key": "circle-help",
-        "label": "Circle Help"
+        "label": "Circle Help",
+        "searchText": "circle-help circle help"
     },
     {
         "key": "circle-minus",
-        "label": "Circle Minus"
+        "label": "Circle Minus",
+        "searchText": "circle-minus circle minus"
     },
     {
         "key": "circle-off",
-        "label": "Circle Off"
+        "label": "Circle Off",
+        "searchText": "circle-off circle off"
     },
     {
         "key": "circle-parking",
-        "label": "Circle Parking"
+        "label": "Circle Parking",
+        "searchText": "circle-parking circle parking"
     },
     {
         "key": "circle-parking-off",
-        "label": "Circle Parking Off"
+        "label": "Circle Parking Off",
+        "searchText": "circle-parking-off circle parking off"
     },
     {
         "key": "circle-pause",
-        "label": "Circle Pause"
+        "label": "Circle Pause",
+        "searchText": "circle-pause circle pause"
     },
     {
         "key": "circle-percent",
-        "label": "Circle Percent"
+        "label": "Circle Percent",
+        "searchText": "circle-percent circle percent"
     },
     {
         "key": "circle-play",
-        "label": "Circle Play"
+        "label": "Circle Play",
+        "searchText": "circle-play circle play"
     },
     {
         "key": "circle-plus",
-        "label": "Circle Plus"
+        "label": "Circle Plus",
+        "searchText": "circle-plus circle plus"
     },
     {
         "key": "circle-power",
-        "label": "Circle Power"
+        "label": "Circle Power",
+        "searchText": "circle-power circle power"
     },
     {
         "key": "circle-slash",
-        "label": "Circle Slash"
+        "label": "Circle Slash",
+        "searchText": "circle-slash circle slash"
     },
     {
         "key": "circle-slash-2",
-        "label": "Circle Slash 2"
+        "label": "Circle Slash 2",
+        "searchText": "circle-slash-2 circle slash 2"
     },
     {
         "key": "circle-slashed",
-        "label": "Circle Slashed"
+        "label": "Circle Slashed",
+        "searchText": "circle-slashed circle slashed"
     },
     {
         "key": "circle-small",
-        "label": "Circle Small"
+        "label": "Circle Small",
+        "searchText": "circle-small circle small"
     },
     {
         "key": "circle-stop",
-        "label": "Circle Stop"
+        "label": "Circle Stop",
+        "searchText": "circle-stop circle stop"
     },
     {
         "key": "circle-user",
-        "label": "Circle User"
+        "label": "Circle User",
+        "searchText": "circle-user circle user"
     },
     {
         "key": "circle-user-round",
-        "label": "Circle User Round"
+        "label": "Circle User Round",
+        "searchText": "circle-user-round circle user round"
     },
     {
         "key": "circle-x",
-        "label": "Circle X"
+        "label": "Circle X",
+        "searchText": "circle-x circle x"
     },
     {
         "key": "circuit-board",
-        "label": "Circuit Board"
+        "label": "Circuit Board",
+        "searchText": "circuit-board circuit board"
     },
     {
         "key": "citrus",
-        "label": "Citrus"
+        "label": "Citrus",
+        "searchText": "citrus citrus"
     },
     {
         "key": "clapperboard",
-        "label": "Clapperboard"
+        "label": "Clapperboard",
+        "searchText": "clapperboard clapperboard"
     },
     {
         "key": "clipboard",
-        "label": "Clipboard"
+        "label": "Clipboard",
+        "searchText": "clipboard clipboard"
     },
     {
         "key": "clipboard-check",
-        "label": "Clipboard Check"
+        "label": "Clipboard Check",
+        "searchText": "clipboard-check clipboard check"
     },
     {
         "key": "clipboard-copy",
-        "label": "Clipboard Copy"
+        "label": "Clipboard Copy",
+        "searchText": "clipboard-copy clipboard copy"
     },
     {
         "key": "clipboard-edit",
-        "label": "Clipboard Edit"
+        "label": "Clipboard Edit",
+        "searchText": "clipboard-edit clipboard edit"
     },
     {
         "key": "clipboard-list",
-        "label": "Clipboard List"
+        "label": "Clipboard List",
+        "searchText": "clipboard-list clipboard list"
     },
     {
         "key": "clipboard-minus",
-        "label": "Clipboard Minus"
+        "label": "Clipboard Minus",
+        "searchText": "clipboard-minus clipboard minus"
     },
     {
         "key": "clipboard-paste",
-        "label": "Clipboard Paste"
+        "label": "Clipboard Paste",
+        "searchText": "clipboard-paste clipboard paste"
     },
     {
         "key": "clipboard-pen",
-        "label": "Clipboard Pen"
+        "label": "Clipboard Pen",
+        "searchText": "clipboard-pen clipboard pen"
     },
     {
         "key": "clipboard-pen-line",
-        "label": "Clipboard Pen Line"
+        "label": "Clipboard Pen Line",
+        "searchText": "clipboard-pen-line clipboard pen line"
     },
     {
         "key": "clipboard-plus",
-        "label": "Clipboard Plus"
+        "label": "Clipboard Plus",
+        "searchText": "clipboard-plus clipboard plus"
     },
     {
         "key": "clipboard-signature",
-        "label": "Clipboard Signature"
+        "label": "Clipboard Signature",
+        "searchText": "clipboard-signature clipboard signature"
     },
     {
         "key": "clipboard-type",
-        "label": "Clipboard Type"
+        "label": "Clipboard Type",
+        "searchText": "clipboard-type clipboard type"
     },
     {
         "key": "clipboard-x",
-        "label": "Clipboard X"
+        "label": "Clipboard X",
+        "searchText": "clipboard-x clipboard x"
     },
     {
         "key": "clock",
-        "label": "Clock"
+        "label": "Clock",
+        "searchText": "clock clock"
     },
     {
         "key": "clock-1",
-        "label": "Clock 1"
+        "label": "Clock 1",
+        "searchText": "clock-1 clock 1"
     },
     {
         "key": "clock-10",
-        "label": "Clock 10"
+        "label": "Clock 10",
+        "searchText": "clock-10 clock 10"
     },
     {
         "key": "clock-11",
-        "label": "Clock 11"
+        "label": "Clock 11",
+        "searchText": "clock-11 clock 11"
     },
     {
         "key": "clock-12",
-        "label": "Clock 12"
+        "label": "Clock 12",
+        "searchText": "clock-12 clock 12"
     },
     {
         "key": "clock-2",
-        "label": "Clock 2"
+        "label": "Clock 2",
+        "searchText": "clock-2 clock 2"
     },
     {
         "key": "clock-3",
-        "label": "Clock 3"
+        "label": "Clock 3",
+        "searchText": "clock-3 clock 3"
     },
     {
         "key": "clock-4",
-        "label": "Clock 4"
+        "label": "Clock 4",
+        "searchText": "clock-4 clock 4"
     },
     {
         "key": "clock-5",
-        "label": "Clock 5"
+        "label": "Clock 5",
+        "searchText": "clock-5 clock 5"
     },
     {
         "key": "clock-6",
-        "label": "Clock 6"
+        "label": "Clock 6",
+        "searchText": "clock-6 clock 6"
     },
     {
         "key": "clock-7",
-        "label": "Clock 7"
+        "label": "Clock 7",
+        "searchText": "clock-7 clock 7"
     },
     {
         "key": "clock-8",
-        "label": "Clock 8"
+        "label": "Clock 8",
+        "searchText": "clock-8 clock 8"
     },
     {
         "key": "clock-9",
-        "label": "Clock 9"
+        "label": "Clock 9",
+        "searchText": "clock-9 clock 9"
     },
     {
         "key": "clock-alert",
-        "label": "Clock Alert"
+        "label": "Clock Alert",
+        "searchText": "clock-alert clock alert"
     },
     {
         "key": "clock-arrow-down",
-        "label": "Clock Arrow Down"
+        "label": "Clock Arrow Down",
+        "searchText": "clock-arrow-down clock arrow down"
     },
     {
         "key": "clock-arrow-up",
-        "label": "Clock Arrow Up"
+        "label": "Clock Arrow Up",
+        "searchText": "clock-arrow-up clock arrow up"
     },
     {
         "key": "cloud",
-        "label": "Cloud"
+        "label": "Cloud",
+        "searchText": "cloud cloud"
     },
     {
         "key": "cloud-alert",
-        "label": "Cloud Alert"
+        "label": "Cloud Alert",
+        "searchText": "cloud-alert cloud alert"
     },
     {
         "key": "cloud-cog",
-        "label": "Cloud Cog"
+        "label": "Cloud Cog",
+        "searchText": "cloud-cog cloud cog"
     },
     {
         "key": "cloud-download",
-        "label": "Cloud Download"
+        "label": "Cloud Download",
+        "searchText": "cloud-download cloud download"
     },
     {
         "key": "cloud-drizzle",
-        "label": "Cloud Drizzle"
+        "label": "Cloud Drizzle",
+        "searchText": "cloud-drizzle cloud drizzle"
     },
     {
         "key": "cloud-fog",
-        "label": "Cloud Fog"
+        "label": "Cloud Fog",
+        "searchText": "cloud-fog cloud fog"
     },
     {
         "key": "cloud-hail",
-        "label": "Cloud Hail"
+        "label": "Cloud Hail",
+        "searchText": "cloud-hail cloud hail"
     },
     {
         "key": "cloud-lightning",
-        "label": "Cloud Lightning"
+        "label": "Cloud Lightning",
+        "searchText": "cloud-lightning cloud lightning"
     },
     {
         "key": "cloud-moon",
-        "label": "Cloud Moon"
+        "label": "Cloud Moon",
+        "searchText": "cloud-moon cloud moon"
     },
     {
         "key": "cloud-moon-rain",
-        "label": "Cloud Moon Rain"
+        "label": "Cloud Moon Rain",
+        "searchText": "cloud-moon-rain cloud moon rain"
     },
     {
         "key": "cloud-off",
-        "label": "Cloud Off"
+        "label": "Cloud Off",
+        "searchText": "cloud-off cloud off"
     },
     {
         "key": "cloud-rain",
-        "label": "Cloud Rain"
+        "label": "Cloud Rain",
+        "searchText": "cloud-rain cloud rain"
     },
     {
         "key": "cloud-rain-wind",
-        "label": "Cloud Rain Wind"
+        "label": "Cloud Rain Wind",
+        "searchText": "cloud-rain-wind cloud rain wind"
     },
     {
         "key": "cloud-snow",
-        "label": "Cloud Snow"
+        "label": "Cloud Snow",
+        "searchText": "cloud-snow cloud snow"
     },
     {
         "key": "cloud-sun",
-        "label": "Cloud Sun"
+        "label": "Cloud Sun",
+        "searchText": "cloud-sun cloud sun"
     },
     {
         "key": "cloud-sun-rain",
-        "label": "Cloud Sun Rain"
+        "label": "Cloud Sun Rain",
+        "searchText": "cloud-sun-rain cloud sun rain"
     },
     {
         "key": "cloud-upload",
-        "label": "Cloud Upload"
+        "label": "Cloud Upload",
+        "searchText": "cloud-upload cloud upload"
     },
     {
         "key": "cloudy",
-        "label": "Cloudy"
+        "label": "Cloudy",
+        "searchText": "cloudy cloudy"
     },
     {
         "key": "clover",
-        "label": "Clover"
+        "label": "Clover",
+        "searchText": "clover clover"
     },
     {
         "key": "club",
-        "label": "Club"
+        "label": "Club",
+        "searchText": "club club"
     },
     {
         "key": "code",
-        "label": "Code"
+        "label": "Code",
+        "searchText": "code code"
     },
     {
         "key": "code-2",
-        "label": "Code 2"
+        "label": "Code 2",
+        "searchText": "code-2 code 2"
     },
     {
         "key": "code-square",
-        "label": "Code Square"
+        "label": "Code Square",
+        "searchText": "code-square code square"
     },
     {
         "key": "code-xml",
-        "label": "Code Xml"
+        "label": "Code Xml",
+        "searchText": "code-xml code xml"
     },
     {
         "key": "codepen",
-        "label": "Codepen"
+        "label": "Codepen",
+        "searchText": "codepen codepen"
     },
     {
         "key": "codesandbox",
-        "label": "Codesandbox"
+        "label": "Codesandbox",
+        "searchText": "codesandbox codesandbox"
     },
     {
         "key": "coffee",
-        "label": "Coffee"
+        "label": "Coffee",
+        "searchText": "coffee coffee"
     },
     {
         "key": "cog",
-        "label": "Cog"
+        "label": "Cog",
+        "searchText": "cog cog"
     },
     {
         "key": "coins",
-        "label": "Coins"
+        "label": "Coins",
+        "searchText": "coins coins"
     },
     {
         "key": "columns",
-        "label": "Columns"
+        "label": "Columns",
+        "searchText": "columns columns"
     },
     {
         "key": "columns-2",
-        "label": "Columns 2"
+        "label": "Columns 2",
+        "searchText": "columns-2 columns 2"
     },
     {
         "key": "columns-3",
-        "label": "Columns 3"
+        "label": "Columns 3",
+        "searchText": "columns-3 columns 3"
     },
     {
         "key": "columns-4",
-        "label": "Columns 4"
+        "label": "Columns 4",
+        "searchText": "columns-4 columns 4"
     },
     {
         "key": "combine",
-        "label": "Combine"
+        "label": "Combine",
+        "searchText": "combine combine"
     },
     {
         "key": "command",
-        "label": "Command"
+        "label": "Command",
+        "searchText": "command command"
     },
     {
         "key": "compass",
-        "label": "Compass"
+        "label": "Compass",
+        "searchText": "compass compass"
     },
     {
         "key": "component",
-        "label": "Component"
+        "label": "Component",
+        "searchText": "component component"
     },
     {
         "key": "computer",
-        "label": "Computer"
+        "label": "Computer",
+        "searchText": "computer computer"
     },
     {
         "key": "concierge-bell",
-        "label": "Concierge Bell"
+        "label": "Concierge Bell",
+        "searchText": "concierge-bell concierge bell"
     },
     {
         "key": "cone",
-        "label": "Cone"
+        "label": "Cone",
+        "searchText": "cone cone"
     },
     {
         "key": "construction",
-        "label": "Construction"
+        "label": "Construction",
+        "searchText": "construction construction"
     },
     {
         "key": "contact",
-        "label": "Contact"
+        "label": "Contact",
+        "searchText": "contact contact"
     },
     {
         "key": "contact-2",
-        "label": "Contact 2"
+        "label": "Contact 2",
+        "searchText": "contact-2 contact 2"
     },
     {
         "key": "contact-round",
-        "label": "Contact Round"
+        "label": "Contact Round",
+        "searchText": "contact-round contact round"
     },
     {
         "key": "container",
-        "label": "Container"
+        "label": "Container",
+        "searchText": "container container"
     },
     {
         "key": "contrast",
-        "label": "Contrast"
+        "label": "Contrast",
+        "searchText": "contrast contrast"
     },
     {
         "key": "cookie",
-        "label": "Cookie"
+        "label": "Cookie",
+        "searchText": "cookie cookie"
     },
     {
         "key": "cooking-pot",
-        "label": "Cooking Pot"
+        "label": "Cooking Pot",
+        "searchText": "cooking-pot cooking pot"
     },
     {
         "key": "copy",
-        "label": "Copy"
+        "label": "Copy",
+        "searchText": "copy copy"
     },
     {
         "key": "copy-check",
-        "label": "Copy Check"
+        "label": "Copy Check",
+        "searchText": "copy-check copy check"
     },
     {
         "key": "copy-minus",
-        "label": "Copy Minus"
+        "label": "Copy Minus",
+        "searchText": "copy-minus copy minus"
     },
     {
         "key": "copy-plus",
-        "label": "Copy Plus"
+        "label": "Copy Plus",
+        "searchText": "copy-plus copy plus"
     },
     {
         "key": "copy-slash",
-        "label": "Copy Slash"
+        "label": "Copy Slash",
+        "searchText": "copy-slash copy slash"
     },
     {
         "key": "copy-x",
-        "label": "Copy X"
+        "label": "Copy X",
+        "searchText": "copy-x copy x"
     },
     {
         "key": "copyleft",
-        "label": "Copyleft"
+        "label": "Copyleft",
+        "searchText": "copyleft copyleft"
     },
     {
         "key": "copyright",
-        "label": "Copyright"
+        "label": "Copyright",
+        "searchText": "copyright copyright"
     },
     {
         "key": "corner-down-left",
-        "label": "Corner Down Left"
+        "label": "Corner Down Left",
+        "searchText": "corner-down-left corner down left"
     },
     {
         "key": "corner-down-right",
-        "label": "Corner Down Right"
+        "label": "Corner Down Right",
+        "searchText": "corner-down-right corner down right"
     },
     {
         "key": "corner-left-down",
-        "label": "Corner Left Down"
+        "label": "Corner Left Down",
+        "searchText": "corner-left-down corner left down"
     },
     {
         "key": "corner-left-up",
-        "label": "Corner Left Up"
+        "label": "Corner Left Up",
+        "searchText": "corner-left-up corner left up"
     },
     {
         "key": "corner-right-down",
-        "label": "Corner Right Down"
+        "label": "Corner Right Down",
+        "searchText": "corner-right-down corner right down"
     },
     {
         "key": "corner-right-up",
-        "label": "Corner Right Up"
+        "label": "Corner Right Up",
+        "searchText": "corner-right-up corner right up"
     },
     {
         "key": "corner-up-left",
-        "label": "Corner Up Left"
+        "label": "Corner Up Left",
+        "searchText": "corner-up-left corner up left"
     },
     {
         "key": "corner-up-right",
-        "label": "Corner Up Right"
+        "label": "Corner Up Right",
+        "searchText": "corner-up-right corner up right"
     },
     {
         "key": "cpu",
-        "label": "Cpu"
+        "label": "Cpu",
+        "searchText": "cpu cpu"
     },
     {
         "key": "creative-commons",
-        "label": "Creative Commons"
+        "label": "Creative Commons",
+        "searchText": "creative-commons creative commons"
     },
     {
         "key": "credit-card",
-        "label": "Credit Card"
+        "label": "Credit Card",
+        "searchText": "credit-card credit card"
     },
     {
         "key": "croissant",
-        "label": "Croissant"
+        "label": "Croissant",
+        "searchText": "croissant croissant"
     },
     {
         "key": "crop",
-        "label": "Crop"
+        "label": "Crop",
+        "searchText": "crop crop"
     },
     {
         "key": "cross",
-        "label": "Cross"
+        "label": "Cross",
+        "searchText": "cross cross"
     },
     {
         "key": "crosshair",
-        "label": "Crosshair"
+        "label": "Crosshair",
+        "searchText": "crosshair crosshair"
     },
     {
         "key": "crown",
-        "label": "Crown"
+        "label": "Crown",
+        "searchText": "crown crown"
     },
     {
         "key": "cuboid",
-        "label": "Cuboid"
+        "label": "Cuboid",
+        "searchText": "cuboid cuboid"
     },
     {
         "key": "cup-soda",
-        "label": "Cup Soda"
+        "label": "Cup Soda",
+        "searchText": "cup-soda cup soda"
     },
     {
         "key": "curly-braces",
-        "label": "Curly Braces"
+        "label": "Curly Braces",
+        "searchText": "curly-braces curly braces"
     },
     {
         "key": "currency",
-        "label": "Currency"
+        "label": "Currency",
+        "searchText": "currency currency"
     },
     {
         "key": "cylinder",
-        "label": "Cylinder"
+        "label": "Cylinder",
+        "searchText": "cylinder cylinder"
     },
     {
         "key": "dam",
-        "label": "Dam"
+        "label": "Dam",
+        "searchText": "dam dam"
     },
     {
         "key": "database",
-        "label": "Database"
+        "label": "Database",
+        "searchText": "database database"
     },
     {
         "key": "database-backup",
-        "label": "Database Backup"
+        "label": "Database Backup",
+        "searchText": "database-backup database backup"
     },
     {
         "key": "database-zap",
-        "label": "Database Zap"
+        "label": "Database Zap",
+        "searchText": "database-zap database zap"
     },
     {
         "key": "delete",
-        "label": "Delete"
+        "label": "Delete",
+        "searchText": "delete delete"
     },
     {
         "key": "dessert",
-        "label": "Dessert"
+        "label": "Dessert",
+        "searchText": "dessert dessert"
     },
     {
         "key": "diameter",
-        "label": "Diameter"
+        "label": "Diameter",
+        "searchText": "diameter diameter"
     },
     {
         "key": "diamond",
-        "label": "Diamond"
+        "label": "Diamond",
+        "searchText": "diamond diamond"
     },
     {
         "key": "diamond-minus",
-        "label": "Diamond Minus"
+        "label": "Diamond Minus",
+        "searchText": "diamond-minus diamond minus"
     },
     {
         "key": "diamond-percent",
-        "label": "Diamond Percent"
+        "label": "Diamond Percent",
+        "searchText": "diamond-percent diamond percent"
     },
     {
         "key": "diamond-plus",
-        "label": "Diamond Plus"
+        "label": "Diamond Plus",
+        "searchText": "diamond-plus diamond plus"
     },
     {
         "key": "dice-1",
-        "label": "Dice 1"
+        "label": "Dice 1",
+        "searchText": "dice-1 dice 1"
     },
     {
         "key": "dice-2",
-        "label": "Dice 2"
+        "label": "Dice 2",
+        "searchText": "dice-2 dice 2"
     },
     {
         "key": "dice-3",
-        "label": "Dice 3"
+        "label": "Dice 3",
+        "searchText": "dice-3 dice 3"
     },
     {
         "key": "dice-4",
-        "label": "Dice 4"
+        "label": "Dice 4",
+        "searchText": "dice-4 dice 4"
     },
     {
         "key": "dice-5",
-        "label": "Dice 5"
+        "label": "Dice 5",
+        "searchText": "dice-5 dice 5"
     },
     {
         "key": "dice-6",
-        "label": "Dice 6"
+        "label": "Dice 6",
+        "searchText": "dice-6 dice 6"
     },
     {
         "key": "dices",
-        "label": "Dices"
+        "label": "Dices",
+        "searchText": "dices dices"
     },
     {
         "key": "diff",
-        "label": "Diff"
+        "label": "Diff",
+        "searchText": "diff diff"
     },
     {
         "key": "disc",
-        "label": "Disc"
+        "label": "Disc",
+        "searchText": "disc disc"
     },
     {
         "key": "disc-2",
-        "label": "Disc 2"
+        "label": "Disc 2",
+        "searchText": "disc-2 disc 2"
     },
     {
         "key": "disc-3",
-        "label": "Disc 3"
+        "label": "Disc 3",
+        "searchText": "disc-3 disc 3"
     },
     {
         "key": "disc-album",
-        "label": "Disc Album"
+        "label": "Disc Album",
+        "searchText": "disc-album disc album"
     },
     {
         "key": "divide",
-        "label": "Divide"
+        "label": "Divide",
+        "searchText": "divide divide"
     },
     {
         "key": "divide-circle",
-        "label": "Divide Circle"
+        "label": "Divide Circle",
+        "searchText": "divide-circle divide circle"
     },
     {
         "key": "divide-square",
-        "label": "Divide Square"
+        "label": "Divide Square",
+        "searchText": "divide-square divide square"
     },
     {
         "key": "dna",
-        "label": "Dna"
+        "label": "Dna",
+        "searchText": "dna dna"
     },
     {
         "key": "dna-off",
-        "label": "Dna Off"
+        "label": "Dna Off",
+        "searchText": "dna-off dna off"
     },
     {
         "key": "dock",
-        "label": "Dock"
-    },
-    {
-        "key": "file-text",
-        "label": "Document"
+        "label": "Dock",
+        "searchText": "dock dock"
     },
     {
         "key": "dog",
-        "label": "Dog"
+        "label": "Dog",
+        "searchText": "dog dog"
     },
     {
         "key": "dollar-sign",
-        "label": "Dollar Sign"
+        "label": "Dollar Sign",
+        "searchText": "dollar-sign dollar sign"
     },
     {
         "key": "donut",
-        "label": "Donut"
+        "label": "Donut",
+        "searchText": "donut donut"
     },
     {
         "key": "door-closed",
-        "label": "Door Closed"
+        "label": "Door Closed",
+        "searchText": "door-closed door closed"
     },
     {
         "key": "door-open",
-        "label": "Door Open"
+        "label": "Door Open",
+        "searchText": "door-open door open"
     },
     {
         "key": "dot",
-        "label": "Dot"
+        "label": "Dot",
+        "searchText": "dot dot"
     },
     {
         "key": "dot-square",
-        "label": "Dot Square"
+        "label": "Dot Square",
+        "searchText": "dot-square dot square"
     },
     {
         "key": "download",
-        "label": "Download"
+        "label": "Download",
+        "searchText": "download download"
     },
     {
         "key": "download-cloud",
-        "label": "Download Cloud"
+        "label": "Download Cloud",
+        "searchText": "download-cloud download cloud"
     },
     {
         "key": "drafting-compass",
-        "label": "Drafting Compass"
+        "label": "Drafting Compass",
+        "searchText": "drafting-compass drafting compass"
     },
     {
         "key": "drama",
-        "label": "Drama"
+        "label": "Drama",
+        "searchText": "drama drama"
     },
     {
         "key": "dribbble",
-        "label": "Dribbble"
+        "label": "Dribbble",
+        "searchText": "dribbble dribbble"
     },
     {
         "key": "drill",
-        "label": "Drill"
+        "label": "Drill",
+        "searchText": "drill drill"
     },
     {
         "key": "droplet",
-        "label": "Droplet"
+        "label": "Droplet",
+        "searchText": "droplet droplet"
     },
     {
         "key": "droplet-off",
-        "label": "Droplet Off"
+        "label": "Droplet Off",
+        "searchText": "droplet-off droplet off"
     },
     {
         "key": "droplets",
-        "label": "Droplets"
+        "label": "Droplets",
+        "searchText": "droplets droplets"
     },
     {
         "key": "drum",
-        "label": "Drum"
+        "label": "Drum",
+        "searchText": "drum drum"
     },
     {
         "key": "drumstick",
-        "label": "Drumstick"
+        "label": "Drumstick",
+        "searchText": "drumstick drumstick"
     },
     {
         "key": "dumbbell",
-        "label": "Dumbbell"
+        "label": "Dumbbell",
+        "searchText": "dumbbell dumbbell"
     },
     {
         "key": "ear",
-        "label": "Ear"
+        "label": "Ear",
+        "searchText": "ear ear"
     },
     {
         "key": "ear-off",
-        "label": "Ear Off"
+        "label": "Ear Off",
+        "searchText": "ear-off ear off"
     },
     {
         "key": "earth",
-        "label": "Earth"
+        "label": "Earth",
+        "searchText": "earth earth"
     },
     {
         "key": "earth-lock",
-        "label": "Earth Lock"
+        "label": "Earth Lock",
+        "searchText": "earth-lock earth lock"
     },
     {
         "key": "eclipse",
-        "label": "Eclipse"
+        "label": "Eclipse",
+        "searchText": "eclipse eclipse"
     },
     {
         "key": "edit",
-        "label": "Edit"
+        "label": "Edit",
+        "searchText": "edit edit"
     },
     {
         "key": "edit-2",
-        "label": "Edit 2"
+        "label": "Edit 2",
+        "searchText": "edit-2 edit 2"
     },
     {
         "key": "edit-3",
-        "label": "Edit 3"
+        "label": "Edit 3",
+        "searchText": "edit-3 edit 3"
     },
     {
         "key": "egg",
-        "label": "Egg"
+        "label": "Egg",
+        "searchText": "egg egg"
     },
     {
         "key": "egg-fried",
-        "label": "Egg Fried"
+        "label": "Egg Fried",
+        "searchText": "egg-fried egg fried"
     },
     {
         "key": "egg-off",
-        "label": "Egg Off"
+        "label": "Egg Off",
+        "searchText": "egg-off egg off"
     },
     {
         "key": "ellipsis",
-        "label": "Ellipsis"
+        "label": "Ellipsis",
+        "searchText": "ellipsis ellipsis"
     },
     {
         "key": "ellipsis-vertical",
-        "label": "Ellipsis Vertical"
-    },
-    {
-        "key": "mail",
-        "label": "Email"
+        "label": "Ellipsis Vertical",
+        "searchText": "ellipsis-vertical ellipsis vertical"
     },
     {
         "key": "equal",
-        "label": "Equal"
+        "label": "Equal",
+        "searchText": "equal equal"
     },
     {
         "key": "equal-approximately",
-        "label": "Equal Approximately"
+        "label": "Equal Approximately",
+        "searchText": "equal-approximately equal approximately"
     },
     {
         "key": "equal-not",
-        "label": "Equal Not"
+        "label": "Equal Not",
+        "searchText": "equal-not equal not"
     },
     {
         "key": "equal-square",
-        "label": "Equal Square"
+        "label": "Equal Square",
+        "searchText": "equal-square equal square"
     },
     {
         "key": "eraser",
-        "label": "Eraser"
+        "label": "Eraser",
+        "searchText": "eraser eraser"
     },
     {
         "key": "ethernet-port",
-        "label": "Ethernet Port"
+        "label": "Ethernet Port",
+        "searchText": "ethernet-port ethernet port"
     },
     {
         "key": "euro",
-        "label": "Euro"
+        "label": "Euro",
+        "searchText": "euro euro"
     },
     {
         "key": "expand",
-        "label": "Expand"
+        "label": "Expand",
+        "searchText": "expand expand"
     },
     {
         "key": "external-link",
-        "label": "External Link"
+        "label": "External Link",
+        "searchText": "external-link external link"
     },
     {
         "key": "eye",
-        "label": "Eye"
+        "label": "Eye",
+        "searchText": "eye eye"
     },
     {
         "key": "eye-closed",
-        "label": "Eye Closed"
+        "label": "Eye Closed",
+        "searchText": "eye-closed eye closed"
     },
     {
         "key": "eye-off",
-        "label": "Eye Off"
+        "label": "Eye Off",
+        "searchText": "eye-off eye off"
     },
     {
         "key": "facebook",
-        "label": "Facebook"
+        "label": "Facebook",
+        "searchText": "facebook facebook"
     },
     {
         "key": "factory",
-        "label": "Factory"
+        "label": "Factory",
+        "searchText": "factory factory"
     },
     {
         "key": "fan",
-        "label": "Fan"
+        "label": "Fan",
+        "searchText": "fan fan"
     },
     {
         "key": "fast-forward",
-        "label": "Fast Forward"
+        "label": "Fast Forward",
+        "searchText": "fast-forward fast forward"
     },
     {
         "key": "feather",
-        "label": "Feather"
+        "label": "Feather",
+        "searchText": "feather feather"
     },
     {
         "key": "fence",
-        "label": "Fence"
+        "label": "Fence",
+        "searchText": "fence fence"
     },
     {
         "key": "ferris-wheel",
-        "label": "Ferris Wheel"
+        "label": "Ferris Wheel",
+        "searchText": "ferris-wheel ferris wheel"
     },
     {
         "key": "figma",
-        "label": "Figma"
+        "label": "Figma",
+        "searchText": "figma figma"
     },
     {
         "key": "file",
-        "label": "File"
+        "label": "File",
+        "searchText": "file file"
     },
     {
         "key": "file-archive",
-        "label": "File Archive"
+        "label": "File Archive",
+        "searchText": "file-archive file archive"
     },
     {
         "key": "file-audio",
-        "label": "File Audio"
+        "label": "File Audio",
+        "searchText": "file-audio file audio"
     },
     {
         "key": "file-audio-2",
-        "label": "File Audio 2"
+        "label": "File Audio 2",
+        "searchText": "file-audio-2 file audio 2"
     },
     {
         "key": "file-axis-3-d",
-        "label": "File Axis 3 D"
+        "label": "File Axis 3 D",
+        "searchText": "file-axis-3-d file axis 3 d"
     },
     {
         "key": "file-axis-3d",
-        "label": "File Axis 3d"
+        "label": "File Axis 3d",
+        "searchText": "file-axis-3d file axis 3d"
     },
     {
         "key": "file-badge",
-        "label": "File Badge"
+        "label": "File Badge",
+        "searchText": "file-badge file badge"
     },
     {
         "key": "file-badge-2",
-        "label": "File Badge 2"
+        "label": "File Badge 2",
+        "searchText": "file-badge-2 file badge 2"
     },
     {
         "key": "file-bar-chart",
-        "label": "File Bar Chart"
+        "label": "File Bar Chart",
+        "searchText": "file-bar-chart file bar chart"
     },
     {
         "key": "file-bar-chart-2",
-        "label": "File Bar Chart 2"
+        "label": "File Bar Chart 2",
+        "searchText": "file-bar-chart-2 file bar chart 2"
     },
     {
         "key": "file-box",
-        "label": "File Box"
+        "label": "File Box",
+        "searchText": "file-box file box"
     },
     {
         "key": "file-chart-column",
-        "label": "File Chart Column"
+        "label": "File Chart Column",
+        "searchText": "file-chart-column file chart column"
     },
     {
         "key": "file-chart-column-increasing",
-        "label": "File Chart Column Increasing"
+        "label": "File Chart Column Increasing",
+        "searchText": "file-chart-column-increasing file chart column increasing"
     },
     {
         "key": "file-chart-line",
-        "label": "File Chart Line"
+        "label": "File Chart Line",
+        "searchText": "file-chart-line file chart line"
     },
     {
         "key": "file-chart-pie",
-        "label": "File Chart Pie"
+        "label": "File Chart Pie",
+        "searchText": "file-chart-pie file chart pie"
     },
     {
         "key": "file-check",
-        "label": "File Check"
+        "label": "File Check",
+        "searchText": "file-check file check"
     },
     {
         "key": "file-check-2",
-        "label": "File Check 2"
+        "label": "File Check 2",
+        "searchText": "file-check-2 file check 2"
     },
     {
         "key": "file-clock",
-        "label": "File Clock"
+        "label": "File Clock",
+        "searchText": "file-clock file clock"
     },
     {
         "key": "file-code",
-        "label": "File Code"
+        "label": "File Code",
+        "searchText": "file-code file code"
     },
     {
         "key": "file-code-2",
-        "label": "File Code 2"
+        "label": "File Code 2",
+        "searchText": "file-code-2 file code 2"
     },
     {
         "key": "file-cog",
-        "label": "File Cog"
+        "label": "File Cog",
+        "searchText": "file-cog file cog"
     },
     {
         "key": "file-cog-2",
-        "label": "File Cog 2"
+        "label": "File Cog 2",
+        "searchText": "file-cog-2 file cog 2"
     },
     {
         "key": "file-diff",
-        "label": "File Diff"
+        "label": "File Diff",
+        "searchText": "file-diff file diff"
     },
     {
         "key": "file-digit",
-        "label": "File Digit"
+        "label": "File Digit",
+        "searchText": "file-digit file digit"
     },
     {
         "key": "file-down",
-        "label": "File Down"
+        "label": "File Down",
+        "searchText": "file-down file down"
     },
     {
         "key": "file-edit",
-        "label": "File Edit"
+        "label": "File Edit",
+        "searchText": "file-edit file edit"
     },
     {
         "key": "file-heart",
-        "label": "File Heart"
+        "label": "File Heart",
+        "searchText": "file-heart file heart"
     },
     {
         "key": "file-image",
-        "label": "File Image"
+        "label": "File Image",
+        "searchText": "file-image file image"
     },
     {
         "key": "file-input",
-        "label": "File Input"
+        "label": "File Input",
+        "searchText": "file-input file input"
     },
     {
         "key": "file-json",
-        "label": "File Json"
+        "label": "File Json",
+        "searchText": "file-json file json"
     },
     {
         "key": "file-json-2",
-        "label": "File Json 2"
+        "label": "File Json 2",
+        "searchText": "file-json-2 file json 2"
     },
     {
         "key": "file-key",
-        "label": "File Key"
+        "label": "File Key",
+        "searchText": "file-key file key"
     },
     {
         "key": "file-key-2",
-        "label": "File Key 2"
+        "label": "File Key 2",
+        "searchText": "file-key-2 file key 2"
     },
     {
         "key": "file-line-chart",
-        "label": "File Line Chart"
+        "label": "File Line Chart",
+        "searchText": "file-line-chart file line chart"
     },
     {
         "key": "file-lock",
-        "label": "File Lock"
+        "label": "File Lock",
+        "searchText": "file-lock file lock"
     },
     {
         "key": "file-lock-2",
-        "label": "File Lock 2"
+        "label": "File Lock 2",
+        "searchText": "file-lock-2 file lock 2"
     },
     {
         "key": "file-minus",
-        "label": "File Minus"
+        "label": "File Minus",
+        "searchText": "file-minus file minus"
     },
     {
         "key": "file-minus-2",
-        "label": "File Minus 2"
+        "label": "File Minus 2",
+        "searchText": "file-minus-2 file minus 2"
     },
     {
         "key": "file-music",
-        "label": "File Music"
+        "label": "File Music",
+        "searchText": "file-music file music"
     },
     {
         "key": "file-output",
-        "label": "File Output"
+        "label": "File Output",
+        "searchText": "file-output file output"
     },
     {
         "key": "file-pen",
-        "label": "File Pen"
+        "label": "File Pen",
+        "searchText": "file-pen file pen"
     },
     {
         "key": "file-pen-line",
-        "label": "File Pen Line"
+        "label": "File Pen Line",
+        "searchText": "file-pen-line file pen line"
     },
     {
         "key": "file-pie-chart",
-        "label": "File Pie Chart"
+        "label": "File Pie Chart",
+        "searchText": "file-pie-chart file pie chart"
     },
     {
         "key": "file-plus",
-        "label": "File Plus"
+        "label": "File Plus",
+        "searchText": "file-plus file plus"
     },
     {
         "key": "file-plus-2",
-        "label": "File Plus 2"
+        "label": "File Plus 2",
+        "searchText": "file-plus-2 file plus 2"
     },
     {
         "key": "file-question",
-        "label": "File Question"
+        "label": "File Question",
+        "searchText": "file-question file question"
     },
     {
         "key": "file-scan",
-        "label": "File Scan"
+        "label": "File Scan",
+        "searchText": "file-scan file scan"
     },
     {
         "key": "file-search",
-        "label": "File Search"
+        "label": "File Search",
+        "searchText": "file-search file search"
     },
     {
         "key": "file-search-2",
-        "label": "File Search 2"
+        "label": "File Search 2",
+        "searchText": "file-search-2 file search 2"
     },
     {
         "key": "file-signature",
-        "label": "File Signature"
+        "label": "File Signature",
+        "searchText": "file-signature file signature"
     },
     {
         "key": "file-sliders",
-        "label": "File Sliders"
+        "label": "File Sliders",
+        "searchText": "file-sliders file sliders"
     },
     {
         "key": "file-spreadsheet",
-        "label": "File Spreadsheet"
+        "label": "File Spreadsheet",
+        "searchText": "file-spreadsheet file spreadsheet"
     },
     {
         "key": "file-stack",
-        "label": "File Stack"
+        "label": "File Stack",
+        "searchText": "file-stack file stack"
     },
     {
         "key": "file-symlink",
-        "label": "File Symlink"
+        "label": "File Symlink",
+        "searchText": "file-symlink file symlink"
     },
     {
         "key": "file-terminal",
-        "label": "File Terminal"
+        "label": "File Terminal",
+        "searchText": "file-terminal file terminal"
+    },
+    {
+        "key": "file-text",
+        "label": "File Text",
+        "searchText": "file-text file text"
     },
     {
         "key": "file-type",
-        "label": "File Type"
+        "label": "File Type",
+        "searchText": "file-type file type"
     },
     {
         "key": "file-type-2",
-        "label": "File Type 2"
+        "label": "File Type 2",
+        "searchText": "file-type-2 file type 2"
     },
     {
         "key": "file-up",
-        "label": "File Up"
+        "label": "File Up",
+        "searchText": "file-up file up"
     },
     {
         "key": "file-user",
-        "label": "File User"
+        "label": "File User",
+        "searchText": "file-user file user"
     },
     {
         "key": "file-video",
-        "label": "File Video"
+        "label": "File Video",
+        "searchText": "file-video file video"
     },
     {
         "key": "file-video-2",
-        "label": "File Video 2"
+        "label": "File Video 2",
+        "searchText": "file-video-2 file video 2"
     },
     {
         "key": "file-volume",
-        "label": "File Volume"
+        "label": "File Volume",
+        "searchText": "file-volume file volume"
     },
     {
         "key": "file-volume-2",
-        "label": "File Volume 2"
+        "label": "File Volume 2",
+        "searchText": "file-volume-2 file volume 2"
     },
     {
         "key": "file-warning",
-        "label": "File Warning"
+        "label": "File Warning",
+        "searchText": "file-warning file warning"
     },
     {
         "key": "file-x",
-        "label": "File X"
+        "label": "File X",
+        "searchText": "file-x file x"
     },
     {
         "key": "file-x-2",
-        "label": "File X 2"
+        "label": "File X 2",
+        "searchText": "file-x-2 file x 2"
     },
     {
         "key": "files",
-        "label": "Files"
+        "label": "Files",
+        "searchText": "files files"
     },
     {
         "key": "film",
-        "label": "Film"
-    },
-    {
-        "key": "filter-x",
-        "label": "Filter X"
-    },
-    {
-        "key": "fingerprint",
-        "label": "Fingerprint"
-    },
-    {
-        "key": "fire-extinguisher",
-        "label": "Fire Extinguisher"
-    },
-    {
-        "key": "fish",
-        "label": "Fish"
-    },
-    {
-        "key": "fish-off",
-        "label": "Fish Off"
-    },
-    {
-        "key": "fish-symbol",
-        "label": "Fish Symbol"
-    },
-    {
-        "key": "flag",
-        "label": "Flag"
-    },
-    {
-        "key": "flag-off",
-        "label": "Flag Off"
-    },
-    {
-        "key": "flag-triangle-left",
-        "label": "Flag Triangle Left"
-    },
-    {
-        "key": "flag-triangle-right",
-        "label": "Flag Triangle Right"
-    },
-    {
-        "key": "flame",
-        "label": "Flame"
-    },
-    {
-        "key": "flame-kindling",
-        "label": "Flame Kindling"
-    },
-    {
-        "key": "flashlight",
-        "label": "Flashlight"
-    },
-    {
-        "key": "flashlight-off",
-        "label": "Flashlight Off"
-    },
-    {
-        "key": "flask-conical",
-        "label": "Flask Conical"
-    },
-    {
-        "key": "flask-conical-off",
-        "label": "Flask Conical Off"
-    },
-    {
-        "key": "flask-round",
-        "label": "Flask Round"
-    },
-    {
-        "key": "flip-horizontal",
-        "label": "Flip Horizontal"
-    },
-    {
-        "key": "flip-horizontal-2",
-        "label": "Flip Horizontal 2"
-    },
-    {
-        "key": "flip-vertical",
-        "label": "Flip Vertical"
-    },
-    {
-        "key": "flip-vertical-2",
-        "label": "Flip Vertical 2"
-    },
-    {
-        "key": "flower",
-        "label": "Flower"
-    },
-    {
-        "key": "flower-2",
-        "label": "Flower 2"
-    },
-    {
-        "key": "focus",
-        "label": "Focus"
-    },
-    {
-        "key": "fold-horizontal",
-        "label": "Fold Horizontal"
-    },
-    {
-        "key": "fold-vertical",
-        "label": "Fold Vertical"
-    },
-    {
-        "key": "folder",
-        "label": "Folder"
-    },
-    {
-        "key": "folder-archive",
-        "label": "Folder Archive"
-    },
-    {
-        "key": "folder-check",
-        "label": "Folder Check"
-    },
-    {
-        "key": "folder-clock",
-        "label": "Folder Clock"
-    },
-    {
-        "key": "folder-closed",
-        "label": "Folder Closed"
-    },
-    {
-        "key": "folder-code",
-        "label": "Folder Code"
-    },
-    {
-        "key": "folder-cog",
-        "label": "Folder Cog"
-    },
-    {
-        "key": "folder-cog-2",
-        "label": "Folder Cog 2"
-    },
-    {
-        "key": "folder-dot",
-        "label": "Folder Dot"
-    },
-    {
-        "key": "folder-down",
-        "label": "Folder Down"
-    },
-    {
-        "key": "folder-edit",
-        "label": "Folder Edit"
-    },
-    {
-        "key": "folder-git",
-        "label": "Folder Git"
-    },
-    {
-        "key": "folder-git-2",
-        "label": "Folder Git 2"
-    },
-    {
-        "key": "folder-heart",
-        "label": "Folder Heart"
-    },
-    {
-        "key": "folder-input",
-        "label": "Folder Input"
-    },
-    {
-        "key": "folder-kanban",
-        "label": "Folder Kanban"
-    },
-    {
-        "key": "folder-key",
-        "label": "Folder Key"
-    },
-    {
-        "key": "folder-lock",
-        "label": "Folder Lock"
-    },
-    {
-        "key": "folder-minus",
-        "label": "Folder Minus"
-    },
-    {
-        "key": "folder-open",
-        "label": "Folder Open"
-    },
-    {
-        "key": "folder-open-dot",
-        "label": "Folder Open Dot"
-    },
-    {
-        "key": "folder-output",
-        "label": "Folder Output"
-    },
-    {
-        "key": "folder-pen",
-        "label": "Folder Pen"
-    },
-    {
-        "key": "folder-plus",
-        "label": "Folder Plus"
-    },
-    {
-        "key": "folder-root",
-        "label": "Folder Root"
-    },
-    {
-        "key": "folder-search",
-        "label": "Folder Search"
-    },
-    {
-        "key": "folder-search-2",
-        "label": "Folder Search 2"
-    },
-    {
-        "key": "folder-symlink",
-        "label": "Folder Symlink"
-    },
-    {
-        "key": "folder-sync",
-        "label": "Folder Sync"
-    },
-    {
-        "key": "folder-tree",
-        "label": "Folder Tree"
-    },
-    {
-        "key": "folder-up",
-        "label": "Folder Up"
-    },
-    {
-        "key": "folder-x",
-        "label": "Folder X"
-    },
-    {
-        "key": "folders",
-        "label": "Folders"
-    },
-    {
-        "key": "footprints",
-        "label": "Footprints"
-    },
-    {
-        "key": "fork-knife",
-        "label": "Fork Knife"
-    },
-    {
-        "key": "fork-knife-crossed",
-        "label": "Fork Knife Crossed"
-    },
-    {
-        "key": "forklift",
-        "label": "Forklift"
-    },
-    {
-        "key": "form-input",
-        "label": "Form Input"
-    },
-    {
-        "key": "forward",
-        "label": "Forward"
-    },
-    {
-        "key": "frame",
-        "label": "Frame"
-    },
-    {
-        "key": "framer",
-        "label": "Framer"
-    },
-    {
-        "key": "frown",
-        "label": "Frown"
-    },
-    {
-        "key": "fuel",
-        "label": "Fuel"
-    },
-    {
-        "key": "fullscreen",
-        "label": "Fullscreen"
-    },
-    {
-        "key": "function-square",
-        "label": "Function Square"
+        "label": "Film",
+        "searchText": "film film"
     },
     {
         "key": "filter",
-        "label": "Funnel copy"
+        "label": "Filter",
+        "searchText": "filter filter"
+    },
+    {
+        "key": "filter-x",
+        "label": "Filter X",
+        "searchText": "filter-x filter x"
+    },
+    {
+        "key": "fingerprint",
+        "label": "Fingerprint",
+        "searchText": "fingerprint fingerprint"
+    },
+    {
+        "key": "fire-extinguisher",
+        "label": "Fire Extinguisher",
+        "searchText": "fire-extinguisher fire extinguisher"
+    },
+    {
+        "key": "fish",
+        "label": "Fish",
+        "searchText": "fish fish"
+    },
+    {
+        "key": "fish-off",
+        "label": "Fish Off",
+        "searchText": "fish-off fish off"
+    },
+    {
+        "key": "fish-symbol",
+        "label": "Fish Symbol",
+        "searchText": "fish-symbol fish symbol"
+    },
+    {
+        "key": "flag",
+        "label": "Flag",
+        "searchText": "flag flag"
+    },
+    {
+        "key": "flag-off",
+        "label": "Flag Off",
+        "searchText": "flag-off flag off"
+    },
+    {
+        "key": "flag-triangle-left",
+        "label": "Flag Triangle Left",
+        "searchText": "flag-triangle-left flag triangle left"
+    },
+    {
+        "key": "flag-triangle-right",
+        "label": "Flag Triangle Right",
+        "searchText": "flag-triangle-right flag triangle right"
+    },
+    {
+        "key": "flame",
+        "label": "Flame",
+        "searchText": "flame flame"
+    },
+    {
+        "key": "flame-kindling",
+        "label": "Flame Kindling",
+        "searchText": "flame-kindling flame kindling"
+    },
+    {
+        "key": "flashlight",
+        "label": "Flashlight",
+        "searchText": "flashlight flashlight"
+    },
+    {
+        "key": "flashlight-off",
+        "label": "Flashlight Off",
+        "searchText": "flashlight-off flashlight off"
+    },
+    {
+        "key": "flask-conical",
+        "label": "Flask Conical",
+        "searchText": "flask-conical flask conical"
+    },
+    {
+        "key": "flask-conical-off",
+        "label": "Flask Conical Off",
+        "searchText": "flask-conical-off flask conical off"
+    },
+    {
+        "key": "flask-round",
+        "label": "Flask Round",
+        "searchText": "flask-round flask round"
+    },
+    {
+        "key": "flip-horizontal",
+        "label": "Flip Horizontal",
+        "searchText": "flip-horizontal flip horizontal"
+    },
+    {
+        "key": "flip-horizontal-2",
+        "label": "Flip Horizontal 2",
+        "searchText": "flip-horizontal-2 flip horizontal 2"
+    },
+    {
+        "key": "flip-vertical",
+        "label": "Flip Vertical",
+        "searchText": "flip-vertical flip vertical"
+    },
+    {
+        "key": "flip-vertical-2",
+        "label": "Flip Vertical 2",
+        "searchText": "flip-vertical-2 flip vertical 2"
+    },
+    {
+        "key": "flower",
+        "label": "Flower",
+        "searchText": "flower flower"
+    },
+    {
+        "key": "flower-2",
+        "label": "Flower 2",
+        "searchText": "flower-2 flower 2"
+    },
+    {
+        "key": "focus",
+        "label": "Focus",
+        "searchText": "focus focus"
+    },
+    {
+        "key": "fold-horizontal",
+        "label": "Fold Horizontal",
+        "searchText": "fold-horizontal fold horizontal"
+    },
+    {
+        "key": "fold-vertical",
+        "label": "Fold Vertical",
+        "searchText": "fold-vertical fold vertical"
+    },
+    {
+        "key": "folder",
+        "label": "Folder",
+        "searchText": "folder folder"
+    },
+    {
+        "key": "folder-archive",
+        "label": "Folder Archive",
+        "searchText": "folder-archive folder archive"
+    },
+    {
+        "key": "folder-check",
+        "label": "Folder Check",
+        "searchText": "folder-check folder check"
+    },
+    {
+        "key": "folder-clock",
+        "label": "Folder Clock",
+        "searchText": "folder-clock folder clock"
+    },
+    {
+        "key": "folder-closed",
+        "label": "Folder Closed",
+        "searchText": "folder-closed folder closed"
+    },
+    {
+        "key": "folder-code",
+        "label": "Folder Code",
+        "searchText": "folder-code folder code"
+    },
+    {
+        "key": "folder-cog",
+        "label": "Folder Cog",
+        "searchText": "folder-cog folder cog"
+    },
+    {
+        "key": "folder-cog-2",
+        "label": "Folder Cog 2",
+        "searchText": "folder-cog-2 folder cog 2"
+    },
+    {
+        "key": "folder-dot",
+        "label": "Folder Dot",
+        "searchText": "folder-dot folder dot"
+    },
+    {
+        "key": "folder-down",
+        "label": "Folder Down",
+        "searchText": "folder-down folder down"
+    },
+    {
+        "key": "folder-edit",
+        "label": "Folder Edit",
+        "searchText": "folder-edit folder edit"
+    },
+    {
+        "key": "folder-git",
+        "label": "Folder Git",
+        "searchText": "folder-git folder git"
+    },
+    {
+        "key": "folder-git-2",
+        "label": "Folder Git 2",
+        "searchText": "folder-git-2 folder git 2"
+    },
+    {
+        "key": "folder-heart",
+        "label": "Folder Heart",
+        "searchText": "folder-heart folder heart"
+    },
+    {
+        "key": "folder-input",
+        "label": "Folder Input",
+        "searchText": "folder-input folder input"
+    },
+    {
+        "key": "folder-kanban",
+        "label": "Folder Kanban",
+        "searchText": "folder-kanban folder kanban"
+    },
+    {
+        "key": "folder-key",
+        "label": "Folder Key",
+        "searchText": "folder-key folder key"
+    },
+    {
+        "key": "folder-lock",
+        "label": "Folder Lock",
+        "searchText": "folder-lock folder lock"
+    },
+    {
+        "key": "folder-minus",
+        "label": "Folder Minus",
+        "searchText": "folder-minus folder minus"
+    },
+    {
+        "key": "folder-open",
+        "label": "Folder Open",
+        "searchText": "folder-open folder open"
+    },
+    {
+        "key": "folder-open-dot",
+        "label": "Folder Open Dot",
+        "searchText": "folder-open-dot folder open dot"
+    },
+    {
+        "key": "folder-output",
+        "label": "Folder Output",
+        "searchText": "folder-output folder output"
+    },
+    {
+        "key": "folder-pen",
+        "label": "Folder Pen",
+        "searchText": "folder-pen folder pen"
+    },
+    {
+        "key": "folder-plus",
+        "label": "Folder Plus",
+        "searchText": "folder-plus folder plus"
+    },
+    {
+        "key": "folder-root",
+        "label": "Folder Root",
+        "searchText": "folder-root folder root"
+    },
+    {
+        "key": "folder-search",
+        "label": "Folder Search",
+        "searchText": "folder-search folder search"
+    },
+    {
+        "key": "folder-search-2",
+        "label": "Folder Search 2",
+        "searchText": "folder-search-2 folder search 2"
+    },
+    {
+        "key": "folder-symlink",
+        "label": "Folder Symlink",
+        "searchText": "folder-symlink folder symlink"
+    },
+    {
+        "key": "folder-sync",
+        "label": "Folder Sync",
+        "searchText": "folder-sync folder sync"
+    },
+    {
+        "key": "folder-tree",
+        "label": "Folder Tree",
+        "searchText": "folder-tree folder tree"
+    },
+    {
+        "key": "folder-up",
+        "label": "Folder Up",
+        "searchText": "folder-up folder up"
+    },
+    {
+        "key": "folder-x",
+        "label": "Folder X",
+        "searchText": "folder-x folder x"
+    },
+    {
+        "key": "folders",
+        "label": "Folders",
+        "searchText": "folders folders"
+    },
+    {
+        "key": "footprints",
+        "label": "Footprints",
+        "searchText": "footprints footprints"
+    },
+    {
+        "key": "fork-knife",
+        "label": "Fork Knife",
+        "searchText": "fork-knife fork knife"
+    },
+    {
+        "key": "fork-knife-crossed",
+        "label": "Fork Knife Crossed",
+        "searchText": "fork-knife-crossed fork knife crossed"
+    },
+    {
+        "key": "forklift",
+        "label": "Forklift",
+        "searchText": "forklift forklift"
+    },
+    {
+        "key": "form-input",
+        "label": "Form Input",
+        "searchText": "form-input form input"
+    },
+    {
+        "key": "forward",
+        "label": "Forward",
+        "searchText": "forward forward"
+    },
+    {
+        "key": "frame",
+        "label": "Frame",
+        "searchText": "frame frame"
+    },
+    {
+        "key": "framer",
+        "label": "Framer",
+        "searchText": "framer framer"
+    },
+    {
+        "key": "frown",
+        "label": "Frown",
+        "searchText": "frown frown"
+    },
+    {
+        "key": "fuel",
+        "label": "Fuel",
+        "searchText": "fuel fuel"
+    },
+    {
+        "key": "fullscreen",
+        "label": "Fullscreen",
+        "searchText": "fullscreen fullscreen"
+    },
+    {
+        "key": "function-square",
+        "label": "Function Square",
+        "searchText": "function-square function square"
     },
     {
         "key": "gallery-horizontal",
-        "label": "Gallery Horizontal"
+        "label": "Gallery Horizontal",
+        "searchText": "gallery-horizontal gallery horizontal"
     },
     {
         "key": "gallery-horizontal-end",
-        "label": "Gallery Horizontal End"
+        "label": "Gallery Horizontal End",
+        "searchText": "gallery-horizontal-end gallery horizontal end"
     },
     {
         "key": "gallery-thumbnails",
-        "label": "Gallery Thumbnails"
+        "label": "Gallery Thumbnails",
+        "searchText": "gallery-thumbnails gallery thumbnails"
     },
     {
         "key": "gallery-vertical",
-        "label": "Gallery Vertical"
+        "label": "Gallery Vertical",
+        "searchText": "gallery-vertical gallery vertical"
     },
     {
         "key": "gallery-vertical-end",
-        "label": "Gallery Vertical End"
+        "label": "Gallery Vertical End",
+        "searchText": "gallery-vertical-end gallery vertical end"
     },
     {
         "key": "gamepad",
-        "label": "Gamepad"
+        "label": "Gamepad",
+        "searchText": "gamepad gamepad"
     },
     {
         "key": "gamepad-2",
-        "label": "Gamepad 2"
+        "label": "Gamepad 2",
+        "searchText": "gamepad-2 gamepad 2"
     },
     {
         "key": "gantt-chart",
-        "label": "Gantt Chart"
+        "label": "Gantt Chart",
+        "searchText": "gantt-chart gantt chart"
     },
     {
         "key": "gantt-chart-square",
-        "label": "Gantt Chart Square"
+        "label": "Gantt Chart Square",
+        "searchText": "gantt-chart-square gantt chart square"
     },
     {
         "key": "gauge",
-        "label": "Gauge"
+        "label": "Gauge",
+        "searchText": "gauge gauge"
     },
     {
         "key": "gauge-circle",
-        "label": "Gauge Circle"
+        "label": "Gauge Circle",
+        "searchText": "gauge-circle gauge circle"
     },
     {
         "key": "gavel",
-        "label": "Gavel"
+        "label": "Gavel",
+        "searchText": "gavel gavel"
     },
     {
         "key": "gem",
-        "label": "Gem"
+        "label": "Gem",
+        "searchText": "gem gem"
     },
     {
         "key": "ghost",
-        "label": "Ghost"
-    },
-    {
-        "key": "user-round-pen",
-        "label": "Ghostwriting"
+        "label": "Ghost",
+        "searchText": "ghost ghost"
     },
     {
         "key": "gift",
-        "label": "Gift"
+        "label": "Gift",
+        "searchText": "gift gift"
     },
     {
         "key": "git-branch",
-        "label": "Git Branch"
+        "label": "Git Branch",
+        "searchText": "git-branch git branch"
     },
     {
         "key": "git-branch-plus",
-        "label": "Git Branch Plus"
+        "label": "Git Branch Plus",
+        "searchText": "git-branch-plus git branch plus"
     },
     {
         "key": "git-commit",
-        "label": "Git Commit"
+        "label": "Git Commit",
+        "searchText": "git-commit git commit"
     },
     {
         "key": "git-commit-horizontal",
-        "label": "Git Commit Horizontal"
+        "label": "Git Commit Horizontal",
+        "searchText": "git-commit-horizontal git commit horizontal"
     },
     {
         "key": "git-commit-vertical",
-        "label": "Git Commit Vertical"
+        "label": "Git Commit Vertical",
+        "searchText": "git-commit-vertical git commit vertical"
     },
     {
         "key": "git-compare",
-        "label": "Git Compare"
+        "label": "Git Compare",
+        "searchText": "git-compare git compare"
     },
     {
         "key": "git-compare-arrows",
-        "label": "Git Compare Arrows"
+        "label": "Git Compare Arrows",
+        "searchText": "git-compare-arrows git compare arrows"
     },
     {
         "key": "git-fork",
-        "label": "Git Fork"
+        "label": "Git Fork",
+        "searchText": "git-fork git fork"
     },
     {
         "key": "git-graph",
-        "label": "Git Graph"
+        "label": "Git Graph",
+        "searchText": "git-graph git graph"
     },
     {
         "key": "git-merge",
-        "label": "Git Merge"
+        "label": "Git Merge",
+        "searchText": "git-merge git merge"
     },
     {
         "key": "git-pull-request",
-        "label": "Git Pull Request"
+        "label": "Git Pull Request",
+        "searchText": "git-pull-request git pull request"
     },
     {
         "key": "git-pull-request-arrow",
-        "label": "Git Pull Request Arrow"
+        "label": "Git Pull Request Arrow",
+        "searchText": "git-pull-request-arrow git pull request arrow"
     },
     {
         "key": "git-pull-request-closed",
-        "label": "Git Pull Request Closed"
+        "label": "Git Pull Request Closed",
+        "searchText": "git-pull-request-closed git pull request closed"
     },
     {
         "key": "git-pull-request-create",
-        "label": "Git Pull Request Create"
+        "label": "Git Pull Request Create",
+        "searchText": "git-pull-request-create git pull request create"
     },
     {
         "key": "git-pull-request-create-arrow",
-        "label": "Git Pull Request Create Arrow"
+        "label": "Git Pull Request Create Arrow",
+        "searchText": "git-pull-request-create-arrow git pull request create arrow"
     },
     {
         "key": "git-pull-request-draft",
-        "label": "Git Pull Request Draft"
+        "label": "Git Pull Request Draft",
+        "searchText": "git-pull-request-draft git pull request draft"
     },
     {
         "key": "github",
-        "label": "Github"
+        "label": "Github",
+        "searchText": "github github"
     },
     {
         "key": "gitlab",
-        "label": "Gitlab"
+        "label": "Gitlab",
+        "searchText": "gitlab gitlab"
     },
     {
         "key": "glass-water",
-        "label": "Glass Water"
+        "label": "Glass Water",
+        "searchText": "glass-water glass water"
     },
     {
         "key": "glasses",
-        "label": "Glasses"
-    },
-    {
-        "key": "globe-2",
-        "label": "Globe 2"
-    },
-    {
-        "key": "globe-lock",
-        "label": "Globe Lock"
-    },
-    {
-        "key": "goal",
-        "label": "Goal"
-    },
-    {
-        "key": "grab",
-        "label": "Grab"
-    },
-    {
-        "key": "graduation-cap",
-        "label": "Graduation Cap"
-    },
-    {
-        "key": "grape",
-        "label": "Grape"
-    },
-    {
-        "key": "grid",
-        "label": "Grid"
-    },
-    {
-        "key": "grid-2-x-2",
-        "label": "Grid 2 X 2"
-    },
-    {
-        "key": "grid-2-x-2-check",
-        "label": "Grid 2 X 2 Check"
-    },
-    {
-        "key": "grid-2-x-2-plus",
-        "label": "Grid 2 X 2 Plus"
-    },
-    {
-        "key": "grid-2-x-2-x",
-        "label": "Grid 2 X 2 X"
-    },
-    {
-        "key": "grid-2x2",
-        "label": "Grid 2x2"
-    },
-    {
-        "key": "grid-2x2-check",
-        "label": "Grid 2x2 Check"
-    },
-    {
-        "key": "grid-2x2-plus",
-        "label": "Grid 2x2 Plus"
-    },
-    {
-        "key": "grid-2x2-x",
-        "label": "Grid 2x2 X"
-    },
-    {
-        "key": "grid-3-x-3",
-        "label": "Grid 3 X 3"
-    },
-    {
-        "key": "grid-3x3",
-        "label": "Grid 3x3"
-    },
-    {
-        "key": "grip",
-        "label": "Grip"
-    },
-    {
-        "key": "grip-horizontal",
-        "label": "Grip Horizontal"
-    },
-    {
-        "key": "grip-vertical",
-        "label": "Grip Vertical"
-    },
-    {
-        "key": "group",
-        "label": "Group"
-    },
-    {
-        "key": "guitar",
-        "label": "Guitar"
-    },
-    {
-        "key": "ham",
-        "label": "Ham"
-    },
-    {
-        "key": "hammer",
-        "label": "Hammer"
-    },
-    {
-        "key": "hand",
-        "label": "Hand"
-    },
-    {
-        "key": "hand-coins",
-        "label": "Hand Coins"
-    },
-    {
-        "key": "hand-heart",
-        "label": "Hand Heart"
-    },
-    {
-        "key": "hand-helping",
-        "label": "Hand Helping"
-    },
-    {
-        "key": "hand-metal",
-        "label": "Hand Metal"
-    },
-    {
-        "key": "hand-platter",
-        "label": "Hand Platter"
-    },
-    {
-        "key": "handshake",
-        "label": "Handshake"
-    },
-    {
-        "key": "hard-drive",
-        "label": "Hard Drive"
-    },
-    {
-        "key": "hard-drive-download",
-        "label": "Hard Drive Download"
-    },
-    {
-        "key": "hard-drive-upload",
-        "label": "Hard Drive Upload"
-    },
-    {
-        "key": "hard-hat",
-        "label": "Hard Hat"
-    },
-    {
-        "key": "hash",
-        "label": "Hash"
-    },
-    {
-        "key": "haze",
-        "label": "Haze"
-    },
-    {
-        "key": "hdmi-port",
-        "label": "Hdmi Port"
-    },
-    {
-        "key": "heading",
-        "label": "Heading"
-    },
-    {
-        "key": "heading-1",
-        "label": "Heading 1"
-    },
-    {
-        "key": "heading-2",
-        "label": "Heading 2"
-    },
-    {
-        "key": "heading-3",
-        "label": "Heading 3"
-    },
-    {
-        "key": "heading-4",
-        "label": "Heading 4"
-    },
-    {
-        "key": "heading-5",
-        "label": "Heading 5"
-    },
-    {
-        "key": "heading-6",
-        "label": "Heading 6"
-    },
-    {
-        "key": "headphone-off",
-        "label": "Headphone Off"
-    },
-    {
-        "key": "headphones",
-        "label": "Headphones"
-    },
-    {
-        "key": "headset",
-        "label": "Headset"
-    },
-    {
-        "key": "heart",
-        "label": "Heart"
-    },
-    {
-        "key": "heart-crack",
-        "label": "Heart Crack"
-    },
-    {
-        "key": "heart-handshake",
-        "label": "Heart Handshake"
-    },
-    {
-        "key": "heart-off",
-        "label": "Heart Off"
-    },
-    {
-        "key": "heart-pulse",
-        "label": "Heart Pulse"
-    },
-    {
-        "key": "heater",
-        "label": "Heater"
-    },
-    {
-        "key": "help-circle",
-        "label": "Help Circle"
-    },
-    {
-        "key": "helping-hand",
-        "label": "Helping Hand"
-    },
-    {
-        "key": "hexagon",
-        "label": "Hexagon"
-    },
-    {
-        "key": "highlighter",
-        "label": "Highlighter"
-    },
-    {
-        "key": "history",
-        "label": "History"
-    },
-    {
-        "key": "home",
-        "label": "Home"
-    },
-    {
-        "key": "hop",
-        "label": "Hop"
-    },
-    {
-        "key": "hop-off",
-        "label": "Hop Off"
-    },
-    {
-        "key": "hospital",
-        "label": "Hospital"
-    },
-    {
-        "key": "hotel",
-        "label": "Hotel"
-    },
-    {
-        "key": "hourglass",
-        "label": "Hourglass"
-    },
-    {
-        "key": "house",
-        "label": "House"
-    },
-    {
-        "key": "house-plug",
-        "label": "House Plug"
-    },
-    {
-        "key": "house-plus",
-        "label": "House Plus"
-    },
-    {
-        "key": "house-wifi",
-        "label": "House Wifi"
-    },
-    {
-        "key": "ice-cream",
-        "label": "Ice Cream"
-    },
-    {
-        "key": "ice-cream-2",
-        "label": "Ice Cream 2"
-    },
-    {
-        "key": "ice-cream-bowl",
-        "label": "Ice Cream Bowl"
-    },
-    {
-        "key": "ice-cream-cone",
-        "label": "Ice Cream Cone"
-    },
-    {
-        "key": "id-card",
-        "label": "Id Card"
-    },
-    {
-        "key": "image",
-        "label": "Image"
-    },
-    {
-        "key": "image-down",
-        "label": "Image Down"
-    },
-    {
-        "key": "image-minus",
-        "label": "Image Minus"
-    },
-    {
-        "key": "image-off",
-        "label": "Image Off"
-    },
-    {
-        "key": "image-play",
-        "label": "Image Play"
-    },
-    {
-        "key": "image-plus",
-        "label": "Image Plus"
-    },
-    {
-        "key": "image-up",
-        "label": "Image Up"
-    },
-    {
-        "key": "image-upscale",
-        "label": "Image Upscale"
-    },
-    {
-        "key": "images",
-        "label": "Images"
-    },
-    {
-        "key": "import",
-        "label": "Import"
-    },
-    {
-        "key": "inbox",
-        "label": "Inbox"
-    },
-    {
-        "key": "indent",
-        "label": "Indent"
-    },
-    {
-        "key": "indent-decrease",
-        "label": "Indent Decrease"
-    },
-    {
-        "key": "indent-increase",
-        "label": "Indent Increase"
-    },
-    {
-        "key": "indian-rupee",
-        "label": "Indian Rupee"
-    },
-    {
-        "key": "infinity",
-        "label": "Infinity"
-    },
-    {
-        "key": "info",
-        "label": "Info"
-    },
-    {
-        "key": "inspect",
-        "label": "Inspect"
-    },
-    {
-        "key": "inspection-panel",
-        "label": "Inspection Panel"
-    },
-    {
-        "key": "instagram",
-        "label": "Instagram"
-    },
-    {
-        "key": "italic",
-        "label": "Italic"
-    },
-    {
-        "key": "iteration-ccw",
-        "label": "Iteration Ccw"
-    },
-    {
-        "key": "iteration-cw",
-        "label": "Iteration Cw"
-    },
-    {
-        "key": "japanese-yen",
-        "label": "Japanese Yen"
-    },
-    {
-        "key": "joystick",
-        "label": "Joystick"
-    },
-    {
-        "key": "kanban",
-        "label": "Kanban"
-    },
-    {
-        "key": "kanban-square",
-        "label": "Kanban Square"
-    },
-    {
-        "key": "kanban-square-dashed",
-        "label": "Kanban Square Dashed"
-    },
-    {
-        "key": "key",
-        "label": "Key"
-    },
-    {
-        "key": "key-round",
-        "label": "Key Round"
-    },
-    {
-        "key": "key-square",
-        "label": "Key Square"
-    },
-    {
-        "key": "keyboard",
-        "label": "Keyboard"
-    },
-    {
-        "key": "keyboard-music",
-        "label": "Keyboard Music"
-    },
-    {
-        "key": "keyboard-off",
-        "label": "Keyboard Off"
-    },
-    {
-        "key": "lamp",
-        "label": "Lamp"
-    },
-    {
-        "key": "lamp-ceiling",
-        "label": "Lamp Ceiling"
-    },
-    {
-        "key": "lamp-desk",
-        "label": "Lamp Desk"
-    },
-    {
-        "key": "lamp-floor",
-        "label": "Lamp Floor"
-    },
-    {
-        "key": "lamp-wall-down",
-        "label": "Lamp Wall Down"
-    },
-    {
-        "key": "lamp-wall-up",
-        "label": "Lamp Wall Up"
-    },
-    {
-        "key": "land-plot",
-        "label": "Land Plot"
-    },
-    {
-        "key": "landmark",
-        "label": "Landmark"
-    },
-    {
-        "key": "languages",
-        "label": "Languages"
-    },
-    {
-        "key": "laptop",
-        "label": "Laptop"
-    },
-    {
-        "key": "laptop-2",
-        "label": "Laptop 2"
-    },
-    {
-        "key": "laptop-minimal",
-        "label": "Laptop Minimal"
-    },
-    {
-        "key": "laptop-minimal-check",
-        "label": "Laptop Minimal Check"
-    },
-    {
-        "key": "lasso",
-        "label": "Lasso"
-    },
-    {
-        "key": "lasso-select",
-        "label": "Lasso Select"
-    },
-    {
-        "key": "laugh",
-        "label": "Laugh"
-    },
-    {
-        "key": "layers",
-        "label": "Layers"
-    },
-    {
-        "key": "layers-2",
-        "label": "Layers 2"
-    },
-    {
-        "key": "layers-3",
-        "label": "Layers 3"
-    },
-    {
-        "key": "layout",
-        "label": "Layout"
-    },
-    {
-        "key": "layout-dashboard",
-        "label": "Layout Dashboard"
-    },
-    {
-        "key": "layout-grid",
-        "label": "Layout Grid"
-    },
-    {
-        "key": "layout-list",
-        "label": "Layout List"
-    },
-    {
-        "key": "layout-panel-left",
-        "label": "Layout Panel Left"
-    },
-    {
-        "key": "layout-panel-top",
-        "label": "Layout Panel Top"
-    },
-    {
-        "key": "layout-template",
-        "label": "Layout Template"
-    },
-    {
-        "key": "leaf",
-        "label": "Leaf"
-    },
-    {
-        "key": "leafy-green",
-        "label": "Leafy Green"
-    },
-    {
-        "key": "lectern",
-        "label": "Lectern"
-    },
-    {
-        "key": "letter-text",
-        "label": "Letter Text"
-    },
-    {
-        "key": "library",
-        "label": "Library"
-    },
-    {
-        "key": "library-big",
-        "label": "Library Big"
-    },
-    {
-        "key": "library-square",
-        "label": "Library Square"
-    },
-    {
-        "key": "life-buoy",
-        "label": "Life Buoy"
-    },
-    {
-        "key": "ligature",
-        "label": "Ligature"
-    },
-    {
-        "key": "lightbulb",
-        "label": "Lightbulb"
-    },
-    {
-        "key": "lightbulb-off",
-        "label": "Lightbulb Off"
-    },
-    {
-        "key": "line-chart",
-        "label": "Line Chart"
-    },
-    {
-        "key": "link",
-        "label": "Link"
-    },
-    {
-        "key": "link-2",
-        "label": "Link 2"
-    },
-    {
-        "key": "link-2-off",
-        "label": "Link 2 Off"
-    },
-    {
-        "key": "linkedin",
-        "label": "Linkedin"
-    },
-    {
-        "key": "list",
-        "label": "List"
-    },
-    {
-        "key": "list-check",
-        "label": "List Check"
-    },
-    {
-        "key": "list-checks",
-        "label": "List Checks"
-    },
-    {
-        "key": "list-collapse",
-        "label": "List Collapse"
-    },
-    {
-        "key": "list-end",
-        "label": "List End"
-    },
-    {
-        "key": "list-filter",
-        "label": "List Filter"
-    },
-    {
-        "key": "list-filter-plus",
-        "label": "List Filter Plus"
-    },
-    {
-        "key": "list-minus",
-        "label": "List Minus"
-    },
-    {
-        "key": "list-music",
-        "label": "List Music"
-    },
-    {
-        "key": "list-ordered",
-        "label": "List Ordered"
-    },
-    {
-        "key": "list-plus",
-        "label": "List Plus"
-    },
-    {
-        "key": "list-restart",
-        "label": "List Restart"
-    },
-    {
-        "key": "list-start",
-        "label": "List Start"
-    },
-    {
-        "key": "list-todo",
-        "label": "List Todo"
-    },
-    {
-        "key": "list-tree",
-        "label": "List Tree"
-    },
-    {
-        "key": "list-video",
-        "label": "List Video"
-    },
-    {
-        "key": "list-x",
-        "label": "List X"
-    },
-    {
-        "key": "loader",
-        "label": "Loader"
-    },
-    {
-        "key": "loader-2",
-        "label": "Loader 2"
-    },
-    {
-        "key": "loader-circle",
-        "label": "Loader Circle"
-    },
-    {
-        "key": "loader-pinwheel",
-        "label": "Loader Pinwheel"
-    },
-    {
-        "key": "locate",
-        "label": "Locate"
-    },
-    {
-        "key": "locate-fixed",
-        "label": "Locate Fixed"
-    },
-    {
-        "key": "locate-off",
-        "label": "Locate Off"
-    },
-    {
-        "key": "lock",
-        "label": "Lock"
-    },
-    {
-        "key": "lock-keyhole",
-        "label": "Lock Keyhole"
-    },
-    {
-        "key": "lock-keyhole-open",
-        "label": "Lock Keyhole Open"
-    },
-    {
-        "key": "lock-open",
-        "label": "Lock Open"
-    },
-    {
-        "key": "log-in",
-        "label": "Log In"
-    },
-    {
-        "key": "log-out",
-        "label": "Log Out"
-    },
-    {
-        "key": "logs",
-        "label": "Logs"
-    },
-    {
-        "key": "lollipop",
-        "label": "Lollipop"
-    },
-    {
-        "key": "luggage",
-        "label": "Luggage"
-    },
-    {
-        "key": "m-square",
-        "label": "M Square"
-    },
-    {
-        "key": "magnet",
-        "label": "Magnet"
-    },
-    {
-        "key": "mail-check",
-        "label": "Mail Check"
-    },
-    {
-        "key": "mail-minus",
-        "label": "Mail Minus"
-    },
-    {
-        "key": "mail-open",
-        "label": "Mail Open"
-    },
-    {
-        "key": "mail-plus",
-        "label": "Mail Plus"
-    },
-    {
-        "key": "mail-question",
-        "label": "Mail Question"
-    },
-    {
-        "key": "mail-search",
-        "label": "Mail Search"
-    },
-    {
-        "key": "mail-warning",
-        "label": "Mail Warning"
-    },
-    {
-        "key": "mail-x",
-        "label": "Mail X"
-    },
-    {
-        "key": "mailbox",
-        "label": "Mailbox"
-    },
-    {
-        "key": "mails",
-        "label": "Mails"
-    },
-    {
-        "key": "map",
-        "label": "Map"
-    },
-    {
-        "key": "map-pin",
-        "label": "Map Pin"
-    },
-    {
-        "key": "map-pin-check",
-        "label": "Map Pin Check"
-    },
-    {
-        "key": "map-pin-check-inside",
-        "label": "Map Pin Check Inside"
-    },
-    {
-        "key": "map-pin-house",
-        "label": "Map Pin House"
-    },
-    {
-        "key": "map-pin-minus",
-        "label": "Map Pin Minus"
-    },
-    {
-        "key": "map-pin-minus-inside",
-        "label": "Map Pin Minus Inside"
-    },
-    {
-        "key": "map-pin-off",
-        "label": "Map Pin Off"
-    },
-    {
-        "key": "map-pin-plus",
-        "label": "Map Pin Plus"
-    },
-    {
-        "key": "map-pin-plus-inside",
-        "label": "Map Pin Plus Inside"
-    },
-    {
-        "key": "map-pin-x",
-        "label": "Map Pin X"
-    },
-    {
-        "key": "map-pin-x-inside",
-        "label": "Map Pin X Inside"
-    },
-    {
-        "key": "map-pinned",
-        "label": "Map Pinned"
-    },
-    {
-        "key": "map-plus",
-        "label": "Map Plus"
-    },
-    {
-        "key": "megaphone",
-        "label": "Marketing"
-    },
-    {
-        "key": "mars",
-        "label": "Mars"
-    },
-    {
-        "key": "mars-stroke",
-        "label": "Mars Stroke"
-    },
-    {
-        "key": "martini",
-        "label": "Martini"
-    },
-    {
-        "key": "maximize",
-        "label": "Maximize"
-    },
-    {
-        "key": "maximize-2",
-        "label": "Maximize 2"
-    },
-    {
-        "key": "medal",
-        "label": "Medal"
-    },
-    {
-        "key": "megaphone-off",
-        "label": "Megaphone Off"
-    },
-    {
-        "key": "meh",
-        "label": "Meh"
-    },
-    {
-        "key": "memory-stick",
-        "label": "Memory Stick"
-    },
-    {
-        "key": "menu",
-        "label": "Menu"
-    },
-    {
-        "key": "menu-square",
-        "label": "Menu Square"
-    },
-    {
-        "key": "merge",
-        "label": "Merge"
-    },
-    {
-        "key": "message-circle",
-        "label": "Message Circle"
-    },
-    {
-        "key": "message-circle-code",
-        "label": "Message Circle Code"
-    },
-    {
-        "key": "message-circle-dashed",
-        "label": "Message Circle Dashed"
-    },
-    {
-        "key": "message-circle-heart",
-        "label": "Message Circle Heart"
-    },
-    {
-        "key": "message-circle-more",
-        "label": "Message Circle More"
-    },
-    {
-        "key": "message-circle-off",
-        "label": "Message Circle Off"
-    },
-    {
-        "key": "message-circle-plus",
-        "label": "Message Circle Plus"
-    },
-    {
-        "key": "message-circle-question",
-        "label": "Message Circle Question"
-    },
-    {
-        "key": "message-circle-reply",
-        "label": "Message Circle Reply"
-    },
-    {
-        "key": "message-circle-warning",
-        "label": "Message Circle Warning"
-    },
-    {
-        "key": "message-circle-x",
-        "label": "Message Circle X"
-    },
-    {
-        "key": "message-square",
-        "label": "Message Square"
-    },
-    {
-        "key": "message-square-code",
-        "label": "Message Square Code"
-    },
-    {
-        "key": "message-square-dashed",
-        "label": "Message Square Dashed"
-    },
-    {
-        "key": "message-square-diff",
-        "label": "Message Square Diff"
-    },
-    {
-        "key": "message-square-dot",
-        "label": "Message Square Dot"
-    },
-    {
-        "key": "message-square-heart",
-        "label": "Message Square Heart"
-    },
-    {
-        "key": "message-square-lock",
-        "label": "Message Square Lock"
-    },
-    {
-        "key": "message-square-more",
-        "label": "Message Square More"
-    },
-    {
-        "key": "message-square-off",
-        "label": "Message Square Off"
-    },
-    {
-        "key": "message-square-plus",
-        "label": "Message Square Plus"
-    },
-    {
-        "key": "message-square-quote",
-        "label": "Message Square Quote"
-    },
-    {
-        "key": "message-square-reply",
-        "label": "Message Square Reply"
-    },
-    {
-        "key": "message-square-share",
-        "label": "Message Square Share"
-    },
-    {
-        "key": "message-square-text",
-        "label": "Message Square Text"
-    },
-    {
-        "key": "message-square-warning",
-        "label": "Message Square Warning"
-    },
-    {
-        "key": "message-square-x",
-        "label": "Message Square X"
-    },
-    {
-        "key": "messages-square",
-        "label": "Messages Square"
-    },
-    {
-        "key": "mic",
-        "label": "Mic"
-    },
-    {
-        "key": "mic-2",
-        "label": "Mic 2"
-    },
-    {
-        "key": "mic-off",
-        "label": "Mic Off"
-    },
-    {
-        "key": "mic-vocal",
-        "label": "Mic Vocal"
-    },
-    {
-        "key": "microchip",
-        "label": "Microchip"
-    },
-    {
-        "key": "microscope",
-        "label": "Microscope"
-    },
-    {
-        "key": "microwave",
-        "label": "Microwave"
-    },
-    {
-        "key": "milestone",
-        "label": "Milestone"
-    },
-    {
-        "key": "milk",
-        "label": "Milk"
-    },
-    {
-        "key": "milk-off",
-        "label": "Milk Off"
-    },
-    {
-        "key": "minimize",
-        "label": "Minimize"
-    },
-    {
-        "key": "minimize-2",
-        "label": "Minimize 2"
-    },
-    {
-        "key": "minus",
-        "label": "Minus"
-    },
-    {
-        "key": "minus-circle",
-        "label": "Minus Circle"
-    },
-    {
-        "key": "minus-square",
-        "label": "Minus Square"
-    },
-    {
-        "key": "monitor",
-        "label": "Monitor"
-    },
-    {
-        "key": "monitor-check",
-        "label": "Monitor Check"
-    },
-    {
-        "key": "monitor-cog",
-        "label": "Monitor Cog"
-    },
-    {
-        "key": "monitor-dot",
-        "label": "Monitor Dot"
-    },
-    {
-        "key": "monitor-down",
-        "label": "Monitor Down"
-    },
-    {
-        "key": "monitor-off",
-        "label": "Monitor Off"
-    },
-    {
-        "key": "monitor-pause",
-        "label": "Monitor Pause"
-    },
-    {
-        "key": "monitor-play",
-        "label": "Monitor Play"
-    },
-    {
-        "key": "monitor-smartphone",
-        "label": "Monitor Smartphone"
-    },
-    {
-        "key": "monitor-speaker",
-        "label": "Monitor Speaker"
-    },
-    {
-        "key": "monitor-stop",
-        "label": "Monitor Stop"
-    },
-    {
-        "key": "monitor-up",
-        "label": "Monitor Up"
-    },
-    {
-        "key": "monitor-x",
-        "label": "Monitor X"
-    },
-    {
-        "key": "moon",
-        "label": "Moon"
-    },
-    {
-        "key": "moon-star",
-        "label": "Moon Star"
-    },
-    {
-        "key": "more-horizontal",
-        "label": "More Horizontal"
-    },
-    {
-        "key": "more-vertical",
-        "label": "More Vertical"
-    },
-    {
-        "key": "mountain",
-        "label": "Mountain"
-    },
-    {
-        "key": "mountain-snow",
-        "label": "Mountain Snow"
-    },
-    {
-        "key": "mouse",
-        "label": "Mouse"
-    },
-    {
-        "key": "mouse-off",
-        "label": "Mouse Off"
-    },
-    {
-        "key": "mouse-pointer",
-        "label": "Mouse Pointer"
-    },
-    {
-        "key": "mouse-pointer-2",
-        "label": "Mouse Pointer 2"
-    },
-    {
-        "key": "mouse-pointer-ban",
-        "label": "Mouse Pointer Ban"
-    },
-    {
-        "key": "mouse-pointer-click",
-        "label": "Mouse Pointer Click"
-    },
-    {
-        "key": "mouse-pointer-square-dashed",
-        "label": "Mouse Pointer Square Dashed"
-    },
-    {
-        "key": "move",
-        "label": "Move"
-    },
-    {
-        "key": "move-3-d",
-        "label": "Move 3 D"
-    },
-    {
-        "key": "move-3d",
-        "label": "Move 3d"
-    },
-    {
-        "key": "move-diagonal",
-        "label": "Move Diagonal"
-    },
-    {
-        "key": "move-diagonal-2",
-        "label": "Move Diagonal 2"
-    },
-    {
-        "key": "move-down",
-        "label": "Move Down"
-    },
-    {
-        "key": "move-down-left",
-        "label": "Move Down Left"
-    },
-    {
-        "key": "move-down-right",
-        "label": "Move Down Right"
-    },
-    {
-        "key": "move-horizontal",
-        "label": "Move Horizontal"
-    },
-    {
-        "key": "move-left",
-        "label": "Move Left"
-    },
-    {
-        "key": "move-right",
-        "label": "Move Right"
-    },
-    {
-        "key": "move-up",
-        "label": "Move Up"
-    },
-    {
-        "key": "move-up-left",
-        "label": "Move Up Left"
-    },
-    {
-        "key": "move-up-right",
-        "label": "Move Up Right"
-    },
-    {
-        "key": "move-vertical",
-        "label": "Move Vertical"
-    },
-    {
-        "key": "music",
-        "label": "Music"
-    },
-    {
-        "key": "music-2",
-        "label": "Music 2"
-    },
-    {
-        "key": "music-3",
-        "label": "Music 3"
-    },
-    {
-        "key": "music-4",
-        "label": "Music 4"
-    },
-    {
-        "key": "navigation",
-        "label": "Navigation"
-    },
-    {
-        "key": "navigation-2",
-        "label": "Navigation 2"
-    },
-    {
-        "key": "navigation-2-off",
-        "label": "Navigation 2 Off"
-    },
-    {
-        "key": "navigation-off",
-        "label": "Navigation Off"
-    },
-    {
-        "key": "network",
-        "label": "Network"
-    },
-    {
-        "key": "newspaper",
-        "label": "Newspaper"
-    },
-    {
-        "key": "nfc",
-        "label": "Nfc"
-    },
-    {
-        "key": "non-binary",
-        "label": "Non Binary"
-    },
-    {
-        "key": "notebook",
-        "label": "Notebook"
-    },
-    {
-        "key": "notebook-pen",
-        "label": "Notebook"
-    },
-    {
-        "key": "notebook-tabs",
-        "label": "Notebook Tabs"
-    },
-    {
-        "key": "notebook-text",
-        "label": "Notebook Text"
-    },
-    {
-        "key": "notepad-text",
-        "label": "Notepad Text"
-    },
-    {
-        "key": "notepad-text-dashed",
-        "label": "Notepad Text Dashed"
-    },
-    {
-        "key": "nut",
-        "label": "Nut"
-    },
-    {
-        "key": "nut-off",
-        "label": "Nut Off"
-    },
-    {
-        "key": "octagon",
-        "label": "Octagon"
-    },
-    {
-        "key": "octagon-alert",
-        "label": "Octagon Alert"
-    },
-    {
-        "key": "octagon-minus",
-        "label": "Octagon Minus"
-    },
-    {
-        "key": "octagon-pause",
-        "label": "Octagon Pause"
-    },
-    {
-        "key": "octagon-x",
-        "label": "Octagon X"
-    },
-    {
-        "key": "omega",
-        "label": "Omega"
-    },
-    {
-        "key": "option",
-        "label": "Option"
-    },
-    {
-        "key": "orbit",
-        "label": "Orbit"
-    },
-    {
-        "key": "origami",
-        "label": "Origami"
-    },
-    {
-        "key": "outdent",
-        "label": "Outdent"
-    },
-    {
-        "key": "package",
-        "label": "Package"
-    },
-    {
-        "key": "package-2",
-        "label": "Package 2"
-    },
-    {
-        "key": "package-check",
-        "label": "Package Check"
-    },
-    {
-        "key": "package-minus",
-        "label": "Package Minus"
-    },
-    {
-        "key": "package-open",
-        "label": "Package Open"
-    },
-    {
-        "key": "package-plus",
-        "label": "Package Plus"
-    },
-    {
-        "key": "package-search",
-        "label": "Package Search"
-    },
-    {
-        "key": "package-x",
-        "label": "Package X"
-    },
-    {
-        "key": "paint-bucket",
-        "label": "Paint Bucket"
-    },
-    {
-        "key": "paint-roller",
-        "label": "Paint Roller"
-    },
-    {
-        "key": "paintbrush",
-        "label": "Paintbrush"
-    },
-    {
-        "key": "paintbrush-2",
-        "label": "Paintbrush 2"
-    },
-    {
-        "key": "paintbrush-vertical",
-        "label": "Paintbrush Vertical"
-    },
-    {
-        "key": "palette",
-        "label": "Palette"
-    },
-    {
-        "key": "palmtree",
-        "label": "Palmtree"
-    },
-    {
-        "key": "panel-bottom",
-        "label": "Panel Bottom"
-    },
-    {
-        "key": "panel-bottom-close",
-        "label": "Panel Bottom Close"
-    },
-    {
-        "key": "panel-bottom-dashed",
-        "label": "Panel Bottom Dashed"
-    },
-    {
-        "key": "panel-bottom-inactive",
-        "label": "Panel Bottom Inactive"
-    },
-    {
-        "key": "panel-bottom-open",
-        "label": "Panel Bottom Open"
-    },
-    {
-        "key": "panel-left",
-        "label": "Panel Left"
-    },
-    {
-        "key": "panel-left-close",
-        "label": "Panel Left Close"
-    },
-    {
-        "key": "panel-left-dashed",
-        "label": "Panel Left Dashed"
-    },
-    {
-        "key": "panel-left-inactive",
-        "label": "Panel Left Inactive"
-    },
-    {
-        "key": "panel-left-open",
-        "label": "Panel Left Open"
-    },
-    {
-        "key": "panel-right",
-        "label": "Panel Right"
-    },
-    {
-        "key": "panel-right-close",
-        "label": "Panel Right Close"
-    },
-    {
-        "key": "panel-right-dashed",
-        "label": "Panel Right Dashed"
-    },
-    {
-        "key": "panel-right-inactive",
-        "label": "Panel Right Inactive"
-    },
-    {
-        "key": "panel-right-open",
-        "label": "Panel Right Open"
-    },
-    {
-        "key": "panel-top",
-        "label": "Panel Top"
-    },
-    {
-        "key": "panel-top-close",
-        "label": "Panel Top Close"
-    },
-    {
-        "key": "panel-top-dashed",
-        "label": "Panel Top Dashed"
-    },
-    {
-        "key": "panel-top-inactive",
-        "label": "Panel Top Inactive"
-    },
-    {
-        "key": "panel-top-open",
-        "label": "Panel Top Open"
-    },
-    {
-        "key": "panels-left-bottom",
-        "label": "Panels Left Bottom"
-    },
-    {
-        "key": "panels-left-right",
-        "label": "Panels Left Right"
-    },
-    {
-        "key": "panels-right-bottom",
-        "label": "Panels Right Bottom"
-    },
-    {
-        "key": "panels-top-bottom",
-        "label": "Panels Top Bottom"
-    },
-    {
-        "key": "panels-top-left",
-        "label": "Panels Top Left"
-    },
-    {
-        "key": "paperclip",
-        "label": "Paperclip"
-    },
-    {
-        "key": "parentheses",
-        "label": "Parentheses"
-    },
-    {
-        "key": "parking-circle",
-        "label": "Parking Circle"
-    },
-    {
-        "key": "parking-circle-off",
-        "label": "Parking Circle Off"
-    },
-    {
-        "key": "parking-meter",
-        "label": "Parking Meter"
-    },
-    {
-        "key": "parking-square",
-        "label": "Parking Square"
-    },
-    {
-        "key": "parking-square-off",
-        "label": "Parking Square Off"
-    },
-    {
-        "key": "party-popper",
-        "label": "Party Popper"
-    },
-    {
-        "key": "pause",
-        "label": "Pause"
-    },
-    {
-        "key": "pause-circle",
-        "label": "Pause Circle"
-    },
-    {
-        "key": "pause-octagon",
-        "label": "Pause Octagon"
-    },
-    {
-        "key": "paw-print",
-        "label": "Paw Print"
-    },
-    {
-        "key": "pc-case",
-        "label": "Pc Case"
-    },
-    {
-        "key": "pen",
-        "label": "Pen"
-    },
-    {
-        "key": "pen-line",
-        "label": "Pen"
-    },
-    {
-        "key": "pen-box",
-        "label": "Pen Box"
-    },
-    {
-        "key": "pen-off",
-        "label": "Pen Off"
-    },
-    {
-        "key": "pen-square",
-        "label": "Pen Square"
-    },
-    {
-        "key": "pen-tool",
-        "label": "Pen Tool"
-    },
-    {
-        "key": "pencil",
-        "label": "Pencil"
-    },
-    {
-        "key": "pencil-line",
-        "label": "Pencil"
-    },
-    {
-        "key": "pencil-off",
-        "label": "Pencil Off"
-    },
-    {
-        "key": "pencil-ruler",
-        "label": "Pencil Ruler"
-    },
-    {
-        "key": "pentagon",
-        "label": "Pentagon"
-    },
-    {
-        "key": "percent",
-        "label": "Percent"
-    },
-    {
-        "key": "percent-circle",
-        "label": "Percent Circle"
-    },
-    {
-        "key": "percent-diamond",
-        "label": "Percent Diamond"
-    },
-    {
-        "key": "percent-square",
-        "label": "Percent Square"
-    },
-    {
-        "key": "person-standing",
-        "label": "Person Standing"
-    },
-    {
-        "key": "philippine-peso",
-        "label": "Philippine Peso"
-    },
-    {
-        "key": "phone",
-        "label": "Phone"
-    },
-    {
-        "key": "phone-call",
-        "label": "Phone Call"
-    },
-    {
-        "key": "phone-forwarded",
-        "label": "Phone Forwarded"
-    },
-    {
-        "key": "phone-incoming",
-        "label": "Phone Incoming"
-    },
-    {
-        "key": "phone-missed",
-        "label": "Phone Missed"
-    },
-    {
-        "key": "phone-off",
-        "label": "Phone Off"
-    },
-    {
-        "key": "phone-outgoing",
-        "label": "Phone Outgoing"
-    },
-    {
-        "key": "pi",
-        "label": "Pi"
-    },
-    {
-        "key": "pi-square",
-        "label": "Pi Square"
-    },
-    {
-        "key": "piano",
-        "label": "Piano"
-    },
-    {
-        "key": "pickaxe",
-        "label": "Pickaxe"
-    },
-    {
-        "key": "picture-in-picture",
-        "label": "Picture In Picture"
-    },
-    {
-        "key": "picture-in-picture-2",
-        "label": "Picture In Picture 2"
-    },
-    {
-        "key": "pie-chart",
-        "label": "Pie Chart"
-    },
-    {
-        "key": "piggy-bank",
-        "label": "Piggy Bank"
-    },
-    {
-        "key": "pilcrow",
-        "label": "Pilcrow"
-    },
-    {
-        "key": "pilcrow-left",
-        "label": "Pilcrow Left"
-    },
-    {
-        "key": "pilcrow-right",
-        "label": "Pilcrow Right"
-    },
-    {
-        "key": "pilcrow-square",
-        "label": "Pilcrow Square"
-    },
-    {
-        "key": "pill",
-        "label": "Pill"
-    },
-    {
-        "key": "pill-bottle",
-        "label": "Pill Bottle"
-    },
-    {
-        "key": "pin",
-        "label": "Pin"
-    },
-    {
-        "key": "pin-off",
-        "label": "Pin Off"
-    },
-    {
-        "key": "pipette",
-        "label": "Pipette"
-    },
-    {
-        "key": "pizza",
-        "label": "Pizza"
-    },
-    {
-        "key": "plane",
-        "label": "Plane"
-    },
-    {
-        "key": "plane-landing",
-        "label": "Plane Landing"
-    },
-    {
-        "key": "plane-takeoff",
-        "label": "Plane Takeoff"
-    },
-    {
-        "key": "play",
-        "label": "Play"
-    },
-    {
-        "key": "play-circle",
-        "label": "Play Circle"
-    },
-    {
-        "key": "play-square",
-        "label": "Play Square"
-    },
-    {
-        "key": "plug",
-        "label": "Plug"
-    },
-    {
-        "key": "plug-2",
-        "label": "Plug 2"
-    },
-    {
-        "key": "plug-zap",
-        "label": "Plug Zap"
-    },
-    {
-        "key": "plug-zap-2",
-        "label": "Plug Zap 2"
-    },
-    {
-        "key": "plus",
-        "label": "Plus"
-    },
-    {
-        "key": "plus-circle",
-        "label": "Plus Circle"
-    },
-    {
-        "key": "plus-square",
-        "label": "Plus Square"
-    },
-    {
-        "key": "pocket",
-        "label": "Pocket"
-    },
-    {
-        "key": "pocket-knife",
-        "label": "Pocket Knife"
-    },
-    {
-        "key": "podcast",
-        "label": "Podcast"
-    },
-    {
-        "key": "pointer",
-        "label": "Pointer"
-    },
-    {
-        "key": "pointer-off",
-        "label": "Pointer Off"
-    },
-    {
-        "key": "popcorn",
-        "label": "Popcorn"
-    },
-    {
-        "key": "popsicle",
-        "label": "Popsicle"
-    },
-    {
-        "key": "pound-sterling",
-        "label": "Pound Sterling"
-    },
-    {
-        "key": "power",
-        "label": "Power"
-    },
-    {
-        "key": "power-circle",
-        "label": "Power Circle"
-    },
-    {
-        "key": "power-off",
-        "label": "Power Off"
-    },
-    {
-        "key": "power-square",
-        "label": "Power Square"
-    },
-    {
-        "key": "presentation",
-        "label": "Presentation"
-    },
-    {
-        "key": "printer",
-        "label": "Printer"
-    },
-    {
-        "key": "printer-check",
-        "label": "Printer Check"
-    },
-    {
-        "key": "projector",
-        "label": "Projector"
-    },
-    {
-        "key": "proportions",
-        "label": "Proportions"
-    },
-    {
-        "key": "puzzle",
-        "label": "Puzzle"
-    },
-    {
-        "key": "pyramid",
-        "label": "Pyramid"
-    },
-    {
-        "key": "qr-code",
-        "label": "Qr Code"
-    },
-    {
-        "key": "quote",
-        "label": "Quote"
-    },
-    {
-        "key": "rabbit",
-        "label": "Rabbit"
-    },
-    {
-        "key": "radar",
-        "label": "Radar"
-    },
-    {
-        "key": "radiation",
-        "label": "Radiation"
-    },
-    {
-        "key": "radical",
-        "label": "Radical"
-    },
-    {
-        "key": "radio",
-        "label": "Radio"
-    },
-    {
-        "key": "radio-receiver",
-        "label": "Radio Receiver"
-    },
-    {
-        "key": "radio-tower",
-        "label": "Radio Tower"
-    },
-    {
-        "key": "radius",
-        "label": "Radius"
-    },
-    {
-        "key": "rail-symbol",
-        "label": "Rail Symbol"
-    },
-    {
-        "key": "rainbow",
-        "label": "Rainbow"
-    },
-    {
-        "key": "rat",
-        "label": "Rat"
-    },
-    {
-        "key": "ratio",
-        "label": "Ratio"
-    },
-    {
-        "key": "receipt",
-        "label": "Receipt"
-    },
-    {
-        "key": "receipt-cent",
-        "label": "Receipt Cent"
-    },
-    {
-        "key": "receipt-euro",
-        "label": "Receipt Euro"
-    },
-    {
-        "key": "receipt-indian-rupee",
-        "label": "Receipt Indian Rupee"
-    },
-    {
-        "key": "receipt-japanese-yen",
-        "label": "Receipt Japanese Yen"
-    },
-    {
-        "key": "receipt-pound-sterling",
-        "label": "Receipt Pound Sterling"
-    },
-    {
-        "key": "receipt-russian-ruble",
-        "label": "Receipt Russian Ruble"
-    },
-    {
-        "key": "receipt-swiss-franc",
-        "label": "Receipt Swiss Franc"
-    },
-    {
-        "key": "receipt-text",
-        "label": "Receipt Text"
-    },
-    {
-        "key": "rectangle-ellipsis",
-        "label": "Rectangle Ellipsis"
-    },
-    {
-        "key": "rectangle-horizontal",
-        "label": "Rectangle Horizontal"
-    },
-    {
-        "key": "rectangle-vertical",
-        "label": "Rectangle Vertical"
-    },
-    {
-        "key": "recycle",
-        "label": "Recycle"
-    },
-    {
-        "key": "redo",
-        "label": "Redo"
-    },
-    {
-        "key": "redo-2",
-        "label": "Redo 2"
-    },
-    {
-        "key": "redo-dot",
-        "label": "Redo Dot"
-    },
-    {
-        "key": "refresh-ccw",
-        "label": "Refresh Ccw"
-    },
-    {
-        "key": "refresh-ccw-dot",
-        "label": "Refresh Ccw Dot"
-    },
-    {
-        "key": "refresh-cw",
-        "label": "Refresh Cw"
-    },
-    {
-        "key": "refresh-cw-off",
-        "label": "Refresh Cw Off"
-    },
-    {
-        "key": "refrigerator",
-        "label": "Refrigerator"
-    },
-    {
-        "key": "regex",
-        "label": "Regex"
-    },
-    {
-        "key": "remove-formatting",
-        "label": "Remove Formatting"
-    },
-    {
-        "key": "repeat",
-        "label": "Repeat"
-    },
-    {
-        "key": "repeat-1",
-        "label": "Repeat 1"
-    },
-    {
-        "key": "repeat-2",
-        "label": "Repeat 2"
-    },
-    {
-        "key": "replace",
-        "label": "Replace"
-    },
-    {
-        "key": "replace-all",
-        "label": "Replace All"
-    },
-    {
-        "key": "reply",
-        "label": "Reply"
-    },
-    {
-        "key": "reply-all",
-        "label": "Reply All"
-    },
-    {
-        "key": "rewind",
-        "label": "Rewind"
-    },
-    {
-        "key": "ribbon",
-        "label": "Ribbon"
-    },
-    {
-        "key": "rocket",
-        "label": "Rocket"
-    },
-    {
-        "key": "rocking-chair",
-        "label": "Rocking Chair"
-    },
-    {
-        "key": "roller-coaster",
-        "label": "Roller Coaster"
-    },
-    {
-        "key": "rotate-3-d",
-        "label": "Rotate 3 D"
-    },
-    {
-        "key": "rotate-3d",
-        "label": "Rotate 3d"
-    },
-    {
-        "key": "rotate-ccw",
-        "label": "Rotate Ccw"
-    },
-    {
-        "key": "rotate-ccw-square",
-        "label": "Rotate Ccw Square"
-    },
-    {
-        "key": "rotate-cw",
-        "label": "Rotate Cw"
-    },
-    {
-        "key": "rotate-cw-square",
-        "label": "Rotate Cw Square"
-    },
-    {
-        "key": "route",
-        "label": "Route"
-    },
-    {
-        "key": "route-off",
-        "label": "Route Off"
-    },
-    {
-        "key": "router",
-        "label": "Router"
-    },
-    {
-        "key": "rows",
-        "label": "Rows"
-    },
-    {
-        "key": "rows-2",
-        "label": "Rows 2"
-    },
-    {
-        "key": "rows-3",
-        "label": "Rows 3"
-    },
-    {
-        "key": "rows-4",
-        "label": "Rows 4"
-    },
-    {
-        "key": "rss",
-        "label": "Rss"
-    },
-    {
-        "key": "ruler",
-        "label": "Ruler"
-    },
-    {
-        "key": "russian-ruble",
-        "label": "Russian Ruble"
-    },
-    {
-        "key": "sailboat",
-        "label": "Sailboat"
-    },
-    {
-        "key": "salad",
-        "label": "Salad"
-    },
-    {
-        "key": "sandwich",
-        "label": "Sandwich"
-    },
-    {
-        "key": "satellite",
-        "label": "Satellite"
-    },
-    {
-        "key": "satellite-dish",
-        "label": "Satellite Dish"
-    },
-    {
-        "key": "save",
-        "label": "Save"
-    },
-    {
-        "key": "save-all",
-        "label": "Save All"
-    },
-    {
-        "key": "save-off",
-        "label": "Save Off"
-    },
-    {
-        "key": "scale",
-        "label": "Scale"
-    },
-    {
-        "key": "scale-3-d",
-        "label": "Scale 3 D"
-    },
-    {
-        "key": "scale-3d",
-        "label": "Scale 3d"
-    },
-    {
-        "key": "scaling",
-        "label": "Scaling"
-    },
-    {
-        "key": "scan",
-        "label": "Scan"
-    },
-    {
-        "key": "scan-barcode",
-        "label": "Scan Barcode"
-    },
-    {
-        "key": "scan-eye",
-        "label": "Scan Eye"
-    },
-    {
-        "key": "scan-face",
-        "label": "Scan Face"
-    },
-    {
-        "key": "scan-heart",
-        "label": "Scan Heart"
-    },
-    {
-        "key": "scan-line",
-        "label": "Scan Line"
-    },
-    {
-        "key": "scan-qr-code",
-        "label": "Scan Qr Code"
-    },
-    {
-        "key": "scan-search",
-        "label": "Scan Search"
-    },
-    {
-        "key": "scan-text",
-        "label": "Scan Text"
-    },
-    {
-        "key": "scatter-chart",
-        "label": "Scatter Chart"
-    },
-    {
-        "key": "school",
-        "label": "School"
-    },
-    {
-        "key": "school-2",
-        "label": "School 2"
-    },
-    {
-        "key": "scissors",
-        "label": "Scissors"
-    },
-    {
-        "key": "scissors-line-dashed",
-        "label": "Scissors Line Dashed"
-    },
-    {
-        "key": "scissors-square",
-        "label": "Scissors Square"
-    },
-    {
-        "key": "scissors-square-dashed-bottom",
-        "label": "Scissors Square Dashed Bottom"
-    },
-    {
-        "key": "screen-share",
-        "label": "Screen Share"
-    },
-    {
-        "key": "screen-share-off",
-        "label": "Screen Share Off"
-    },
-    {
-        "key": "scroll",
-        "label": "Scroll"
-    },
-    {
-        "key": "scroll-text",
-        "label": "Scroll Text"
-    },
-    {
-        "key": "search-check",
-        "label": "Search Check"
-    },
-    {
-        "key": "search-code",
-        "label": "Search Code"
-    },
-    {
-        "key": "search-slash",
-        "label": "Search Slash"
-    },
-    {
-        "key": "search-x",
-        "label": "Search X"
-    },
-    {
-        "key": "section",
-        "label": "Section"
-    },
-    {
-        "key": "send",
-        "label": "Send"
-    },
-    {
-        "key": "send-horizonal",
-        "label": "Send Horizonal"
-    },
-    {
-        "key": "send-horizontal",
-        "label": "Send Horizontal"
-    },
-    {
-        "key": "send-to-back",
-        "label": "Send To Back"
-    },
-    {
-        "key": "search",
-        "label": "SEO"
-    },
-    {
-        "key": "separator-horizontal",
-        "label": "Separator Horizontal"
-    },
-    {
-        "key": "separator-vertical",
-        "label": "Separator Vertical"
-    },
-    {
-        "key": "server",
-        "label": "Server"
-    },
-    {
-        "key": "server-cog",
-        "label": "Server Cog"
-    },
-    {
-        "key": "server-crash",
-        "label": "Server Crash"
-    },
-    {
-        "key": "server-off",
-        "label": "Server Off"
-    },
-    {
-        "key": "settings",
-        "label": "Settings"
-    },
-    {
-        "key": "settings-2",
-        "label": "Settings 2"
-    },
-    {
-        "key": "shapes",
-        "label": "Shapes"
-    },
-    {
-        "key": "share",
-        "label": "Share"
-    },
-    {
-        "key": "share-2",
-        "label": "Share 2"
-    },
-    {
-        "key": "sheet",
-        "label": "Sheet"
-    },
-    {
-        "key": "shell",
-        "label": "Shell"
-    },
-    {
-        "key": "shield",
-        "label": "Shield"
-    },
-    {
-        "key": "shield-alert",
-        "label": "Shield Alert"
-    },
-    {
-        "key": "shield-ban",
-        "label": "Shield Ban"
-    },
-    {
-        "key": "shield-check",
-        "label": "Shield Check"
-    },
-    {
-        "key": "shield-close",
-        "label": "Shield Close"
-    },
-    {
-        "key": "shield-ellipsis",
-        "label": "Shield Ellipsis"
-    },
-    {
-        "key": "shield-half",
-        "label": "Shield Half"
-    },
-    {
-        "key": "shield-minus",
-        "label": "Shield Minus"
-    },
-    {
-        "key": "shield-off",
-        "label": "Shield Off"
-    },
-    {
-        "key": "shield-plus",
-        "label": "Shield Plus"
-    },
-    {
-        "key": "shield-question",
-        "label": "Shield Question"
-    },
-    {
-        "key": "shield-x",
-        "label": "Shield X"
-    },
-    {
-        "key": "ship",
-        "label": "Ship"
-    },
-    {
-        "key": "ship-wheel",
-        "label": "Ship Wheel"
-    },
-    {
-        "key": "shirt",
-        "label": "Shirt"
-    },
-    {
-        "key": "shopping-bag",
-        "label": "Shopping Bag"
-    },
-    {
-        "key": "shopping-basket",
-        "label": "Shopping Basket"
-    },
-    {
-        "key": "shopping-cart",
-        "label": "Shopping Cart"
-    },
-    {
-        "key": "shovel",
-        "label": "Shovel"
-    },
-    {
-        "key": "shower-head",
-        "label": "Shower Head"
-    },
-    {
-        "key": "shrink",
-        "label": "Shrink"
-    },
-    {
-        "key": "shrub",
-        "label": "Shrub"
-    },
-    {
-        "key": "shuffle",
-        "label": "Shuffle"
-    },
-    {
-        "key": "sidebar",
-        "label": "Sidebar"
-    },
-    {
-        "key": "sidebar-close",
-        "label": "Sidebar Close"
-    },
-    {
-        "key": "sidebar-open",
-        "label": "Sidebar Open"
-    },
-    {
-        "key": "sigma",
-        "label": "Sigma"
-    },
-    {
-        "key": "sigma-square",
-        "label": "Sigma Square"
-    },
-    {
-        "key": "signal",
-        "label": "Signal"
-    },
-    {
-        "key": "signal-high",
-        "label": "Signal High"
-    },
-    {
-        "key": "signal-low",
-        "label": "Signal Low"
-    },
-    {
-        "key": "signal-medium",
-        "label": "Signal Medium"
-    },
-    {
-        "key": "signal-zero",
-        "label": "Signal Zero"
-    },
-    {
-        "key": "signature",
-        "label": "Signature"
-    },
-    {
-        "key": "signpost",
-        "label": "Signpost"
-    },
-    {
-        "key": "signpost-big",
-        "label": "Signpost Big"
-    },
-    {
-        "key": "siren",
-        "label": "Siren"
-    },
-    {
-        "key": "skip-back",
-        "label": "Skip Back"
-    },
-    {
-        "key": "skip-forward",
-        "label": "Skip Forward"
-    },
-    {
-        "key": "skull",
-        "label": "Skull"
-    },
-    {
-        "key": "slack",
-        "label": "Slack"
-    },
-    {
-        "key": "slash",
-        "label": "Slash"
-    },
-    {
-        "key": "slash-square",
-        "label": "Slash Square"
-    },
-    {
-        "key": "slice",
-        "label": "Slice"
-    },
-    {
-        "key": "sliders",
-        "label": "Sliders"
-    },
-    {
-        "key": "sliders-horizontal",
-        "label": "Sliders Horizontal"
-    },
-    {
-        "key": "sliders-vertical",
-        "label": "Sliders Vertical"
-    },
-    {
-        "key": "smartphone",
-        "label": "Smartphone"
-    },
-    {
-        "key": "smartphone-charging",
-        "label": "Smartphone Charging"
-    },
-    {
-        "key": "smartphone-nfc",
-        "label": "Smartphone Nfc"
-    },
-    {
-        "key": "smile",
-        "label": "Smile"
-    },
-    {
-        "key": "smile-plus",
-        "label": "Smile Plus"
-    },
-    {
-        "key": "snail",
-        "label": "Snail"
-    },
-    {
-        "key": "snowflake",
-        "label": "Snowflake"
-    },
-    {
-        "key": "sofa",
-        "label": "Sofa"
-    },
-    {
-        "key": "sort-asc",
-        "label": "Sort Asc"
-    },
-    {
-        "key": "sort-desc",
-        "label": "Sort Desc"
-    },
-    {
-        "key": "soup",
-        "label": "Soup"
-    },
-    {
-        "key": "space",
-        "label": "Space"
-    },
-    {
-        "key": "spade",
-        "label": "Spade"
-    },
-    {
-        "key": "sparkle",
-        "label": "Sparkle"
-    },
-    {
-        "key": "sparkles",
-        "label": "Sparkles"
-    },
-    {
-        "key": "speaker",
-        "label": "Speaker"
-    },
-    {
-        "key": "speech",
-        "label": "Speech"
-    },
-    {
-        "key": "spell-check",
-        "label": "Spell Check"
-    },
-    {
-        "key": "spell-check-2",
-        "label": "Spell Check 2"
-    },
-    {
-        "key": "spline",
-        "label": "Spline"
-    },
-    {
-        "key": "split",
-        "label": "Split"
-    },
-    {
-        "key": "split-square-horizontal",
-        "label": "Split Square Horizontal"
-    },
-    {
-        "key": "split-square-vertical",
-        "label": "Split Square Vertical"
-    },
-    {
-        "key": "spray-can",
-        "label": "Spray Can"
-    },
-    {
-        "key": "sprout",
-        "label": "Sprout"
-    },
-    {
-        "key": "square",
-        "label": "Square"
-    },
-    {
-        "key": "square-activity",
-        "label": "Square Activity"
-    },
-    {
-        "key": "square-arrow-down",
-        "label": "Square Arrow Down"
-    },
-    {
-        "key": "square-arrow-down-left",
-        "label": "Square Arrow Down Left"
-    },
-    {
-        "key": "square-arrow-down-right",
-        "label": "Square Arrow Down Right"
-    },
-    {
-        "key": "square-arrow-left",
-        "label": "Square Arrow Left"
-    },
-    {
-        "key": "square-arrow-out-down-left",
-        "label": "Square Arrow Out Down Left"
-    },
-    {
-        "key": "square-arrow-out-down-right",
-        "label": "Square Arrow Out Down Right"
-    },
-    {
-        "key": "square-arrow-out-up-left",
-        "label": "Square Arrow Out Up Left"
-    },
-    {
-        "key": "square-arrow-out-up-right",
-        "label": "Square Arrow Out Up Right"
-    },
-    {
-        "key": "square-arrow-right",
-        "label": "Square Arrow Right"
-    },
-    {
-        "key": "square-arrow-up",
-        "label": "Square Arrow Up"
-    },
-    {
-        "key": "square-arrow-up-left",
-        "label": "Square Arrow Up Left"
-    },
-    {
-        "key": "square-arrow-up-right",
-        "label": "Square Arrow Up Right"
-    },
-    {
-        "key": "square-asterisk",
-        "label": "Square Asterisk"
-    },
-    {
-        "key": "square-bottom-dashed-scissors",
-        "label": "Square Bottom Dashed Scissors"
-    },
-    {
-        "key": "square-chart-gantt",
-        "label": "Square Chart Gantt"
-    },
-    {
-        "key": "square-check",
-        "label": "Square Check"
-    },
-    {
-        "key": "square-check-big",
-        "label": "Square Check Big"
-    },
-    {
-        "key": "square-chevron-down",
-        "label": "Square Chevron Down"
-    },
-    {
-        "key": "square-chevron-left",
-        "label": "Square Chevron Left"
-    },
-    {
-        "key": "square-chevron-right",
-        "label": "Square Chevron Right"
-    },
-    {
-        "key": "square-chevron-up",
-        "label": "Square Chevron Up"
-    },
-    {
-        "key": "square-code",
-        "label": "Square Code"
-    },
-    {
-        "key": "square-dashed",
-        "label": "Square Dashed"
-    },
-    {
-        "key": "square-dashed-bottom",
-        "label": "Square Dashed Bottom"
-    },
-    {
-        "key": "square-dashed-bottom-code",
-        "label": "Square Dashed Bottom Code"
-    },
-    {
-        "key": "square-dashed-kanban",
-        "label": "Square Dashed Kanban"
-    },
-    {
-        "key": "square-dashed-mouse-pointer",
-        "label": "Square Dashed Mouse Pointer"
-    },
-    {
-        "key": "square-divide",
-        "label": "Square Divide"
-    },
-    {
-        "key": "square-dot",
-        "label": "Square Dot"
-    },
-    {
-        "key": "square-equal",
-        "label": "Square Equal"
-    },
-    {
-        "key": "square-function",
-        "label": "Square Function"
-    },
-    {
-        "key": "square-gantt-chart",
-        "label": "Square Gantt Chart"
-    },
-    {
-        "key": "square-kanban",
-        "label": "Square Kanban"
-    },
-    {
-        "key": "square-library",
-        "label": "Square Library"
-    },
-    {
-        "key": "square-m",
-        "label": "Square M"
-    },
-    {
-        "key": "square-menu",
-        "label": "Square Menu"
-    },
-    {
-        "key": "square-minus",
-        "label": "Square Minus"
-    },
-    {
-        "key": "square-mouse-pointer",
-        "label": "Square Mouse Pointer"
-    },
-    {
-        "key": "square-parking",
-        "label": "Square Parking"
-    },
-    {
-        "key": "square-parking-off",
-        "label": "Square Parking Off"
-    },
-    {
-        "key": "square-pen",
-        "label": "Square Pen"
-    },
-    {
-        "key": "square-percent",
-        "label": "Square Percent"
-    },
-    {
-        "key": "square-pi",
-        "label": "Square Pi"
-    },
-    {
-        "key": "square-pilcrow",
-        "label": "Square Pilcrow"
-    },
-    {
-        "key": "square-play",
-        "label": "Square Play"
-    },
-    {
-        "key": "square-plus",
-        "label": "Square Plus"
-    },
-    {
-        "key": "square-power",
-        "label": "Square Power"
-    },
-    {
-        "key": "square-radical",
-        "label": "Square Radical"
-    },
-    {
-        "key": "square-scissors",
-        "label": "Square Scissors"
-    },
-    {
-        "key": "square-sigma",
-        "label": "Square Sigma"
-    },
-    {
-        "key": "square-slash",
-        "label": "Square Slash"
-    },
-    {
-        "key": "square-split-horizontal",
-        "label": "Square Split Horizontal"
-    },
-    {
-        "key": "square-split-vertical",
-        "label": "Square Split Vertical"
-    },
-    {
-        "key": "square-square",
-        "label": "Square Square"
-    },
-    {
-        "key": "square-stack",
-        "label": "Square Stack"
-    },
-    {
-        "key": "square-terminal",
-        "label": "Square Terminal"
-    },
-    {
-        "key": "square-user",
-        "label": "Square User"
-    },
-    {
-        "key": "square-user-round",
-        "label": "Square User Round"
-    },
-    {
-        "key": "square-x",
-        "label": "Square X"
-    },
-    {
-        "key": "squircle",
-        "label": "Squircle"
-    },
-    {
-        "key": "squirrel",
-        "label": "Squirrel"
-    },
-    {
-        "key": "stamp",
-        "label": "Stamp"
-    },
-    {
-        "key": "star",
-        "label": "Star"
-    },
-    {
-        "key": "star-half",
-        "label": "Star Half"
-    },
-    {
-        "key": "star-off",
-        "label": "Star Off"
-    },
-    {
-        "key": "stars",
-        "label": "Stars"
-    },
-    {
-        "key": "step-back",
-        "label": "Step Back"
-    },
-    {
-        "key": "step-forward",
-        "label": "Step Forward"
-    },
-    {
-        "key": "stethoscope",
-        "label": "Stethoscope"
-    },
-    {
-        "key": "sticker",
-        "label": "Sticker"
-    },
-    {
-        "key": "sticky-note",
-        "label": "Sticky Note"
-    },
-    {
-        "key": "stop-circle",
-        "label": "Stop Circle"
-    },
-    {
-        "key": "store",
-        "label": "Store"
-    },
-    {
-        "key": "stretch-horizontal",
-        "label": "Stretch Horizontal"
-    },
-    {
-        "key": "stretch-vertical",
-        "label": "Stretch Vertical"
-    },
-    {
-        "key": "strikethrough",
-        "label": "Strikethrough"
-    },
-    {
-        "key": "subscript",
-        "label": "Subscript"
-    },
-    {
-        "key": "subtitles",
-        "label": "Subtitles"
-    },
-    {
-        "key": "sun",
-        "label": "Sun"
-    },
-    {
-        "key": "sun-dim",
-        "label": "Sun Dim"
-    },
-    {
-        "key": "sun-medium",
-        "label": "Sun Medium"
-    },
-    {
-        "key": "sun-moon",
-        "label": "Sun Moon"
-    },
-    {
-        "key": "sun-snow",
-        "label": "Sun Snow"
-    },
-    {
-        "key": "sunrise",
-        "label": "Sunrise"
-    },
-    {
-        "key": "sunset",
-        "label": "Sunset"
-    },
-    {
-        "key": "superscript",
-        "label": "Superscript"
-    },
-    {
-        "key": "swatch-book",
-        "label": "Swatch Book"
-    },
-    {
-        "key": "swiss-franc",
-        "label": "Swiss Franc"
-    },
-    {
-        "key": "switch-camera",
-        "label": "Switch Camera"
-    },
-    {
-        "key": "sword",
-        "label": "Sword"
-    },
-    {
-        "key": "swords",
-        "label": "Swords"
-    },
-    {
-        "key": "syringe",
-        "label": "Syringe"
-    },
-    {
-        "key": "table",
-        "label": "Table"
-    },
-    {
-        "key": "table-2",
-        "label": "Table 2"
-    },
-    {
-        "key": "table-cells-merge",
-        "label": "Table Cells Merge"
-    },
-    {
-        "key": "table-cells-split",
-        "label": "Table Cells Split"
-    },
-    {
-        "key": "table-columns-split",
-        "label": "Table Columns Split"
-    },
-    {
-        "key": "table-of-contents",
-        "label": "Table Of Contents"
-    },
-    {
-        "key": "table-properties",
-        "label": "Table Properties"
-    },
-    {
-        "key": "table-rows-split",
-        "label": "Table Rows Split"
-    },
-    {
-        "key": "tablet",
-        "label": "Tablet"
-    },
-    {
-        "key": "tablet-smartphone",
-        "label": "Tablet Smartphone"
-    },
-    {
-        "key": "tablets",
-        "label": "Tablets"
-    },
-    {
-        "key": "tag",
-        "label": "Tag"
-    },
-    {
-        "key": "tags",
-        "label": "Tags"
-    },
-    {
-        "key": "tally-1",
-        "label": "Tally 1"
-    },
-    {
-        "key": "tally-2",
-        "label": "Tally 2"
-    },
-    {
-        "key": "tally-3",
-        "label": "Tally 3"
-    },
-    {
-        "key": "tally-4",
-        "label": "Tally 4"
-    },
-    {
-        "key": "tally-5",
-        "label": "Tally 5"
-    },
-    {
-        "key": "tangent",
-        "label": "Tangent"
-    },
-    {
-        "key": "target",
-        "label": "Target"
-    },
-    {
-        "key": "telescope",
-        "label": "Telescope"
-    },
-    {
-        "key": "tent",
-        "label": "Tent"
-    },
-    {
-        "key": "tent-tree",
-        "label": "Tent Tree"
-    },
-    {
-        "key": "terminal",
-        "label": "Terminal"
-    },
-    {
-        "key": "terminal-square",
-        "label": "Terminal Square"
-    },
-    {
-        "key": "test-tube",
-        "label": "Test Tube"
-    },
-    {
-        "key": "test-tube-2",
-        "label": "Test Tube 2"
-    },
-    {
-        "key": "test-tube-diagonal",
-        "label": "Test Tube Diagonal"
-    },
-    {
-        "key": "test-tubes",
-        "label": "Test Tubes"
-    },
-    {
-        "key": "text",
-        "label": "Text"
-    },
-    {
-        "key": "text-cursor",
-        "label": "Text Cursor"
-    },
-    {
-        "key": "text-cursor-input",
-        "label": "Text Cursor Input"
-    },
-    {
-        "key": "text-quote",
-        "label": "Text Quote"
-    },
-    {
-        "key": "text-search",
-        "label": "Text Search"
-    },
-    {
-        "key": "text-select",
-        "label": "Text Select"
-    },
-    {
-        "key": "text-selection",
-        "label": "Text Selection"
-    },
-    {
-        "key": "theater",
-        "label": "Theater"
-    },
-    {
-        "key": "thermometer",
-        "label": "Thermometer"
-    },
-    {
-        "key": "thermometer-snowflake",
-        "label": "Thermometer Snowflake"
-    },
-    {
-        "key": "thermometer-sun",
-        "label": "Thermometer Sun"
-    },
-    {
-        "key": "thumbs-down",
-        "label": "Thumbs Down"
-    },
-    {
-        "key": "thumbs-up",
-        "label": "Thumbs Up"
-    },
-    {
-        "key": "ticket",
-        "label": "Ticket"
-    },
-    {
-        "key": "ticket-check",
-        "label": "Ticket Check"
-    },
-    {
-        "key": "ticket-minus",
-        "label": "Ticket Minus"
-    },
-    {
-        "key": "ticket-percent",
-        "label": "Ticket Percent"
-    },
-    {
-        "key": "ticket-plus",
-        "label": "Ticket Plus"
-    },
-    {
-        "key": "ticket-slash",
-        "label": "Ticket Slash"
-    },
-    {
-        "key": "ticket-x",
-        "label": "Ticket X"
-    },
-    {
-        "key": "tickets",
-        "label": "Tickets"
-    },
-    {
-        "key": "tickets-plane",
-        "label": "Tickets Plane"
-    },
-    {
-        "key": "timer",
-        "label": "Timer"
-    },
-    {
-        "key": "timer-off",
-        "label": "Timer Off"
-    },
-    {
-        "key": "timer-reset",
-        "label": "Timer Reset"
-    },
-    {
-        "key": "toggle-left",
-        "label": "Toggle Left"
-    },
-    {
-        "key": "toggle-right",
-        "label": "Toggle Right"
-    },
-    {
-        "key": "toilet",
-        "label": "Toilet"
-    },
-    {
-        "key": "tornado",
-        "label": "Tornado"
-    },
-    {
-        "key": "torus",
-        "label": "Torus"
-    },
-    {
-        "key": "touchpad",
-        "label": "Touchpad"
-    },
-    {
-        "key": "touchpad-off",
-        "label": "Touchpad Off"
-    },
-    {
-        "key": "tower-control",
-        "label": "Tower Control"
-    },
-    {
-        "key": "toy-brick",
-        "label": "Toy Brick"
-    },
-    {
-        "key": "tractor",
-        "label": "Tractor"
-    },
-    {
-        "key": "traffic-cone",
-        "label": "Traffic Cone"
-    },
-    {
-        "key": "train",
-        "label": "Train"
-    },
-    {
-        "key": "train-front",
-        "label": "Train Front"
-    },
-    {
-        "key": "train-front-tunnel",
-        "label": "Train Front Tunnel"
-    },
-    {
-        "key": "train-track",
-        "label": "Train Track"
-    },
-    {
-        "key": "tram-front",
-        "label": "Tram Front"
-    },
-    {
-        "key": "transgender",
-        "label": "Transgender"
-    },
-    {
-        "key": "trash",
-        "label": "Trash"
-    },
-    {
-        "key": "trash-2",
-        "label": "Trash 2"
-    },
-    {
-        "key": "tree-deciduous",
-        "label": "Tree Deciduous"
-    },
-    {
-        "key": "tree-palm",
-        "label": "Tree Palm"
-    },
-    {
-        "key": "tree-pine",
-        "label": "Tree Pine"
-    },
-    {
-        "key": "trees",
-        "label": "Trees"
-    },
-    {
-        "key": "trello",
-        "label": "Trello"
-    },
-    {
-        "key": "trending-down",
-        "label": "Trending Down"
-    },
-    {
-        "key": "trending-up",
-        "label": "Trending Up"
-    },
-    {
-        "key": "trending-up-down",
-        "label": "Trending Up Down"
-    },
-    {
-        "key": "triangle",
-        "label": "Triangle"
-    },
-    {
-        "key": "triangle-alert",
-        "label": "Triangle Alert"
-    },
-    {
-        "key": "triangle-dashed",
-        "label": "Triangle Dashed"
-    },
-    {
-        "key": "triangle-right",
-        "label": "Triangle Right"
-    },
-    {
-        "key": "trophy",
-        "label": "Trophy"
-    },
-    {
-        "key": "truck",
-        "label": "Truck"
-    },
-    {
-        "key": "turtle",
-        "label": "Turtle"
-    },
-    {
-        "key": "tv",
-        "label": "Tv"
-    },
-    {
-        "key": "tv-2",
-        "label": "Tv 2"
-    },
-    {
-        "key": "tv-minimal",
-        "label": "Tv Minimal"
-    },
-    {
-        "key": "tv-minimal-play",
-        "label": "Tv Minimal Play"
-    },
-    {
-        "key": "twitch",
-        "label": "Twitch"
-    },
-    {
-        "key": "twitter",
-        "label": "Twitter"
-    },
-    {
-        "key": "type",
-        "label": "Type"
-    },
-    {
-        "key": "type-outline",
-        "label": "Type Outline"
-    },
-    {
-        "key": "umbrella",
-        "label": "Umbrella"
-    },
-    {
-        "key": "umbrella-off",
-        "label": "Umbrella Off"
-    },
-    {
-        "key": "underline",
-        "label": "Underline"
-    },
-    {
-        "key": "undo",
-        "label": "Undo"
-    },
-    {
-        "key": "undo-2",
-        "label": "Undo 2"
-    },
-    {
-        "key": "undo-dot",
-        "label": "Undo Dot"
-    },
-    {
-        "key": "unfold-horizontal",
-        "label": "Unfold Horizontal"
-    },
-    {
-        "key": "unfold-vertical",
-        "label": "Unfold Vertical"
-    },
-    {
-        "key": "ungroup",
-        "label": "Ungroup"
-    },
-    {
-        "key": "university",
-        "label": "University"
-    },
-    {
-        "key": "unlink",
-        "label": "Unlink"
-    },
-    {
-        "key": "unlink-2",
-        "label": "Unlink 2"
-    },
-    {
-        "key": "unlock",
-        "label": "Unlock"
-    },
-    {
-        "key": "unlock-keyhole",
-        "label": "Unlock Keyhole"
-    },
-    {
-        "key": "unplug",
-        "label": "Unplug"
-    },
-    {
-        "key": "upload",
-        "label": "Upload"
-    },
-    {
-        "key": "upload-cloud",
-        "label": "Upload Cloud"
-    },
-    {
-        "key": "usb",
-        "label": "Usb"
-    },
-    {
-        "key": "user",
-        "label": "User"
-    },
-    {
-        "key": "user-2",
-        "label": "User 2"
-    },
-    {
-        "key": "user-check",
-        "label": "User Check"
-    },
-    {
-        "key": "user-check-2",
-        "label": "User Check 2"
-    },
-    {
-        "key": "user-circle",
-        "label": "User Circle"
-    },
-    {
-        "key": "user-circle-2",
-        "label": "User Circle 2"
-    },
-    {
-        "key": "user-cog",
-        "label": "User Cog"
-    },
-    {
-        "key": "user-cog-2",
-        "label": "User Cog 2"
-    },
-    {
-        "key": "user-minus",
-        "label": "User Minus"
-    },
-    {
-        "key": "user-minus-2",
-        "label": "User Minus 2"
-    },
-    {
-        "key": "user-pen",
-        "label": "User Pen"
-    },
-    {
-        "key": "user-plus",
-        "label": "User Plus"
-    },
-    {
-        "key": "user-plus-2",
-        "label": "User Plus 2"
-    },
-    {
-        "key": "user-round",
-        "label": "User Round"
-    },
-    {
-        "key": "user-round-check",
-        "label": "User Round Check"
-    },
-    {
-        "key": "user-round-cog",
-        "label": "User Round Cog"
-    },
-    {
-        "key": "user-round-minus",
-        "label": "User Round Minus"
-    },
-    {
-        "key": "user-round-plus",
-        "label": "User Round Plus"
-    },
-    {
-        "key": "user-round-search",
-        "label": "User Round Search"
-    },
-    {
-        "key": "user-round-x",
-        "label": "User Round X"
-    },
-    {
-        "key": "user-search",
-        "label": "User Search"
-    },
-    {
-        "key": "user-square",
-        "label": "User Square"
-    },
-    {
-        "key": "user-square-2",
-        "label": "User Square 2"
-    },
-    {
-        "key": "user-x",
-        "label": "User X"
-    },
-    {
-        "key": "user-x-2",
-        "label": "User X 2"
-    },
-    {
-        "key": "users",
-        "label": "Users"
-    },
-    {
-        "key": "users-2",
-        "label": "Users 2"
-    },
-    {
-        "key": "users-round",
-        "label": "Users Round"
-    },
-    {
-        "key": "utensils",
-        "label": "Utensils"
-    },
-    {
-        "key": "utensils-crossed",
-        "label": "Utensils Crossed"
-    },
-    {
-        "key": "utility-pole",
-        "label": "Utility Pole"
-    },
-    {
-        "key": "variable",
-        "label": "Variable"
-    },
-    {
-        "key": "vault",
-        "label": "Vault"
-    },
-    {
-        "key": "vegan",
-        "label": "Vegan"
-    },
-    {
-        "key": "venetian-mask",
-        "label": "Venetian Mask"
-    },
-    {
-        "key": "venus",
-        "label": "Venus"
-    },
-    {
-        "key": "venus-and-mars",
-        "label": "Venus And Mars"
-    },
-    {
-        "key": "verified",
-        "label": "Verified"
-    },
-    {
-        "key": "vibrate",
-        "label": "Vibrate"
-    },
-    {
-        "key": "vibrate-off",
-        "label": "Vibrate Off"
-    },
-    {
-        "key": "video",
-        "label": "Video"
-    },
-    {
-        "key": "video-off",
-        "label": "Video Off"
-    },
-    {
-        "key": "videotape",
-        "label": "Videotape"
-    },
-    {
-        "key": "view",
-        "label": "View"
-    },
-    {
-        "key": "voicemail",
-        "label": "Voicemail"
-    },
-    {
-        "key": "volleyball",
-        "label": "Volleyball"
-    },
-    {
-        "key": "volume",
-        "label": "Volume"
-    },
-    {
-        "key": "volume-1",
-        "label": "Volume 1"
-    },
-    {
-        "key": "volume-2",
-        "label": "Volume 2"
-    },
-    {
-        "key": "volume-off",
-        "label": "Volume Off"
-    },
-    {
-        "key": "volume-x",
-        "label": "Volume X"
-    },
-    {
-        "key": "vote",
-        "label": "Vote"
-    },
-    {
-        "key": "wallet",
-        "label": "Wallet"
-    },
-    {
-        "key": "wallet-2",
-        "label": "Wallet 2"
-    },
-    {
-        "key": "wallet-cards",
-        "label": "Wallet Cards"
-    },
-    {
-        "key": "wallet-minimal",
-        "label": "Wallet Minimal"
-    },
-    {
-        "key": "wallpaper",
-        "label": "Wallpaper"
-    },
-    {
-        "key": "wand",
-        "label": "Wand"
-    },
-    {
-        "key": "wand-2",
-        "label": "Wand 2"
-    },
-    {
-        "key": "warehouse",
-        "label": "Warehouse"
-    },
-    {
-        "key": "washing-machine",
-        "label": "Washing Machine"
-    },
-    {
-        "key": "watch",
-        "label": "Watch"
-    },
-    {
-        "key": "waves",
-        "label": "Waves"
-    },
-    {
-        "key": "waves-ladder",
-        "label": "Waves Ladder"
-    },
-    {
-        "key": "waypoints",
-        "label": "Waypoints"
-    },
-    {
-        "key": "webcam",
-        "label": "Webcam"
-    },
-    {
-        "key": "webhook",
-        "label": "Webhook"
-    },
-    {
-        "key": "webhook-off",
-        "label": "Webhook Off"
+        "label": "Glasses",
+        "searchText": "glasses glasses"
     },
     {
         "key": "globe",
-        "label": "Website"
+        "label": "Globe",
+        "searchText": "globe globe"
+    },
+    {
+        "key": "globe-2",
+        "label": "Globe 2",
+        "searchText": "globe-2 globe 2"
+    },
+    {
+        "key": "globe-lock",
+        "label": "Globe Lock",
+        "searchText": "globe-lock globe lock"
+    },
+    {
+        "key": "goal",
+        "label": "Goal",
+        "searchText": "goal goal"
+    },
+    {
+        "key": "grab",
+        "label": "Grab",
+        "searchText": "grab grab"
+    },
+    {
+        "key": "graduation-cap",
+        "label": "Graduation Cap",
+        "searchText": "graduation-cap graduation cap"
+    },
+    {
+        "key": "grape",
+        "label": "Grape",
+        "searchText": "grape grape"
+    },
+    {
+        "key": "grid",
+        "label": "Grid",
+        "searchText": "grid grid"
+    },
+    {
+        "key": "grid-2-x-2",
+        "label": "Grid 2 X 2",
+        "searchText": "grid-2-x-2 grid 2 x 2"
+    },
+    {
+        "key": "grid-2-x-2-check",
+        "label": "Grid 2 X 2 Check",
+        "searchText": "grid-2-x-2-check grid 2 x 2 check"
+    },
+    {
+        "key": "grid-2-x-2-plus",
+        "label": "Grid 2 X 2 Plus",
+        "searchText": "grid-2-x-2-plus grid 2 x 2 plus"
+    },
+    {
+        "key": "grid-2-x-2-x",
+        "label": "Grid 2 X 2 X",
+        "searchText": "grid-2-x-2-x grid 2 x 2 x"
+    },
+    {
+        "key": "grid-2x2",
+        "label": "Grid 2x2",
+        "searchText": "grid-2x2 grid 2x2"
+    },
+    {
+        "key": "grid-2x2-check",
+        "label": "Grid 2x2 Check",
+        "searchText": "grid-2x2-check grid 2x2 check"
+    },
+    {
+        "key": "grid-2x2-plus",
+        "label": "Grid 2x2 Plus",
+        "searchText": "grid-2x2-plus grid 2x2 plus"
+    },
+    {
+        "key": "grid-2x2-x",
+        "label": "Grid 2x2 X",
+        "searchText": "grid-2x2-x grid 2x2 x"
+    },
+    {
+        "key": "grid-3-x-3",
+        "label": "Grid 3 X 3",
+        "searchText": "grid-3-x-3 grid 3 x 3"
+    },
+    {
+        "key": "grid-3x3",
+        "label": "Grid 3x3",
+        "searchText": "grid-3x3 grid 3x3"
+    },
+    {
+        "key": "grip",
+        "label": "Grip",
+        "searchText": "grip grip"
+    },
+    {
+        "key": "grip-horizontal",
+        "label": "Grip Horizontal",
+        "searchText": "grip-horizontal grip horizontal"
+    },
+    {
+        "key": "grip-vertical",
+        "label": "Grip Vertical",
+        "searchText": "grip-vertical grip vertical"
+    },
+    {
+        "key": "group",
+        "label": "Group",
+        "searchText": "group group"
+    },
+    {
+        "key": "guitar",
+        "label": "Guitar",
+        "searchText": "guitar guitar"
+    },
+    {
+        "key": "ham",
+        "label": "Ham",
+        "searchText": "ham ham"
+    },
+    {
+        "key": "hammer",
+        "label": "Hammer",
+        "searchText": "hammer hammer"
+    },
+    {
+        "key": "hand",
+        "label": "Hand",
+        "searchText": "hand hand"
+    },
+    {
+        "key": "hand-coins",
+        "label": "Hand Coins",
+        "searchText": "hand-coins hand coins"
+    },
+    {
+        "key": "hand-heart",
+        "label": "Hand Heart",
+        "searchText": "hand-heart hand heart"
+    },
+    {
+        "key": "hand-helping",
+        "label": "Hand Helping",
+        "searchText": "hand-helping hand helping"
+    },
+    {
+        "key": "hand-metal",
+        "label": "Hand Metal",
+        "searchText": "hand-metal hand metal"
+    },
+    {
+        "key": "hand-platter",
+        "label": "Hand Platter",
+        "searchText": "hand-platter hand platter"
+    },
+    {
+        "key": "handshake",
+        "label": "Handshake",
+        "searchText": "handshake handshake"
+    },
+    {
+        "key": "hard-drive",
+        "label": "Hard Drive",
+        "searchText": "hard-drive hard drive"
+    },
+    {
+        "key": "hard-drive-download",
+        "label": "Hard Drive Download",
+        "searchText": "hard-drive-download hard drive download"
+    },
+    {
+        "key": "hard-drive-upload",
+        "label": "Hard Drive Upload",
+        "searchText": "hard-drive-upload hard drive upload"
+    },
+    {
+        "key": "hard-hat",
+        "label": "Hard Hat",
+        "searchText": "hard-hat hard hat"
+    },
+    {
+        "key": "hash",
+        "label": "Hash",
+        "searchText": "hash hash"
+    },
+    {
+        "key": "haze",
+        "label": "Haze",
+        "searchText": "haze haze"
+    },
+    {
+        "key": "hdmi-port",
+        "label": "Hdmi Port",
+        "searchText": "hdmi-port hdmi port"
+    },
+    {
+        "key": "heading",
+        "label": "Heading",
+        "searchText": "heading heading"
+    },
+    {
+        "key": "heading-1",
+        "label": "Heading 1",
+        "searchText": "heading-1 heading 1"
+    },
+    {
+        "key": "heading-2",
+        "label": "Heading 2",
+        "searchText": "heading-2 heading 2"
+    },
+    {
+        "key": "heading-3",
+        "label": "Heading 3",
+        "searchText": "heading-3 heading 3"
+    },
+    {
+        "key": "heading-4",
+        "label": "Heading 4",
+        "searchText": "heading-4 heading 4"
+    },
+    {
+        "key": "heading-5",
+        "label": "Heading 5",
+        "searchText": "heading-5 heading 5"
+    },
+    {
+        "key": "heading-6",
+        "label": "Heading 6",
+        "searchText": "heading-6 heading 6"
+    },
+    {
+        "key": "headphone-off",
+        "label": "Headphone Off",
+        "searchText": "headphone-off headphone off"
+    },
+    {
+        "key": "headphones",
+        "label": "Headphones",
+        "searchText": "headphones headphones"
+    },
+    {
+        "key": "headset",
+        "label": "Headset",
+        "searchText": "headset headset"
+    },
+    {
+        "key": "heart",
+        "label": "Heart",
+        "searchText": "heart heart"
+    },
+    {
+        "key": "heart-crack",
+        "label": "Heart Crack",
+        "searchText": "heart-crack heart crack"
+    },
+    {
+        "key": "heart-handshake",
+        "label": "Heart Handshake",
+        "searchText": "heart-handshake heart handshake"
+    },
+    {
+        "key": "heart-off",
+        "label": "Heart Off",
+        "searchText": "heart-off heart off"
+    },
+    {
+        "key": "heart-pulse",
+        "label": "Heart Pulse",
+        "searchText": "heart-pulse heart pulse"
+    },
+    {
+        "key": "heater",
+        "label": "Heater",
+        "searchText": "heater heater"
+    },
+    {
+        "key": "help-circle",
+        "label": "Help Circle",
+        "searchText": "help-circle help circle"
+    },
+    {
+        "key": "helping-hand",
+        "label": "Helping Hand",
+        "searchText": "helping-hand helping hand"
+    },
+    {
+        "key": "hexagon",
+        "label": "Hexagon",
+        "searchText": "hexagon hexagon"
+    },
+    {
+        "key": "highlighter",
+        "label": "Highlighter",
+        "searchText": "highlighter highlighter"
+    },
+    {
+        "key": "history",
+        "label": "History",
+        "searchText": "history history"
+    },
+    {
+        "key": "home",
+        "label": "Home",
+        "searchText": "home home"
+    },
+    {
+        "key": "hop",
+        "label": "Hop",
+        "searchText": "hop hop"
+    },
+    {
+        "key": "hop-off",
+        "label": "Hop Off",
+        "searchText": "hop-off hop off"
+    },
+    {
+        "key": "hospital",
+        "label": "Hospital",
+        "searchText": "hospital hospital"
+    },
+    {
+        "key": "hotel",
+        "label": "Hotel",
+        "searchText": "hotel hotel"
+    },
+    {
+        "key": "hourglass",
+        "label": "Hourglass",
+        "searchText": "hourglass hourglass"
+    },
+    {
+        "key": "house",
+        "label": "House",
+        "searchText": "house house"
+    },
+    {
+        "key": "house-plug",
+        "label": "House Plug",
+        "searchText": "house-plug house plug"
+    },
+    {
+        "key": "house-plus",
+        "label": "House Plus",
+        "searchText": "house-plus house plus"
+    },
+    {
+        "key": "house-wifi",
+        "label": "House Wifi",
+        "searchText": "house-wifi house wifi"
+    },
+    {
+        "key": "ice-cream",
+        "label": "Ice Cream",
+        "searchText": "ice-cream ice cream"
+    },
+    {
+        "key": "ice-cream-2",
+        "label": "Ice Cream 2",
+        "searchText": "ice-cream-2 ice cream 2"
+    },
+    {
+        "key": "ice-cream-bowl",
+        "label": "Ice Cream Bowl",
+        "searchText": "ice-cream-bowl ice cream bowl"
+    },
+    {
+        "key": "ice-cream-cone",
+        "label": "Ice Cream Cone",
+        "searchText": "ice-cream-cone ice cream cone"
+    },
+    {
+        "key": "id-card",
+        "label": "Id Card",
+        "searchText": "id-card id card"
+    },
+    {
+        "key": "image",
+        "label": "Image",
+        "searchText": "image image"
+    },
+    {
+        "key": "image-down",
+        "label": "Image Down",
+        "searchText": "image-down image down"
+    },
+    {
+        "key": "image-minus",
+        "label": "Image Minus",
+        "searchText": "image-minus image minus"
+    },
+    {
+        "key": "image-off",
+        "label": "Image Off",
+        "searchText": "image-off image off"
+    },
+    {
+        "key": "image-play",
+        "label": "Image Play",
+        "searchText": "image-play image play"
+    },
+    {
+        "key": "image-plus",
+        "label": "Image Plus",
+        "searchText": "image-plus image plus"
+    },
+    {
+        "key": "image-up",
+        "label": "Image Up",
+        "searchText": "image-up image up"
+    },
+    {
+        "key": "image-upscale",
+        "label": "Image Upscale",
+        "searchText": "image-upscale image upscale"
+    },
+    {
+        "key": "images",
+        "label": "Images",
+        "searchText": "images images"
+    },
+    {
+        "key": "import",
+        "label": "Import",
+        "searchText": "import import"
+    },
+    {
+        "key": "inbox",
+        "label": "Inbox",
+        "searchText": "inbox inbox"
+    },
+    {
+        "key": "indent",
+        "label": "Indent",
+        "searchText": "indent indent"
+    },
+    {
+        "key": "indent-decrease",
+        "label": "Indent Decrease",
+        "searchText": "indent-decrease indent decrease"
+    },
+    {
+        "key": "indent-increase",
+        "label": "Indent Increase",
+        "searchText": "indent-increase indent increase"
+    },
+    {
+        "key": "indian-rupee",
+        "label": "Indian Rupee",
+        "searchText": "indian-rupee indian rupee"
+    },
+    {
+        "key": "infinity",
+        "label": "Infinity",
+        "searchText": "infinity infinity"
+    },
+    {
+        "key": "info",
+        "label": "Info",
+        "searchText": "info info"
+    },
+    {
+        "key": "inspect",
+        "label": "Inspect",
+        "searchText": "inspect inspect"
+    },
+    {
+        "key": "inspection-panel",
+        "label": "Inspection Panel",
+        "searchText": "inspection-panel inspection panel"
+    },
+    {
+        "key": "instagram",
+        "label": "Instagram",
+        "searchText": "instagram instagram"
+    },
+    {
+        "key": "italic",
+        "label": "Italic",
+        "searchText": "italic italic"
+    },
+    {
+        "key": "iteration-ccw",
+        "label": "Iteration Ccw",
+        "searchText": "iteration-ccw iteration ccw"
+    },
+    {
+        "key": "iteration-cw",
+        "label": "Iteration Cw",
+        "searchText": "iteration-cw iteration cw"
+    },
+    {
+        "key": "japanese-yen",
+        "label": "Japanese Yen",
+        "searchText": "japanese-yen japanese yen"
+    },
+    {
+        "key": "joystick",
+        "label": "Joystick",
+        "searchText": "joystick joystick"
+    },
+    {
+        "key": "kanban",
+        "label": "Kanban",
+        "searchText": "kanban kanban"
+    },
+    {
+        "key": "kanban-square",
+        "label": "Kanban Square",
+        "searchText": "kanban-square kanban square"
+    },
+    {
+        "key": "kanban-square-dashed",
+        "label": "Kanban Square Dashed",
+        "searchText": "kanban-square-dashed kanban square dashed"
+    },
+    {
+        "key": "key",
+        "label": "Key",
+        "searchText": "key key"
+    },
+    {
+        "key": "key-round",
+        "label": "Key Round",
+        "searchText": "key-round key round"
+    },
+    {
+        "key": "key-square",
+        "label": "Key Square",
+        "searchText": "key-square key square"
+    },
+    {
+        "key": "keyboard",
+        "label": "Keyboard",
+        "searchText": "keyboard keyboard"
+    },
+    {
+        "key": "keyboard-music",
+        "label": "Keyboard Music",
+        "searchText": "keyboard-music keyboard music"
+    },
+    {
+        "key": "keyboard-off",
+        "label": "Keyboard Off",
+        "searchText": "keyboard-off keyboard off"
+    },
+    {
+        "key": "lamp",
+        "label": "Lamp",
+        "searchText": "lamp lamp"
+    },
+    {
+        "key": "lamp-ceiling",
+        "label": "Lamp Ceiling",
+        "searchText": "lamp-ceiling lamp ceiling"
+    },
+    {
+        "key": "lamp-desk",
+        "label": "Lamp Desk",
+        "searchText": "lamp-desk lamp desk"
+    },
+    {
+        "key": "lamp-floor",
+        "label": "Lamp Floor",
+        "searchText": "lamp-floor lamp floor"
+    },
+    {
+        "key": "lamp-wall-down",
+        "label": "Lamp Wall Down",
+        "searchText": "lamp-wall-down lamp wall down"
+    },
+    {
+        "key": "lamp-wall-up",
+        "label": "Lamp Wall Up",
+        "searchText": "lamp-wall-up lamp wall up"
+    },
+    {
+        "key": "land-plot",
+        "label": "Land Plot",
+        "searchText": "land-plot land plot"
+    },
+    {
+        "key": "landmark",
+        "label": "Landmark",
+        "searchText": "landmark landmark"
+    },
+    {
+        "key": "languages",
+        "label": "Languages",
+        "searchText": "languages languages"
+    },
+    {
+        "key": "laptop",
+        "label": "Laptop",
+        "searchText": "laptop laptop"
+    },
+    {
+        "key": "laptop-2",
+        "label": "Laptop 2",
+        "searchText": "laptop-2 laptop 2"
+    },
+    {
+        "key": "laptop-minimal",
+        "label": "Laptop Minimal",
+        "searchText": "laptop-minimal laptop minimal"
+    },
+    {
+        "key": "laptop-minimal-check",
+        "label": "Laptop Minimal Check",
+        "searchText": "laptop-minimal-check laptop minimal check"
+    },
+    {
+        "key": "lasso",
+        "label": "Lasso",
+        "searchText": "lasso lasso"
+    },
+    {
+        "key": "lasso-select",
+        "label": "Lasso Select",
+        "searchText": "lasso-select lasso select"
+    },
+    {
+        "key": "laugh",
+        "label": "Laugh",
+        "searchText": "laugh laugh"
+    },
+    {
+        "key": "layers",
+        "label": "Layers",
+        "searchText": "layers layers"
+    },
+    {
+        "key": "layers-2",
+        "label": "Layers 2",
+        "searchText": "layers-2 layers 2"
+    },
+    {
+        "key": "layers-3",
+        "label": "Layers 3",
+        "searchText": "layers-3 layers 3"
+    },
+    {
+        "key": "layout",
+        "label": "Layout",
+        "searchText": "layout layout"
+    },
+    {
+        "key": "layout-dashboard",
+        "label": "Layout Dashboard",
+        "searchText": "layout-dashboard layout dashboard"
+    },
+    {
+        "key": "layout-grid",
+        "label": "Layout Grid",
+        "searchText": "layout-grid layout grid"
+    },
+    {
+        "key": "layout-list",
+        "label": "Layout List",
+        "searchText": "layout-list layout list"
+    },
+    {
+        "key": "layout-panel-left",
+        "label": "Layout Panel Left",
+        "searchText": "layout-panel-left layout panel left"
+    },
+    {
+        "key": "layout-panel-top",
+        "label": "Layout Panel Top",
+        "searchText": "layout-panel-top layout panel top"
+    },
+    {
+        "key": "layout-template",
+        "label": "Layout Template",
+        "searchText": "layout-template layout template"
+    },
+    {
+        "key": "leaf",
+        "label": "Leaf",
+        "searchText": "leaf leaf"
+    },
+    {
+        "key": "leafy-green",
+        "label": "Leafy Green",
+        "searchText": "leafy-green leafy green"
+    },
+    {
+        "key": "lectern",
+        "label": "Lectern",
+        "searchText": "lectern lectern"
+    },
+    {
+        "key": "letter-text",
+        "label": "Letter Text",
+        "searchText": "letter-text letter text"
+    },
+    {
+        "key": "library",
+        "label": "Library",
+        "searchText": "library library"
+    },
+    {
+        "key": "library-big",
+        "label": "Library Big",
+        "searchText": "library-big library big"
+    },
+    {
+        "key": "library-square",
+        "label": "Library Square",
+        "searchText": "library-square library square"
+    },
+    {
+        "key": "life-buoy",
+        "label": "Life Buoy",
+        "searchText": "life-buoy life buoy"
+    },
+    {
+        "key": "ligature",
+        "label": "Ligature",
+        "searchText": "ligature ligature"
+    },
+    {
+        "key": "lightbulb",
+        "label": "Lightbulb",
+        "searchText": "lightbulb lightbulb"
+    },
+    {
+        "key": "lightbulb-off",
+        "label": "Lightbulb Off",
+        "searchText": "lightbulb-off lightbulb off"
+    },
+    {
+        "key": "line-chart",
+        "label": "Line Chart",
+        "searchText": "line-chart line chart"
+    },
+    {
+        "key": "link",
+        "label": "Link",
+        "searchText": "link link"
+    },
+    {
+        "key": "link-2",
+        "label": "Link 2",
+        "searchText": "link-2 link 2"
+    },
+    {
+        "key": "link-2-off",
+        "label": "Link 2 Off",
+        "searchText": "link-2-off link 2 off"
+    },
+    {
+        "key": "linkedin",
+        "label": "Linkedin",
+        "searchText": "linkedin linkedin"
+    },
+    {
+        "key": "list",
+        "label": "List",
+        "searchText": "list list"
+    },
+    {
+        "key": "list-check",
+        "label": "List Check",
+        "searchText": "list-check list check"
+    },
+    {
+        "key": "list-checks",
+        "label": "List Checks",
+        "searchText": "list-checks list checks"
+    },
+    {
+        "key": "list-collapse",
+        "label": "List Collapse",
+        "searchText": "list-collapse list collapse"
+    },
+    {
+        "key": "list-end",
+        "label": "List End",
+        "searchText": "list-end list end"
+    },
+    {
+        "key": "list-filter",
+        "label": "List Filter",
+        "searchText": "list-filter list filter"
+    },
+    {
+        "key": "list-filter-plus",
+        "label": "List Filter Plus",
+        "searchText": "list-filter-plus list filter plus"
+    },
+    {
+        "key": "list-minus",
+        "label": "List Minus",
+        "searchText": "list-minus list minus"
+    },
+    {
+        "key": "list-music",
+        "label": "List Music",
+        "searchText": "list-music list music"
+    },
+    {
+        "key": "list-ordered",
+        "label": "List Ordered",
+        "searchText": "list-ordered list ordered"
+    },
+    {
+        "key": "list-plus",
+        "label": "List Plus",
+        "searchText": "list-plus list plus"
+    },
+    {
+        "key": "list-restart",
+        "label": "List Restart",
+        "searchText": "list-restart list restart"
+    },
+    {
+        "key": "list-start",
+        "label": "List Start",
+        "searchText": "list-start list start"
+    },
+    {
+        "key": "list-todo",
+        "label": "List Todo",
+        "searchText": "list-todo list todo"
+    },
+    {
+        "key": "list-tree",
+        "label": "List Tree",
+        "searchText": "list-tree list tree"
+    },
+    {
+        "key": "list-video",
+        "label": "List Video",
+        "searchText": "list-video list video"
+    },
+    {
+        "key": "list-x",
+        "label": "List X",
+        "searchText": "list-x list x"
+    },
+    {
+        "key": "loader",
+        "label": "Loader",
+        "searchText": "loader loader"
+    },
+    {
+        "key": "loader-2",
+        "label": "Loader 2",
+        "searchText": "loader-2 loader 2"
+    },
+    {
+        "key": "loader-circle",
+        "label": "Loader Circle",
+        "searchText": "loader-circle loader circle"
+    },
+    {
+        "key": "loader-pinwheel",
+        "label": "Loader Pinwheel",
+        "searchText": "loader-pinwheel loader pinwheel"
+    },
+    {
+        "key": "locate",
+        "label": "Locate",
+        "searchText": "locate locate"
+    },
+    {
+        "key": "locate-fixed",
+        "label": "Locate Fixed",
+        "searchText": "locate-fixed locate fixed"
+    },
+    {
+        "key": "locate-off",
+        "label": "Locate Off",
+        "searchText": "locate-off locate off"
+    },
+    {
+        "key": "lock",
+        "label": "Lock",
+        "searchText": "lock lock"
+    },
+    {
+        "key": "lock-keyhole",
+        "label": "Lock Keyhole",
+        "searchText": "lock-keyhole lock keyhole"
+    },
+    {
+        "key": "lock-keyhole-open",
+        "label": "Lock Keyhole Open",
+        "searchText": "lock-keyhole-open lock keyhole open"
+    },
+    {
+        "key": "lock-open",
+        "label": "Lock Open",
+        "searchText": "lock-open lock open"
+    },
+    {
+        "key": "log-in",
+        "label": "Log In",
+        "searchText": "log-in log in"
+    },
+    {
+        "key": "log-out",
+        "label": "Log Out",
+        "searchText": "log-out log out"
+    },
+    {
+        "key": "logs",
+        "label": "Logs",
+        "searchText": "logs logs"
+    },
+    {
+        "key": "lollipop",
+        "label": "Lollipop",
+        "searchText": "lollipop lollipop"
+    },
+    {
+        "key": "luggage",
+        "label": "Luggage",
+        "searchText": "luggage luggage"
+    },
+    {
+        "key": "m-square",
+        "label": "M Square",
+        "searchText": "m-square m square"
+    },
+    {
+        "key": "magnet",
+        "label": "Magnet",
+        "searchText": "magnet magnet"
+    },
+    {
+        "key": "mail",
+        "label": "Mail",
+        "searchText": "mail mail"
+    },
+    {
+        "key": "mail-check",
+        "label": "Mail Check",
+        "searchText": "mail-check mail check"
+    },
+    {
+        "key": "mail-minus",
+        "label": "Mail Minus",
+        "searchText": "mail-minus mail minus"
+    },
+    {
+        "key": "mail-open",
+        "label": "Mail Open",
+        "searchText": "mail-open mail open"
+    },
+    {
+        "key": "mail-plus",
+        "label": "Mail Plus",
+        "searchText": "mail-plus mail plus"
+    },
+    {
+        "key": "mail-question",
+        "label": "Mail Question",
+        "searchText": "mail-question mail question"
+    },
+    {
+        "key": "mail-search",
+        "label": "Mail Search",
+        "searchText": "mail-search mail search"
+    },
+    {
+        "key": "mail-warning",
+        "label": "Mail Warning",
+        "searchText": "mail-warning mail warning"
+    },
+    {
+        "key": "mail-x",
+        "label": "Mail X",
+        "searchText": "mail-x mail x"
+    },
+    {
+        "key": "mailbox",
+        "label": "Mailbox",
+        "searchText": "mailbox mailbox"
+    },
+    {
+        "key": "mails",
+        "label": "Mails",
+        "searchText": "mails mails"
+    },
+    {
+        "key": "map",
+        "label": "Map",
+        "searchText": "map map"
+    },
+    {
+        "key": "map-pin",
+        "label": "Map Pin",
+        "searchText": "map-pin map pin"
+    },
+    {
+        "key": "map-pin-check",
+        "label": "Map Pin Check",
+        "searchText": "map-pin-check map pin check"
+    },
+    {
+        "key": "map-pin-check-inside",
+        "label": "Map Pin Check Inside",
+        "searchText": "map-pin-check-inside map pin check inside"
+    },
+    {
+        "key": "map-pin-house",
+        "label": "Map Pin House",
+        "searchText": "map-pin-house map pin house"
+    },
+    {
+        "key": "map-pin-minus",
+        "label": "Map Pin Minus",
+        "searchText": "map-pin-minus map pin minus"
+    },
+    {
+        "key": "map-pin-minus-inside",
+        "label": "Map Pin Minus Inside",
+        "searchText": "map-pin-minus-inside map pin minus inside"
+    },
+    {
+        "key": "map-pin-off",
+        "label": "Map Pin Off",
+        "searchText": "map-pin-off map pin off"
+    },
+    {
+        "key": "map-pin-plus",
+        "label": "Map Pin Plus",
+        "searchText": "map-pin-plus map pin plus"
+    },
+    {
+        "key": "map-pin-plus-inside",
+        "label": "Map Pin Plus Inside",
+        "searchText": "map-pin-plus-inside map pin plus inside"
+    },
+    {
+        "key": "map-pin-x",
+        "label": "Map Pin X",
+        "searchText": "map-pin-x map pin x"
+    },
+    {
+        "key": "map-pin-x-inside",
+        "label": "Map Pin X Inside",
+        "searchText": "map-pin-x-inside map pin x inside"
+    },
+    {
+        "key": "map-pinned",
+        "label": "Map Pinned",
+        "searchText": "map-pinned map pinned"
+    },
+    {
+        "key": "map-plus",
+        "label": "Map Plus",
+        "searchText": "map-plus map plus"
+    },
+    {
+        "key": "mars",
+        "label": "Mars",
+        "searchText": "mars mars"
+    },
+    {
+        "key": "mars-stroke",
+        "label": "Mars Stroke",
+        "searchText": "mars-stroke mars stroke"
+    },
+    {
+        "key": "martini",
+        "label": "Martini",
+        "searchText": "martini martini"
+    },
+    {
+        "key": "maximize",
+        "label": "Maximize",
+        "searchText": "maximize maximize"
+    },
+    {
+        "key": "maximize-2",
+        "label": "Maximize 2",
+        "searchText": "maximize-2 maximize 2"
+    },
+    {
+        "key": "medal",
+        "label": "Medal",
+        "searchText": "medal medal"
+    },
+    {
+        "key": "megaphone",
+        "label": "Megaphone",
+        "searchText": "megaphone megaphone"
+    },
+    {
+        "key": "megaphone-off",
+        "label": "Megaphone Off",
+        "searchText": "megaphone-off megaphone off"
+    },
+    {
+        "key": "meh",
+        "label": "Meh",
+        "searchText": "meh meh"
+    },
+    {
+        "key": "memory-stick",
+        "label": "Memory Stick",
+        "searchText": "memory-stick memory stick"
+    },
+    {
+        "key": "menu",
+        "label": "Menu",
+        "searchText": "menu menu"
+    },
+    {
+        "key": "menu-square",
+        "label": "Menu Square",
+        "searchText": "menu-square menu square"
+    },
+    {
+        "key": "merge",
+        "label": "Merge",
+        "searchText": "merge merge"
+    },
+    {
+        "key": "message-circle",
+        "label": "Message Circle",
+        "searchText": "message-circle message circle"
+    },
+    {
+        "key": "message-circle-code",
+        "label": "Message Circle Code",
+        "searchText": "message-circle-code message circle code"
+    },
+    {
+        "key": "message-circle-dashed",
+        "label": "Message Circle Dashed",
+        "searchText": "message-circle-dashed message circle dashed"
+    },
+    {
+        "key": "message-circle-heart",
+        "label": "Message Circle Heart",
+        "searchText": "message-circle-heart message circle heart"
+    },
+    {
+        "key": "message-circle-more",
+        "label": "Message Circle More",
+        "searchText": "message-circle-more message circle more"
+    },
+    {
+        "key": "message-circle-off",
+        "label": "Message Circle Off",
+        "searchText": "message-circle-off message circle off"
+    },
+    {
+        "key": "message-circle-plus",
+        "label": "Message Circle Plus",
+        "searchText": "message-circle-plus message circle plus"
+    },
+    {
+        "key": "message-circle-question",
+        "label": "Message Circle Question",
+        "searchText": "message-circle-question message circle question"
+    },
+    {
+        "key": "message-circle-reply",
+        "label": "Message Circle Reply",
+        "searchText": "message-circle-reply message circle reply"
+    },
+    {
+        "key": "message-circle-warning",
+        "label": "Message Circle Warning",
+        "searchText": "message-circle-warning message circle warning"
+    },
+    {
+        "key": "message-circle-x",
+        "label": "Message Circle X",
+        "searchText": "message-circle-x message circle x"
+    },
+    {
+        "key": "message-square",
+        "label": "Message Square",
+        "searchText": "message-square message square"
+    },
+    {
+        "key": "message-square-code",
+        "label": "Message Square Code",
+        "searchText": "message-square-code message square code"
+    },
+    {
+        "key": "message-square-dashed",
+        "label": "Message Square Dashed",
+        "searchText": "message-square-dashed message square dashed"
+    },
+    {
+        "key": "message-square-diff",
+        "label": "Message Square Diff",
+        "searchText": "message-square-diff message square diff"
+    },
+    {
+        "key": "message-square-dot",
+        "label": "Message Square Dot",
+        "searchText": "message-square-dot message square dot"
+    },
+    {
+        "key": "message-square-heart",
+        "label": "Message Square Heart",
+        "searchText": "message-square-heart message square heart"
+    },
+    {
+        "key": "message-square-lock",
+        "label": "Message Square Lock",
+        "searchText": "message-square-lock message square lock"
+    },
+    {
+        "key": "message-square-more",
+        "label": "Message Square More",
+        "searchText": "message-square-more message square more"
+    },
+    {
+        "key": "message-square-off",
+        "label": "Message Square Off",
+        "searchText": "message-square-off message square off"
+    },
+    {
+        "key": "message-square-plus",
+        "label": "Message Square Plus",
+        "searchText": "message-square-plus message square plus"
+    },
+    {
+        "key": "message-square-quote",
+        "label": "Message Square Quote",
+        "searchText": "message-square-quote message square quote"
+    },
+    {
+        "key": "message-square-reply",
+        "label": "Message Square Reply",
+        "searchText": "message-square-reply message square reply"
+    },
+    {
+        "key": "message-square-share",
+        "label": "Message Square Share",
+        "searchText": "message-square-share message square share"
+    },
+    {
+        "key": "message-square-text",
+        "label": "Message Square Text",
+        "searchText": "message-square-text message square text"
+    },
+    {
+        "key": "message-square-warning",
+        "label": "Message Square Warning",
+        "searchText": "message-square-warning message square warning"
+    },
+    {
+        "key": "message-square-x",
+        "label": "Message Square X",
+        "searchText": "message-square-x message square x"
+    },
+    {
+        "key": "messages-square",
+        "label": "Messages Square",
+        "searchText": "messages-square messages square"
+    },
+    {
+        "key": "mic",
+        "label": "Mic",
+        "searchText": "mic mic"
+    },
+    {
+        "key": "mic-2",
+        "label": "Mic 2",
+        "searchText": "mic-2 mic 2"
+    },
+    {
+        "key": "mic-off",
+        "label": "Mic Off",
+        "searchText": "mic-off mic off"
+    },
+    {
+        "key": "mic-vocal",
+        "label": "Mic Vocal",
+        "searchText": "mic-vocal mic vocal"
+    },
+    {
+        "key": "microchip",
+        "label": "Microchip",
+        "searchText": "microchip microchip"
+    },
+    {
+        "key": "microscope",
+        "label": "Microscope",
+        "searchText": "microscope microscope"
+    },
+    {
+        "key": "microwave",
+        "label": "Microwave",
+        "searchText": "microwave microwave"
+    },
+    {
+        "key": "milestone",
+        "label": "Milestone",
+        "searchText": "milestone milestone"
+    },
+    {
+        "key": "milk",
+        "label": "Milk",
+        "searchText": "milk milk"
+    },
+    {
+        "key": "milk-off",
+        "label": "Milk Off",
+        "searchText": "milk-off milk off"
+    },
+    {
+        "key": "minimize",
+        "label": "Minimize",
+        "searchText": "minimize minimize"
+    },
+    {
+        "key": "minimize-2",
+        "label": "Minimize 2",
+        "searchText": "minimize-2 minimize 2"
+    },
+    {
+        "key": "minus",
+        "label": "Minus",
+        "searchText": "minus minus"
+    },
+    {
+        "key": "minus-circle",
+        "label": "Minus Circle",
+        "searchText": "minus-circle minus circle"
+    },
+    {
+        "key": "minus-square",
+        "label": "Minus Square",
+        "searchText": "minus-square minus square"
+    },
+    {
+        "key": "monitor",
+        "label": "Monitor",
+        "searchText": "monitor monitor"
+    },
+    {
+        "key": "monitor-check",
+        "label": "Monitor Check",
+        "searchText": "monitor-check monitor check"
+    },
+    {
+        "key": "monitor-cog",
+        "label": "Monitor Cog",
+        "searchText": "monitor-cog monitor cog"
+    },
+    {
+        "key": "monitor-dot",
+        "label": "Monitor Dot",
+        "searchText": "monitor-dot monitor dot"
+    },
+    {
+        "key": "monitor-down",
+        "label": "Monitor Down",
+        "searchText": "monitor-down monitor down"
+    },
+    {
+        "key": "monitor-off",
+        "label": "Monitor Off",
+        "searchText": "monitor-off monitor off"
+    },
+    {
+        "key": "monitor-pause",
+        "label": "Monitor Pause",
+        "searchText": "monitor-pause monitor pause"
+    },
+    {
+        "key": "monitor-play",
+        "label": "Monitor Play",
+        "searchText": "monitor-play monitor play"
+    },
+    {
+        "key": "monitor-smartphone",
+        "label": "Monitor Smartphone",
+        "searchText": "monitor-smartphone monitor smartphone"
+    },
+    {
+        "key": "monitor-speaker",
+        "label": "Monitor Speaker",
+        "searchText": "monitor-speaker monitor speaker"
+    },
+    {
+        "key": "monitor-stop",
+        "label": "Monitor Stop",
+        "searchText": "monitor-stop monitor stop"
+    },
+    {
+        "key": "monitor-up",
+        "label": "Monitor Up",
+        "searchText": "monitor-up monitor up"
+    },
+    {
+        "key": "monitor-x",
+        "label": "Monitor X",
+        "searchText": "monitor-x monitor x"
+    },
+    {
+        "key": "moon",
+        "label": "Moon",
+        "searchText": "moon moon"
+    },
+    {
+        "key": "moon-star",
+        "label": "Moon Star",
+        "searchText": "moon-star moon star"
+    },
+    {
+        "key": "more-horizontal",
+        "label": "More Horizontal",
+        "searchText": "more-horizontal more horizontal"
+    },
+    {
+        "key": "more-vertical",
+        "label": "More Vertical",
+        "searchText": "more-vertical more vertical"
+    },
+    {
+        "key": "mountain",
+        "label": "Mountain",
+        "searchText": "mountain mountain"
+    },
+    {
+        "key": "mountain-snow",
+        "label": "Mountain Snow",
+        "searchText": "mountain-snow mountain snow"
+    },
+    {
+        "key": "mouse",
+        "label": "Mouse",
+        "searchText": "mouse mouse"
+    },
+    {
+        "key": "mouse-off",
+        "label": "Mouse Off",
+        "searchText": "mouse-off mouse off"
+    },
+    {
+        "key": "mouse-pointer",
+        "label": "Mouse Pointer",
+        "searchText": "mouse-pointer mouse pointer"
+    },
+    {
+        "key": "mouse-pointer-2",
+        "label": "Mouse Pointer 2",
+        "searchText": "mouse-pointer-2 mouse pointer 2"
+    },
+    {
+        "key": "mouse-pointer-ban",
+        "label": "Mouse Pointer Ban",
+        "searchText": "mouse-pointer-ban mouse pointer ban"
+    },
+    {
+        "key": "mouse-pointer-click",
+        "label": "Mouse Pointer Click",
+        "searchText": "mouse-pointer-click mouse pointer click"
+    },
+    {
+        "key": "mouse-pointer-square-dashed",
+        "label": "Mouse Pointer Square Dashed",
+        "searchText": "mouse-pointer-square-dashed mouse pointer square dashed"
+    },
+    {
+        "key": "move",
+        "label": "Move",
+        "searchText": "move move"
+    },
+    {
+        "key": "move-3-d",
+        "label": "Move 3 D",
+        "searchText": "move-3-d move 3 d"
+    },
+    {
+        "key": "move-3d",
+        "label": "Move 3d",
+        "searchText": "move-3d move 3d"
+    },
+    {
+        "key": "move-diagonal",
+        "label": "Move Diagonal",
+        "searchText": "move-diagonal move diagonal"
+    },
+    {
+        "key": "move-diagonal-2",
+        "label": "Move Diagonal 2",
+        "searchText": "move-diagonal-2 move diagonal 2"
+    },
+    {
+        "key": "move-down",
+        "label": "Move Down",
+        "searchText": "move-down move down"
+    },
+    {
+        "key": "move-down-left",
+        "label": "Move Down Left",
+        "searchText": "move-down-left move down left"
+    },
+    {
+        "key": "move-down-right",
+        "label": "Move Down Right",
+        "searchText": "move-down-right move down right"
+    },
+    {
+        "key": "move-horizontal",
+        "label": "Move Horizontal",
+        "searchText": "move-horizontal move horizontal"
+    },
+    {
+        "key": "move-left",
+        "label": "Move Left",
+        "searchText": "move-left move left"
+    },
+    {
+        "key": "move-right",
+        "label": "Move Right",
+        "searchText": "move-right move right"
+    },
+    {
+        "key": "move-up",
+        "label": "Move Up",
+        "searchText": "move-up move up"
+    },
+    {
+        "key": "move-up-left",
+        "label": "Move Up Left",
+        "searchText": "move-up-left move up left"
+    },
+    {
+        "key": "move-up-right",
+        "label": "Move Up Right",
+        "searchText": "move-up-right move up right"
+    },
+    {
+        "key": "move-vertical",
+        "label": "Move Vertical",
+        "searchText": "move-vertical move vertical"
+    },
+    {
+        "key": "music",
+        "label": "Music",
+        "searchText": "music music"
+    },
+    {
+        "key": "music-2",
+        "label": "Music 2",
+        "searchText": "music-2 music 2"
+    },
+    {
+        "key": "music-3",
+        "label": "Music 3",
+        "searchText": "music-3 music 3"
+    },
+    {
+        "key": "music-4",
+        "label": "Music 4",
+        "searchText": "music-4 music 4"
+    },
+    {
+        "key": "navigation",
+        "label": "Navigation",
+        "searchText": "navigation navigation"
+    },
+    {
+        "key": "navigation-2",
+        "label": "Navigation 2",
+        "searchText": "navigation-2 navigation 2"
+    },
+    {
+        "key": "navigation-2-off",
+        "label": "Navigation 2 Off",
+        "searchText": "navigation-2-off navigation 2 off"
+    },
+    {
+        "key": "navigation-off",
+        "label": "Navigation Off",
+        "searchText": "navigation-off navigation off"
+    },
+    {
+        "key": "network",
+        "label": "Network",
+        "searchText": "network network"
+    },
+    {
+        "key": "newspaper",
+        "label": "Newspaper",
+        "searchText": "newspaper newspaper"
+    },
+    {
+        "key": "nfc",
+        "label": "Nfc",
+        "searchText": "nfc nfc"
+    },
+    {
+        "key": "non-binary",
+        "label": "Non Binary",
+        "searchText": "non-binary non binary"
+    },
+    {
+        "key": "notebook",
+        "label": "Notebook",
+        "searchText": "notebook notebook"
+    },
+    {
+        "key": "notebook-pen",
+        "label": "Notebook Pen",
+        "searchText": "notebook-pen notebook pen"
+    },
+    {
+        "key": "notebook-tabs",
+        "label": "Notebook Tabs",
+        "searchText": "notebook-tabs notebook tabs"
+    },
+    {
+        "key": "notebook-text",
+        "label": "Notebook Text",
+        "searchText": "notebook-text notebook text"
+    },
+    {
+        "key": "notepad-text",
+        "label": "Notepad Text",
+        "searchText": "notepad-text notepad text"
+    },
+    {
+        "key": "notepad-text-dashed",
+        "label": "Notepad Text Dashed",
+        "searchText": "notepad-text-dashed notepad text dashed"
+    },
+    {
+        "key": "nut",
+        "label": "Nut",
+        "searchText": "nut nut"
+    },
+    {
+        "key": "nut-off",
+        "label": "Nut Off",
+        "searchText": "nut-off nut off"
+    },
+    {
+        "key": "octagon",
+        "label": "Octagon",
+        "searchText": "octagon octagon"
+    },
+    {
+        "key": "octagon-alert",
+        "label": "Octagon Alert",
+        "searchText": "octagon-alert octagon alert"
+    },
+    {
+        "key": "octagon-minus",
+        "label": "Octagon Minus",
+        "searchText": "octagon-minus octagon minus"
+    },
+    {
+        "key": "octagon-pause",
+        "label": "Octagon Pause",
+        "searchText": "octagon-pause octagon pause"
+    },
+    {
+        "key": "octagon-x",
+        "label": "Octagon X",
+        "searchText": "octagon-x octagon x"
+    },
+    {
+        "key": "omega",
+        "label": "Omega",
+        "searchText": "omega omega"
+    },
+    {
+        "key": "option",
+        "label": "Option",
+        "searchText": "option option"
+    },
+    {
+        "key": "orbit",
+        "label": "Orbit",
+        "searchText": "orbit orbit"
+    },
+    {
+        "key": "origami",
+        "label": "Origami",
+        "searchText": "origami origami"
+    },
+    {
+        "key": "outdent",
+        "label": "Outdent",
+        "searchText": "outdent outdent"
+    },
+    {
+        "key": "package",
+        "label": "Package",
+        "searchText": "package package"
+    },
+    {
+        "key": "package-2",
+        "label": "Package 2",
+        "searchText": "package-2 package 2"
+    },
+    {
+        "key": "package-check",
+        "label": "Package Check",
+        "searchText": "package-check package check"
+    },
+    {
+        "key": "package-minus",
+        "label": "Package Minus",
+        "searchText": "package-minus package minus"
+    },
+    {
+        "key": "package-open",
+        "label": "Package Open",
+        "searchText": "package-open package open"
+    },
+    {
+        "key": "package-plus",
+        "label": "Package Plus",
+        "searchText": "package-plus package plus"
+    },
+    {
+        "key": "package-search",
+        "label": "Package Search",
+        "searchText": "package-search package search"
+    },
+    {
+        "key": "package-x",
+        "label": "Package X",
+        "searchText": "package-x package x"
+    },
+    {
+        "key": "paint-bucket",
+        "label": "Paint Bucket",
+        "searchText": "paint-bucket paint bucket"
+    },
+    {
+        "key": "paint-roller",
+        "label": "Paint Roller",
+        "searchText": "paint-roller paint roller"
+    },
+    {
+        "key": "paintbrush",
+        "label": "Paintbrush",
+        "searchText": "paintbrush paintbrush"
+    },
+    {
+        "key": "paintbrush-2",
+        "label": "Paintbrush 2",
+        "searchText": "paintbrush-2 paintbrush 2"
+    },
+    {
+        "key": "paintbrush-vertical",
+        "label": "Paintbrush Vertical",
+        "searchText": "paintbrush-vertical paintbrush vertical"
+    },
+    {
+        "key": "palette",
+        "label": "Palette",
+        "searchText": "palette palette"
+    },
+    {
+        "key": "palmtree",
+        "label": "Palmtree",
+        "searchText": "palmtree palmtree"
+    },
+    {
+        "key": "panel-bottom",
+        "label": "Panel Bottom",
+        "searchText": "panel-bottom panel bottom"
+    },
+    {
+        "key": "panel-bottom-close",
+        "label": "Panel Bottom Close",
+        "searchText": "panel-bottom-close panel bottom close"
+    },
+    {
+        "key": "panel-bottom-dashed",
+        "label": "Panel Bottom Dashed",
+        "searchText": "panel-bottom-dashed panel bottom dashed"
+    },
+    {
+        "key": "panel-bottom-inactive",
+        "label": "Panel Bottom Inactive",
+        "searchText": "panel-bottom-inactive panel bottom inactive"
+    },
+    {
+        "key": "panel-bottom-open",
+        "label": "Panel Bottom Open",
+        "searchText": "panel-bottom-open panel bottom open"
+    },
+    {
+        "key": "panel-left",
+        "label": "Panel Left",
+        "searchText": "panel-left panel left"
+    },
+    {
+        "key": "panel-left-close",
+        "label": "Panel Left Close",
+        "searchText": "panel-left-close panel left close"
+    },
+    {
+        "key": "panel-left-dashed",
+        "label": "Panel Left Dashed",
+        "searchText": "panel-left-dashed panel left dashed"
+    },
+    {
+        "key": "panel-left-inactive",
+        "label": "Panel Left Inactive",
+        "searchText": "panel-left-inactive panel left inactive"
+    },
+    {
+        "key": "panel-left-open",
+        "label": "Panel Left Open",
+        "searchText": "panel-left-open panel left open"
+    },
+    {
+        "key": "panel-right",
+        "label": "Panel Right",
+        "searchText": "panel-right panel right"
+    },
+    {
+        "key": "panel-right-close",
+        "label": "Panel Right Close",
+        "searchText": "panel-right-close panel right close"
+    },
+    {
+        "key": "panel-right-dashed",
+        "label": "Panel Right Dashed",
+        "searchText": "panel-right-dashed panel right dashed"
+    },
+    {
+        "key": "panel-right-inactive",
+        "label": "Panel Right Inactive",
+        "searchText": "panel-right-inactive panel right inactive"
+    },
+    {
+        "key": "panel-right-open",
+        "label": "Panel Right Open",
+        "searchText": "panel-right-open panel right open"
+    },
+    {
+        "key": "panel-top",
+        "label": "Panel Top",
+        "searchText": "panel-top panel top"
+    },
+    {
+        "key": "panel-top-close",
+        "label": "Panel Top Close",
+        "searchText": "panel-top-close panel top close"
+    },
+    {
+        "key": "panel-top-dashed",
+        "label": "Panel Top Dashed",
+        "searchText": "panel-top-dashed panel top dashed"
+    },
+    {
+        "key": "panel-top-inactive",
+        "label": "Panel Top Inactive",
+        "searchText": "panel-top-inactive panel top inactive"
+    },
+    {
+        "key": "panel-top-open",
+        "label": "Panel Top Open",
+        "searchText": "panel-top-open panel top open"
+    },
+    {
+        "key": "panels-left-bottom",
+        "label": "Panels Left Bottom",
+        "searchText": "panels-left-bottom panels left bottom"
+    },
+    {
+        "key": "panels-left-right",
+        "label": "Panels Left Right",
+        "searchText": "panels-left-right panels left right"
+    },
+    {
+        "key": "panels-right-bottom",
+        "label": "Panels Right Bottom",
+        "searchText": "panels-right-bottom panels right bottom"
+    },
+    {
+        "key": "panels-top-bottom",
+        "label": "Panels Top Bottom",
+        "searchText": "panels-top-bottom panels top bottom"
+    },
+    {
+        "key": "panels-top-left",
+        "label": "Panels Top Left",
+        "searchText": "panels-top-left panels top left"
+    },
+    {
+        "key": "paperclip",
+        "label": "Paperclip",
+        "searchText": "paperclip paperclip"
+    },
+    {
+        "key": "parentheses",
+        "label": "Parentheses",
+        "searchText": "parentheses parentheses"
+    },
+    {
+        "key": "parking-circle",
+        "label": "Parking Circle",
+        "searchText": "parking-circle parking circle"
+    },
+    {
+        "key": "parking-circle-off",
+        "label": "Parking Circle Off",
+        "searchText": "parking-circle-off parking circle off"
+    },
+    {
+        "key": "parking-meter",
+        "label": "Parking Meter",
+        "searchText": "parking-meter parking meter"
+    },
+    {
+        "key": "parking-square",
+        "label": "Parking Square",
+        "searchText": "parking-square parking square"
+    },
+    {
+        "key": "parking-square-off",
+        "label": "Parking Square Off",
+        "searchText": "parking-square-off parking square off"
+    },
+    {
+        "key": "party-popper",
+        "label": "Party Popper",
+        "searchText": "party-popper party popper"
+    },
+    {
+        "key": "pause",
+        "label": "Pause",
+        "searchText": "pause pause"
+    },
+    {
+        "key": "pause-circle",
+        "label": "Pause Circle",
+        "searchText": "pause-circle pause circle"
+    },
+    {
+        "key": "pause-octagon",
+        "label": "Pause Octagon",
+        "searchText": "pause-octagon pause octagon"
+    },
+    {
+        "key": "paw-print",
+        "label": "Paw Print",
+        "searchText": "paw-print paw print"
+    },
+    {
+        "key": "pc-case",
+        "label": "Pc Case",
+        "searchText": "pc-case pc case"
+    },
+    {
+        "key": "pen",
+        "label": "Pen",
+        "searchText": "pen pen"
+    },
+    {
+        "key": "pen-box",
+        "label": "Pen Box",
+        "searchText": "pen-box pen box"
+    },
+    {
+        "key": "pen-line",
+        "label": "Pen Line",
+        "searchText": "pen-line pen line"
+    },
+    {
+        "key": "pen-off",
+        "label": "Pen Off",
+        "searchText": "pen-off pen off"
+    },
+    {
+        "key": "pen-square",
+        "label": "Pen Square",
+        "searchText": "pen-square pen square"
+    },
+    {
+        "key": "pen-tool",
+        "label": "Pen Tool",
+        "searchText": "pen-tool pen tool"
+    },
+    {
+        "key": "pencil",
+        "label": "Pencil",
+        "searchText": "pencil pencil"
+    },
+    {
+        "key": "pencil-line",
+        "label": "Pencil Line",
+        "searchText": "pencil-line pencil line"
+    },
+    {
+        "key": "pencil-off",
+        "label": "Pencil Off",
+        "searchText": "pencil-off pencil off"
+    },
+    {
+        "key": "pencil-ruler",
+        "label": "Pencil Ruler",
+        "searchText": "pencil-ruler pencil ruler"
+    },
+    {
+        "key": "pentagon",
+        "label": "Pentagon",
+        "searchText": "pentagon pentagon"
+    },
+    {
+        "key": "percent",
+        "label": "Percent",
+        "searchText": "percent percent"
+    },
+    {
+        "key": "percent-circle",
+        "label": "Percent Circle",
+        "searchText": "percent-circle percent circle"
+    },
+    {
+        "key": "percent-diamond",
+        "label": "Percent Diamond",
+        "searchText": "percent-diamond percent diamond"
+    },
+    {
+        "key": "percent-square",
+        "label": "Percent Square",
+        "searchText": "percent-square percent square"
+    },
+    {
+        "key": "person-standing",
+        "label": "Person Standing",
+        "searchText": "person-standing person standing"
+    },
+    {
+        "key": "philippine-peso",
+        "label": "Philippine Peso",
+        "searchText": "philippine-peso philippine peso"
+    },
+    {
+        "key": "phone",
+        "label": "Phone",
+        "searchText": "phone phone"
+    },
+    {
+        "key": "phone-call",
+        "label": "Phone Call",
+        "searchText": "phone-call phone call"
+    },
+    {
+        "key": "phone-forwarded",
+        "label": "Phone Forwarded",
+        "searchText": "phone-forwarded phone forwarded"
+    },
+    {
+        "key": "phone-incoming",
+        "label": "Phone Incoming",
+        "searchText": "phone-incoming phone incoming"
+    },
+    {
+        "key": "phone-missed",
+        "label": "Phone Missed",
+        "searchText": "phone-missed phone missed"
+    },
+    {
+        "key": "phone-off",
+        "label": "Phone Off",
+        "searchText": "phone-off phone off"
+    },
+    {
+        "key": "phone-outgoing",
+        "label": "Phone Outgoing",
+        "searchText": "phone-outgoing phone outgoing"
+    },
+    {
+        "key": "pi",
+        "label": "Pi",
+        "searchText": "pi pi"
+    },
+    {
+        "key": "pi-square",
+        "label": "Pi Square",
+        "searchText": "pi-square pi square"
+    },
+    {
+        "key": "piano",
+        "label": "Piano",
+        "searchText": "piano piano"
+    },
+    {
+        "key": "pickaxe",
+        "label": "Pickaxe",
+        "searchText": "pickaxe pickaxe"
+    },
+    {
+        "key": "picture-in-picture",
+        "label": "Picture In Picture",
+        "searchText": "picture-in-picture picture in picture"
+    },
+    {
+        "key": "picture-in-picture-2",
+        "label": "Picture In Picture 2",
+        "searchText": "picture-in-picture-2 picture in picture 2"
+    },
+    {
+        "key": "pie-chart",
+        "label": "Pie Chart",
+        "searchText": "pie-chart pie chart"
+    },
+    {
+        "key": "piggy-bank",
+        "label": "Piggy Bank",
+        "searchText": "piggy-bank piggy bank"
+    },
+    {
+        "key": "pilcrow",
+        "label": "Pilcrow",
+        "searchText": "pilcrow pilcrow"
+    },
+    {
+        "key": "pilcrow-left",
+        "label": "Pilcrow Left",
+        "searchText": "pilcrow-left pilcrow left"
+    },
+    {
+        "key": "pilcrow-right",
+        "label": "Pilcrow Right",
+        "searchText": "pilcrow-right pilcrow right"
+    },
+    {
+        "key": "pilcrow-square",
+        "label": "Pilcrow Square",
+        "searchText": "pilcrow-square pilcrow square"
+    },
+    {
+        "key": "pill",
+        "label": "Pill",
+        "searchText": "pill pill"
+    },
+    {
+        "key": "pill-bottle",
+        "label": "Pill Bottle",
+        "searchText": "pill-bottle pill bottle"
+    },
+    {
+        "key": "pin",
+        "label": "Pin",
+        "searchText": "pin pin"
+    },
+    {
+        "key": "pin-off",
+        "label": "Pin Off",
+        "searchText": "pin-off pin off"
+    },
+    {
+        "key": "pipette",
+        "label": "Pipette",
+        "searchText": "pipette pipette"
+    },
+    {
+        "key": "pizza",
+        "label": "Pizza",
+        "searchText": "pizza pizza"
+    },
+    {
+        "key": "plane",
+        "label": "Plane",
+        "searchText": "plane plane"
+    },
+    {
+        "key": "plane-landing",
+        "label": "Plane Landing",
+        "searchText": "plane-landing plane landing"
+    },
+    {
+        "key": "plane-takeoff",
+        "label": "Plane Takeoff",
+        "searchText": "plane-takeoff plane takeoff"
+    },
+    {
+        "key": "play",
+        "label": "Play",
+        "searchText": "play play"
+    },
+    {
+        "key": "play-circle",
+        "label": "Play Circle",
+        "searchText": "play-circle play circle"
+    },
+    {
+        "key": "play-square",
+        "label": "Play Square",
+        "searchText": "play-square play square"
+    },
+    {
+        "key": "plug",
+        "label": "Plug",
+        "searchText": "plug plug"
+    },
+    {
+        "key": "plug-2",
+        "label": "Plug 2",
+        "searchText": "plug-2 plug 2"
+    },
+    {
+        "key": "plug-zap",
+        "label": "Plug Zap",
+        "searchText": "plug-zap plug zap"
+    },
+    {
+        "key": "plug-zap-2",
+        "label": "Plug Zap 2",
+        "searchText": "plug-zap-2 plug zap 2"
+    },
+    {
+        "key": "plus",
+        "label": "Plus",
+        "searchText": "plus plus"
+    },
+    {
+        "key": "plus-circle",
+        "label": "Plus Circle",
+        "searchText": "plus-circle plus circle"
+    },
+    {
+        "key": "plus-square",
+        "label": "Plus Square",
+        "searchText": "plus-square plus square"
+    },
+    {
+        "key": "pocket",
+        "label": "Pocket",
+        "searchText": "pocket pocket"
+    },
+    {
+        "key": "pocket-knife",
+        "label": "Pocket Knife",
+        "searchText": "pocket-knife pocket knife"
+    },
+    {
+        "key": "podcast",
+        "label": "Podcast",
+        "searchText": "podcast podcast"
+    },
+    {
+        "key": "pointer",
+        "label": "Pointer",
+        "searchText": "pointer pointer"
+    },
+    {
+        "key": "pointer-off",
+        "label": "Pointer Off",
+        "searchText": "pointer-off pointer off"
+    },
+    {
+        "key": "popcorn",
+        "label": "Popcorn",
+        "searchText": "popcorn popcorn"
+    },
+    {
+        "key": "popsicle",
+        "label": "Popsicle",
+        "searchText": "popsicle popsicle"
+    },
+    {
+        "key": "pound-sterling",
+        "label": "Pound Sterling",
+        "searchText": "pound-sterling pound sterling"
+    },
+    {
+        "key": "power",
+        "label": "Power",
+        "searchText": "power power"
+    },
+    {
+        "key": "power-circle",
+        "label": "Power Circle",
+        "searchText": "power-circle power circle"
+    },
+    {
+        "key": "power-off",
+        "label": "Power Off",
+        "searchText": "power-off power off"
+    },
+    {
+        "key": "power-square",
+        "label": "Power Square",
+        "searchText": "power-square power square"
+    },
+    {
+        "key": "presentation",
+        "label": "Presentation",
+        "searchText": "presentation presentation"
+    },
+    {
+        "key": "printer",
+        "label": "Printer",
+        "searchText": "printer printer"
+    },
+    {
+        "key": "printer-check",
+        "label": "Printer Check",
+        "searchText": "printer-check printer check"
+    },
+    {
+        "key": "projector",
+        "label": "Projector",
+        "searchText": "projector projector"
+    },
+    {
+        "key": "proportions",
+        "label": "Proportions",
+        "searchText": "proportions proportions"
+    },
+    {
+        "key": "puzzle",
+        "label": "Puzzle",
+        "searchText": "puzzle puzzle"
+    },
+    {
+        "key": "pyramid",
+        "label": "Pyramid",
+        "searchText": "pyramid pyramid"
+    },
+    {
+        "key": "qr-code",
+        "label": "Qr Code",
+        "searchText": "qr-code qr code"
+    },
+    {
+        "key": "quote",
+        "label": "Quote",
+        "searchText": "quote quote"
+    },
+    {
+        "key": "rabbit",
+        "label": "Rabbit",
+        "searchText": "rabbit rabbit"
+    },
+    {
+        "key": "radar",
+        "label": "Radar",
+        "searchText": "radar radar"
+    },
+    {
+        "key": "radiation",
+        "label": "Radiation",
+        "searchText": "radiation radiation"
+    },
+    {
+        "key": "radical",
+        "label": "Radical",
+        "searchText": "radical radical"
+    },
+    {
+        "key": "radio",
+        "label": "Radio",
+        "searchText": "radio radio"
+    },
+    {
+        "key": "radio-receiver",
+        "label": "Radio Receiver",
+        "searchText": "radio-receiver radio receiver"
+    },
+    {
+        "key": "radio-tower",
+        "label": "Radio Tower",
+        "searchText": "radio-tower radio tower"
+    },
+    {
+        "key": "radius",
+        "label": "Radius",
+        "searchText": "radius radius"
+    },
+    {
+        "key": "rail-symbol",
+        "label": "Rail Symbol",
+        "searchText": "rail-symbol rail symbol"
+    },
+    {
+        "key": "rainbow",
+        "label": "Rainbow",
+        "searchText": "rainbow rainbow"
+    },
+    {
+        "key": "rat",
+        "label": "Rat",
+        "searchText": "rat rat"
+    },
+    {
+        "key": "ratio",
+        "label": "Ratio",
+        "searchText": "ratio ratio"
+    },
+    {
+        "key": "receipt",
+        "label": "Receipt",
+        "searchText": "receipt receipt"
+    },
+    {
+        "key": "receipt-cent",
+        "label": "Receipt Cent",
+        "searchText": "receipt-cent receipt cent"
+    },
+    {
+        "key": "receipt-euro",
+        "label": "Receipt Euro",
+        "searchText": "receipt-euro receipt euro"
+    },
+    {
+        "key": "receipt-indian-rupee",
+        "label": "Receipt Indian Rupee",
+        "searchText": "receipt-indian-rupee receipt indian rupee"
+    },
+    {
+        "key": "receipt-japanese-yen",
+        "label": "Receipt Japanese Yen",
+        "searchText": "receipt-japanese-yen receipt japanese yen"
+    },
+    {
+        "key": "receipt-pound-sterling",
+        "label": "Receipt Pound Sterling",
+        "searchText": "receipt-pound-sterling receipt pound sterling"
+    },
+    {
+        "key": "receipt-russian-ruble",
+        "label": "Receipt Russian Ruble",
+        "searchText": "receipt-russian-ruble receipt russian ruble"
+    },
+    {
+        "key": "receipt-swiss-franc",
+        "label": "Receipt Swiss Franc",
+        "searchText": "receipt-swiss-franc receipt swiss franc"
+    },
+    {
+        "key": "receipt-text",
+        "label": "Receipt Text",
+        "searchText": "receipt-text receipt text"
+    },
+    {
+        "key": "rectangle-ellipsis",
+        "label": "Rectangle Ellipsis",
+        "searchText": "rectangle-ellipsis rectangle ellipsis"
+    },
+    {
+        "key": "rectangle-horizontal",
+        "label": "Rectangle Horizontal",
+        "searchText": "rectangle-horizontal rectangle horizontal"
+    },
+    {
+        "key": "rectangle-vertical",
+        "label": "Rectangle Vertical",
+        "searchText": "rectangle-vertical rectangle vertical"
+    },
+    {
+        "key": "recycle",
+        "label": "Recycle",
+        "searchText": "recycle recycle"
+    },
+    {
+        "key": "redo",
+        "label": "Redo",
+        "searchText": "redo redo"
+    },
+    {
+        "key": "redo-2",
+        "label": "Redo 2",
+        "searchText": "redo-2 redo 2"
+    },
+    {
+        "key": "redo-dot",
+        "label": "Redo Dot",
+        "searchText": "redo-dot redo dot"
+    },
+    {
+        "key": "refresh-ccw",
+        "label": "Refresh Ccw",
+        "searchText": "refresh-ccw refresh ccw"
+    },
+    {
+        "key": "refresh-ccw-dot",
+        "label": "Refresh Ccw Dot",
+        "searchText": "refresh-ccw-dot refresh ccw dot"
+    },
+    {
+        "key": "refresh-cw",
+        "label": "Refresh Cw",
+        "searchText": "refresh-cw refresh cw"
+    },
+    {
+        "key": "refresh-cw-off",
+        "label": "Refresh Cw Off",
+        "searchText": "refresh-cw-off refresh cw off"
+    },
+    {
+        "key": "refrigerator",
+        "label": "Refrigerator",
+        "searchText": "refrigerator refrigerator"
+    },
+    {
+        "key": "regex",
+        "label": "Regex",
+        "searchText": "regex regex"
+    },
+    {
+        "key": "remove-formatting",
+        "label": "Remove Formatting",
+        "searchText": "remove-formatting remove formatting"
+    },
+    {
+        "key": "repeat",
+        "label": "Repeat",
+        "searchText": "repeat repeat"
+    },
+    {
+        "key": "repeat-1",
+        "label": "Repeat 1",
+        "searchText": "repeat-1 repeat 1"
+    },
+    {
+        "key": "repeat-2",
+        "label": "Repeat 2",
+        "searchText": "repeat-2 repeat 2"
+    },
+    {
+        "key": "replace",
+        "label": "Replace",
+        "searchText": "replace replace"
+    },
+    {
+        "key": "replace-all",
+        "label": "Replace All",
+        "searchText": "replace-all replace all"
+    },
+    {
+        "key": "reply",
+        "label": "Reply",
+        "searchText": "reply reply"
+    },
+    {
+        "key": "reply-all",
+        "label": "Reply All",
+        "searchText": "reply-all reply all"
+    },
+    {
+        "key": "rewind",
+        "label": "Rewind",
+        "searchText": "rewind rewind"
+    },
+    {
+        "key": "ribbon",
+        "label": "Ribbon",
+        "searchText": "ribbon ribbon"
+    },
+    {
+        "key": "rocket",
+        "label": "Rocket",
+        "searchText": "rocket rocket"
+    },
+    {
+        "key": "rocking-chair",
+        "label": "Rocking Chair",
+        "searchText": "rocking-chair rocking chair"
+    },
+    {
+        "key": "roller-coaster",
+        "label": "Roller Coaster",
+        "searchText": "roller-coaster roller coaster"
+    },
+    {
+        "key": "rotate-3-d",
+        "label": "Rotate 3 D",
+        "searchText": "rotate-3-d rotate 3 d"
+    },
+    {
+        "key": "rotate-3d",
+        "label": "Rotate 3d",
+        "searchText": "rotate-3d rotate 3d"
+    },
+    {
+        "key": "rotate-ccw",
+        "label": "Rotate Ccw",
+        "searchText": "rotate-ccw rotate ccw"
+    },
+    {
+        "key": "rotate-ccw-square",
+        "label": "Rotate Ccw Square",
+        "searchText": "rotate-ccw-square rotate ccw square"
+    },
+    {
+        "key": "rotate-cw",
+        "label": "Rotate Cw",
+        "searchText": "rotate-cw rotate cw"
+    },
+    {
+        "key": "rotate-cw-square",
+        "label": "Rotate Cw Square",
+        "searchText": "rotate-cw-square rotate cw square"
+    },
+    {
+        "key": "route",
+        "label": "Route",
+        "searchText": "route route"
+    },
+    {
+        "key": "route-off",
+        "label": "Route Off",
+        "searchText": "route-off route off"
+    },
+    {
+        "key": "router",
+        "label": "Router",
+        "searchText": "router router"
+    },
+    {
+        "key": "rows",
+        "label": "Rows",
+        "searchText": "rows rows"
+    },
+    {
+        "key": "rows-2",
+        "label": "Rows 2",
+        "searchText": "rows-2 rows 2"
+    },
+    {
+        "key": "rows-3",
+        "label": "Rows 3",
+        "searchText": "rows-3 rows 3"
+    },
+    {
+        "key": "rows-4",
+        "label": "Rows 4",
+        "searchText": "rows-4 rows 4"
+    },
+    {
+        "key": "rss",
+        "label": "Rss",
+        "searchText": "rss rss"
+    },
+    {
+        "key": "ruler",
+        "label": "Ruler",
+        "searchText": "ruler ruler"
+    },
+    {
+        "key": "russian-ruble",
+        "label": "Russian Ruble",
+        "searchText": "russian-ruble russian ruble"
+    },
+    {
+        "key": "sailboat",
+        "label": "Sailboat",
+        "searchText": "sailboat sailboat"
+    },
+    {
+        "key": "salad",
+        "label": "Salad",
+        "searchText": "salad salad"
+    },
+    {
+        "key": "sandwich",
+        "label": "Sandwich",
+        "searchText": "sandwich sandwich"
+    },
+    {
+        "key": "satellite",
+        "label": "Satellite",
+        "searchText": "satellite satellite"
+    },
+    {
+        "key": "satellite-dish",
+        "label": "Satellite Dish",
+        "searchText": "satellite-dish satellite dish"
+    },
+    {
+        "key": "save",
+        "label": "Save",
+        "searchText": "save save"
+    },
+    {
+        "key": "save-all",
+        "label": "Save All",
+        "searchText": "save-all save all"
+    },
+    {
+        "key": "save-off",
+        "label": "Save Off",
+        "searchText": "save-off save off"
+    },
+    {
+        "key": "scale",
+        "label": "Scale",
+        "searchText": "scale scale"
+    },
+    {
+        "key": "scale-3-d",
+        "label": "Scale 3 D",
+        "searchText": "scale-3-d scale 3 d"
+    },
+    {
+        "key": "scale-3d",
+        "label": "Scale 3d",
+        "searchText": "scale-3d scale 3d"
+    },
+    {
+        "key": "scaling",
+        "label": "Scaling",
+        "searchText": "scaling scaling"
+    },
+    {
+        "key": "scan",
+        "label": "Scan",
+        "searchText": "scan scan"
+    },
+    {
+        "key": "scan-barcode",
+        "label": "Scan Barcode",
+        "searchText": "scan-barcode scan barcode"
+    },
+    {
+        "key": "scan-eye",
+        "label": "Scan Eye",
+        "searchText": "scan-eye scan eye"
+    },
+    {
+        "key": "scan-face",
+        "label": "Scan Face",
+        "searchText": "scan-face scan face"
+    },
+    {
+        "key": "scan-heart",
+        "label": "Scan Heart",
+        "searchText": "scan-heart scan heart"
+    },
+    {
+        "key": "scan-line",
+        "label": "Scan Line",
+        "searchText": "scan-line scan line"
+    },
+    {
+        "key": "scan-qr-code",
+        "label": "Scan Qr Code",
+        "searchText": "scan-qr-code scan qr code"
+    },
+    {
+        "key": "scan-search",
+        "label": "Scan Search",
+        "searchText": "scan-search scan search"
+    },
+    {
+        "key": "scan-text",
+        "label": "Scan Text",
+        "searchText": "scan-text scan text"
+    },
+    {
+        "key": "scatter-chart",
+        "label": "Scatter Chart",
+        "searchText": "scatter-chart scatter chart"
+    },
+    {
+        "key": "school",
+        "label": "School",
+        "searchText": "school school"
+    },
+    {
+        "key": "school-2",
+        "label": "School 2",
+        "searchText": "school-2 school 2"
+    },
+    {
+        "key": "scissors",
+        "label": "Scissors",
+        "searchText": "scissors scissors"
+    },
+    {
+        "key": "scissors-line-dashed",
+        "label": "Scissors Line Dashed",
+        "searchText": "scissors-line-dashed scissors line dashed"
+    },
+    {
+        "key": "scissors-square",
+        "label": "Scissors Square",
+        "searchText": "scissors-square scissors square"
+    },
+    {
+        "key": "scissors-square-dashed-bottom",
+        "label": "Scissors Square Dashed Bottom",
+        "searchText": "scissors-square-dashed-bottom scissors square dashed bottom"
+    },
+    {
+        "key": "screen-share",
+        "label": "Screen Share",
+        "searchText": "screen-share screen share"
+    },
+    {
+        "key": "screen-share-off",
+        "label": "Screen Share Off",
+        "searchText": "screen-share-off screen share off"
+    },
+    {
+        "key": "scroll",
+        "label": "Scroll",
+        "searchText": "scroll scroll"
+    },
+    {
+        "key": "scroll-text",
+        "label": "Scroll Text",
+        "searchText": "scroll-text scroll text"
+    },
+    {
+        "key": "search",
+        "label": "Search",
+        "searchText": "search search"
+    },
+    {
+        "key": "search-check",
+        "label": "Search Check",
+        "searchText": "search-check search check"
+    },
+    {
+        "key": "search-code",
+        "label": "Search Code",
+        "searchText": "search-code search code"
+    },
+    {
+        "key": "search-slash",
+        "label": "Search Slash",
+        "searchText": "search-slash search slash"
+    },
+    {
+        "key": "search-x",
+        "label": "Search X",
+        "searchText": "search-x search x"
+    },
+    {
+        "key": "section",
+        "label": "Section",
+        "searchText": "section section"
+    },
+    {
+        "key": "send",
+        "label": "Send",
+        "searchText": "send send"
+    },
+    {
+        "key": "send-horizonal",
+        "label": "Send Horizonal",
+        "searchText": "send-horizonal send horizonal"
+    },
+    {
+        "key": "send-horizontal",
+        "label": "Send Horizontal",
+        "searchText": "send-horizontal send horizontal"
+    },
+    {
+        "key": "send-to-back",
+        "label": "Send To Back",
+        "searchText": "send-to-back send to back"
+    },
+    {
+        "key": "separator-horizontal",
+        "label": "Separator Horizontal",
+        "searchText": "separator-horizontal separator horizontal"
+    },
+    {
+        "key": "separator-vertical",
+        "label": "Separator Vertical",
+        "searchText": "separator-vertical separator vertical"
+    },
+    {
+        "key": "server",
+        "label": "Server",
+        "searchText": "server server"
+    },
+    {
+        "key": "server-cog",
+        "label": "Server Cog",
+        "searchText": "server-cog server cog"
+    },
+    {
+        "key": "server-crash",
+        "label": "Server Crash",
+        "searchText": "server-crash server crash"
+    },
+    {
+        "key": "server-off",
+        "label": "Server Off",
+        "searchText": "server-off server off"
+    },
+    {
+        "key": "settings",
+        "label": "Settings",
+        "searchText": "settings settings"
+    },
+    {
+        "key": "settings-2",
+        "label": "Settings 2",
+        "searchText": "settings-2 settings 2"
+    },
+    {
+        "key": "shapes",
+        "label": "Shapes",
+        "searchText": "shapes shapes"
+    },
+    {
+        "key": "share",
+        "label": "Share",
+        "searchText": "share share"
+    },
+    {
+        "key": "share-2",
+        "label": "Share 2",
+        "searchText": "share-2 share 2"
+    },
+    {
+        "key": "sheet",
+        "label": "Sheet",
+        "searchText": "sheet sheet"
+    },
+    {
+        "key": "shell",
+        "label": "Shell",
+        "searchText": "shell shell"
+    },
+    {
+        "key": "shield",
+        "label": "Shield",
+        "searchText": "shield shield"
+    },
+    {
+        "key": "shield-alert",
+        "label": "Shield Alert",
+        "searchText": "shield-alert shield alert"
+    },
+    {
+        "key": "shield-ban",
+        "label": "Shield Ban",
+        "searchText": "shield-ban shield ban"
+    },
+    {
+        "key": "shield-check",
+        "label": "Shield Check",
+        "searchText": "shield-check shield check"
+    },
+    {
+        "key": "shield-close",
+        "label": "Shield Close",
+        "searchText": "shield-close shield close"
+    },
+    {
+        "key": "shield-ellipsis",
+        "label": "Shield Ellipsis",
+        "searchText": "shield-ellipsis shield ellipsis"
+    },
+    {
+        "key": "shield-half",
+        "label": "Shield Half",
+        "searchText": "shield-half shield half"
+    },
+    {
+        "key": "shield-minus",
+        "label": "Shield Minus",
+        "searchText": "shield-minus shield minus"
+    },
+    {
+        "key": "shield-off",
+        "label": "Shield Off",
+        "searchText": "shield-off shield off"
+    },
+    {
+        "key": "shield-plus",
+        "label": "Shield Plus",
+        "searchText": "shield-plus shield plus"
+    },
+    {
+        "key": "shield-question",
+        "label": "Shield Question",
+        "searchText": "shield-question shield question"
+    },
+    {
+        "key": "shield-x",
+        "label": "Shield X",
+        "searchText": "shield-x shield x"
+    },
+    {
+        "key": "ship",
+        "label": "Ship",
+        "searchText": "ship ship"
+    },
+    {
+        "key": "ship-wheel",
+        "label": "Ship Wheel",
+        "searchText": "ship-wheel ship wheel"
+    },
+    {
+        "key": "shirt",
+        "label": "Shirt",
+        "searchText": "shirt shirt"
+    },
+    {
+        "key": "shopping-bag",
+        "label": "Shopping Bag",
+        "searchText": "shopping-bag shopping bag"
+    },
+    {
+        "key": "shopping-basket",
+        "label": "Shopping Basket",
+        "searchText": "shopping-basket shopping basket"
+    },
+    {
+        "key": "shopping-cart",
+        "label": "Shopping Cart",
+        "searchText": "shopping-cart shopping cart"
+    },
+    {
+        "key": "shovel",
+        "label": "Shovel",
+        "searchText": "shovel shovel"
+    },
+    {
+        "key": "shower-head",
+        "label": "Shower Head",
+        "searchText": "shower-head shower head"
+    },
+    {
+        "key": "shrink",
+        "label": "Shrink",
+        "searchText": "shrink shrink"
+    },
+    {
+        "key": "shrub",
+        "label": "Shrub",
+        "searchText": "shrub shrub"
+    },
+    {
+        "key": "shuffle",
+        "label": "Shuffle",
+        "searchText": "shuffle shuffle"
+    },
+    {
+        "key": "sidebar",
+        "label": "Sidebar",
+        "searchText": "sidebar sidebar"
+    },
+    {
+        "key": "sidebar-close",
+        "label": "Sidebar Close",
+        "searchText": "sidebar-close sidebar close"
+    },
+    {
+        "key": "sidebar-open",
+        "label": "Sidebar Open",
+        "searchText": "sidebar-open sidebar open"
+    },
+    {
+        "key": "sigma",
+        "label": "Sigma",
+        "searchText": "sigma sigma"
+    },
+    {
+        "key": "sigma-square",
+        "label": "Sigma Square",
+        "searchText": "sigma-square sigma square"
+    },
+    {
+        "key": "signal",
+        "label": "Signal",
+        "searchText": "signal signal"
+    },
+    {
+        "key": "signal-high",
+        "label": "Signal High",
+        "searchText": "signal-high signal high"
+    },
+    {
+        "key": "signal-low",
+        "label": "Signal Low",
+        "searchText": "signal-low signal low"
+    },
+    {
+        "key": "signal-medium",
+        "label": "Signal Medium",
+        "searchText": "signal-medium signal medium"
+    },
+    {
+        "key": "signal-zero",
+        "label": "Signal Zero",
+        "searchText": "signal-zero signal zero"
+    },
+    {
+        "key": "signature",
+        "label": "Signature",
+        "searchText": "signature signature"
+    },
+    {
+        "key": "signpost",
+        "label": "Signpost",
+        "searchText": "signpost signpost"
+    },
+    {
+        "key": "signpost-big",
+        "label": "Signpost Big",
+        "searchText": "signpost-big signpost big"
+    },
+    {
+        "key": "siren",
+        "label": "Siren",
+        "searchText": "siren siren"
+    },
+    {
+        "key": "skip-back",
+        "label": "Skip Back",
+        "searchText": "skip-back skip back"
+    },
+    {
+        "key": "skip-forward",
+        "label": "Skip Forward",
+        "searchText": "skip-forward skip forward"
+    },
+    {
+        "key": "skull",
+        "label": "Skull",
+        "searchText": "skull skull"
+    },
+    {
+        "key": "slack",
+        "label": "Slack",
+        "searchText": "slack slack"
+    },
+    {
+        "key": "slash",
+        "label": "Slash",
+        "searchText": "slash slash"
+    },
+    {
+        "key": "slash-square",
+        "label": "Slash Square",
+        "searchText": "slash-square slash square"
+    },
+    {
+        "key": "slice",
+        "label": "Slice",
+        "searchText": "slice slice"
+    },
+    {
+        "key": "sliders",
+        "label": "Sliders",
+        "searchText": "sliders sliders"
+    },
+    {
+        "key": "sliders-horizontal",
+        "label": "Sliders Horizontal",
+        "searchText": "sliders-horizontal sliders horizontal"
+    },
+    {
+        "key": "sliders-vertical",
+        "label": "Sliders Vertical",
+        "searchText": "sliders-vertical sliders vertical"
+    },
+    {
+        "key": "smartphone",
+        "label": "Smartphone",
+        "searchText": "smartphone smartphone"
+    },
+    {
+        "key": "smartphone-charging",
+        "label": "Smartphone Charging",
+        "searchText": "smartphone-charging smartphone charging"
+    },
+    {
+        "key": "smartphone-nfc",
+        "label": "Smartphone Nfc",
+        "searchText": "smartphone-nfc smartphone nfc"
+    },
+    {
+        "key": "smile",
+        "label": "Smile",
+        "searchText": "smile smile"
+    },
+    {
+        "key": "smile-plus",
+        "label": "Smile Plus",
+        "searchText": "smile-plus smile plus"
+    },
+    {
+        "key": "snail",
+        "label": "Snail",
+        "searchText": "snail snail"
+    },
+    {
+        "key": "snowflake",
+        "label": "Snowflake",
+        "searchText": "snowflake snowflake"
+    },
+    {
+        "key": "sofa",
+        "label": "Sofa",
+        "searchText": "sofa sofa"
+    },
+    {
+        "key": "sort-asc",
+        "label": "Sort Asc",
+        "searchText": "sort-asc sort asc"
+    },
+    {
+        "key": "sort-desc",
+        "label": "Sort Desc",
+        "searchText": "sort-desc sort desc"
+    },
+    {
+        "key": "soup",
+        "label": "Soup",
+        "searchText": "soup soup"
+    },
+    {
+        "key": "space",
+        "label": "Space",
+        "searchText": "space space"
+    },
+    {
+        "key": "spade",
+        "label": "Spade",
+        "searchText": "spade spade"
+    },
+    {
+        "key": "sparkle",
+        "label": "Sparkle",
+        "searchText": "sparkle sparkle"
+    },
+    {
+        "key": "sparkles",
+        "label": "Sparkles",
+        "searchText": "sparkles sparkles"
+    },
+    {
+        "key": "speaker",
+        "label": "Speaker",
+        "searchText": "speaker speaker"
+    },
+    {
+        "key": "speech",
+        "label": "Speech",
+        "searchText": "speech speech"
+    },
+    {
+        "key": "spell-check",
+        "label": "Spell Check",
+        "searchText": "spell-check spell check"
+    },
+    {
+        "key": "spell-check-2",
+        "label": "Spell Check 2",
+        "searchText": "spell-check-2 spell check 2"
+    },
+    {
+        "key": "spline",
+        "label": "Spline",
+        "searchText": "spline spline"
+    },
+    {
+        "key": "split",
+        "label": "Split",
+        "searchText": "split split"
+    },
+    {
+        "key": "split-square-horizontal",
+        "label": "Split Square Horizontal",
+        "searchText": "split-square-horizontal split square horizontal"
+    },
+    {
+        "key": "split-square-vertical",
+        "label": "Split Square Vertical",
+        "searchText": "split-square-vertical split square vertical"
+    },
+    {
+        "key": "spray-can",
+        "label": "Spray Can",
+        "searchText": "spray-can spray can"
+    },
+    {
+        "key": "sprout",
+        "label": "Sprout",
+        "searchText": "sprout sprout"
+    },
+    {
+        "key": "square",
+        "label": "Square",
+        "searchText": "square square"
+    },
+    {
+        "key": "square-activity",
+        "label": "Square Activity",
+        "searchText": "square-activity square activity"
+    },
+    {
+        "key": "square-arrow-down",
+        "label": "Square Arrow Down",
+        "searchText": "square-arrow-down square arrow down"
+    },
+    {
+        "key": "square-arrow-down-left",
+        "label": "Square Arrow Down Left",
+        "searchText": "square-arrow-down-left square arrow down left"
+    },
+    {
+        "key": "square-arrow-down-right",
+        "label": "Square Arrow Down Right",
+        "searchText": "square-arrow-down-right square arrow down right"
+    },
+    {
+        "key": "square-arrow-left",
+        "label": "Square Arrow Left",
+        "searchText": "square-arrow-left square arrow left"
+    },
+    {
+        "key": "square-arrow-out-down-left",
+        "label": "Square Arrow Out Down Left",
+        "searchText": "square-arrow-out-down-left square arrow out down left"
+    },
+    {
+        "key": "square-arrow-out-down-right",
+        "label": "Square Arrow Out Down Right",
+        "searchText": "square-arrow-out-down-right square arrow out down right"
+    },
+    {
+        "key": "square-arrow-out-up-left",
+        "label": "Square Arrow Out Up Left",
+        "searchText": "square-arrow-out-up-left square arrow out up left"
+    },
+    {
+        "key": "square-arrow-out-up-right",
+        "label": "Square Arrow Out Up Right",
+        "searchText": "square-arrow-out-up-right square arrow out up right"
+    },
+    {
+        "key": "square-arrow-right",
+        "label": "Square Arrow Right",
+        "searchText": "square-arrow-right square arrow right"
+    },
+    {
+        "key": "square-arrow-up",
+        "label": "Square Arrow Up",
+        "searchText": "square-arrow-up square arrow up"
+    },
+    {
+        "key": "square-arrow-up-left",
+        "label": "Square Arrow Up Left",
+        "searchText": "square-arrow-up-left square arrow up left"
+    },
+    {
+        "key": "square-arrow-up-right",
+        "label": "Square Arrow Up Right",
+        "searchText": "square-arrow-up-right square arrow up right"
+    },
+    {
+        "key": "square-asterisk",
+        "label": "Square Asterisk",
+        "searchText": "square-asterisk square asterisk"
+    },
+    {
+        "key": "square-bottom-dashed-scissors",
+        "label": "Square Bottom Dashed Scissors",
+        "searchText": "square-bottom-dashed-scissors square bottom dashed scissors"
+    },
+    {
+        "key": "square-chart-gantt",
+        "label": "Square Chart Gantt",
+        "searchText": "square-chart-gantt square chart gantt"
+    },
+    {
+        "key": "square-check",
+        "label": "Square Check",
+        "searchText": "square-check square check"
+    },
+    {
+        "key": "square-check-big",
+        "label": "Square Check Big",
+        "searchText": "square-check-big square check big"
+    },
+    {
+        "key": "square-chevron-down",
+        "label": "Square Chevron Down",
+        "searchText": "square-chevron-down square chevron down"
+    },
+    {
+        "key": "square-chevron-left",
+        "label": "Square Chevron Left",
+        "searchText": "square-chevron-left square chevron left"
+    },
+    {
+        "key": "square-chevron-right",
+        "label": "Square Chevron Right",
+        "searchText": "square-chevron-right square chevron right"
+    },
+    {
+        "key": "square-chevron-up",
+        "label": "Square Chevron Up",
+        "searchText": "square-chevron-up square chevron up"
+    },
+    {
+        "key": "square-code",
+        "label": "Square Code",
+        "searchText": "square-code square code"
+    },
+    {
+        "key": "square-dashed",
+        "label": "Square Dashed",
+        "searchText": "square-dashed square dashed"
+    },
+    {
+        "key": "square-dashed-bottom",
+        "label": "Square Dashed Bottom",
+        "searchText": "square-dashed-bottom square dashed bottom"
+    },
+    {
+        "key": "square-dashed-bottom-code",
+        "label": "Square Dashed Bottom Code",
+        "searchText": "square-dashed-bottom-code square dashed bottom code"
+    },
+    {
+        "key": "square-dashed-kanban",
+        "label": "Square Dashed Kanban",
+        "searchText": "square-dashed-kanban square dashed kanban"
+    },
+    {
+        "key": "square-dashed-mouse-pointer",
+        "label": "Square Dashed Mouse Pointer",
+        "searchText": "square-dashed-mouse-pointer square dashed mouse pointer"
+    },
+    {
+        "key": "square-divide",
+        "label": "Square Divide",
+        "searchText": "square-divide square divide"
+    },
+    {
+        "key": "square-dot",
+        "label": "Square Dot",
+        "searchText": "square-dot square dot"
+    },
+    {
+        "key": "square-equal",
+        "label": "Square Equal",
+        "searchText": "square-equal square equal"
+    },
+    {
+        "key": "square-function",
+        "label": "Square Function",
+        "searchText": "square-function square function"
+    },
+    {
+        "key": "square-gantt-chart",
+        "label": "Square Gantt Chart",
+        "searchText": "square-gantt-chart square gantt chart"
+    },
+    {
+        "key": "square-kanban",
+        "label": "Square Kanban",
+        "searchText": "square-kanban square kanban"
+    },
+    {
+        "key": "square-library",
+        "label": "Square Library",
+        "searchText": "square-library square library"
+    },
+    {
+        "key": "square-m",
+        "label": "Square M",
+        "searchText": "square-m square m"
+    },
+    {
+        "key": "square-menu",
+        "label": "Square Menu",
+        "searchText": "square-menu square menu"
+    },
+    {
+        "key": "square-minus",
+        "label": "Square Minus",
+        "searchText": "square-minus square minus"
+    },
+    {
+        "key": "square-mouse-pointer",
+        "label": "Square Mouse Pointer",
+        "searchText": "square-mouse-pointer square mouse pointer"
+    },
+    {
+        "key": "square-parking",
+        "label": "Square Parking",
+        "searchText": "square-parking square parking"
+    },
+    {
+        "key": "square-parking-off",
+        "label": "Square Parking Off",
+        "searchText": "square-parking-off square parking off"
+    },
+    {
+        "key": "square-pen",
+        "label": "Square Pen",
+        "searchText": "square-pen square pen"
+    },
+    {
+        "key": "square-percent",
+        "label": "Square Percent",
+        "searchText": "square-percent square percent"
+    },
+    {
+        "key": "square-pi",
+        "label": "Square Pi",
+        "searchText": "square-pi square pi"
+    },
+    {
+        "key": "square-pilcrow",
+        "label": "Square Pilcrow",
+        "searchText": "square-pilcrow square pilcrow"
+    },
+    {
+        "key": "square-play",
+        "label": "Square Play",
+        "searchText": "square-play square play"
+    },
+    {
+        "key": "square-plus",
+        "label": "Square Plus",
+        "searchText": "square-plus square plus"
+    },
+    {
+        "key": "square-power",
+        "label": "Square Power",
+        "searchText": "square-power square power"
+    },
+    {
+        "key": "square-radical",
+        "label": "Square Radical",
+        "searchText": "square-radical square radical"
+    },
+    {
+        "key": "square-scissors",
+        "label": "Square Scissors",
+        "searchText": "square-scissors square scissors"
+    },
+    {
+        "key": "square-sigma",
+        "label": "Square Sigma",
+        "searchText": "square-sigma square sigma"
+    },
+    {
+        "key": "square-slash",
+        "label": "Square Slash",
+        "searchText": "square-slash square slash"
+    },
+    {
+        "key": "square-split-horizontal",
+        "label": "Square Split Horizontal",
+        "searchText": "square-split-horizontal square split horizontal"
+    },
+    {
+        "key": "square-split-vertical",
+        "label": "Square Split Vertical",
+        "searchText": "square-split-vertical square split vertical"
+    },
+    {
+        "key": "square-square",
+        "label": "Square Square",
+        "searchText": "square-square square square"
+    },
+    {
+        "key": "square-stack",
+        "label": "Square Stack",
+        "searchText": "square-stack square stack"
+    },
+    {
+        "key": "square-terminal",
+        "label": "Square Terminal",
+        "searchText": "square-terminal square terminal"
+    },
+    {
+        "key": "square-user",
+        "label": "Square User",
+        "searchText": "square-user square user"
+    },
+    {
+        "key": "square-user-round",
+        "label": "Square User Round",
+        "searchText": "square-user-round square user round"
+    },
+    {
+        "key": "square-x",
+        "label": "Square X",
+        "searchText": "square-x square x"
+    },
+    {
+        "key": "squircle",
+        "label": "Squircle",
+        "searchText": "squircle squircle"
+    },
+    {
+        "key": "squirrel",
+        "label": "Squirrel",
+        "searchText": "squirrel squirrel"
+    },
+    {
+        "key": "stamp",
+        "label": "Stamp",
+        "searchText": "stamp stamp"
+    },
+    {
+        "key": "star",
+        "label": "Star",
+        "searchText": "star star"
+    },
+    {
+        "key": "star-half",
+        "label": "Star Half",
+        "searchText": "star-half star half"
+    },
+    {
+        "key": "star-off",
+        "label": "Star Off",
+        "searchText": "star-off star off"
+    },
+    {
+        "key": "stars",
+        "label": "Stars",
+        "searchText": "stars stars"
+    },
+    {
+        "key": "step-back",
+        "label": "Step Back",
+        "searchText": "step-back step back"
+    },
+    {
+        "key": "step-forward",
+        "label": "Step Forward",
+        "searchText": "step-forward step forward"
+    },
+    {
+        "key": "stethoscope",
+        "label": "Stethoscope",
+        "searchText": "stethoscope stethoscope"
+    },
+    {
+        "key": "sticker",
+        "label": "Sticker",
+        "searchText": "sticker sticker"
+    },
+    {
+        "key": "sticky-note",
+        "label": "Sticky Note",
+        "searchText": "sticky-note sticky note"
+    },
+    {
+        "key": "stop-circle",
+        "label": "Stop Circle",
+        "searchText": "stop-circle stop circle"
+    },
+    {
+        "key": "store",
+        "label": "Store",
+        "searchText": "store store"
+    },
+    {
+        "key": "stretch-horizontal",
+        "label": "Stretch Horizontal",
+        "searchText": "stretch-horizontal stretch horizontal"
+    },
+    {
+        "key": "stretch-vertical",
+        "label": "Stretch Vertical",
+        "searchText": "stretch-vertical stretch vertical"
+    },
+    {
+        "key": "strikethrough",
+        "label": "Strikethrough",
+        "searchText": "strikethrough strikethrough"
+    },
+    {
+        "key": "subscript",
+        "label": "Subscript",
+        "searchText": "subscript subscript"
+    },
+    {
+        "key": "subtitles",
+        "label": "Subtitles",
+        "searchText": "subtitles subtitles"
+    },
+    {
+        "key": "sun",
+        "label": "Sun",
+        "searchText": "sun sun"
+    },
+    {
+        "key": "sun-dim",
+        "label": "Sun Dim",
+        "searchText": "sun-dim sun dim"
+    },
+    {
+        "key": "sun-medium",
+        "label": "Sun Medium",
+        "searchText": "sun-medium sun medium"
+    },
+    {
+        "key": "sun-moon",
+        "label": "Sun Moon",
+        "searchText": "sun-moon sun moon"
+    },
+    {
+        "key": "sun-snow",
+        "label": "Sun Snow",
+        "searchText": "sun-snow sun snow"
+    },
+    {
+        "key": "sunrise",
+        "label": "Sunrise",
+        "searchText": "sunrise sunrise"
+    },
+    {
+        "key": "sunset",
+        "label": "Sunset",
+        "searchText": "sunset sunset"
+    },
+    {
+        "key": "superscript",
+        "label": "Superscript",
+        "searchText": "superscript superscript"
+    },
+    {
+        "key": "swatch-book",
+        "label": "Swatch Book",
+        "searchText": "swatch-book swatch book"
+    },
+    {
+        "key": "swiss-franc",
+        "label": "Swiss Franc",
+        "searchText": "swiss-franc swiss franc"
+    },
+    {
+        "key": "switch-camera",
+        "label": "Switch Camera",
+        "searchText": "switch-camera switch camera"
+    },
+    {
+        "key": "sword",
+        "label": "Sword",
+        "searchText": "sword sword"
+    },
+    {
+        "key": "swords",
+        "label": "Swords",
+        "searchText": "swords swords"
+    },
+    {
+        "key": "syringe",
+        "label": "Syringe",
+        "searchText": "syringe syringe"
+    },
+    {
+        "key": "table",
+        "label": "Table",
+        "searchText": "table table"
+    },
+    {
+        "key": "table-2",
+        "label": "Table 2",
+        "searchText": "table-2 table 2"
+    },
+    {
+        "key": "table-cells-merge",
+        "label": "Table Cells Merge",
+        "searchText": "table-cells-merge table cells merge"
+    },
+    {
+        "key": "table-cells-split",
+        "label": "Table Cells Split",
+        "searchText": "table-cells-split table cells split"
+    },
+    {
+        "key": "table-columns-split",
+        "label": "Table Columns Split",
+        "searchText": "table-columns-split table columns split"
+    },
+    {
+        "key": "table-of-contents",
+        "label": "Table Of Contents",
+        "searchText": "table-of-contents table of contents"
+    },
+    {
+        "key": "table-properties",
+        "label": "Table Properties",
+        "searchText": "table-properties table properties"
+    },
+    {
+        "key": "table-rows-split",
+        "label": "Table Rows Split",
+        "searchText": "table-rows-split table rows split"
+    },
+    {
+        "key": "tablet",
+        "label": "Tablet",
+        "searchText": "tablet tablet"
+    },
+    {
+        "key": "tablet-smartphone",
+        "label": "Tablet Smartphone",
+        "searchText": "tablet-smartphone tablet smartphone"
+    },
+    {
+        "key": "tablets",
+        "label": "Tablets",
+        "searchText": "tablets tablets"
+    },
+    {
+        "key": "tag",
+        "label": "Tag",
+        "searchText": "tag tag"
+    },
+    {
+        "key": "tags",
+        "label": "Tags",
+        "searchText": "tags tags"
+    },
+    {
+        "key": "tally-1",
+        "label": "Tally 1",
+        "searchText": "tally-1 tally 1"
+    },
+    {
+        "key": "tally-2",
+        "label": "Tally 2",
+        "searchText": "tally-2 tally 2"
+    },
+    {
+        "key": "tally-3",
+        "label": "Tally 3",
+        "searchText": "tally-3 tally 3"
+    },
+    {
+        "key": "tally-4",
+        "label": "Tally 4",
+        "searchText": "tally-4 tally 4"
+    },
+    {
+        "key": "tally-5",
+        "label": "Tally 5",
+        "searchText": "tally-5 tally 5"
+    },
+    {
+        "key": "tangent",
+        "label": "Tangent",
+        "searchText": "tangent tangent"
+    },
+    {
+        "key": "target",
+        "label": "Target",
+        "searchText": "target target"
+    },
+    {
+        "key": "telescope",
+        "label": "Telescope",
+        "searchText": "telescope telescope"
+    },
+    {
+        "key": "tent",
+        "label": "Tent",
+        "searchText": "tent tent"
+    },
+    {
+        "key": "tent-tree",
+        "label": "Tent Tree",
+        "searchText": "tent-tree tent tree"
+    },
+    {
+        "key": "terminal",
+        "label": "Terminal",
+        "searchText": "terminal terminal"
+    },
+    {
+        "key": "terminal-square",
+        "label": "Terminal Square",
+        "searchText": "terminal-square terminal square"
+    },
+    {
+        "key": "test-tube",
+        "label": "Test Tube",
+        "searchText": "test-tube test tube"
+    },
+    {
+        "key": "test-tube-2",
+        "label": "Test Tube 2",
+        "searchText": "test-tube-2 test tube 2"
+    },
+    {
+        "key": "test-tube-diagonal",
+        "label": "Test Tube Diagonal",
+        "searchText": "test-tube-diagonal test tube diagonal"
+    },
+    {
+        "key": "test-tubes",
+        "label": "Test Tubes",
+        "searchText": "test-tubes test tubes"
+    },
+    {
+        "key": "text",
+        "label": "Text",
+        "searchText": "text text"
+    },
+    {
+        "key": "text-cursor",
+        "label": "Text Cursor",
+        "searchText": "text-cursor text cursor"
+    },
+    {
+        "key": "text-cursor-input",
+        "label": "Text Cursor Input",
+        "searchText": "text-cursor-input text cursor input"
+    },
+    {
+        "key": "text-quote",
+        "label": "Text Quote",
+        "searchText": "text-quote text quote"
+    },
+    {
+        "key": "text-search",
+        "label": "Text Search",
+        "searchText": "text-search text search"
+    },
+    {
+        "key": "text-select",
+        "label": "Text Select",
+        "searchText": "text-select text select"
+    },
+    {
+        "key": "text-selection",
+        "label": "Text Selection",
+        "searchText": "text-selection text selection"
+    },
+    {
+        "key": "theater",
+        "label": "Theater",
+        "searchText": "theater theater"
+    },
+    {
+        "key": "thermometer",
+        "label": "Thermometer",
+        "searchText": "thermometer thermometer"
+    },
+    {
+        "key": "thermometer-snowflake",
+        "label": "Thermometer Snowflake",
+        "searchText": "thermometer-snowflake thermometer snowflake"
+    },
+    {
+        "key": "thermometer-sun",
+        "label": "Thermometer Sun",
+        "searchText": "thermometer-sun thermometer sun"
+    },
+    {
+        "key": "thumbs-down",
+        "label": "Thumbs Down",
+        "searchText": "thumbs-down thumbs down"
+    },
+    {
+        "key": "thumbs-up",
+        "label": "Thumbs Up",
+        "searchText": "thumbs-up thumbs up"
+    },
+    {
+        "key": "ticket",
+        "label": "Ticket",
+        "searchText": "ticket ticket"
+    },
+    {
+        "key": "ticket-check",
+        "label": "Ticket Check",
+        "searchText": "ticket-check ticket check"
+    },
+    {
+        "key": "ticket-minus",
+        "label": "Ticket Minus",
+        "searchText": "ticket-minus ticket minus"
+    },
+    {
+        "key": "ticket-percent",
+        "label": "Ticket Percent",
+        "searchText": "ticket-percent ticket percent"
+    },
+    {
+        "key": "ticket-plus",
+        "label": "Ticket Plus",
+        "searchText": "ticket-plus ticket plus"
+    },
+    {
+        "key": "ticket-slash",
+        "label": "Ticket Slash",
+        "searchText": "ticket-slash ticket slash"
+    },
+    {
+        "key": "ticket-x",
+        "label": "Ticket X",
+        "searchText": "ticket-x ticket x"
+    },
+    {
+        "key": "tickets",
+        "label": "Tickets",
+        "searchText": "tickets tickets"
+    },
+    {
+        "key": "tickets-plane",
+        "label": "Tickets Plane",
+        "searchText": "tickets-plane tickets plane"
+    },
+    {
+        "key": "timer",
+        "label": "Timer",
+        "searchText": "timer timer"
+    },
+    {
+        "key": "timer-off",
+        "label": "Timer Off",
+        "searchText": "timer-off timer off"
+    },
+    {
+        "key": "timer-reset",
+        "label": "Timer Reset",
+        "searchText": "timer-reset timer reset"
+    },
+    {
+        "key": "toggle-left",
+        "label": "Toggle Left",
+        "searchText": "toggle-left toggle left"
+    },
+    {
+        "key": "toggle-right",
+        "label": "Toggle Right",
+        "searchText": "toggle-right toggle right"
+    },
+    {
+        "key": "toilet",
+        "label": "Toilet",
+        "searchText": "toilet toilet"
+    },
+    {
+        "key": "tornado",
+        "label": "Tornado",
+        "searchText": "tornado tornado"
+    },
+    {
+        "key": "torus",
+        "label": "Torus",
+        "searchText": "torus torus"
+    },
+    {
+        "key": "touchpad",
+        "label": "Touchpad",
+        "searchText": "touchpad touchpad"
+    },
+    {
+        "key": "touchpad-off",
+        "label": "Touchpad Off",
+        "searchText": "touchpad-off touchpad off"
+    },
+    {
+        "key": "tower-control",
+        "label": "Tower Control",
+        "searchText": "tower-control tower control"
+    },
+    {
+        "key": "toy-brick",
+        "label": "Toy Brick",
+        "searchText": "toy-brick toy brick"
+    },
+    {
+        "key": "tractor",
+        "label": "Tractor",
+        "searchText": "tractor tractor"
+    },
+    {
+        "key": "traffic-cone",
+        "label": "Traffic Cone",
+        "searchText": "traffic-cone traffic cone"
+    },
+    {
+        "key": "train",
+        "label": "Train",
+        "searchText": "train train"
+    },
+    {
+        "key": "train-front",
+        "label": "Train Front",
+        "searchText": "train-front train front"
+    },
+    {
+        "key": "train-front-tunnel",
+        "label": "Train Front Tunnel",
+        "searchText": "train-front-tunnel train front tunnel"
+    },
+    {
+        "key": "train-track",
+        "label": "Train Track",
+        "searchText": "train-track train track"
+    },
+    {
+        "key": "tram-front",
+        "label": "Tram Front",
+        "searchText": "tram-front tram front"
+    },
+    {
+        "key": "transgender",
+        "label": "Transgender",
+        "searchText": "transgender transgender"
+    },
+    {
+        "key": "trash",
+        "label": "Trash",
+        "searchText": "trash trash"
+    },
+    {
+        "key": "trash-2",
+        "label": "Trash 2",
+        "searchText": "trash-2 trash 2"
+    },
+    {
+        "key": "tree-deciduous",
+        "label": "Tree Deciduous",
+        "searchText": "tree-deciduous tree deciduous"
+    },
+    {
+        "key": "tree-palm",
+        "label": "Tree Palm",
+        "searchText": "tree-palm tree palm"
+    },
+    {
+        "key": "tree-pine",
+        "label": "Tree Pine",
+        "searchText": "tree-pine tree pine"
+    },
+    {
+        "key": "trees",
+        "label": "Trees",
+        "searchText": "trees trees"
+    },
+    {
+        "key": "trello",
+        "label": "Trello",
+        "searchText": "trello trello"
+    },
+    {
+        "key": "trending-down",
+        "label": "Trending Down",
+        "searchText": "trending-down trending down"
+    },
+    {
+        "key": "trending-up",
+        "label": "Trending Up",
+        "searchText": "trending-up trending up"
+    },
+    {
+        "key": "trending-up-down",
+        "label": "Trending Up Down",
+        "searchText": "trending-up-down trending up down"
+    },
+    {
+        "key": "triangle",
+        "label": "Triangle",
+        "searchText": "triangle triangle"
+    },
+    {
+        "key": "triangle-alert",
+        "label": "Triangle Alert",
+        "searchText": "triangle-alert triangle alert"
+    },
+    {
+        "key": "triangle-dashed",
+        "label": "Triangle Dashed",
+        "searchText": "triangle-dashed triangle dashed"
+    },
+    {
+        "key": "triangle-right",
+        "label": "Triangle Right",
+        "searchText": "triangle-right triangle right"
+    },
+    {
+        "key": "trophy",
+        "label": "Trophy",
+        "searchText": "trophy trophy"
+    },
+    {
+        "key": "truck",
+        "label": "Truck",
+        "searchText": "truck truck"
+    },
+    {
+        "key": "turtle",
+        "label": "Turtle",
+        "searchText": "turtle turtle"
+    },
+    {
+        "key": "tv",
+        "label": "Tv",
+        "searchText": "tv tv"
+    },
+    {
+        "key": "tv-2",
+        "label": "Tv 2",
+        "searchText": "tv-2 tv 2"
+    },
+    {
+        "key": "tv-minimal",
+        "label": "Tv Minimal",
+        "searchText": "tv-minimal tv minimal"
+    },
+    {
+        "key": "tv-minimal-play",
+        "label": "Tv Minimal Play",
+        "searchText": "tv-minimal-play tv minimal play"
+    },
+    {
+        "key": "twitch",
+        "label": "Twitch",
+        "searchText": "twitch twitch"
+    },
+    {
+        "key": "twitter",
+        "label": "Twitter",
+        "searchText": "twitter twitter"
+    },
+    {
+        "key": "type",
+        "label": "Type",
+        "searchText": "type type"
+    },
+    {
+        "key": "type-outline",
+        "label": "Type Outline",
+        "searchText": "type-outline type outline"
+    },
+    {
+        "key": "umbrella",
+        "label": "Umbrella",
+        "searchText": "umbrella umbrella"
+    },
+    {
+        "key": "umbrella-off",
+        "label": "Umbrella Off",
+        "searchText": "umbrella-off umbrella off"
+    },
+    {
+        "key": "underline",
+        "label": "Underline",
+        "searchText": "underline underline"
+    },
+    {
+        "key": "undo",
+        "label": "Undo",
+        "searchText": "undo undo"
+    },
+    {
+        "key": "undo-2",
+        "label": "Undo 2",
+        "searchText": "undo-2 undo 2"
+    },
+    {
+        "key": "undo-dot",
+        "label": "Undo Dot",
+        "searchText": "undo-dot undo dot"
+    },
+    {
+        "key": "unfold-horizontal",
+        "label": "Unfold Horizontal",
+        "searchText": "unfold-horizontal unfold horizontal"
+    },
+    {
+        "key": "unfold-vertical",
+        "label": "Unfold Vertical",
+        "searchText": "unfold-vertical unfold vertical"
+    },
+    {
+        "key": "ungroup",
+        "label": "Ungroup",
+        "searchText": "ungroup ungroup"
+    },
+    {
+        "key": "university",
+        "label": "University",
+        "searchText": "university university"
+    },
+    {
+        "key": "unlink",
+        "label": "Unlink",
+        "searchText": "unlink unlink"
+    },
+    {
+        "key": "unlink-2",
+        "label": "Unlink 2",
+        "searchText": "unlink-2 unlink 2"
+    },
+    {
+        "key": "unlock",
+        "label": "Unlock",
+        "searchText": "unlock unlock"
+    },
+    {
+        "key": "unlock-keyhole",
+        "label": "Unlock Keyhole",
+        "searchText": "unlock-keyhole unlock keyhole"
+    },
+    {
+        "key": "unplug",
+        "label": "Unplug",
+        "searchText": "unplug unplug"
+    },
+    {
+        "key": "upload",
+        "label": "Upload",
+        "searchText": "upload upload"
+    },
+    {
+        "key": "upload-cloud",
+        "label": "Upload Cloud",
+        "searchText": "upload-cloud upload cloud"
+    },
+    {
+        "key": "usb",
+        "label": "Usb",
+        "searchText": "usb usb"
+    },
+    {
+        "key": "user",
+        "label": "User",
+        "searchText": "user user"
+    },
+    {
+        "key": "user-2",
+        "label": "User 2",
+        "searchText": "user-2 user 2"
+    },
+    {
+        "key": "user-check",
+        "label": "User Check",
+        "searchText": "user-check user check"
+    },
+    {
+        "key": "user-check-2",
+        "label": "User Check 2",
+        "searchText": "user-check-2 user check 2"
+    },
+    {
+        "key": "user-circle",
+        "label": "User Circle",
+        "searchText": "user-circle user circle"
+    },
+    {
+        "key": "user-circle-2",
+        "label": "User Circle 2",
+        "searchText": "user-circle-2 user circle 2"
+    },
+    {
+        "key": "user-cog",
+        "label": "User Cog",
+        "searchText": "user-cog user cog"
+    },
+    {
+        "key": "user-cog-2",
+        "label": "User Cog 2",
+        "searchText": "user-cog-2 user cog 2"
+    },
+    {
+        "key": "user-minus",
+        "label": "User Minus",
+        "searchText": "user-minus user minus"
+    },
+    {
+        "key": "user-minus-2",
+        "label": "User Minus 2",
+        "searchText": "user-minus-2 user minus 2"
+    },
+    {
+        "key": "user-pen",
+        "label": "User Pen",
+        "searchText": "user-pen user pen"
+    },
+    {
+        "key": "user-plus",
+        "label": "User Plus",
+        "searchText": "user-plus user plus"
+    },
+    {
+        "key": "user-plus-2",
+        "label": "User Plus 2",
+        "searchText": "user-plus-2 user plus 2"
+    },
+    {
+        "key": "user-round",
+        "label": "User Round",
+        "searchText": "user-round user round"
+    },
+    {
+        "key": "user-round-check",
+        "label": "User Round Check",
+        "searchText": "user-round-check user round check"
+    },
+    {
+        "key": "user-round-cog",
+        "label": "User Round Cog",
+        "searchText": "user-round-cog user round cog"
+    },
+    {
+        "key": "user-round-minus",
+        "label": "User Round Minus",
+        "searchText": "user-round-minus user round minus"
+    },
+    {
+        "key": "user-round-pen",
+        "label": "User Round Pen",
+        "searchText": "user-round-pen user round pen"
+    },
+    {
+        "key": "user-round-plus",
+        "label": "User Round Plus",
+        "searchText": "user-round-plus user round plus"
+    },
+    {
+        "key": "user-round-search",
+        "label": "User Round Search",
+        "searchText": "user-round-search user round search"
+    },
+    {
+        "key": "user-round-x",
+        "label": "User Round X",
+        "searchText": "user-round-x user round x"
+    },
+    {
+        "key": "user-search",
+        "label": "User Search",
+        "searchText": "user-search user search"
+    },
+    {
+        "key": "user-square",
+        "label": "User Square",
+        "searchText": "user-square user square"
+    },
+    {
+        "key": "user-square-2",
+        "label": "User Square 2",
+        "searchText": "user-square-2 user square 2"
+    },
+    {
+        "key": "user-x",
+        "label": "User X",
+        "searchText": "user-x user x"
+    },
+    {
+        "key": "user-x-2",
+        "label": "User X 2",
+        "searchText": "user-x-2 user x 2"
+    },
+    {
+        "key": "users",
+        "label": "Users",
+        "searchText": "users users"
+    },
+    {
+        "key": "users-2",
+        "label": "Users 2",
+        "searchText": "users-2 users 2"
+    },
+    {
+        "key": "users-round",
+        "label": "Users Round",
+        "searchText": "users-round users round"
+    },
+    {
+        "key": "utensils",
+        "label": "Utensils",
+        "searchText": "utensils utensils"
+    },
+    {
+        "key": "utensils-crossed",
+        "label": "Utensils Crossed",
+        "searchText": "utensils-crossed utensils crossed"
+    },
+    {
+        "key": "utility-pole",
+        "label": "Utility Pole",
+        "searchText": "utility-pole utility pole"
+    },
+    {
+        "key": "variable",
+        "label": "Variable",
+        "searchText": "variable variable"
+    },
+    {
+        "key": "vault",
+        "label": "Vault",
+        "searchText": "vault vault"
+    },
+    {
+        "key": "vegan",
+        "label": "Vegan",
+        "searchText": "vegan vegan"
+    },
+    {
+        "key": "venetian-mask",
+        "label": "Venetian Mask",
+        "searchText": "venetian-mask venetian mask"
+    },
+    {
+        "key": "venus",
+        "label": "Venus",
+        "searchText": "venus venus"
+    },
+    {
+        "key": "venus-and-mars",
+        "label": "Venus And Mars",
+        "searchText": "venus-and-mars venus and mars"
+    },
+    {
+        "key": "verified",
+        "label": "Verified",
+        "searchText": "verified verified"
+    },
+    {
+        "key": "vibrate",
+        "label": "Vibrate",
+        "searchText": "vibrate vibrate"
+    },
+    {
+        "key": "vibrate-off",
+        "label": "Vibrate Off",
+        "searchText": "vibrate-off vibrate off"
+    },
+    {
+        "key": "video",
+        "label": "Video",
+        "searchText": "video video"
+    },
+    {
+        "key": "video-off",
+        "label": "Video Off",
+        "searchText": "video-off video off"
+    },
+    {
+        "key": "videotape",
+        "label": "Videotape",
+        "searchText": "videotape videotape"
+    },
+    {
+        "key": "view",
+        "label": "View",
+        "searchText": "view view"
+    },
+    {
+        "key": "voicemail",
+        "label": "Voicemail",
+        "searchText": "voicemail voicemail"
+    },
+    {
+        "key": "volleyball",
+        "label": "Volleyball",
+        "searchText": "volleyball volleyball"
+    },
+    {
+        "key": "volume",
+        "label": "Volume",
+        "searchText": "volume volume"
+    },
+    {
+        "key": "volume-1",
+        "label": "Volume 1",
+        "searchText": "volume-1 volume 1"
+    },
+    {
+        "key": "volume-2",
+        "label": "Volume 2",
+        "searchText": "volume-2 volume 2"
+    },
+    {
+        "key": "volume-off",
+        "label": "Volume Off",
+        "searchText": "volume-off volume off"
+    },
+    {
+        "key": "volume-x",
+        "label": "Volume X",
+        "searchText": "volume-x volume x"
+    },
+    {
+        "key": "vote",
+        "label": "Vote",
+        "searchText": "vote vote"
+    },
+    {
+        "key": "wallet",
+        "label": "Wallet",
+        "searchText": "wallet wallet"
+    },
+    {
+        "key": "wallet-2",
+        "label": "Wallet 2",
+        "searchText": "wallet-2 wallet 2"
+    },
+    {
+        "key": "wallet-cards",
+        "label": "Wallet Cards",
+        "searchText": "wallet-cards wallet cards"
+    },
+    {
+        "key": "wallet-minimal",
+        "label": "Wallet Minimal",
+        "searchText": "wallet-minimal wallet minimal"
+    },
+    {
+        "key": "wallpaper",
+        "label": "Wallpaper",
+        "searchText": "wallpaper wallpaper"
+    },
+    {
+        "key": "wand",
+        "label": "Wand",
+        "searchText": "wand wand"
+    },
+    {
+        "key": "wand-2",
+        "label": "Wand 2",
+        "searchText": "wand-2 wand 2"
+    },
+    {
+        "key": "wand-sparkles",
+        "label": "AI writing",
+        "searchText": "wand-sparkles ai writing"
+    },
+    {
+        "key": "warehouse",
+        "label": "Warehouse",
+        "searchText": "warehouse warehouse"
+    },
+    {
+        "key": "washing-machine",
+        "label": "Washing Machine",
+        "searchText": "washing-machine washing machine"
+    },
+    {
+        "key": "watch",
+        "label": "Watch",
+        "searchText": "watch watch"
+    },
+    {
+        "key": "waves",
+        "label": "Waves",
+        "searchText": "waves waves"
+    },
+    {
+        "key": "waves-ladder",
+        "label": "Waves Ladder",
+        "searchText": "waves-ladder waves ladder"
+    },
+    {
+        "key": "waypoints",
+        "label": "Waypoints",
+        "searchText": "waypoints waypoints"
+    },
+    {
+        "key": "webcam",
+        "label": "Webcam",
+        "searchText": "webcam webcam"
+    },
+    {
+        "key": "webhook",
+        "label": "Webhook",
+        "searchText": "webhook webhook"
+    },
+    {
+        "key": "webhook-off",
+        "label": "Webhook Off",
+        "searchText": "webhook-off webhook off"
     },
     {
         "key": "weight",
-        "label": "Weight"
+        "label": "Weight",
+        "searchText": "weight weight"
     },
     {
         "key": "wheat",
-        "label": "Wheat"
+        "label": "Wheat",
+        "searchText": "wheat wheat"
     },
     {
         "key": "wheat-off",
-        "label": "Wheat Off"
+        "label": "Wheat Off",
+        "searchText": "wheat-off wheat off"
     },
     {
         "key": "whole-word",
-        "label": "Whole Word"
+        "label": "Whole Word",
+        "searchText": "whole-word whole word"
     },
     {
         "key": "wifi",
-        "label": "Wifi"
+        "label": "Wifi",
+        "searchText": "wifi wifi"
     },
     {
         "key": "wifi-high",
-        "label": "Wifi High"
+        "label": "Wifi High",
+        "searchText": "wifi-high wifi high"
     },
     {
         "key": "wifi-low",
-        "label": "Wifi Low"
+        "label": "Wifi Low",
+        "searchText": "wifi-low wifi low"
     },
     {
         "key": "wifi-off",
-        "label": "Wifi Off"
+        "label": "Wifi Off",
+        "searchText": "wifi-off wifi off"
     },
     {
         "key": "wifi-zero",
-        "label": "Wifi Zero"
+        "label": "Wifi Zero",
+        "searchText": "wifi-zero wifi zero"
     },
     {
         "key": "wind",
-        "label": "Wind"
+        "label": "Wind",
+        "searchText": "wind wind"
     },
     {
         "key": "wind-arrow-down",
-        "label": "Wind Arrow Down"
+        "label": "Wind Arrow Down",
+        "searchText": "wind-arrow-down wind arrow down"
     },
     {
         "key": "wine",
-        "label": "Wine"
+        "label": "Wine",
+        "searchText": "wine wine"
     },
     {
         "key": "wine-off",
-        "label": "Wine Off"
+        "label": "Wine Off",
+        "searchText": "wine-off wine off"
     },
     {
         "key": "workflow",
-        "label": "Workflow"
+        "label": "Workflow",
+        "searchText": "workflow workflow"
     },
     {
         "key": "worm",
-        "label": "Worm"
+        "label": "Worm",
+        "searchText": "worm worm"
     },
     {
         "key": "wrap-text",
-        "label": "Wrap Text"
+        "label": "Wrap Text",
+        "searchText": "wrap-text wrap text"
     },
     {
         "key": "wrench",
-        "label": "Wrench"
+        "label": "Wrench",
+        "searchText": "wrench wrench"
     },
     {
         "key": "x",
-        "label": "X"
+        "label": "X",
+        "searchText": "x x"
     },
     {
         "key": "x-circle",
-        "label": "X Circle"
+        "label": "X Circle",
+        "searchText": "x-circle x circle"
     },
     {
         "key": "x-octagon",
-        "label": "X Octagon"
+        "label": "X Octagon",
+        "searchText": "x-octagon x octagon"
     },
     {
         "key": "x-square",
-        "label": "X Square"
+        "label": "X Square",
+        "searchText": "x-square x square"
     },
     {
         "key": "youtube",
-        "label": "Youtube"
+        "label": "Youtube",
+        "searchText": "youtube youtube"
     },
     {
         "key": "zap",
-        "label": "Zap"
+        "label": "Zap",
+        "searchText": "zap zap"
     },
     {
         "key": "zap-off",
-        "label": "Zap Off"
+        "label": "Zap Off",
+        "searchText": "zap-off zap off"
     },
     {
         "key": "zoom-in",
-        "label": "Zoom In"
+        "label": "Zoom In",
+        "searchText": "zoom-in zoom in"
     },
     {
         "key": "zoom-out",
-        "label": "Zoom Out"
+        "label": "Zoom Out",
+        "searchText": "zoom-out zoom out"
     }
 ] as const;
 
 export type IconKey = (typeof ICON_OPTIONS)[number]['key'];
+
+export type IconOption = (typeof ICON_OPTIONS)[number];
 
 export const ICON_KEYS = new Set<string>(
     ICON_OPTIONS.map((option) => option.key),

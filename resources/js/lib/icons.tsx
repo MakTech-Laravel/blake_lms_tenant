@@ -1,24 +1,13 @@
 import type { LucideProps } from 'lucide-react';
 import { iconNames } from 'lucide-react/dynamic';
-import { createElement, useEffect, useMemo } from 'react';
+import { createElement, useMemo } from 'react';
 
 import { CachedLucideIcon } from '@/components/icons/cached-lucide-icon';
-import { preloadLucideIcon } from '@/lib/lucide-icon-cache';
-import {
-    ICON_KEYS,
-    ICON_OPTIONS
-    
-} from '@/lib/icon-catalog';
-import type {IconKey} from '@/lib/icon-catalog';
-
-export { ICON_OPTIONS, type IconKey };
 
 const VALID_LUCIDE_KEYS = new Set<string>(iconNames);
 const DEFAULT_ICON_KEY = 'pen-line';
 
-const ICON_LABELS = new Map<string, string>(
-    ICON_OPTIONS.map((option) => [option.key, option.label]),
-);
+export type IconKey = string;
 
 const ICON_ALIASES: Record<string, string> = {
     funnel: 'filter',
@@ -31,10 +20,12 @@ function normalizeIconKey(value: string): string {
 export function isIconKey(
     value: string | null | undefined,
 ): value is IconKey {
-    return Boolean(value && ICON_KEYS.has(value));
+    return Boolean(value && VALID_LUCIDE_KEYS.has(value));
 }
 
-export function isValidLucideIconKey(value: string | null | undefined): boolean {
+export function isValidLucideIconKey(
+    value: string | null | undefined,
+): boolean {
     return Boolean(value && VALID_LUCIDE_KEYS.has(value));
 }
 
@@ -45,7 +36,7 @@ export function resolveIconKey(value: string | null | undefined): string {
 
     const normalized = normalizeIconKey(value);
 
-    if (ICON_KEYS.has(normalized) || VALID_LUCIDE_KEYS.has(normalized)) {
+    if (VALID_LUCIDE_KEYS.has(normalized)) {
         return normalized;
     }
 
@@ -53,13 +44,10 @@ export function resolveIconKey(value: string | null | undefined): string {
 }
 
 export function getIconLabel(key: string): string {
-    return (
-        ICON_LABELS.get(key) ??
-        key
-            .split('-')
-            .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-            .join(' ')
-    );
+    return key
+        .split('-')
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(' ');
 }
 
 export function Icon({
@@ -71,10 +59,6 @@ export function Icon({
     className?: string;
 } & Omit<LucideProps, 'ref'>) {
     const name = useMemo(() => resolveIconKey(icon), [icon]);
-
-    useEffect(() => {
-        void preloadLucideIcon(name);
-    }, [name]);
 
     return (
         <CachedLucideIcon

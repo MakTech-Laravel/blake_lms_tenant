@@ -2,6 +2,7 @@
 
 use App\Enums\PermissionEnum;
 use App\Http\Controllers\FileUploadDemoController;
+use App\Http\Controllers\IconPickerDemoController;
 use App\Http\Controllers\PostAttachmentController;
 use App\Http\Controllers\Teacher\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // ── Edit-mode endpoint (demo 3) ───────────────────────────────────────────
     Route::post('/posts/{post}', [PostAttachmentController::class, 'update'])
         ->name('posts.update')->middleware('permission:'.PermissionEnum::POSTS_EDIT->value);
+
+    // ── Icon picker demo ──────────────────────────────────────────────────────
+    Route::get('/icon-picker-demo', [IconPickerDemoController::class, 'index'])
+        ->name('icon-picker-demo.index');
+    Route::post('/icon-picker-demo', [IconPickerDemoController::class, 'store'])
+        ->name('icon-picker-demo.store');
 });
 
 require __DIR__.'/platform.php';

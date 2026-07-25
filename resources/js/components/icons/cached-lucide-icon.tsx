@@ -1,5 +1,5 @@
 import { Icon } from 'lucide-react';
-import type { LucideProps } from 'lucide-react';
+import type { IconNode, LucideProps } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import {
@@ -18,16 +18,23 @@ export function CachedLucideIcon({
     className?: string;
     fallbackClassName?: string;
 } & Omit<LucideProps, 'ref'>) {
-    const [iconNode, setIconNode] = useState(() =>
+    const [iconName, setIconName] = useState(name);
+    const [iconNode, setIconNode] = useState<IconNode | undefined>(() =>
         getCachedLucideIconNode(name),
     );
 
+    if (name !== iconName) {
+        setIconName(name);
+        setIconNode(getCachedLucideIconNode(name));
+    }
+
+    const resolvedNode =
+        name === iconName
+            ? (getCachedLucideIconNode(name) ?? iconNode)
+            : getCachedLucideIconNode(name);
+
     useEffect(() => {
-        const cached = getCachedLucideIconNode(name);
-
-        if (cached) {
-            setIconNode(cached);
-
+        if (getCachedLucideIconNode(name)) {
             return;
         }
 
@@ -44,7 +51,7 @@ export function CachedLucideIcon({
         };
     }, [name]);
 
-    if (!iconNode) {
+    if (!resolvedNode) {
         return (
             <span
                 className={cn(
@@ -58,7 +65,7 @@ export function CachedLucideIcon({
 
     return (
         <Icon
-            iconNode={iconNode}
+            iconNode={resolvedNode}
             className={className}
             aria-hidden={props['aria-hidden'] ?? true}
             {...props}
