@@ -26,24 +26,29 @@ const CURATED_ICONS = [
     'sparkles',
 ];
 
-function Section({
+function Canvas({
     title,
     badge,
+    caption,
     children,
 }: {
     title: string;
     badge?: string;
+    caption: string;
     children: ReactNode;
 }) {
     return (
-        <section className="space-y-4">
-            <div className="flex items-center gap-2">
-                <h2 className="text-base font-semibold text-foreground">
+        <section className="space-y-3">
+            <div className="flex flex-wrap items-center gap-2">
+                <h2 className="text-base font-semibold tracking-tight">
                     {title}
                 </h2>
                 {badge ? <Badge variant="outline">{badge}</Badge> : null}
             </div>
-            {children}
+            <p className="max-w-2xl text-sm text-muted-foreground">{caption}</p>
+            <div className="rounded-2xl border border-border/70 bg-muted/15 p-5 md:p-6">
+                {children}
+            </div>
         </section>
     );
 }
@@ -58,17 +63,16 @@ function SaveDemo({
     setSelectedIcon: (icon: string) => void;
 }) {
     return (
-        <Section title="1 · Save to session" badge="collapsible · keep open">
-            <p className="text-sm text-muted-foreground">
-                Default behaviour: the panel stays open after you pick an icon.
-                Submit to persist the selection in your session.
-            </p>
-
-            <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_280px]">
+        <Canvas
+            title="1 · Field + collapsible"
+            badge="save · recents · categories"
+            caption="Default form control. Panel stays open after pick; submit persists to session."
+        >
+            <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_240px]">
                 <Form
                     {...IconPickerDemoController.store.form()}
                     options={{ preserveScroll: true }}
-                    className="space-y-6"
+                    className="space-y-4"
                 >
                     {({ processing, errors }) => (
                         <>
@@ -78,135 +82,147 @@ function SaveDemo({
                                 value={selectedIcon}
                                 onChange={setSelectedIcon}
                                 label="Search icons"
-                                description="Saved to your session"
+                                description={selectedIcon}
                                 error={errors.icon}
                                 required
                             />
-
                             <InputError message={errors.icon} />
-
                             <div className="flex flex-wrap items-center gap-3">
                                 <Button type="submit" disabled={processing}>
                                     {processing ? 'Saving…' : 'Save icon'}
                                 </Button>
-                                <p className="text-sm text-muted-foreground">
-                                    Current value:{' '}
-                                    <code className="rounded bg-muted px-1.5 py-0.5 text-xs">
-                                        {selectedIcon}
-                                    </code>
-                                </p>
+                                <code className="rounded-md bg-background px-2 py-1 font-mono text-xs text-muted-foreground">
+                                    {selectedIcon}
+                                </code>
                             </div>
                         </>
                     )}
                 </Form>
 
-                <aside className="flex flex-col gap-4 rounded-xl border border-border/70 bg-muted/20 p-5">
-                    <p className="text-sm font-medium text-foreground">
-                        Saved preview
-                    </p>
-                    <div className="flex flex-col items-center gap-3 rounded-lg border border-border/60 bg-background px-4 py-8">
-                        <div className="flex size-16 items-center justify-center rounded-2xl border border-border/60 bg-muted/30">
-                            <Icon
-                                icon={icon}
-                                className="size-8 text-primary"
-                            />
-                        </div>
-                        <div className="text-center">
-                            <p className="text-sm font-medium">
-                                {getIconLabel(icon)}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                                {icon}
-                            </p>
-                        </div>
+                <aside className="flex flex-col items-center justify-center gap-3 rounded-xl border border-border/60 bg-background px-4 py-8">
+                    <div className="flex size-16 items-center justify-center rounded-2xl border border-border/60 bg-muted/30">
+                        <Icon icon={icon} className="size-8" />
                     </div>
-                    <p className="text-xs leading-relaxed text-muted-foreground">
-                        This card shows the last saved icon from the server.
-                        Change the picker and click Save to update it.
+                    <div className="text-center">
+                        <p className="text-sm font-medium">
+                            {getIconLabel(icon)}
+                        </p>
+                        <p className="font-mono text-xs text-muted-foreground">
+                            {icon}
+                        </p>
+                    </div>
+                    <p className="text-center text-[11px] text-muted-foreground">
+                        Last saved from server
                     </p>
                 </aside>
             </div>
-        </Section>
+        </Canvas>
     );
 }
 
-function CloseOnSelectDemo() {
+function CompactToolbarDemo() {
+    const [icon, setIcon] = useState('bell');
+
+    return (
+        <Canvas
+            title="2 · Compact toolbar"
+            badge='triggerVariant="compact"'
+            caption="Icon-only footprint for toolbars and table actions."
+        >
+            <div className="flex items-center gap-2 rounded-xl border border-border/60 bg-background px-3 py-2">
+                <span className="mr-auto text-sm text-muted-foreground">
+                    Notifications
+                </span>
+                <LucideIconPicker
+                    id="toolbar-icon"
+                    value={icon}
+                    onChange={setIcon}
+                    triggerVariant="compact"
+                    density="compact"
+                    closeOnSelect
+                    showCategories={false}
+                />
+                <Button type="button" size="sm" variant="outline">
+                    Save
+                </Button>
+            </div>
+        </Canvas>
+    );
+}
+
+function DialogStudioDemo() {
+    const [icon, setIcon] = useState('sparkles');
+
+    return (
+        <Canvas
+            title="3 · Dialog studio"
+            badge='mode="dialog" · confirm'
+            caption="Button trigger opens a studio modal with preview rail and Use icon confirm."
+        >
+            <div className="flex flex-wrap items-center gap-4">
+                <LucideIconPicker
+                    id="dialog-icon"
+                    mode="dialog"
+                    triggerVariant="button"
+                    value={icon}
+                    onChange={setIcon}
+                    dialogTitle="Icon studio"
+                    dialogDescription="Filter by category or search, then confirm."
+                />
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <Icon icon={icon} className="size-4" />
+                    <span className="font-mono text-xs">{icon}</span>
+                </div>
+            </div>
+        </Canvas>
+    );
+}
+
+function SheetDemo() {
+    const [icon, setIcon] = useState('map');
+
+    return (
+        <Canvas
+            title="4 · Sheet drawer"
+            badge='mode="sheet"'
+            caption="Side drawer with bottom preview bar — better for mobile and narrow layouts."
+        >
+            <LucideIconPicker
+                id="sheet-icon"
+                mode="sheet"
+                triggerVariant="field"
+                value={icon}
+                onChange={setIcon}
+                description={icon}
+                dialogTitle="Pick an icon"
+                dialogDescription="Slide-over picker with confirm."
+                className="max-w-md"
+            />
+        </Canvas>
+    );
+}
+
+function DenseCloseDemo() {
     const [icon, setIcon] = useState('settings');
 
     return (
-        <Section title="2 · Close on select" badge="closeOnSelect">
-            <p className="text-sm text-muted-foreground">
-                Pass <code>closeOnSelect</code> to collapse the panel after a
-                pick — useful for dense forms.
-            </p>
-            <div className="max-w-xl">
+        <Canvas
+            title="5 · Dense + close on select"
+            badge="compact density"
+            caption="Tight grid and auto-collapse after pick for dense admin forms."
+        >
+            <div className="max-w-lg">
                 <LucideIconPicker
-                    id="close-on-select"
+                    id="dense-icon"
                     value={icon}
                     onChange={setIcon}
+                    density="compact"
                     closeOnSelect
                     clearSearchOnSelect
                     description={`Selected: ${icon}`}
                 />
             </div>
-        </Section>
-    );
-}
-
-function DialogModeDemo() {
-    const [icon, setIcon] = useState('sparkles');
-
-    return (
-        <Section title="3 · Dialog mode" badge='mode="dialog"'>
-            <p className="text-sm text-muted-foreground">
-                Opens the icon browser in a modal. Stays open after select by
-                default; add <code>closeOnSelect</code> if you want it to dismiss.
-            </p>
-            <div className="max-w-xl">
-                <LucideIconPicker
-                    id="dialog-icon"
-                    mode="dialog"
-                    value={icon}
-                    onChange={setIcon}
-                    description="Opens in a dialog"
-                    dialogTitle="Pick an icon"
-                    dialogDescription="Search the Lucide catalog and choose one."
-                />
-            </div>
-        </Section>
-    );
-}
-
-function CustomClassNamesDemo() {
-    const [icon, setIcon] = useState('palette');
-
-    return (
-        <Section title="4 · Custom classNames per slot" badge="classNames">
-            <p className="text-sm text-muted-foreground">
-                Every visual slot is overridable — same pattern as{' '}
-                <code>FileUpload</code>.
-            </p>
-            <div className="max-w-xl">
-                <LucideIconPicker
-                    id="styled-icon"
-                    value={icon}
-                    onChange={setIcon}
-                    description="Blue accent shell"
-                    classNames={{
-                        shell: 'rounded-2xl border-blue-300 bg-blue-50/50 shadow-none dark:border-blue-900 dark:bg-blue-950/30',
-                        trigger: 'hover:bg-blue-100/60 dark:hover:bg-blue-900/40',
-                        triggerPreview:
-                            'border-blue-200 bg-white dark:border-blue-800 dark:bg-blue-950',
-                        triggerLabel: 'text-blue-900 dark:text-blue-100',
-                        panel: 'bg-white/80 dark:bg-blue-950/20',
-                        searchInput: 'border-blue-200 focus-visible:ring-blue-400',
-                        grid: 'border-blue-200 bg-blue-50/40 dark:border-blue-900',
-                        optionSelected:
-                            'border-blue-500 bg-blue-100 text-blue-800 dark:bg-blue-900/50',
-                    }}
-                />
-            </div>
-        </Section>
+        </Canvas>
     );
 }
 
@@ -214,22 +230,75 @@ function CuratedDemo() {
     const [icon, setIcon] = useState('book-open');
 
     return (
-        <Section title="5 · Curated whitelist" badge="allowedIcons">
-            <p className="text-sm text-muted-foreground">
-                Limit the catalog to a product-specific allow-list.
-            </p>
-            <div className="max-w-xl">
+        <Canvas
+            title="6 · Curated allow-list"
+            badge="allowedIcons"
+            caption="Limit the catalog to a product-specific set."
+        >
+            <div className="max-w-lg">
                 <LucideIconPicker
                     id="curated-icon"
                     value={icon}
                     onChange={setIcon}
                     allowedIcons={CURATED_ICONS}
-                    label="Pick from curated icons"
-                    description="Local-only demo (not saved)"
                     showSparkles
+                    description="LMS navigation icons"
                 />
             </div>
-        </Section>
+        </Canvas>
+    );
+}
+
+function ThemedClassNamesDemo() {
+    const [elevated, setElevated] = useState('layers');
+    const [minimal, setMinimal] = useState('pen-line');
+    const [tint, setTint] = useState('palette');
+
+    return (
+        <Canvas
+            title="7 · Themed classNames"
+            badge="slot styling"
+            caption="Three skins via classNames — elevated, minimal, and soft tint."
+        >
+            <div className="grid gap-6 md:grid-cols-3">
+                <LucideIconPicker
+                    id="skin-elevated"
+                    value={elevated}
+                    onChange={setElevated}
+                    triggerVariant="field"
+                    description={elevated}
+                    classNames={{
+                        trigger:
+                            'border-transparent bg-background shadow-md hover:shadow-lg',
+                        panel: 'bg-background',
+                        grid: 'border-transparent bg-muted/20',
+                    }}
+                />
+                <LucideIconPicker
+                    id="skin-minimal"
+                    value={minimal}
+                    onChange={setMinimal}
+                    triggerVariant="ghost"
+                    description={minimal}
+                    classNames={{
+                        trigger: 'px-0 hover:bg-transparent',
+                        shell: 'border-b border-border pb-2',
+                    }}
+                />
+                <LucideIconPicker
+                    id="skin-tint"
+                    value={tint}
+                    onChange={setTint}
+                    description={tint}
+                    classNames={{
+                        trigger:
+                            'border-emerald-200/80 bg-emerald-50/50 hover:bg-emerald-50 dark:border-emerald-900 dark:bg-emerald-950/30',
+                        optionSelected:
+                            'border-emerald-500/40 bg-emerald-100 text-emerald-900 dark:bg-emerald-900/40 dark:text-emerald-100',
+                    }}
+                />
+            </div>
+        </Canvas>
     );
 }
 
@@ -238,12 +307,11 @@ function ImperativeRefDemo() {
     const pickerRef = useRef<LucideIconPickerHandle>(null);
 
     return (
-        <Section title="6 · Imperative ref" badge="open / close / clearSearch">
-            <p className="text-sm text-muted-foreground">
-                Control the picker from outside via{' '}
-                <code>ref.current.open()</code>, <code>close()</code>, and{' '}
-                <code>clearSearch()</code>.
-            </p>
+        <Canvas
+            title="8 · Imperative handle"
+            badge="ref.open / close"
+            caption="Drive dialog open, close, clear search, and focus from outside."
+        >
             <div className="flex max-w-xl flex-col gap-3">
                 <div className="flex flex-wrap gap-2">
                     <Button
@@ -276,19 +344,19 @@ function ImperativeRefDemo() {
                         size="sm"
                         onClick={() => pickerRef.current?.focus()}
                     >
-                        Focus trigger
+                        Focus
                     </Button>
                 </div>
                 <LucideIconPicker
                     ref={pickerRef}
                     id="imperative-icon"
                     mode="dialog"
+                    triggerVariant="button"
                     value={icon}
                     onChange={setIcon}
-                    description="Driven by imperative handle"
                 />
             </div>
-        </Section>
+        </Canvas>
     );
 }
 
@@ -305,10 +373,10 @@ export default function IconPickerDemo({ icon }: { icon: string }) {
         <>
             <Head title="Icon picker demo" />
 
-            <div className="flex h-full flex-1 flex-col gap-10 overflow-x-auto p-4 md:p-6">
+            <div className="flex h-full flex-1 flex-col gap-10 overflow-x-auto p-4 md:p-8">
                 <Heading
                     title="Icon picker demo"
-                    description="Reusable LucideIconPicker — collapsible or dialog, slot classNames, and configurable close-on-select."
+                    description="Calm Studio LucideIconPicker — field/compact/button triggers, dialog & sheet studios, categories, recents, and density."
                 />
 
                 <SaveDemo
@@ -316,19 +384,18 @@ export default function IconPickerDemo({ icon }: { icon: string }) {
                     selectedIcon={selectedIcon}
                     setSelectedIcon={setSelectedIcon}
                 />
-
                 <Separator />
-                <CloseOnSelectDemo />
-
+                <CompactToolbarDemo />
                 <Separator />
-                <DialogModeDemo />
-
+                <DialogStudioDemo />
                 <Separator />
-                <CustomClassNamesDemo />
-
+                <SheetDemo />
+                <Separator />
+                <DenseCloseDemo />
                 <Separator />
                 <CuratedDemo />
-
+                <Separator />
+                <ThemedClassNamesDemo />
                 <Separator />
                 <ImperativeRefDemo />
             </div>

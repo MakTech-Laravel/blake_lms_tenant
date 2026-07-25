@@ -1,8 +1,13 @@
 import type { Ref } from 'react';
 
 import { IconPickerPanel } from '@/components/icons/icon-picker-panel';
+import { IconPickerPreview } from '@/components/icons/icon-picker-preview';
 import { IconPickerTrigger } from '@/components/icons/icon-picker-trigger';
-import type { LucideIconPickerClassNames } from '@/components/icons/lucide-icon-picker-types';
+import type {
+    LucideIconPickerClassNames,
+    LucideIconPickerDensity,
+    LucideIconPickerTriggerVariant,
+} from '@/components/icons/lucide-icon-picker-types';
 import type { IconPickerState } from '@/components/icons/use-icon-picker-state';
 import {
     Dialog,
@@ -21,6 +26,10 @@ type IconPickerDialogProps = {
     disabled?: boolean;
     error?: string;
     showSparkles?: boolean;
+    showRecents?: boolean;
+    showCategories?: boolean;
+    triggerVariant?: LucideIconPickerTriggerVariant;
+    density?: LucideIconPickerDensity;
     classNames?: LucideIconPickerClassNames;
     dialogTitle: string;
     dialogDescription: string;
@@ -35,6 +44,10 @@ export function IconPickerDialog({
     disabled,
     error,
     showSparkles,
+    showRecents = true,
+    showCategories = true,
+    triggerVariant = 'field',
+    density = 'comfortable',
     classNames,
     dialogTitle,
     dialogDescription,
@@ -46,6 +59,8 @@ export function IconPickerDialog({
         setOpen,
         displayIcon,
         displayLabel,
+        activeIcon,
+        activeLabel,
         searchId,
         gridId,
         statusId,
@@ -59,7 +74,14 @@ export function IconPickerDialog({
         filteredOptions,
         deferredQuery,
         selectIcon,
+        confirmPending,
+        confirmSelection,
         focus,
+        category,
+        setCategory,
+        availableCategories,
+        recentOptions,
+        pendingIcon,
     } = state;
 
     return (
@@ -73,14 +95,7 @@ export function IconPickerDialog({
                 }
             }}
         >
-            <div
-                className={cn(
-                    'overflow-hidden rounded-xl border border-border/70 bg-linear-to-br from-muted/20 via-background to-muted/10 shadow-sm',
-                    disabled && 'pointer-events-none opacity-60',
-                    error && 'border-destructive/60',
-                    classNames?.shell,
-                )}
-            >
+            <div className={cn(classNames?.shell)}>
                 <DialogTrigger asChild>
                     <IconPickerTrigger
                         ref={triggerRef}
@@ -96,19 +111,30 @@ export function IconPickerDialog({
                         statusId={statusId}
                         classNames={classNames}
                         mode="dialog"
+                        triggerVariant={triggerVariant}
                     />
                 </DialogTrigger>
             </div>
 
             <DialogContent
                 className={cn(
-                    'flex max-h-[85vh] flex-col gap-0 overflow-hidden p-0 sm:max-w-2xl',
+                    'flex max-h-[min(90vh,720px)] w-full flex-col gap-0 overflow-hidden p-0 sm:max-w-3xl lg:max-w-4xl',
                     classNames?.dialogContent,
                 )}
+                onKeyDown={(event) => {
+                    if (
+                        confirmSelection &&
+                        event.key === 'Enter' &&
+                        !(event.target instanceof HTMLInputElement)
+                    ) {
+                        event.preventDefault();
+                        confirmPending();
+                    }
+                }}
             >
                 <DialogHeader
                     className={cn(
-                        'border-b border-border/60 px-6 py-4 text-left',
+                        'shrink-0 space-y-1 border-b border-border/70 px-5 py-4 text-left',
                         classNames?.dialogHeader,
                     )}
                 >
@@ -116,29 +142,69 @@ export function IconPickerDialog({
                     <DialogDescription>{dialogDescription}</DialogDescription>
                 </DialogHeader>
 
-                <div className="min-h-0 flex-1 overflow-y-auto">
-                    <IconPickerPanel
-                        searchId={searchId}
-                        gridId={gridId}
-                        statusId={statusId}
-                        label={label}
-                        query={query}
-                        onQueryChange={setQuery}
-                        onEscape={() => {
+                <div className="grid min-h-0 flex-1 lg:grid-cols-[minmax(0,1fr)_240px]">
+                    <div className="min-h-0 overflow-y-auto">
+                        <IconPickerPanel
+                            searchId={searchId}
+                            gridId={gridId}
+                            statusId={statusId}
+                            label={label}
+                            query={query}
+                            onQueryChange={setQuery}
+                            onEscape={() => {
+                                setOpen(false);
+                                focus();
+                            }}
+                            searchPlaceholder={searchPlaceholder}
+                            disabled={disabled}
+                            catalogLoading={catalogLoading}
+                            statusMessage={statusMessage}
+                            error={error}
+                            isSearchPending={isSearchPending}
+                            hadInvalidDefault={hadInvalidDefault}
+                            filteredOptions={filteredOptions}
+                            deferredQuery={deferredQuery}
+                            selectedIcon={displayIcon}
+                            pendingIcon={pendingIcon}
+                            onSelect={selectIcon}
+                            categories={availableCategories}
+                            activeCategory={category}
+                            onCategoryChange={setCategory}
+                            recentOptions={recentOptions}
+                            showCategories={showCategories}
+                            showRecents={showRecents}
+                            density={density}
+                            classNames={classNames}
+                        />
+                    </div>
+
+                    <div className="hidden min-h-0 lg:block">
+                        <IconPickerPreview
+                            icon={activeIcon}
+                            label={activeLabel}
+                            layout="rail"
+                            confirmSelection={confirmSelection}
+                            onConfirm={confirmPending}
+                            onCancel={() => {
+                                setOpen(false);
+                                focus();
+                            }}
+                            classNames={classNames}
+                        />
+                    </div>
+                </div>
+
+                <div className="lg:hidden">
+                    <IconPickerPreview
+                        icon={activeIcon}
+                        label={activeLabel}
+                        layout="bar"
+                        confirmSelection={confirmSelection}
+                        onConfirm={confirmPending}
+                        onCancel={() => {
                             setOpen(false);
                             focus();
                         }}
-                        searchPlaceholder={searchPlaceholder}
-                        disabled={disabled}
-                        catalogLoading={catalogLoading}
-                        statusMessage={statusMessage}
-                        error={error}
-                        isSearchPending={isSearchPending}
-                        hadInvalidDefault={hadInvalidDefault}
-                        filteredOptions={filteredOptions}
-                        deferredQuery={deferredQuery}
-                        displayIcon={displayIcon}
-                        onSelect={selectIcon}
                         classNames={classNames}
                     />
                 </div>

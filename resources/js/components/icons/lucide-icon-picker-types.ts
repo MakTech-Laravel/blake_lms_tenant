@@ -1,46 +1,41 @@
-export type LucideIconPickerMode = 'collapsible' | 'dialog';
+export type LucideIconPickerMode = 'collapsible' | 'dialog' | 'sheet';
+
+export type LucideIconPickerTriggerVariant =
+    | 'field'
+    | 'compact'
+    | 'button'
+    | 'ghost';
+
+export type LucideIconPickerDensity = 'comfortable' | 'compact';
 
 /** Per-slot className overrides — pass only what you need. */
 export interface LucideIconPickerClassNames {
-    /** Root wrapper `<div>` */
     wrapper?: string;
-    /** Outer shell (collapsible card / dialog trigger wrapper) */
     shell?: string;
-    /** Trigger button */
     trigger?: string;
-    /** Icon preview box inside the trigger */
     triggerPreview?: string;
-    /** Selected icon title */
     triggerLabel?: string;
-    /** Trigger subtitle / description */
     triggerDescription?: string;
-    /** Right-side action label + chevron */
     triggerAction?: string;
-    /** Panel body (search + grid) */
     panel?: string;
-    /** Search field wrapper */
     search?: string;
-    /** Search `<input>` */
     searchInput?: string;
-    /** Live status / count text */
     status?: string;
-    /** Catalog loading placeholder */
     loading?: string;
-    /** Empty search results */
     empty?: string;
-    /** Virtual grid scroll container */
     grid?: string;
-    /** Individual icon option button */
     option?: string;
-    /** Selected option button overrides */
     optionSelected?: string;
-    /** Option label text */
+    optionPending?: string;
     optionLabel?: string;
-    /** Dialog content panel */
+    recents?: string;
+    category?: string;
+    categoryActive?: string;
+    preview?: string;
+    confirmButton?: string;
     dialogContent?: string;
-    /** Dialog header */
     dialogHeader?: string;
-    /** External error text below the picker */
+    sheetContent?: string;
     error?: string;
 }
 
@@ -64,7 +59,6 @@ export type LucideIconPickerProps = {
     description?: string;
     defaultIcon?: string;
     defaultOpen?: boolean;
-    /** Controlled open state (collapsible or dialog). */
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
     disabled?: boolean;
@@ -79,8 +73,18 @@ export type LucideIconPickerProps = {
      */
     mode?: LucideIconPickerMode;
     /**
-     * Close the panel/dialog after selecting an icon.
-     * @default false
+     * Trigger footprint.
+     * @default 'field'
+     */
+    triggerVariant?: LucideIconPickerTriggerVariant;
+    /**
+     * Grid density.
+     * @default 'comfortable'
+     */
+    density?: LucideIconPickerDensity;
+    /**
+     * Close the panel after selecting (collapsible) or after confirm (modal).
+     * @default false for collapsible; modals close after confirm regardless.
      */
     closeOnSelect?: boolean;
     /**
@@ -88,6 +92,15 @@ export type LucideIconPickerProps = {
      * @default false
      */
     clearSearchOnSelect?: boolean;
+    /**
+     * Require Confirm in dialog/sheet before committing.
+     * @default true when mode is dialog or sheet; false for collapsible
+     */
+    confirmSelection?: boolean;
+    /** Show recent icons strip. @default true */
+    showRecents?: boolean;
+    /** Show category filter chips. @default true */
+    showCategories?: boolean;
     dialogTitle?: string;
     dialogDescription?: string;
 };
@@ -96,4 +109,5 @@ export type CatalogIconOption = {
     key: string;
     label: string;
     searchText: string;
+    categories: readonly string[];
 };

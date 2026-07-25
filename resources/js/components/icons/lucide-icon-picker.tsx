@@ -2,6 +2,7 @@ import { forwardRef, useImperativeHandle } from 'react';
 
 import { IconPickerCollapsible } from '@/components/icons/icon-picker-collapsible';
 import { IconPickerDialog } from '@/components/icons/icon-picker-dialog';
+import { IconPickerSheet } from '@/components/icons/icon-picker-sheet';
 import type {
     LucideIconPickerHandle,
     LucideIconPickerProps,
@@ -11,9 +12,11 @@ import { cn } from '@/lib/utils';
 
 export type {
     LucideIconPickerClassNames,
+    LucideIconPickerDensity,
     LucideIconPickerHandle,
     LucideIconPickerMode,
     LucideIconPickerProps,
+    LucideIconPickerTriggerVariant,
 } from '@/components/icons/lucide-icon-picker-types';
 
 export const LucideIconPicker = forwardRef<
@@ -28,8 +31,8 @@ export const LucideIconPicker = forwardRef<
         defaultValue,
         value,
         onChange,
-        label = 'Choose an icon',
-        description = 'Selected icon',
+        label = 'Search icons',
+        description = '',
         defaultIcon = 'pen-line',
         defaultOpen = false,
         open,
@@ -41,10 +44,15 @@ export const LucideIconPicker = forwardRef<
         allowedIcons,
         showSparkles = false,
         mode = 'collapsible',
+        triggerVariant = 'field',
+        density = 'comfortable',
         closeOnSelect = false,
         clearSearchOnSelect = false,
+        confirmSelection,
+        showRecents = true,
+        showCategories = true,
         dialogTitle = 'Choose an icon',
-        dialogDescription = 'Search and select a Lucide icon.',
+        dialogDescription = 'Browse, filter, and confirm a Lucide icon.',
     },
     ref,
 ) {
@@ -62,6 +70,9 @@ export const LucideIconPicker = forwardRef<
         allowedIcons,
         closeOnSelect,
         clearSearchOnSelect,
+        confirmSelection,
+        showRecents,
+        mode,
     });
 
     const { setOpen, clearSearch, focus, displayIcon, triggerRef } = state;
@@ -82,6 +93,22 @@ export const LucideIconPicker = forwardRef<
         wrapper: cn(className, classNames?.wrapper),
     };
 
+    const sharedShellProps = {
+        id,
+        description: description || displayIcon,
+        label,
+        disabled,
+        error,
+        showSparkles,
+        showRecents,
+        showCategories,
+        triggerVariant,
+        density,
+        classNames: resolvedClassNames,
+        state,
+        triggerRef,
+    };
+
     return (
         <div className={cn('grid gap-2', resolvedClassNames.wrapper)}>
             {name ? (
@@ -96,30 +123,18 @@ export const LucideIconPicker = forwardRef<
 
             {mode === 'dialog' ? (
                 <IconPickerDialog
-                    id={id}
-                    description={description}
-                    label={label}
-                    disabled={disabled}
-                    error={error}
-                    showSparkles={showSparkles}
-                    classNames={resolvedClassNames}
+                    {...sharedShellProps}
                     dialogTitle={dialogTitle}
                     dialogDescription={dialogDescription}
-                    state={state}
-                    triggerRef={triggerRef}
+                />
+            ) : mode === 'sheet' ? (
+                <IconPickerSheet
+                    {...sharedShellProps}
+                    dialogTitle={dialogTitle}
+                    dialogDescription={dialogDescription}
                 />
             ) : (
-                <IconPickerCollapsible
-                    id={id}
-                    description={description}
-                    label={label}
-                    disabled={disabled}
-                    error={error}
-                    showSparkles={showSparkles}
-                    classNames={resolvedClassNames}
-                    state={state}
-                    triggerRef={triggerRef}
-                />
+                <IconPickerCollapsible {...sharedShellProps} />
             )}
 
             {error ? (

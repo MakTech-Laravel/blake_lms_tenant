@@ -1,12 +1,13 @@
-import { Search } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 
+import { CachedLucideIcon } from '@/components/icons/cached-lucide-icon';
 import type {
     CatalogIconOption,
     LucideIconPickerClassNames,
+    LucideIconPickerDensity,
 } from '@/components/icons/lucide-icon-picker-types';
 import { VirtualIconGrid } from '@/components/icons/virtual-icon-grid';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 
 type IconPickerPanelProps = {
@@ -26,8 +27,16 @@ type IconPickerPanelProps = {
     hadInvalidDefault: boolean;
     filteredOptions: CatalogIconOption[];
     deferredQuery: string;
-    displayIcon: string;
+    selectedIcon: string;
+    pendingIcon?: string | null;
     onSelect: (key: string) => void;
+    categories?: readonly string[];
+    activeCategory?: string | null;
+    onCategoryChange?: (category: string | null) => void;
+    recentOptions?: CatalogIconOption[];
+    showCategories?: boolean;
+    showRecents?: boolean;
+    density?: LucideIconPickerDensity;
     classNames?: LucideIconPickerClassNames;
 };
 
@@ -48,14 +57,20 @@ export function IconPickerPanel({
     hadInvalidDefault,
     filteredOptions,
     deferredQuery,
-    displayIcon,
+    selectedIcon,
+    pendingIcon = null,
     onSelect,
+    categories = [],
+    activeCategory = null,
+    onCategoryChange,
+    recentOptions = [],
+    showCategories = true,
+    showRecents = true,
+    density = 'comfortable',
     classNames,
 }: IconPickerPanelProps) {
     return (
-        <div
-            className={cn('flex flex-col gap-3 p-4', classNames?.panel)}
-        >
+        <div className={cn('flex min-h-0 flex-col gap-3 p-4', classNames?.panel)}>
             {hadInvalidDefault ? (
                 <p className="text-xs text-amber-700 dark:text-amber-400">
                     The previous icon was not recognized. Pick one from the list
@@ -63,8 +78,13 @@ export function IconPickerPanel({
                 </p>
             ) : null}
 
-            <div className={cn('grid gap-2', classNames?.search)}>
-                <Label htmlFor={searchId}>{label}</Label>
+            <div className={cn('grid gap-1.5', classNames?.search)}>
+                <label
+                    htmlFor={searchId}
+                    className="text-xs font-medium tracking-wide text-muted-foreground uppercase"
+                >
+                    {label}
+                </label>
                 <div className="relative">
                     <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
@@ -79,7 +99,7 @@ export function IconPickerPanel({
                         }}
                         placeholder={searchPlaceholder}
                         className={cn(
-                            'bg-background pl-9',
+                            'bg-background pr-9 pl-9',
                             classNames?.searchInput,
                         )}
                         autoComplete="off"
@@ -87,52 +107,156 @@ export function IconPickerPanel({
                         aria-controls={gridId}
                         aria-describedby={statusId}
                     />
+                    {query ? (
+                        <button
+                            type="button"
+                            className="absolute top-1/2 right-2.5 -translate-y-1/2 rounded-md p-0.5 text-muted-foreground hover:bg-muted hover:text-foreground"
+                            onClick={() => onQueryChange('')}
+                            aria-label="Clear search"
+                        >
+                            <X className="size-3.5" />
+                        </button>
+                    ) : null}
                 </div>
             </div>
 
-            <p
-                id={statusId}
-                className={cn(
-                    'text-xs text-muted-foreground',
-                    classNames?.status,
-                )}
-                aria-live="polite"
-            >
-                {error ? error : statusMessage}
-                {isSearchPending ? ' Updating…' : ''}
-            </p>
+            {showRecents && recentOptions.length > 0 ? (
+                <div className={cn('space-y-1.5', classNames?.recents)}>
+                    <p className="text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
+                        Recent
+                    </p>
+                    <div className="flex gap-1.5 overflow-x-auto pb-0.5">
+                        {recentOptions.map((option) => (
+                            <button
+                                key={option.key}
+                                type="button"
+                                title={option.label}
+                                disabled={disabled}
+                                onClick={() => onSelect(option.key)}
+                                className={cn(
+                                    'flex size-9 shrink-0 items-center justify-center rounded-lg border border-border/70 bg-background transition-colors hover:bg-muted/50',
+                                    (pendingIcon ?? selectedIcon) ===
+                                        option.key &&
+                                        'border-primary bg-primary/10 text-primary',
+                                )}
+                            >
+                                <CachedLucideIcon
+                                    name={option.key}
+                                    className="size-4"
+                                />
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            ) : null}
+
+            {showCategories && categories.length > 0 ? (
+                <div
+                    className={cn(
+                        'flex gap-1.5 overflow-x-auto pb-0.5',
+                        classNames?.category,
+                    )}
+                    role="tablist"
+                    aria-label="Icon categories"
+                >
+                    <button
+                        type="button"
+                        role="tab"
+                        aria-selected={activeCategory === null}
+                        onClick={() => onCategoryChange?.(null)}
+                        className={cn(
+                            'shrink-0 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors',
+                            activeCategory === null
+                                ? cn(
+                                      'border-foreground/20 bg-foreground text-background',
+                                      classNames?.categoryActive,
+                                  )
+                                : 'border-border/70 bg-background text-muted-foreground hover:bg-muted/40',
+                        )}
+                    >
+                        All
+                    </button>
+                    {categories.map((item) => (
+                        <button
+                            key={item}
+                            type="button"
+                            role="tab"
+                            aria-selected={activeCategory === item}
+                            onClick={() => onCategoryChange?.(item)}
+                            className={cn(
+                                'shrink-0 rounded-full border px-2.5 py-1 text-xs font-medium capitalize transition-colors',
+                                activeCategory === item
+                                    ? cn(
+                                          'border-foreground/20 bg-foreground text-background',
+                                          classNames?.categoryActive,
+                                      )
+                                    : 'border-border/70 bg-background text-muted-foreground hover:bg-muted/40',
+                            )}
+                        >
+                            {item}
+                        </button>
+                    ))}
+                </div>
+            ) : null}
+
+            <div className="flex items-center justify-between gap-2">
+                <p
+                    id={statusId}
+                    className={cn(
+                        'text-xs text-muted-foreground',
+                        classNames?.status,
+                    )}
+                    aria-live="polite"
+                >
+                    {error ? error : statusMessage}
+                    {isSearchPending ? ' Updating…' : ''}
+                </p>
+            </div>
 
             {catalogLoading ? (
                 <div
                     className={cn(
-                        'flex h-48 items-center justify-center rounded-xl border border-dashed border-border/70 text-sm text-muted-foreground',
+                        'grid grid-cols-6 gap-2 rounded-xl border border-dashed border-border/70 p-3',
                         classNames?.loading,
                     )}
                 >
-                    Loading icon catalog…
+                    {Array.from({ length: 12 }).map((_, index) => (
+                        <div
+                            key={index}
+                            className="aspect-square animate-pulse rounded-lg bg-muted/60"
+                        />
+                    ))}
                 </div>
             ) : filteredOptions.length === 0 ? (
                 <p
                     className={cn(
-                        'rounded-lg border border-dashed border-border/70 px-4 py-8 text-center text-sm text-muted-foreground',
+                        'rounded-xl border border-dashed border-border/70 px-4 py-10 text-center text-sm text-muted-foreground',
                         classNames?.empty,
                     )}
                 >
-                    No icons match your search.
+                    No icons match your filters.
                 </p>
             ) : (
-                <div className={cn(isSearchPending && 'opacity-70')}>
+                <div
+                    className={cn(
+                        'min-h-0',
+                        isSearchPending && 'opacity-70',
+                    )}
+                >
                     <VirtualIconGrid
-                        key={deferredQuery.trim().toLowerCase()}
+                        key={`${deferredQuery.trim().toLowerCase()}-${activeCategory ?? 'all'}-${density}`}
                         id={gridId}
                         options={filteredOptions}
-                        selected={displayIcon}
+                        selected={selectedIcon}
+                        pending={pendingIcon}
                         onSelect={onSelect}
                         onEscape={onEscape}
                         disabled={disabled}
+                        density={density}
                         className={classNames?.grid}
                         optionClassName={classNames?.option}
                         optionSelectedClassName={classNames?.optionSelected}
+                        optionPendingClassName={classNames?.optionPending}
                         optionLabelClassName={classNames?.optionLabel}
                     />
                 </div>

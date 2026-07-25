@@ -10,6 +10,7 @@ import {
 import type { KeyboardEvent } from 'react';
 
 import { CachedLucideIcon } from '@/components/icons/cached-lucide-icon';
+import type { LucideIconPickerDensity } from '@/components/icons/lucide-icon-picker-types';
 import { prefetchLucideIcons } from '@/lib/lucide-icon-cache';
 import { cn } from '@/lib/utils';
 
@@ -21,47 +22,71 @@ export type VirtualIconOption = {
 type VirtualIconGridProps = {
     options: VirtualIconOption[];
     selected: string;
+    pending?: string | null;
     onSelect: (key: string) => void;
     onEscape?: () => void;
     disabled?: boolean;
     id?: string;
+    density?: LucideIconPickerDensity;
     className?: string;
     optionClassName?: string;
     optionSelectedClassName?: string;
+    optionPendingClassName?: string;
     optionLabelClassName?: string;
 };
 
-const ROW_HEIGHT = 76;
-const ROW_GAP = 8;
-const ROW_STRIDE = ROW_HEIGHT + ROW_GAP;
 const OVERSCAN_ROWS = 2;
-const MIN_COLUMN_WIDTH = 72;
 const MIN_COLUMNS = 4;
-const MAX_COLUMNS = 8;
+const MAX_COLUMNS = 10;
 
-function columnCountForWidth(width: number): number {
+function densityConfig(density: LucideIconPickerDensity) {
+    if (density === 'compact') {
+        return {
+            rowHeight: 52,
+            rowGap: 6,
+            minColumnWidth: 52,
+            showLabel: false,
+        };
+    }
+
+    return {
+        rowHeight: 72,
+        rowGap: 8,
+        minColumnWidth: 68,
+        showLabel: true,
+    };
+}
+
+function columnCountForWidth(width: number, minColumnWidth: number): number {
     if (width <= 0) {
         return MIN_COLUMNS;
     }
 
     return Math.max(
         MIN_COLUMNS,
-        Math.min(MAX_COLUMNS, Math.floor(width / MIN_COLUMN_WIDTH)),
+        Math.min(MAX_COLUMNS, Math.floor(width / minColumnWidth)),
     );
 }
 
 export function VirtualIconGrid({
     options,
     selected,
+    pending = null,
     onSelect,
     onEscape,
     disabled = false,
     id,
+    density = 'comfortable',
     className,
     optionClassName,
     optionSelectedClassName,
+    optionPendingClassName,
     optionLabelClassName,
 }: VirtualIconGridProps) {
+    const { rowHeight, rowGap, minColumnWidth, showLabel } =
+        densityConfig(density);
+    const rowStride = rowHeight + rowGap;
+
     const scrollRef = useRef<HTMLDivElement>(null);
     const scrollRafRef = useRef<number | null>(null);
     const scrollTopRef = useRef(0);
@@ -69,8 +94,9 @@ export function VirtualIconGrid({
     const [viewportHeight, setViewportHeight] = useState(384);
     const [columnCount, setColumnCount] = useState(MIN_COLUMNS);
     const [focusedIndex, setFocusedIndex] = useState(() => {
+        const active = pending ?? selected;
         const selectedIndex = options.findIndex(
-            (option) => option.key === selected,
+            (option) => option.key === active,
         );
 
         return selectedIndex >= 0 ? selectedIndex : 0;
@@ -85,7 +111,9 @@ export function VirtualIconGrid({
 
         const updateMetrics = () => {
             setViewportHeight(element.clientHeight);
-            setColumnCount(columnCountForWidth(element.clientWidth - 24));
+            setColumnCount(
+                columnCountForWidth(element.clientWidth - 24, minColumnWidth),
+            );
         };
 
         updateMetrics();
@@ -94,14 +122,14 @@ export function VirtualIconGrid({
         observer.observe(element);
 
         return () => observer.disconnect();
-    }, []);
+    }, [minColumnWidth]);
 
     const rowCount = Math.ceil(options.length / columnCount);
-    const totalHeight = Math.max(0, rowCount * ROW_STRIDE - ROW_GAP);
+    const totalHeight = Math.max(0, rowCount * rowStride - rowGap);
 
     const { startRow, endRow } = useMemo(() => {
-        const firstVisibleRow = Math.floor(scrollTop / ROW_STRIDE);
-        const visibleRowCount = Math.ceil(viewportHeight / ROW_STRIDE);
+        const firstVisibleRow = Math.floor(scrollTop / rowStride);
+        const visibleRowCount = Math.ceil(viewportHeight / rowStride);
 
         return {
             startRow: Math.max(0, firstVisibleRow - OVERSCAN_ROWS),
@@ -110,7 +138,7 @@ export function VirtualIconGrid({
                 firstVisibleRow + visibleRowCount + OVERSCAN_ROWS,
             ),
         };
-    }, [rowCount, scrollTop, viewportHeight]);
+    }, [rowCount, rowStride, scrollTop, viewportHeight]);
 
     const visibleRows = useMemo(() => {
         return Array.from({ length: endRow - startRow }, (_, offset) => {
@@ -140,8 +168,8 @@ export function VirtualIconGrid({
             }
 
             const row = Math.floor(index / columnCount);
-            const rowTop = row * ROW_STRIDE;
-            const rowBottom = rowTop + ROW_HEIGHT;
+            const rowTop = row * rowStride;
+            const rowBottom = rowTop + rowHeight;
             const viewTop = element.scrollTop;
             const viewBottom = viewTop + element.clientHeight;
 
@@ -151,7 +179,7 @@ export function VirtualIconGrid({
                 element.scrollTop = rowBottom - element.clientHeight;
             }
         },
-        [columnCount, options.length],
+        [columnCount, options.length, rowHeight, rowStride],
     );
 
     const moveFocus = useCallback(
@@ -189,18 +217,18 @@ export function VirtualIconGrid({
             const nextScrollTop = scrollTopRef.current;
             const previousStart = Math.max(
                 0,
-                Math.floor(scrollTop / ROW_STRIDE) - OVERSCAN_ROWS,
+                Math.floor(scrollTop / rowStride) - OVERSCAN_ROWS,
             );
             const nextStart = Math.max(
                 0,
-                Math.floor(nextScrollTop / ROW_STRIDE) - OVERSCAN_ROWS,
+                Math.floor(nextScrollTop / rowStride) - OVERSCAN_ROWS,
             );
 
             if (previousStart !== nextStart || nextScrollTop !== scrollTop) {
                 setScrollTop(nextScrollTop);
             }
         });
-    }, [scrollTop]);
+    }, [rowStride, scrollTop]);
 
     useEffect(() => {
         return () => {
@@ -289,7 +317,7 @@ export function VirtualIconGrid({
             onKeyDown={handleKeyDown}
             tabIndex={disabled ? -1 : 0}
             className={cn(
-                'max-h-96 overflow-y-auto rounded-xl border border-border/70 bg-muted/10 p-3 outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                'max-h-80 overflow-y-auto rounded-xl border border-border/60 bg-muted/10 p-2.5 outline-none focus-visible:ring-2 focus-visible:ring-ring',
                 className,
             )}
             role="listbox"
@@ -305,16 +333,17 @@ export function VirtualIconGrid({
                 {visibleRows.map(({ row, startIndex, items }) => (
                     <div
                         key={row}
-                        className="absolute inset-x-0 grid gap-2"
+                        className="absolute inset-x-0 grid gap-1.5"
                         style={{
-                            top: row * ROW_STRIDE,
-                            height: ROW_HEIGHT,
+                            top: row * rowStride,
+                            height: rowHeight,
                             gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
                         }}
                     >
                         {items.map((option, offset) => {
                             const index = startIndex + offset;
                             const isSelected = selected === option.key;
+                            const isPending = pending === option.key;
                             const isFocused = index === safeFocusedIndex;
 
                             return (
@@ -323,20 +352,25 @@ export function VirtualIconGrid({
                                     id={`${id ?? 'icon-grid'}-option-${option.key}`}
                                     type="button"
                                     role="option"
-                                    aria-selected={isSelected}
+                                    aria-selected={isSelected || isPending}
                                     title={option.label}
                                     tabIndex={-1}
                                     disabled={disabled}
                                     onClick={() => onSelect(option.key)}
                                     onMouseEnter={() => setFocusedIndex(index)}
                                     className={cn(
-                                        'relative flex flex-col items-center justify-center gap-1 rounded-lg border px-1 py-2 text-center transition-colors',
-                                        isSelected
-                                            ? cn(
-                                                  'border-primary bg-primary/10 text-primary',
-                                                  optionSelectedClassName,
-                                              )
-                                            : 'border-border/50 bg-background hover:border-border hover:bg-muted/40',
+                                        'relative flex flex-col items-center justify-center gap-1 rounded-lg border border-transparent bg-background/80 px-1 text-center transition-colors hover:bg-muted/50',
+                                        isSelected &&
+                                            cn(
+                                                'border-primary/40 bg-primary/10 text-primary',
+                                                optionSelectedClassName,
+                                            ),
+                                        isPending &&
+                                            !isSelected &&
+                                            cn(
+                                                'border-dashed border-primary/50 bg-primary/5',
+                                                optionPendingClassName,
+                                            ),
                                         isFocused &&
                                             'ring-2 ring-ring ring-offset-1 ring-offset-background',
                                         optionClassName,
@@ -352,14 +386,20 @@ export function VirtualIconGrid({
                                         name={option.key}
                                         className="size-5 shrink-0"
                                     />
-                                    <span
-                                        className={cn(
-                                            'line-clamp-2 text-[10px] leading-tight font-medium text-muted-foreground',
-                                            optionLabelClassName,
-                                        )}
-                                    >
-                                        {option.label}
-                                    </span>
+                                    {showLabel ? (
+                                        <span
+                                            className={cn(
+                                                'line-clamp-1 w-full px-0.5 text-[10px] leading-tight font-medium text-muted-foreground',
+                                                optionLabelClassName,
+                                            )}
+                                        >
+                                            {option.label}
+                                        </span>
+                                    ) : (
+                                        <span className="sr-only">
+                                            {option.label}
+                                        </span>
+                                    )}
                                 </button>
                             );
                         })}

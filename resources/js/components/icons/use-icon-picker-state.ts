@@ -8,8 +8,13 @@ import {
     useState,
 } from 'react';
 
+import {
+    pushRecentIcon,
+    readRecentIcons,
+} from '@/components/icons/icon-picker-recents';
 import type {
     CatalogIconOption,
+    LucideIconPickerMode,
     LucideIconPickerProps,
 } from '@/components/icons/lucide-icon-picker-types';
 import {
@@ -34,7 +39,12 @@ type UseIconPickerStateOptions = Pick<
     | 'allowedIcons'
     | 'closeOnSelect'
     | 'clearSearchOnSelect'
->;
+    | 'confirmSelection'
+    | 'showRecents'
+    | 'mode'
+> & {
+    mode: LucideIconPickerMode;
+};
 
 export function useIconPickerState({
     id,
@@ -50,12 +60,18 @@ export function useIconPickerState({
     allowedIcons,
     closeOnSelect = false,
     clearSearchOnSelect = false,
+    confirmSelection: confirmSelectionProp,
+    showRecents = true,
+    mode,
 }: UseIconPickerStateOptions) {
     const reactId = useId();
     const searchId = id ? `${id}-search` : `${reactId}-search`;
     const gridId = id ? `${id}-grid` : `${reactId}-grid`;
     const statusId = id ? `${id}-status` : `${reactId}-status`;
     const triggerRef = useRef<HTMLButtonElement>(null);
+
+    const confirmSelection =
+        confirmSelectionProp ?? (mode === 'dialog' || mode === 'sheet');
 
     const isControlledValue = value !== undefined;
     const isControlledOpen = openProp !== undefined;
@@ -67,12 +83,20 @@ export function useIconPickerState({
     );
     const [query, setQuery] = useState('');
     const deferredQuery = useDeferredValue(query);
+    const [category, setCategory] = useState<string | null>(null);
     const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
     const [catalog, setCatalog] = useState<readonly CatalogIconOption[] | null>(
         null,
     );
+    const [categories, setCategories] = useState<readonly string[]>([]);
+    const [recents, setRecents] = useState<string[]>([]);
+    const [pendingIcon, setPendingIcon] = useState<string | null>(null);
 
     const open = isControlledOpen ? openProp : uncontrolledOpen;
+
+    const displayIcon = isControlledValue
+        ? resolveIconKey(value)
+        : selected;
 
     const setOpen = useCallback(
         (nextOpen: boolean) => {
@@ -88,18 +112,33 @@ export function useIconPickerState({
 
             if (!nextOpen) {
                 setQuery('');
+                setCategory(null);
+                setPendingIcon(null);
+            } else {
+                if (showRecents) {
+                    setRecents(readRecentIcons());
+                }
+
+                if (confirmSelection) {
+                    setPendingIcon(displayIcon);
+                }
             }
         },
-        [disabled, isControlledOpen, onOpenChange],
+        [
+            confirmSelection,
+            disabled,
+            displayIcon,
+            isControlledOpen,
+            onOpenChange,
+            showRecents,
+        ],
     );
 
     const catalogLoading = open && catalog === null;
 
     useEffect(() => {
-        void prefetchLucideIcons([
-            isControlledValue ? resolveIconKey(value) : selected,
-        ]);
-    }, [isControlledValue, selected, value]);
+        void prefetchLucideIcons([displayIcon]);
+    }, [displayIcon]);
 
     useEffect(() => {
         if (!open || catalog) {
@@ -114,11 +153,13 @@ export function useIconPickerState({
                     setCatalog(
                         module.ICON_OPTIONS as readonly CatalogIconOption[],
                     );
+                    setCategories(module.ICON_CATEGORIES as readonly string[]);
                 }
             })
             .catch(() => {
                 if (!cancelled) {
                     setCatalog([]);
+                    setCategories([]);
                 }
             });
 
@@ -147,23 +188,61 @@ export function useIconPickerState({
         return catalog.filter((option) => allowedSet.has(option.key));
     }, [allowedSet, catalog]);
 
-    const filteredOptions = useMemo(() => {
-        const normalizedQuery = deferredQuery.trim().toLowerCase();
-
-        if (normalizedQuery === '') {
+    const categoryOptions = useMemo(() => {
+        if (!category) {
             return baseOptions;
         }
 
         return baseOptions.filter((option) =>
+            option.categories.includes(category),
+        );
+    }, [baseOptions, category]);
+
+    const filteredOptions = useMemo(() => {
+        const normalizedQuery = deferredQuery.trim().toLowerCase();
+
+        if (normalizedQuery === '') {
+            return categoryOptions;
+        }
+
+        return categoryOptions.filter((option) =>
             option.searchText.includes(normalizedQuery),
         );
-    }, [baseOptions, deferredQuery]);
+    }, [categoryOptions, deferredQuery]);
+
+    const availableCategories = useMemo(() => {
+        if (categories.length === 0) {
+            return [] as string[];
+        }
+
+        const present = new Set<string>();
+
+        for (const option of baseOptions) {
+            for (const item of option.categories) {
+                present.add(item);
+            }
+        }
+
+        return categories.filter((item) => present.has(item));
+    }, [baseOptions, categories]);
+
+    const recentOptions = useMemo(() => {
+        if (!showRecents || recents.length === 0) {
+            return [] as CatalogIconOption[];
+        }
+
+        const byKey = new Map(baseOptions.map((option) => [option.key, option]));
+
+        return recents
+            .map((key) => byKey.get(key))
+            .filter((option): option is CatalogIconOption => Boolean(option));
+    }, [baseOptions, recents, showRecents]);
 
     const isSearchPending = query !== deferredQuery;
 
-    const displayIcon = isControlledValue
-        ? resolveIconKey(value)
-        : selected;
+    const activeIcon = confirmSelection
+        ? (pendingIcon ?? displayIcon)
+        : displayIcon;
 
     const displayLabel = useMemo(() => {
         const fromCatalog = catalog?.find(
@@ -173,8 +252,16 @@ export function useIconPickerState({
         return fromCatalog ?? getIconLabel(displayIcon);
     }, [catalog, displayIcon]);
 
-    const selectIcon = useCallback(
-        (key: string) => {
+    const activeLabel = useMemo(() => {
+        const fromCatalog = catalog?.find(
+            (option) => option.key === activeIcon,
+        )?.label;
+
+        return fromCatalog ?? getIconLabel(activeIcon);
+    }, [activeIcon, catalog]);
+
+    const commitIcon = useCallback(
+        (key: string, options?: { close?: boolean }) => {
             if (disabled) {
                 return;
             }
@@ -185,11 +272,17 @@ export function useIconPickerState({
 
             onChange?.(key);
 
+            if (showRecents) {
+                setRecents(pushRecentIcon(key));
+            }
+
             if (clearSearchOnSelect) {
                 setQuery('');
             }
 
-            if (closeOnSelect) {
+            const shouldClose = options?.close ?? closeOnSelect;
+
+            if (shouldClose) {
                 setOpen(false);
                 triggerRef.current?.focus();
             }
@@ -201,8 +294,31 @@ export function useIconPickerState({
             isControlledValue,
             onChange,
             setOpen,
+            showRecents,
         ],
     );
+
+    const selectIcon = useCallback(
+        (key: string) => {
+            if (disabled) {
+                return;
+            }
+
+            if (confirmSelection) {
+                setPendingIcon(key);
+
+                return;
+            }
+
+            commitIcon(key);
+        },
+        [commitIcon, confirmSelection, disabled],
+    );
+
+    const confirmPending = useCallback(() => {
+        const key = pendingIcon ?? displayIcon;
+        commitIcon(key, { close: true });
+    }, [commitIcon, displayIcon, pendingIcon]);
 
     const hadInvalidDefault =
         defaultValue != null &&
@@ -212,7 +328,7 @@ export function useIconPickerState({
     const statusMessage = catalogLoading
         ? 'Loading icons…'
         : filteredOptions.length === 0
-          ? 'No icons match your search.'
+          ? 'No icons match your filters.'
           : `${filteredOptions.length.toLocaleString()} icons`;
 
     const searchPlaceholder =
@@ -239,12 +355,21 @@ export function useIconPickerState({
         query,
         setQuery,
         deferredQuery,
+        category,
+        setCategory,
         catalogLoading,
         filteredOptions,
+        availableCategories,
+        recentOptions,
         isSearchPending,
         displayIcon,
         displayLabel,
+        activeIcon,
+        activeLabel,
+        pendingIcon,
+        confirmSelection,
         selectIcon,
+        confirmPending,
         hadInvalidDefault,
         statusMessage,
         searchPlaceholder,
