@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { Award, BookOpen, LayoutGrid } from 'lucide-react';
+import { Award, BookOpen, LayoutGrid, Sparkles } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavUser } from '@/components/nav-user';
 import { SidebarNav } from '@/components/navigation';
@@ -14,6 +14,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as iconPickerDemo } from '@/routes/icon-picker-demo';
 import teacherCertificates from '@/routes/teacher/certificates';
 import teacherCourses from '@/routes/teacher/courses';
 
@@ -33,6 +34,11 @@ const mainNav: NavNode[] = [
         title: 'Certificates',
         href: teacherCertificates.index(),
         icon: Award,
+    },
+    {
+        title: 'Icon Picker Demo',
+        href: iconPickerDemo(),
+        icon: Sparkles,
     },
 ];
 

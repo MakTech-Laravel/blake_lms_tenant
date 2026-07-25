@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, LayoutGrid, Shield, Users } from 'lucide-react';
+import { BookOpen, LayoutGrid, Shield, Sparkles, Users } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavUser } from '@/components/nav-user';
 import { SidebarNav } from '@/components/navigation';
@@ -14,6 +14,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { useTenant } from '@/hooks/use-tenant';
+import { index as iconPickerDemo } from '@/routes/icon-picker-demo';
 import { dashboard } from '@/routes/school';
 import schoolCourses from '@/routes/school/courses';
 import schoolRoles from '@/routes/school/roles';
@@ -48,6 +49,11 @@ export function SchoolSidebar() {
             href: schoolCourses.index(school.slug),
             icon: BookOpen,
             permissions: [PERMISSIONS.SCHOOL_COURSES.INDEX],
+        },
+        {
+            title: 'Icon Picker Demo',
+            href: iconPickerDemo(),
+            icon: Sparkles,
         },
     ];
 

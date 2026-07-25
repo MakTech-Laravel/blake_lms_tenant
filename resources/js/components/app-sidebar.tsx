@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid, Upload } from 'lucide-react';
+import { BookOpen, FolderGit2, LayoutGrid, Sparkles, Upload } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavUser } from '@/components/nav-user';
@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { index as fileUploadDemo } from '@/routes/file-upload-demo';
+import { index as iconPickerDemo } from '@/routes/icon-picker-demo';
 import type { NavItem } from '@/types';
 import { PERMISSIONS } from '@/types/permissions';
 
@@ -33,6 +34,11 @@ const mainNav: NavNode[] = [
         href: fileUploadDemo(),
         icon: Upload,
         permissions: [PERMISSIONS.FILE_UPLOAD.INDEX],
+    },
+    {
+        title: 'Icon Picker Demo',
+        href: iconPickerDemo(),
+        icon: Sparkles,
     },
 ];
 

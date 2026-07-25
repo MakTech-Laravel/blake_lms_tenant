@@ -1,11 +1,6 @@
 import { Head, Link, usePage } from '@inertiajs/react';
-import type {
-    Variants} from 'motion/react';
-import {
-    motion,
-    useMotionTemplate,
-    useMotionValue
-} from 'motion/react';
+import type { Variants } from 'motion/react';
+import { motion, useMotionTemplate, useMotionValue } from 'motion/react';
 import type { ReactNode, MouseEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { usePermission } from '@/hooks/use-permissions';
