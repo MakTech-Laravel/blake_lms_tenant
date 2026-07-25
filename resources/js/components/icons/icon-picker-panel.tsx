@@ -1,6 +1,7 @@
 import { Search, X } from 'lucide-react';
 
 import { CachedLucideIcon } from '@/components/icons/cached-lucide-icon';
+import { IconPickerCategoryRail } from '@/components/icons/icon-picker-category-rail';
 import type {
     CatalogIconOption,
     LucideIconPickerClassNames,
@@ -38,6 +39,8 @@ type IconPickerPanelProps = {
     showCategories?: boolean;
     showRecents?: boolean;
     density?: LucideIconPickerDensity;
+    /** Fill parent height; only the icon grid scrolls. */
+    fillHeight?: boolean;
     classNames?: LucideIconPickerClassNames;
 };
 
@@ -69,18 +72,33 @@ export function IconPickerPanel({
     showCategories = true,
     showRecents = true,
     density = 'comfortable',
+    fillHeight = false,
     classNames,
 }: IconPickerPanelProps) {
     return (
-        <div className={cn('flex min-h-0 flex-col gap-4 p-4', classNames?.panel)}>
+        <div
+            className={cn(
+                'flex min-h-0 flex-col gap-4 px-5 py-5',
+                fillHeight && 'h-full',
+                classNames?.panel,
+            )}
+        >
             {hadInvalidDefault ? (
-                <p className="text-xs text-amber-700 dark:text-amber-400">
+                <p className="shrink-0 text-xs text-amber-700 dark:text-amber-400">
                     The previous icon was not recognized. Pick one from the list
                     below.
                 </p>
             ) : null}
 
-            <div className={cn('sticky top-0 z-10 grid gap-1.5 bg-popover/95 pb-1 backdrop-blur-sm', classNames?.search)}>
+            <div
+                className={cn(
+                    'shrink-0 grid gap-1.5',
+                    fillHeight
+                        ? 'bg-background'
+                        : 'sticky top-0 z-10 bg-background/95 pb-1 backdrop-blur-sm',
+                    classNames?.search,
+                )}
+            >
                 <label
                     htmlFor={searchId}
                     className="text-xs font-medium tracking-wide text-muted-foreground uppercase"
@@ -123,7 +141,12 @@ export function IconPickerPanel({
             </div>
 
             {showRecents && recentOptions.length > 0 ? (
-                <div className={cn('space-y-1.5', classNames?.recents)}>
+                <div
+                    className={cn(
+                        'shrink-0 space-y-2',
+                        classNames?.recents,
+                    )}
+                >
                     <div className="flex items-center justify-between gap-2">
                         <p className="text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
                             Recent
@@ -139,7 +162,7 @@ export function IconPickerPanel({
                             </button>
                         ) : null}
                     </div>
-                    <div className="flex gap-1.5 overflow-x-auto pb-0.5">
+                    <div className="scrollbar-none flex gap-2 overflow-x-auto">
                         {recentOptions.map((option) => (
                             <button
                                 key={option.key}
@@ -165,55 +188,17 @@ export function IconPickerPanel({
             ) : null}
 
             {showCategories && categories.length > 0 ? (
-                <div
-                    className={cn(
-                        'flex gap-1.5 overflow-x-auto pb-0.5',
-                        classNames?.category,
-                    )}
-                    role="tablist"
-                    aria-label="Icon categories"
-                >
-                    <button
-                        type="button"
-                        role="tab"
-                        aria-selected={activeCategory === null}
-                        onClick={() => onCategoryChange?.(null)}
-                        className={cn(
-                            'shrink-0 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors',
-                            activeCategory === null
-                                ? cn(
-                                      'border-foreground/20 bg-foreground text-background',
-                                      classNames?.categoryActive,
-                                  )
-                                : 'border-border/70 bg-muted text-muted-foreground hover:bg-muted/80',
-                        )}
-                    >
-                        All
-                    </button>
-                    {categories.map((item) => (
-                        <button
-                            key={item}
-                            type="button"
-                            role="tab"
-                            aria-selected={activeCategory === item}
-                            onClick={() => onCategoryChange?.(item)}
-                            className={cn(
-                                'shrink-0 rounded-full border px-2.5 py-1 text-xs font-medium capitalize transition-colors',
-                                activeCategory === item
-                                    ? cn(
-                                          'border-foreground/20 bg-foreground text-background',
-                                          classNames?.categoryActive,
-                                      )
-                                    : 'border-border/70 bg-muted text-muted-foreground hover:bg-muted/80',
-                            )}
-                        >
-                            {item}
-                        </button>
-                    ))}
-                </div>
+                <IconPickerCategoryRail
+                    categories={categories}
+                    activeCategory={activeCategory}
+                    onCategoryChange={onCategoryChange}
+                    disabled={disabled}
+                    className={cn('shrink-0', classNames?.category)}
+                    activeClassName={classNames?.categoryActive}
+                />
             ) : null}
 
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex shrink-0 items-center justify-between gap-2">
                 <p
                     id={statusId}
                     className={cn(
@@ -231,6 +216,7 @@ export function IconPickerPanel({
                 <div
                     className={cn(
                         'grid grid-cols-6 gap-2 rounded-xl border border-dashed border-border/70 p-3',
+                        fillHeight && 'min-h-0 flex-1',
                         classNames?.loading,
                     )}
                 >
@@ -245,6 +231,7 @@ export function IconPickerPanel({
                 <p
                     className={cn(
                         'rounded-xl border border-dashed border-border/70 px-4 py-10 text-center text-sm text-muted-foreground',
+                        fillHeight && 'min-h-0 flex-1',
                         classNames?.empty,
                     )}
                 >
@@ -254,6 +241,7 @@ export function IconPickerPanel({
                 <div
                     className={cn(
                         'min-h-0',
+                        fillHeight && 'flex-1',
                         isSearchPending && 'opacity-70',
                     )}
                 >
@@ -267,7 +255,10 @@ export function IconPickerPanel({
                         onEscape={onEscape}
                         disabled={disabled}
                         density={density}
-                        className={classNames?.grid}
+                        className={cn(
+                            fillHeight && 'h-full max-h-none',
+                            classNames?.grid,
+                        )}
                         optionClassName={classNames?.option}
                         optionSelectedClassName={classNames?.optionSelected}
                         optionPendingClassName={classNames?.optionPending}

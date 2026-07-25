@@ -120,16 +120,16 @@ export function IconPickerSheet({
             <SheetContent
                 side="right"
                 className={cn(
-                    'flex w-full flex-col gap-0 bg-background p-0 text-foreground sm:max-w-lg',
+                    'flex h-full w-full flex-col gap-0 overflow-hidden bg-background p-0 text-foreground sm:max-w-lg',
                     classNames?.sheetContent,
                 )}
             >
-                <SheetHeader className="shrink-0 space-y-1 border-b border-border/70 px-5 py-4 text-left">
+                <SheetHeader className="shrink-0 space-y-1.5 border-b border-border px-5 py-5 pr-12 text-left">
                     <SheetTitle>{dialogTitle}</SheetTitle>
                     <SheetDescription>{dialogDescription}</SheetDescription>
                 </SheetHeader>
 
-                <div className="min-h-0 flex-1 overflow-y-auto">
+                <div className="min-h-0 flex-1 overflow-hidden">
                     <IconPickerPanel
                         searchId={searchId}
                         gridId={gridId}
@@ -161,6 +161,7 @@ export function IconPickerSheet({
                         showCategories={showCategories}
                         showRecents={showRecents}
                         density={density}
+                        fillHeight
                         classNames={classNames}
                     />
                 </div>

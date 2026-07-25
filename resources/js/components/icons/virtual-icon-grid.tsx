@@ -11,6 +11,12 @@ import type { KeyboardEvent } from 'react';
 
 import { CachedLucideIcon } from '@/components/icons/cached-lucide-icon';
 import type { LucideIconPickerDensity } from '@/components/icons/lucide-icon-picker-types';
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { prefetchLucideIcons } from '@/lib/lucide-icon-cache';
 import { cn } from '@/lib/utils';
 
@@ -50,9 +56,9 @@ function densityConfig(density: LucideIconPickerDensity) {
     }
 
     return {
-        rowHeight: 72,
-        rowGap: 8,
-        minColumnWidth: 68,
+        rowHeight: 76,
+        rowGap: 10,
+        minColumnWidth: 72,
         showLabel: true,
     };
 }
@@ -101,6 +107,8 @@ export function VirtualIconGrid({
 
         return selectedIndex >= 0 ? selectedIndex : 0;
     });
+    const [tooltipsEnabled, setTooltipsEnabled] = useState(true);
+    const tipResumeRef = useRef<number | null>(null);
 
     useLayoutEffect(() => {
         const element = scrollRef.current;
@@ -205,6 +213,17 @@ export function VirtualIconGrid({
             return;
         }
 
+        setTooltipsEnabled(false);
+
+        if (tipResumeRef.current != null) {
+            window.clearTimeout(tipResumeRef.current);
+        }
+
+        tipResumeRef.current = window.setTimeout(() => {
+            setTooltipsEnabled(true);
+            tipResumeRef.current = null;
+        }, 120);
+
         scrollTopRef.current = element.scrollTop;
 
         if (scrollRafRef.current !== null) {
@@ -234,6 +253,10 @@ export function VirtualIconGrid({
         return () => {
             if (scrollRafRef.current !== null) {
                 cancelAnimationFrame(scrollRafRef.current);
+            }
+
+            if (tipResumeRef.current != null) {
+                window.clearTimeout(tipResumeRef.current);
             }
         };
     }, []);
@@ -310,107 +333,137 @@ export function VirtualIconGrid({
             : Math.max(0, Math.min(focusedIndex, options.length - 1));
 
     return (
-        <div
-            ref={scrollRef}
-            id={id}
-            onScroll={handleScroll}
-            onKeyDown={handleKeyDown}
-            tabIndex={disabled ? -1 : 0}
-            className={cn(
-                'max-h-80 overflow-y-auto rounded-xl border border-border/60 bg-muted/10 p-2.5 outline-none focus-visible:ring-2 focus-visible:ring-ring',
-                className,
-            )}
-            role="listbox"
-            aria-label="Icons"
-            aria-activedescendant={
-                options[safeFocusedIndex]
-                    ? `${id ?? 'icon-grid'}-option-${options[safeFocusedIndex].key}`
-                    : undefined
-            }
-            aria-disabled={disabled || undefined}
-        >
-            <div className="relative" style={{ height: totalHeight }}>
-                {visibleRows.map(({ row, startIndex, items }) => (
-                    <div
-                        key={row}
-                        className="absolute inset-x-0 grid gap-1.5"
-                        style={{
-                            top: row * rowStride,
-                            height: rowHeight,
-                            gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
-                        }}
-                    >
-                        {items.map((option, offset) => {
-                            const index = startIndex + offset;
-                            const isSelected = selected === option.key;
-                            const isPending = pending === option.key;
-                            const isFocused = index === safeFocusedIndex;
+        <TooltipProvider delayDuration={280} skipDelayDuration={0}>
+            <div
+                ref={scrollRef}
+                id={id}
+                onScroll={handleScroll}
+                onKeyDown={handleKeyDown}
+                tabIndex={disabled ? -1 : 0}
+                className={cn(
+                    'scrollbar-thin max-h-80 overflow-y-auto rounded-xl border border-border/60 bg-muted/10 p-3 outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                    className,
+                )}
+                role="listbox"
+                aria-label="Icons"
+                aria-activedescendant={
+                    options[safeFocusedIndex]
+                        ? `${id ?? 'icon-grid'}-option-${options[safeFocusedIndex].key}`
+                        : undefined
+                }
+                aria-disabled={disabled || undefined}
+            >
+                <div className="relative" style={{ height: totalHeight }}>
+                    {visibleRows.map(({ row, startIndex, items }) => (
+                        <div
+                            key={row}
+                            className="absolute inset-x-0 grid gap-2"
+                            style={{
+                                top: row * rowStride,
+                                height: rowHeight,
+                                gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
+                            }}
+                        >
+                            {items.map((option, offset) => {
+                                const index = startIndex + offset;
+                                const isSelected = selected === option.key;
+                                const isPending = pending === option.key;
+                                const isFocused = index === safeFocusedIndex;
 
-                            return (
-                                <button
-                                    key={option.key}
-                                    id={`${id ?? 'icon-grid'}-option-${option.key}`}
-                                    type="button"
-                                    role="option"
-                                    aria-selected={isSelected || isPending}
-                                    title={option.label}
-                                    tabIndex={-1}
-                                    disabled={disabled}
-                                    onClick={() => onSelect(option.key)}
-                                    onMouseEnter={() => setFocusedIndex(index)}
-                                    className={cn(
-                                        'relative flex flex-col items-center justify-center gap-1 rounded-lg border border-transparent bg-background px-1 text-center transition-colors hover:bg-muted/40',
-                                        isSelected &&
-                                            cn(
-                                                'border-primary bg-primary/15 text-primary shadow-xs',
-                                                optionSelectedClassName,
-                                            ),
-                                        isPending &&
-                                            !isSelected &&
-                                            cn(
-                                                'border-2 border-dashed border-primary bg-primary/10 text-primary',
-                                                optionPendingClassName,
-                                            ),
-                                        isFocused &&
-                                            !isSelected &&
-                                            !isPending &&
-                                            'bg-muted/60 ring-1 ring-border',
-                                        optionClassName,
-                                    )}
-                                >
-                                    {isSelected ? (
-                                        <Check
-                                            className="absolute top-1 right-1 size-3 text-primary"
-                                            aria-hidden
-                                        />
-                                    ) : null}
-                                    {isPending && !isSelected ? (
-                                        <span className="absolute top-1 right-1 size-1.5 rounded-full bg-primary" />
-                                    ) : null}
-                                    <CachedLucideIcon
-                                        name={option.key}
-                                        className="size-5 shrink-0"
-                                    />
-                                    {showLabel ? (
-                                        <span
-                                            className={cn(
-                                                'line-clamp-1 w-full px-0.5 text-[10px] leading-tight font-medium text-muted-foreground',
-                                                optionLabelClassName,
-                                            )}
+                                return (
+                                    <Tooltip
+                                        key={option.key}
+                                        open={
+                                            tooltipsEnabled
+                                                ? undefined
+                                                : false
+                                        }
+                                    >
+                                        <TooltipTrigger asChild>
+                                            <button
+                                                id={`${id ?? 'icon-grid'}-option-${option.key}`}
+                                                type="button"
+                                                role="option"
+                                                aria-selected={
+                                                    isSelected || isPending
+                                                }
+                                                aria-label={option.label}
+                                                tabIndex={-1}
+                                                disabled={disabled}
+                                                onClick={() =>
+                                                    onSelect(option.key)
+                                                }
+                                                onMouseEnter={() =>
+                                                    setFocusedIndex(index)
+                                                }
+                                                className={cn(
+                                                    'relative flex w-full flex-col items-center justify-center gap-1.5 rounded-lg border border-transparent bg-background px-1.5 py-1 text-center transition-colors hover:bg-muted/40',
+                                                    isSelected &&
+                                                        cn(
+                                                            'border-primary bg-primary/15 text-primary shadow-xs',
+                                                            optionSelectedClassName,
+                                                        ),
+                                                    isPending &&
+                                                        !isSelected &&
+                                                        cn(
+                                                            'border-2 border-dashed border-primary bg-primary/10 text-primary',
+                                                            optionPendingClassName,
+                                                        ),
+                                                    isFocused &&
+                                                        !isSelected &&
+                                                        !isPending &&
+                                                        'bg-muted/60 ring-1 ring-border',
+                                                    optionClassName,
+                                                )}
+                                            >
+                                                {isSelected ? (
+                                                    <Check
+                                                        className="absolute top-1 right-1 size-3 text-primary"
+                                                        aria-hidden
+                                                    />
+                                                ) : null}
+                                                {isPending &&
+                                                !isSelected ? (
+                                                    <span className="absolute top-1 right-1 size-1.5 rounded-full bg-primary" />
+                                                ) : null}
+                                                <CachedLucideIcon
+                                                    name={option.key}
+                                                    className="size-5 shrink-0"
+                                                />
+                                                {showLabel ? (
+                                                    <span
+                                                        className={cn(
+                                                            'line-clamp-1 w-full px-0.5 text-[10px] leading-tight font-medium text-muted-foreground',
+                                                            optionLabelClassName,
+                                                        )}
+                                                    >
+                                                        {option.label}
+                                                    </span>
+                                                ) : (
+                                                    <span className="sr-only">
+                                                        {option.label}
+                                                    </span>
+                                                )}
+                                            </button>
+                                        </TooltipTrigger>
+                                        <TooltipContent
+                                            side="top"
+                                            sideOffset={8}
                                         >
-                                            {option.label}
-                                        </span>
-                                    ) : (
-                                        <span className="sr-only">
-                                            {option.label}
-                                        </span>
-                                    )}
-                                </button>
-                            );
-                        })}
-                    </div>
-                ))}
+                                            <p className="font-medium">
+                                                {option.label}
+                                            </p>
+                                            <p className="mt-0.5 font-mono text-[10px] opacity-80">
+                                                {option.key}
+                                            </p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                );
+                            })}
+                        </div>
+                    ))}
+                </div>
             </div>
-        </div>
+        </TooltipProvider>
     );
 }

@@ -47,7 +47,7 @@ export function IconPickerPreview({
         return (
             <div
                 className={cn(
-                    'flex items-center gap-3 border-t border-border bg-background px-4 py-3',
+                    'flex items-center gap-3 border-t border-border bg-background px-5 py-4',
                     classNames?.preview,
                 )}
             >

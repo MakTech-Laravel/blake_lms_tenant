@@ -135,7 +135,7 @@ export function IconPickerDialog({
             >
                 <DialogHeader
                     className={cn(
-                        'shrink-0 space-y-1 border-b border-border/70 px-5 py-4 text-left',
+                        'shrink-0 space-y-1.5 border-b border-border px-5 py-5 text-left',
                         classNames?.dialogHeader,
                     )}
                 >
@@ -143,8 +143,8 @@ export function IconPickerDialog({
                     <DialogDescription>{dialogDescription}</DialogDescription>
                 </DialogHeader>
 
-                <div className="grid min-h-0 flex-1 lg:grid-cols-[minmax(0,1fr)_240px]">
-                    <div className="min-h-0 overflow-y-auto">
+                <div className="grid min-h-0 flex-1 overflow-hidden lg:grid-cols-[minmax(0,1fr)_240px]">
+                    <div className="min-h-0 overflow-hidden">
                         <IconPickerPanel
                             searchId={searchId}
                             gridId={gridId}
@@ -176,11 +176,12 @@ export function IconPickerDialog({
                             showCategories={showCategories}
                             showRecents={showRecents}
                             density={density}
+                            fillHeight
                             classNames={classNames}
                         />
                     </div>
 
-                    <div className="hidden min-h-0 lg:block">
+                    <div className="hidden min-h-0 border-l border-border lg:block">
                         <IconPickerPreview
                             icon={activeIcon}
                             label={activeLabel}
