@@ -5,6 +5,7 @@ import {
     LayoutGrid,
     Shield,
     ShieldCheck,
+    Sparkles,
     Users,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
@@ -20,6 +21,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { index as iconPickerDemo } from '@/routes/icon-picker-demo';
 import { dashboard } from '@/routes/platform';
 import platformPermissions from '@/routes/platform/permissions';
 import platformRoles from '@/routes/platform/roles';
@@ -69,6 +71,11 @@ const mainNav: NavNode[] = [
                 permissions: [PERMISSIONS.PERMISSIONS.INDEX],
             },
         ],
+    },
+    {
+        title: 'Icon Picker Demo',
+        href: iconPickerDemo(),
+        icon: Sparkles,
     },
 ];
 
