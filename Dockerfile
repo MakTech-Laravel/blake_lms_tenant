@@ -65,7 +65,7 @@ RUN mkdir -p storage/framework/{views,sessions,cache} \
 RUN composer install --no-dev --optimize-autoloader && php artisan wayfinder:generate
 
 # Install npm dependencies and build assets
-RUN npm install && npm run build
+RUN pnpm install && pnpm run build && pnpm run generate:icon-catalog
 
 # Laravel Artisan commands
 
