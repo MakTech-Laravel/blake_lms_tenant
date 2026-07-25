@@ -25,6 +25,10 @@ type VirtualIconGridProps = {
     onEscape?: () => void;
     disabled?: boolean;
     id?: string;
+    className?: string;
+    optionClassName?: string;
+    optionSelectedClassName?: string;
+    optionLabelClassName?: string;
 };
 
 const ROW_HEIGHT = 76;
@@ -53,6 +57,10 @@ export function VirtualIconGrid({
     onEscape,
     disabled = false,
     id,
+    className,
+    optionClassName,
+    optionSelectedClassName,
+    optionLabelClassName,
 }: VirtualIconGridProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
     const scrollRafRef = useRef<number | null>(null);
@@ -280,7 +288,10 @@ export function VirtualIconGrid({
             onScroll={handleScroll}
             onKeyDown={handleKeyDown}
             tabIndex={disabled ? -1 : 0}
-            className="max-h-96 overflow-y-auto rounded-xl border border-border/70 bg-muted/10 p-3 outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className={cn(
+                'max-h-96 overflow-y-auto rounded-xl border border-border/70 bg-muted/10 p-3 outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                className,
+            )}
             role="listbox"
             aria-label="Icons"
             aria-activedescendant={
@@ -321,10 +332,14 @@ export function VirtualIconGrid({
                                     className={cn(
                                         'relative flex flex-col items-center justify-center gap-1 rounded-lg border px-1 py-2 text-center transition-colors',
                                         isSelected
-                                            ? 'border-primary bg-primary/10 text-primary'
+                                            ? cn(
+                                                  'border-primary bg-primary/10 text-primary',
+                                                  optionSelectedClassName,
+                                              )
                                             : 'border-border/50 bg-background hover:border-border hover:bg-muted/40',
                                         isFocused &&
                                             'ring-2 ring-ring ring-offset-1 ring-offset-background',
+                                        optionClassName,
                                     )}
                                 >
                                     {isSelected ? (
@@ -337,7 +352,12 @@ export function VirtualIconGrid({
                                         name={option.key}
                                         className="size-5 shrink-0"
                                     />
-                                    <span className="line-clamp-2 text-[10px] leading-tight font-medium text-muted-foreground">
+                                    <span
+                                        className={cn(
+                                            'line-clamp-2 text-[10px] leading-tight font-medium text-muted-foreground',
+                                            optionLabelClassName,
+                                        )}
+                                    >
                                         {option.label}
                                     </span>
                                 </button>
