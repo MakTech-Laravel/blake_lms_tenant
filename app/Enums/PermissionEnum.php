@@ -60,6 +60,13 @@ enum PermissionEnum: string
 
     // ─── SCHOOL DOMAIN ────────────────────────────────────────────────────────
 
+    // BRANCHES (school locations — managing them is a head-office action)
+    case SCHOOL_BRANCHES_INDEX = 'school.branches.index';
+    case SCHOOL_BRANCHES_VIEW = 'school.branches.view';
+    case SCHOOL_BRANCHES_CREATE = 'school.branches.create';
+    case SCHOOL_BRANCHES_EDIT = 'school.branches.edit';
+    case SCHOOL_BRANCHES_DELETE = 'school.branches.delete';
+
     // STAFF (school users)
     case SCHOOL_STAFF_INDEX = 'school.staff.index';
     case SCHOOL_STAFF_VIEW = 'school.staff.view';
@@ -96,6 +103,11 @@ enum PermissionEnum: string
     public function domain(): PermissionDomain
     {
         return match ($this) {
+            self::SCHOOL_BRANCHES_INDEX,
+            self::SCHOOL_BRANCHES_VIEW,
+            self::SCHOOL_BRANCHES_CREATE,
+            self::SCHOOL_BRANCHES_EDIT,
+            self::SCHOOL_BRANCHES_DELETE,
             self::SCHOOL_STAFF_INDEX,
             self::SCHOOL_STAFF_VIEW,
             self::SCHOOL_STAFF_CREATE,
@@ -170,6 +182,12 @@ enum PermissionEnum: string
             self::SETTINGS_IMPORT,
             self::SETTINGS_EXPORT,
             self::SETTINGS_PRINT => 'Settings',
+
+            self::SCHOOL_BRANCHES_INDEX,
+            self::SCHOOL_BRANCHES_VIEW,
+            self::SCHOOL_BRANCHES_CREATE,
+            self::SCHOOL_BRANCHES_EDIT,
+            self::SCHOOL_BRANCHES_DELETE => 'Branches',
 
             self::SCHOOL_STAFF_INDEX,
             self::SCHOOL_STAFF_VIEW,
