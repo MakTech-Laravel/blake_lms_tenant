@@ -15,7 +15,16 @@ use Spatie\Permission\PermissionRegistrar;
 
 /**
  * Two demo schools, each with its own team-scoped roles (super-admin, admin,
- * manager) and staff. Each school defines its own roles independently.
+ * manager) and head-office staff. Branch-pinned managers are seeded separately
+ * by BranchSeeder and reuse the same school-scoped `manager` role.
+ *
+ * Access matrix for the Branches feature:
+ *  - super-admin → everything via Gate::before; head office (branch_id NULL)
+ *  - admin       → every school-domain permission, including school.branches.*;
+ *                  head office, so the Branches nav and CRUD are usable
+ *  - manager     → staff/courses (read + write staff) and billing view; deliberately
+ *                  no school.branches.* — branch structure is head-office only.
+ *                  The same role is reused by BranchSeeder's pinned managers.
  */
 class SchoolSeeder extends Seeder
 {
@@ -83,6 +92,9 @@ class SchoolSeeder extends Seeder
     /**
      * Every school-domain permission (for the school admin role).
      *
+     * Includes school.branches.* automatically whenever those cases are added
+     * to PermissionEnum::domain()'s SCHOOL arm — no separate list to keep in sync.
+     *
      * @return array<int, string>
      */
     private function schoolPermissions(): array
@@ -94,7 +106,12 @@ class SchoolSeeder extends Seeder
     }
 
     /**
-     * A read-mostly subset for the school manager role.
+     * Operational permissions for the school manager role.
+     *
+     * Managers (both head-office and branch-pinned) can list/view courses and
+     * manage staff inside the scope their branch_id allows. They never receive
+     * school.branches.* — changing the branch structure is a head-office action
+     * gated separately by the `head_office` middleware.
      *
      * @return array<int, string>
      */
@@ -103,6 +120,8 @@ class SchoolSeeder extends Seeder
         return [
             PermissionEnum::SCHOOL_STAFF_INDEX->value,
             PermissionEnum::SCHOOL_STAFF_VIEW->value,
+            PermissionEnum::SCHOOL_STAFF_CREATE->value,
+            PermissionEnum::SCHOOL_STAFF_EDIT->value,
             PermissionEnum::SCHOOL_COURSES_INDEX->value,
             PermissionEnum::SCHOOL_COURSES_VIEW->value,
             PermissionEnum::SCHOOL_BILLING_VIEW->value,

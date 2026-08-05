@@ -19,9 +19,13 @@ use Spatie\Permission\PermissionRegistrar;
  * SchoolSeeder stay at branch_id NULL — head office, seeing every branch — while
  * the managers created here are pinned and see only their own branch.
  *
- * Note that a pinned manager holds exactly the same school-scoped `manager` role
- * as any other branch's manager. Roles describe what someone may do; the branch
- * decides which records they may do it to.
+ * Access notes:
+ *  - Each pinned manager receives the school-scoped `manager` role (same role as
+ *    school.manager1@dev.com). Roles describe what someone may do; the branch
+ *    pin decides which records they may do it to.
+ *  - They can manage staff inside their branch (create/edit), and list courses
+ *    belonging to it. They cannot open /branches — no school.branches.* on the
+ *    manager role, and the `head_office` middleware would refuse them anyway.
  */
 class BranchSeeder extends Seeder
 {

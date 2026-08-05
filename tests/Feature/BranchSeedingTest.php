@@ -108,3 +108,66 @@ test('a seeded branch manager cannot manage branches', function () {
         ->get(route('school.branches.index', $this->riverside))
         ->assertForbidden();
 });
+
+test('the seeded school admin can open the branches list', function () {
+    $admin = User::where('email', 'school.admin1@dev.com')->firstOrFail();
+
+    expect($admin->isHeadOffice())->toBeTrue();
+
+    $this->actingAs($admin)
+        ->get(route('school.branches.index', $this->riverside))
+        ->assertOk();
+});
+
+test('the seeded school admin role carries every school.branches permission', function () {
+    setPermissionsTeamId($this->riverside->id);
+
+    $admin = User::where('email', 'school.admin1@dev.com')->firstOrFail();
+
+    foreach ([
+        'school.branches.index',
+        'school.branches.view',
+        'school.branches.create',
+        'school.branches.edit',
+        'school.branches.delete',
+    ] as $permission) {
+        expect($admin->can($permission))->toBeTrue("expected admin to have {$permission}");
+    }
+});
+
+test('the seeded manager role never receives school.branches permissions', function () {
+    setPermissionsTeamId($this->riverside->id);
+
+    $manager = User::where('email', 'rangpur.manager@dev.com')->firstOrFail();
+
+    foreach ([
+        'school.branches.index',
+        'school.branches.create',
+        'school.branches.edit',
+        'school.branches.delete',
+    ] as $permission) {
+        expect($manager->can($permission))->toBeFalse("expected manager not to have {$permission}");
+    }
+});
+
+test('a seeded branch manager can manage staff inside their own branch', function () {
+    $manager = User::where('email', 'rangpur.manager@dev.com')->firstOrFail();
+
+    $this->actingAs($manager)
+        ->get(route('school.users.index', $this->riverside))
+        ->assertOk();
+
+    $this->actingAs($manager)
+        ->post(route('school.users.store', $this->riverside), [
+            'name' => 'Rangpur Hire',
+            'email' => 'rangpur.hire@example.test',
+            'password' => 'password123',
+            // Even if they try to target another branch, the controller pins them.
+            'branch_id' => Branch::where('slug', 'khulna')->value('id'),
+        ])
+        ->assertRedirect(route('school.users.index', $this->riverside));
+
+    $hire = User::where('email', 'rangpur.hire@example.test')->firstOrFail();
+
+    expect($hire->branch_id)->toBe($manager->branch_id);
+});
