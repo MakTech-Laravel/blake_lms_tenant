@@ -7,6 +7,7 @@ use App\Models\User;
 use Database\Seeders\PermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Testing\AssertableInertia as Assert;
 use Spatie\Permission\Models\Role;
 
 uses(RefreshDatabase::class);
@@ -197,4 +198,87 @@ test('a head office user is unaffected by branch validation', function () {
     $this->actingAs($this->headOffice)
         ->get(route('school.dashboard', $this->school))
         ->assertOk();
+});
+
+// ── Scoping through the dashboard and course pages ────────────────────────────
+
+test('dashboard counts are branch scoped', function () {
+    Course::factory()->forBranch($this->rangpur)->create();
+    Course::factory()->forBranch($this->khulna)->create();
+    Course::factory()->forBranch($this->barishal)->create();
+    Course::factory()->create(['school_id' => $this->school->id]);
+
+    User::factory()->branchStaff($this->khulna)->create();
+
+    $this->actingAs($this->rangpurManager)
+        ->get(route('school.dashboard', $this->school))
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('stats.courses', 1)
+            // The Rangpur manager themselves, and nobody else.
+            ->where('stats.staff', 1)
+        );
+
+    $this->actingAs($this->headOffice)
+        ->get(route('school.dashboard', $this->school))
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('stats.courses', 4)
+            ->where('stats.staff', 3)
+        );
+});
+
+test('the course list only shows the pinned branch courses', function () {
+    $mine = Course::factory()->forBranch($this->rangpur)->create();
+    Course::factory()->forBranch($this->khulna)->create();
+
+    $this->actingAs($this->rangpurManager)
+        ->get(route('school.courses.index', $this->school))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('courses.data', 1)
+            ->where('courses.data.0.id', $mine->id)
+            // No filter options: there is nothing for them to switch between.
+            ->has('branches', 0)
+        );
+});
+
+test('a pinned user cannot widen the course list with the branch filter', function () {
+    Course::factory()->forBranch($this->rangpur)->create();
+    Course::factory()->forBranch($this->khulna)->create();
+
+    $this->actingAs($this->rangpurManager)
+        ->get(route('school.courses.index', [$this->school, 'branch' => $this->khulna->id]))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page->has('courses.data', 1));
+});
+
+test('head office can filter courses by branch', function () {
+    Course::factory()->forBranch($this->rangpur)->create();
+    $khulnaCourse = Course::factory()->forBranch($this->khulna)->create();
+
+    $this->actingAs($this->headOffice)
+        ->get(route('school.courses.index', [$this->school, 'branch' => $this->khulna->id]))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('courses.data', 1)
+            ->where('courses.data.0.id', $khulnaCourse->id)
+        );
+});
+
+// ── Shared Inertia branch context ────────────────────────────────────────────
+
+test('the branch context is shared with the frontend', function () {
+    $this->actingAs($this->rangpurManager)
+        ->get(route('school.dashboard', $this->school))
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('branch.isHeadOffice', false)
+            ->where('branch.pinned.id', $this->rangpur->id)
+            ->where('branch.pinned.name', 'Rangpur')
+        );
+
+    $this->actingAs($this->headOffice)
+        ->get(route('school.dashboard', $this->school))
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('branch.isHeadOffice', true)
+            ->where('branch.pinned', null)
+        );
 });

@@ -28,6 +28,16 @@ class StoreUserRequest extends FormRequest
             'password' => 'required|min:8',
             'avatar' => 'nullable|image|max:2048',
             'remove_avatar' => 'nullable|boolean',
+            // Isolation: NULL means head-office (school-wide) access, and any
+            // branch given must be one of THIS school's. Without the where()
+            // clause a school admin could pin their staff to another school's
+            // branch. The controller overrides this entirely for a
+            // branch-pinned actor, who may only ever use their own branch.
+            'branch_id' => [
+                'nullable',
+                'integer',
+                Rule::exists('branches', 'id')->where('school_id', $schoolId),
+            ],
             'roles' => 'nullable|array',
             // Isolation: only this school's own roles may be assigned.
             'roles.*' => [
@@ -63,6 +73,7 @@ class StoreUserRequest extends FormRequest
         return [
             'email.unique' => 'The email address has already been taken.',
             'roles.*.exists' => 'One of the selected roles is invalid.',
+            'branch_id.exists' => 'The selected branch does not belong to your school.',
         ];
     }
 }

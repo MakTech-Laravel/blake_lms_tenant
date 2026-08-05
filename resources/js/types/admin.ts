@@ -30,6 +30,12 @@ export interface RoleRef {
     name: string;
 }
 
+/** A branch a staff member or course can be pinned to. */
+export interface BranchOption {
+    id: number;
+    name: string;
+}
+
 export interface AdminUser {
     id: number;
     name: string;
@@ -38,6 +44,9 @@ export interface AdminUser {
     email_verified_at: string | null;
     created_at: string;
     roles: RoleRef[];
+    /** NULL means head-office (school-wide) access. School accounts only. */
+    branch_id?: number | null;
+    branch?: BranchOption | null;
 }
 
 export interface AdminUserDetail extends AdminUser {

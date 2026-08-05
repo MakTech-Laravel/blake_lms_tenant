@@ -1,10 +1,12 @@
 # Middleware & Tenancy
 
-Tenancy here is **path-based**: the tenant is read from the `{school}` segment of the URL (`platform.com/school/{school}/…`). There is no subdomain or Host-header logic anywhere in the app. Two custom middleware do the work.
+Tenancy here is **path-based**: the tenant is read from the `{school}` segment of the URL (`platform.com/school/{school}/…`). There is no subdomain or Host-header logic anywhere in the app. Three custom middleware do the work.
+
+> Branches are a second scoping layer *inside* a school, and they are deliberately absent from the URL — see [branches.md](branches.md).
 
 ---
 
-## The two middleware
+## The three middleware
 
 ### `ResolveTenant` — alias `tenant`
 
@@ -16,9 +18,12 @@ For a request to `/school/{school}/…` it:
 2. Resolves it: `School::where('slug', $routeSchool)->firstOrFail()` (or uses the already-bound `School` model if binding ran first).
 3. Aborts `403` if the school is not `is_active`.
 4. If the authenticated user is school staff, aborts `403` unless `$user->school_id === $school->id` (a school user can only operate within their own school).
-5. **Sets the Spatie active team to the school:** `setPermissionsTeamId($school->id)`.
-6. Clears any stale relations loaded under a different team: `$user?->unsetRelation('roles')->unsetRelation('permissions')`.
-7. Makes the resolved model available to route-model binding and Inertia sharing: `$request->route()->setParameter('school', $school)` and `$request->attributes->set('school', $school)`.
+5. If the user is **pinned to a branch**, aborts `403` unless that branch belongs to this school and is active. Validating it once here means the [branch scoping layer](branches.md) can trust `branch_id` without re-checking it on every query. Head-office users (`branch_id` `NULL`) skip this entirely — the relation short-circuits without a query.
+6. **Sets the Spatie active team to the school:** `setPermissionsTeamId($school->id)`.
+7. Clears any stale relations loaded under a different team: `$user?->unsetRelation('roles')->unsetRelation('permissions')`.
+8. Makes the resolved model available to route-model binding and Inertia sharing: `$request->route()->setParameter('school', $school)` and `$request->attributes->set('school', $school)`.
+
+Note that step 5 checks the branch but **never** touches the team key — the active team is the school and nothing else.
 
 That last step is why controllers can type-hint `School $school` and get the resolved model, and why [`HandleInertiaRequests`](../app/Http/Middleware/HandleInertiaRequests.php) can share the current `school` prop to the frontend.
 
@@ -40,6 +45,18 @@ public function handle(Request $request, Closure $next, string ...$types): Respo
 
 This is what keeps the three dashboards mutually exclusive — a school user cannot reach `/platform/*`, a teacher cannot reach a school's staff routes, etc.
 
+### `EnsureHeadOffice` — alias `head_office`
+
+[`app/Http/Middleware/EnsureHeadOffice.php`](../app/Http/Middleware/EnsureHeadOffice.php)
+
+Aborts `403` unless the user is **head office** (`branch_id` is `NULL`, i.e. school-wide). Currently applied to the `branches.*` routes, since changing a school's branch structure is a head-office action.
+
+```php
+abort_unless($user->isHeadOffice(), 403, 'Only head-office staff can manage branches.');
+```
+
+It deliberately does **not** consult permissions, and stacks *with* a `permission:` gate rather than replacing one. Because roles are shared across a school's branches, a branch manager may genuinely hold `school.branches.create` through their role — and must still be refused. See [branches.md](branches.md#managing-branches).
+
 ---
 
 ## Registration & order
@@ -53,6 +70,7 @@ $middleware->alias([
     'role_or_permission' => RoleOrPermissionMiddleware::class,
     'tenant' => ResolveTenant::class,
     'type' => EnsureUserType::class,
+    'head_office' => EnsureHeadOffice::class,
 ]);
 
 // Resolve the tenant (and set Spatie's active team) before route-model
@@ -68,8 +86,10 @@ $middleware->prependToPriorityList(
 Within a school route group the middleware run in this order:
 
 ```
-auth → verified → tenant → type:school → permission:<school.…>
+auth → verified → tenant → type:school → [head_office] → permission:<school.…>
 ```
+
+`head_office` appears only on the `branches.*` group.
 
 `role`, `permission`, and `role_or_permission` are the standard Spatie middleware (unchanged from the starter kit).
 
@@ -118,6 +138,8 @@ Route::get('reports', [ReportController::class, 'index'])->name('reports.index')
 ```
 
 - Controller goes in `app/Http/Controllers/School/`. Its actions receive `School $school` as the first bound parameter (plus any other `{param}`). Verify child models belong to the school (see `ensureBelongsToSchool()` in the existing school controllers).
+- If the route exposes **branch-specific** records, read [branches.md](branches.md) first: models using `BelongsToBranch` are filtered automatically, but `User` is not and needs an explicit check. If the route manages branches themselves, add `->middleware('head_office')`.
+- If the route binds a **child of the school** whose key is only unique per school (as branch slugs are), add `->scopeBindings()` to the group.
 - Render `school/…`; add a page under `resources/js/pages/school/` and thread the tenant slug through route helpers with `useTenant()` (see [layouts-and-dashboards.md](layouts-and-dashboards.md)).
 
 ### Teacher (`/dashboard/*`)
@@ -141,4 +163,5 @@ After adding any route that the frontend links to, regenerate the typed route he
 ## Related
 
 - [permissions.md](permissions.md) — the domain/team model and super-admin bypass.
+- [branches.md](branches.md) — the branch data-scoping layer inside a school.
 - [project-structure.md](project-structure.md) — where each file type lives.

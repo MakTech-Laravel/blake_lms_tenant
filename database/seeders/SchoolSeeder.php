@@ -49,6 +49,10 @@ class SchoolSeeder extends Seeder
                         'email_verified_at' => now(),
                         'type' => UserType::SCHOOL,
                         'school_id' => $school->id,
+                        // Head office: these accounts see every branch. Set
+                        // explicitly so re-seeding cannot leave a stale pin
+                        // behind. Branch-pinned managers come from BranchSeeder.
+                        'branch_id' => null,
                     ],
                 );
 

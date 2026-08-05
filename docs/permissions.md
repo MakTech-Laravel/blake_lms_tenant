@@ -213,6 +213,8 @@ $role = Role::firstOrCreate(
 
 Default per-school roles (`super-admin`, `admin`, `manager`) are seeded by [`database/seeders/SchoolSeeder.php`](../database/seeders/SchoolSeeder.php), which sets `setPermissionsTeamId($school->id)` before creating them.
 
+> **Branches are not part of the team key.** A school's `manager` role is one role reused by every branch of that school — roles describe what someone may do, and [branches](branches.md) separately decide which records they may do it to. This means a branch manager can legitimately hold a permission like `school.branches.create` through their role; where that would be wrong, an independent gate (`head_office`) refuses them. Never assume a permission check implies a branch check, or vice versa.
+
 ### Assigning roles to users
 
 Roles are attached to users with `$user->syncRoles([...])` / `assignRole(...)` inside the platform/school `UserController`. Because assignment records the **current** team id in `model_has_roles.school_id`, the controllers rely on the active team already being correct (platform = `0`, school = set by `tenant`).
@@ -275,4 +277,5 @@ The same team-aware `hasRole('super-admin')` is shared to the client as `auth.us
 ## Related
 
 - [middleware-and-tenancy.md](middleware-and-tenancy.md) — how the active team gets set per request.
+- [branches.md](branches.md) — the separate data-scoping layer that deliberately stays out of the team key.
 - [permission-checks-in-ui.md](permission-checks-in-ui.md) — using permissions in React.
