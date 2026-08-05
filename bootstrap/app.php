@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureHeadOffice;
 use App\Http\Middleware\EnsureUserType;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
@@ -36,6 +37,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role_or_permission' => RoleOrPermissionMiddleware::class,
             'tenant' => ResolveTenant::class,
             'type' => EnsureUserType::class,
+            'head_office' => EnsureHeadOffice::class,
         ]);
 
         // Resolve the tenant (and set Spatie's active team) before route-model
