@@ -195,8 +195,8 @@ export function groupPermissions(
         const key = permission.group ?? 'Other';
 
         if (!acc[key]) {
-acc[key] = [];
-}
+            acc[key] = [];
+        }
 
         acc[key].push(permission);
 

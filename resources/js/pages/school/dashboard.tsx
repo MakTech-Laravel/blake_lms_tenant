@@ -28,7 +28,11 @@ export default function SchoolDashboard({ stats }: SchoolDashboardProps) {
 
                 <div className="grid gap-4 sm:grid-cols-3">
                     <StatCard label="Staff" value={stats.staff} icon={Users} />
-                    <StatCard label="Courses" value={stats.courses} icon={Layers} />
+                    <StatCard
+                        label="Courses"
+                        value={stats.courses}
+                        icon={Layers}
+                    />
                     <StatCard
                         label="Enrollments"
                         value={stats.enrollments}

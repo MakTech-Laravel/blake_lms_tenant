@@ -1,6 +1,6 @@
 import { usePage } from '@inertiajs/react';
-import { PERMISSIONS  } from '@/types/permissions';
-import type {PermissionKey} from '@/types/permissions';
+import { PERMISSIONS } from '@/types/permissions';
+import type { PermissionKey } from '@/types/permissions';
 
 /**
  * usePermission
@@ -68,7 +68,7 @@ export function usePermission() {
      *   hasAnyRole(['admin', 'super-admin'])
      */
     const hasAnyRole = (roles: string[]): boolean =>
-        roles.some(r => userRoles.includes(r));
+        roles.some((r) => userRoles.includes(r));
 
     return { can, canAny, canAll, hasRole, hasAnyRole };
 }

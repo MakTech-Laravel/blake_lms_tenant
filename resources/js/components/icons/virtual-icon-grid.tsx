@@ -365,7 +365,7 @@ export function VirtualIconGrid({
                 onKeyDown={handleKeyDown}
                 tabIndex={disabled ? -1 : 0}
                 className={cn(
-                    'scrollbar-thin max-h-80 overflow-y-auto rounded-xl border border-border/60 bg-muted/10 p-3 outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                    'max-h-80 scrollbar-thin overflow-y-auto rounded-xl border border-border/60 bg-muted/10 p-3 outline-none focus-visible:ring-2 focus-visible:ring-ring',
                     className,
                 )}
                 role="listbox"

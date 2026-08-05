@@ -16,10 +16,7 @@ interface CoursesIndexProps {
     enrollments: EnrollmentItem[];
 }
 
-const STATUS_VARIANT: Record<
-    string,
-    'default' | 'secondary' | 'outline'
-> = {
+const STATUS_VARIANT: Record<string, 'default' | 'secondary' | 'outline'> = {
     completed: 'default',
     in_progress: 'secondary',
     enrolled: 'outline',
@@ -58,7 +55,8 @@ export default function CoursesIndex({ enrollments }: CoursesIndexProps) {
                                         {enrollment.duration_hours && (
                                             <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
                                                 <Clock className="h-3.5 w-3.5" />
-                                                {enrollment.duration_hours} hours
+                                                {enrollment.duration_hours}{' '}
+                                                hours
                                             </p>
                                         )}
                                     </div>

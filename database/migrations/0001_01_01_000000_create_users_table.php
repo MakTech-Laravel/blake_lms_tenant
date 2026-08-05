@@ -30,6 +30,12 @@ return new class extends Migration
             // this migration runs before the schools table exists.
             $table->foreignId('school_id')->nullable()->index();
 
+            // Branch this staff member is pinned to. NULL means head-office
+            // (school-wide) access: the user sees every branch of their school.
+            // A non-null value restricts them to that branch's data only. The
+            // foreign key is added in create_branches_table.
+            $table->foreignId('branch_id')->nullable()->index();
+
             $table->rememberToken();
             $table->timestamps();
         });

@@ -67,7 +67,9 @@ export default function ShowUser({ user }: { user: AdminUserDetail }) {
 
                     <div className="space-y-6 lg:col-span-2">
                         <div className="rounded-xl border bg-card p-6 shadow-sm">
-                            <h3 className="mb-3 text-sm font-semibold">Roles</h3>
+                            <h3 className="mb-3 text-sm font-semibold">
+                                Roles
+                            </h3>
                             <div className="flex flex-wrap gap-1.5">
                                 {user.roles.length === 0 ? (
                                     <span className="text-sm text-muted-foreground">

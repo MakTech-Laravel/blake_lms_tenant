@@ -36,9 +36,7 @@ export function IconPickerPreview({
     const labels = { ...DEFAULT_ICON_PICKER_LABELS, ...labelsProp };
     const [copied, setCopied] = useState(false);
     const isPreview =
-        confirmSelection &&
-        committedIcon != null &&
-        committedIcon !== icon;
+        confirmSelection && committedIcon != null && committedIcon !== icon;
 
     const copyKey = async () => {
         try {

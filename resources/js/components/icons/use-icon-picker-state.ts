@@ -59,11 +59,12 @@ type UseIconPickerStateOptions = Pick<
     mode: LucideIconPickerMode;
 };
 
-function mergeLabels(
-    overrides?: Partial<IconPickerLabels>,
-): IconPickerLabels {
+function mergeLabels(overrides?: Partial<IconPickerLabels>): IconPickerLabels {
     return { ...DEFAULT_ICON_PICKER_LABELS, ...overrides };
 }
+
+/** Stable empty reference so derived memos don't invalidate every render. */
+const NO_CATEGORIES: readonly string[] = [];
 
 export function useIconPickerState({
     id,
@@ -103,9 +104,7 @@ export function useIconPickerState({
 
     const isControlledValue = value !== undefined;
     const isControlledOpen = openProp !== undefined;
-    const useAllowListOnly = Boolean(
-        allowedIcons && allowedIcons.length > 0,
-    );
+    const useAllowListOnly = Boolean(allowedIcons && allowedIcons.length > 0);
 
     const rawIncoming = isControlledValue
         ? value
@@ -118,12 +117,11 @@ export function useIconPickerState({
     const deferredQuery = useDeferredValue(query);
     const [category, setCategory] = useState<string | null>(null);
     const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
-    const [catalog, setCatalog] = useState<readonly CatalogIconOption[] | null>(
-        () => (useAllowListOnly ? buildAllowListOptions(allowedIcons ?? []) : null),
-    );
-    const [categories, setCategories] = useState<readonly string[]>(() =>
-        useAllowListOnly ? [] : [],
-    );
+    const [loadedCatalog, setLoadedCatalog] = useState<
+        readonly CatalogIconOption[] | null
+    >(null);
+    const [loadedCategories, setLoadedCategories] =
+        useState<readonly string[]>(NO_CATEGORIES);
     const [recents, setRecents] = useState<string[]>([]);
     const [pendingIcon, setPendingIcon] = useState<string | null>(null);
 
@@ -201,6 +199,17 @@ export function useIconPickerState({
         ],
     );
 
+    // An allow list is derived straight from props; only the full catalog is
+    // fetched, so it is the only part that needs to live in state.
+    const allowListCatalog = useMemo(
+        () =>
+            useAllowListOnly ? buildAllowListOptions(allowedIcons ?? []) : null,
+        [allowedIcons, useAllowListOnly],
+    );
+
+    const catalog = allowListCatalog ?? loadedCatalog;
+    const categories = useAllowListOnly ? NO_CATEGORIES : loadedCategories;
+
     const catalogLoading = open && catalog === null && !useAllowListOnly;
 
     useEffect(() => {
@@ -208,14 +217,7 @@ export function useIconPickerState({
     }, [displayIcon]);
 
     useEffect(() => {
-        if (useAllowListOnly) {
-            setCatalog(buildAllowListOptions(allowedIcons ?? []));
-            setCategories([]);
-
-            return;
-        }
-
-        if (!open || catalog) {
+        if (useAllowListOnly || !open || loadedCatalog) {
             return;
         }
 
@@ -223,15 +225,15 @@ export function useIconPickerState({
 
         void loadIconCatalog().then((loaded) => {
             if (!cancelled) {
-                setCatalog(loaded.options);
-                setCategories(loaded.categories);
+                setLoadedCatalog(loaded.options);
+                setLoadedCategories(loaded.categories);
             }
         });
 
         return () => {
             cancelled = true;
         };
-    }, [allowedIcons, catalog, open, useAllowListOnly]);
+    }, [loadedCatalog, open, useAllowListOnly]);
 
     const baseOptions = useMemo(() => {
         if (!catalog) {
@@ -296,7 +298,9 @@ export function useIconPickerState({
             return [] as CatalogIconOption[];
         }
 
-        const byKey = new Map(baseOptions.map((option) => [option.key, option]));
+        const byKey = new Map(
+            baseOptions.map((option) => [option.key, option]),
+        );
 
         return recents
             .map((key) => byKey.get(key))

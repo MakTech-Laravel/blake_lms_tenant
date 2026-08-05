@@ -281,7 +281,8 @@ export default function UsersIndex({
                                                                                     slug,
                                                                                     user.id,
                                                                                 ],
-                                                                            ).url
+                                                                            )
+                                                                                .url
                                                                         }
                                                                         title="Edit"
                                                                     >

@@ -15,10 +15,9 @@ import type { FallbackProps } from 'react-error-boundary';
 import {
     clearErrors,
     getStoredErrors,
-    removeError
-    
+    removeError,
 } from '@/components/error-boundary/error-store';
-import type {StoredError} from '@/components/error-boundary/error-store';
+import type { StoredError } from '@/components/error-boundary/error-store';
 import { cn } from '@/lib/utils';
 
 // ─── Types ──────────────────────────────────────────────────────────────────
@@ -167,8 +166,8 @@ export function ErrorOverlay({ error, resetErrorBoundary }: ErrorOverlayProps) {
 
     const handleRemoveCurrent = useCallback(() => {
         if (!active) {
-return;
-}
+            return;
+        }
 
         removeError(active.id);
         const next = getStoredErrors();
@@ -176,8 +175,8 @@ return;
         setActiveIdx((i) => Math.max(0, Math.min(i, next.length - 1)));
 
         if (next.length === 0) {
-resetErrorBoundary();
-}
+            resetErrorBoundary();
+        }
     }, [active, resetErrorBoundary]);
 
     const goBack = useCallback(() => {
@@ -189,8 +188,8 @@ resetErrorBoundary();
     }, []);
 
     if (!active) {
-return null;
-}
+        return null;
+    }
 
     const total = errors.length;
     const canPrev = activeIdx > 0;
@@ -409,15 +408,15 @@ return null;
                                                         setErrors(next);
 
                                                         if (next.length === 0) {
-resetErrorBoundary();
-} else if (
+                                                            resetErrorBoundary();
+                                                        } else if (
                                                             activeIdx >=
                                                             next.length
                                                         ) {
-setActiveIdx(
+                                                            setActiveIdx(
                                                                 next.length - 1,
                                                             );
-}
+                                                        }
                                                     }}
                                                     className="shrink-0 rounded p-0.5 text-zinc-600 hover:text-zinc-400"
                                                     aria-label="Remove error"

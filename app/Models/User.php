@@ -6,9 +6,11 @@ namespace App\Models;
 use App\Enums\GuardEnum;
 use App\Enums\RoleEnum;
 use App\Enums\UserType;
+use App\Support\BranchContext;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -18,7 +20,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
-#[Fillable(['name', 'email', 'password', 'avatar', 'type', 'school_id'])]
+#[Fillable(['name', 'email', 'password', 'avatar', 'type', 'school_id', 'branch_id'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -62,6 +64,49 @@ class User extends Authenticatable
         return $this->type === UserType::TEACHER;
     }
 
+    /**
+     * Whether this account has school-wide (head-office) access, seeing every
+     * branch of its school. A non-null `branch_id` pins the account to a single
+     * branch instead.
+     */
+    public function isHeadOffice(): bool
+    {
+        return $this->branch_id === null;
+    }
+
+    // ── Scopes ────────────────────────────────────────────────────────────────
+
+    /**
+     * Restrict to users belonging to the current user's branch.
+     *
+     * Deliberately an explicit local scope rather than a global one: the branch
+     * is resolved from the authenticated user, so a global scope on User would
+     * make the session guard's retrieveById() depend on the very record it is
+     * resolving and recurse indefinitely. Callers opt in per query instead.
+     */
+    public function scopeForCurrentBranch(Builder $query): void
+    {
+        $branchId = BranchContext::pinnedId();
+
+        if ($branchId === null) {
+            return;
+        }
+
+        $query->where($this->qualifyColumn('branch_id'), $branchId);
+    }
+
+    /**
+     * Narrow to a specific branch, for the optional head-office branch filter.
+     */
+    public function scopeForBranch(Builder $query, ?int $branchId): void
+    {
+        if ($branchId === null) {
+            return;
+        }
+
+        $query->where($this->qualifyColumn('branch_id'), $branchId);
+    }
+
     // ── Relationships ─────────────────────────────────────────────────────────
 
     /**
@@ -71,6 +116,15 @@ class User extends Authenticatable
     public function school(): BelongsTo
     {
         return $this->belongsTo(School::class);
+    }
+
+    /**
+     * The branch this staff member is pinned to. NULL for head-office staff,
+     * platform staff, and teachers.
+     */
+    public function branch(): BelongsTo
+    {
+        return $this->belongsTo(Branch::class);
     }
 
     /**

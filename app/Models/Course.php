@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\BelongsToBranch;
 use Database\Factories\CourseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,8 +17,13 @@ use Illuminate\Support\Carbon;
  * A certification course offered by a school. Teachers enrol in courses via
  * course_enrollments.
  *
+ * Branch-scoped: a branch-pinned user only ever sees their own branch's
+ * courses, enforced by the BelongsToBranch global scope. A NULL `branch_id`
+ * marks a school-wide course, visible to head-office users only.
+ *
  * @property int $id
  * @property int $school_id
+ * @property int|null $branch_id
  * @property string $title
  * @property string $slug
  * @property string|null $description
@@ -30,10 +36,11 @@ use Illuminate\Support\Carbon;
 class Course extends Model
 {
     /** @use HasFactory<CourseFactory> */
-    use HasFactory;
+    use BelongsToBranch, HasFactory;
 
     protected $fillable = [
         'school_id',
+        'branch_id',
         'title',
         'slug',
         'description',

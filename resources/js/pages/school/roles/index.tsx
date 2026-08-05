@@ -213,7 +213,8 @@ export default function RolesIndex({
                                                                                     slug,
                                                                                     role.id,
                                                                                 ],
-                                                                            ).url,
+                                                                            )
+                                                                                .url,
                                                                             {
                                                                                 preserveScroll: true,
                                                                             },

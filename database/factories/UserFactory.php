@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\UserType;
+use App\Models\Branch;
 use App\Models\School;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -37,6 +38,7 @@ class UserFactory extends Factory
             'two_factor_confirmed_at' => null,
             'type' => UserType::TEACHER,
             'school_id' => null,
+            'branch_id' => null,
         ];
     }
 
@@ -69,6 +71,19 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'type' => UserType::SCHOOL,
             'school_id' => $school->id,
+        ]);
+    }
+
+    /**
+     * Indicate that the user is staff pinned to the given branch, seeing only
+     * that branch's data. Implies school staff at the branch's school.
+     */
+    public function branchStaff(Branch $branch): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'type' => UserType::SCHOOL,
+            'school_id' => $branch->school_id,
+            'branch_id' => $branch->id,
         ]);
     }
 

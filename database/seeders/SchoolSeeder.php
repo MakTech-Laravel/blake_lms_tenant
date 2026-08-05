@@ -58,7 +58,7 @@ class SchoolSeeder extends Seeder
 
         app(PermissionRegistrar::class)->setPermissionsTeamId(null);
 
-        $this->command->info('Schools: ' . count($this->schools()) . ' seeded with staff.');
+        $this->command->info('Schools: '.count($this->schools()).' seeded with staff.');
     }
 
     /**
@@ -84,7 +84,7 @@ class SchoolSeeder extends Seeder
     private function schoolPermissions(): array
     {
         return array_map(
-            fn(PermissionEnum $permission): string => $permission->value,
+            fn (PermissionEnum $permission): string => $permission->value,
             PermissionEnum::forDomain(PermissionDomain::SCHOOL),
         );
     }

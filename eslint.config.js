@@ -106,6 +106,15 @@ export default [
         },
     },
     {
+        // Build-time tooling runs under Node, not the browser.
+        files: ['scripts/**/*.{js,mjs,cjs}'],
+        languageOptions: {
+            globals: {
+                ...globals.node,
+            },
+        },
+    },
+    {
         ignores: [
             'vendor',
             'node_modules',

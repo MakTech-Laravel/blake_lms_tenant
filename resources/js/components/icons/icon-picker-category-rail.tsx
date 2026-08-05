@@ -165,7 +165,7 @@ export function IconPickerCategoryRail({
             <div
                 ref={scrollerRef}
                 className={cn(
-                    'scrollbar-thin flex gap-1.5 overflow-x-auto overscroll-x-contain scroll-smooth py-0.5 transition-[padding]',
+                    'flex scrollbar-thin gap-1.5 overflow-x-auto overscroll-x-contain scroll-smooth py-0.5 transition-[padding]',
                     canScrollLeft ? 'pl-9' : 'pl-0.5',
                     canScrollRight ? 'pr-9' : 'pr-0.5',
                 )}

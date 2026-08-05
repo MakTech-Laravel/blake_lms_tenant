@@ -2,10 +2,9 @@ import { AlertTriangle, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import {
     clearErrors,
-    getStoredErrors
-    
+    getStoredErrors,
 } from '@/components/error-boundary/error-store';
-import type {StoredError} from '@/components/error-boundary/error-store';
+import type { StoredError } from '@/components/error-boundary/error-store';
 import { cn } from '@/lib/utils';
 
 interface ErrorBadgeProps {
@@ -53,8 +52,8 @@ export function ErrorBadge({ onOpen }: ErrorBadgeProps) {
     }, []);
 
     if (!total || dismissAll || !current) {
-return null;
-}
+        return null;
+    }
 
     return (
         <div

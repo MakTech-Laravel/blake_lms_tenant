@@ -33,6 +33,7 @@ function titleCaseKey(key) {
 
 function resolveDynamicImportsPath() {
     const packageJsonPath = require.resolve('lucide-react/package.json');
+
     return path.join(
         path.dirname(packageJsonPath),
         'dist',

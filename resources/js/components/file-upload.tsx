@@ -152,7 +152,7 @@ export interface FileUploadClassNames {
     aggregateProgress?: string;
     /** Validation / rejection message text */
     error?: string;
-};
+}
 
 export type FileUploadVariant = 'default' | 'avatar';
 
@@ -618,9 +618,7 @@ function FileCard({
                 classNames.card,
             )}
             style={
-                fixedSize
-                    ? { width: fixedSize, height: fixedSize }
-                    : undefined
+                fixedSize ? { width: fixedSize, height: fixedSize } : undefined
             }
         >
             {/* Clip layer ─────────────────────────────────────────────────────
@@ -797,7 +795,9 @@ function AvatarUploadCaption({
         <div className="min-w-0 flex-1 space-y-1 pt-1">
             <p className="text-sm font-medium text-foreground">{title}</p>
             {fileName ? (
-                <p className="truncate text-sm text-muted-foreground">{fileName}</p>
+                <p className="truncate text-sm text-muted-foreground">
+                    {fileName}
+                </p>
             ) : null}
             {fileSize !== undefined ? (
                 <p className="text-xs text-muted-foreground">
@@ -1301,12 +1301,12 @@ const FileUpload = forwardRef<FileUploadHandle, FileUploadProps>(
                     )}
                 >
                     {isAvatar ? (
-                        avatarFallback ?? (
+                        (avatarFallback ?? (
                             <Upload
                                 className="size-5 text-muted-foreground"
                                 aria-hidden="true"
                             />
-                        )
+                        ))
                     ) : (
                         <Upload
                             className="h-8 w-8 text-muted-foreground"
@@ -1334,18 +1334,19 @@ const FileUpload = forwardRef<FileUploadHandle, FileUploadProps>(
             </div>
         );
 
-        const HiddenFileInputEl = !canAddMore && isAvatar ? (
-            <input
-                ref={inputRef}
-                type="file"
-                multiple={multiple}
-                accept={accept}
-                disabled={disabled}
-                onChange={handleChange}
-                className="sr-only"
-                tabIndex={-1}
-            />
-        ) : null;
+        const HiddenFileInputEl =
+            !canAddMore && isAvatar ? (
+                <input
+                    ref={inputRef}
+                    type="file"
+                    multiple={multiple}
+                    accept={accept}
+                    disabled={disabled}
+                    onChange={handleChange}
+                    className="sr-only"
+                    tabIndex={-1}
+                />
+            ) : null;
 
         const showAggregateRow = isUploading && !hasPerFile && totalFiles > 0;
         const AggregateRow = showAggregateRow && (
@@ -1429,7 +1430,9 @@ const FileUpload = forwardRef<FileUploadHandle, FileUploadProps>(
                                     onClick={() => inputRef.current?.click()}
                                     className="absolute inset-0 rounded-full bg-black/0 opacity-0 transition hover:bg-black/45 hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                                 >
-                                    <span className="sr-only">Change photo</span>
+                                    <span className="sr-only">
+                                        Change photo
+                                    </span>
                                 </button>
                             ) : null}
                         </div>
@@ -1510,7 +1513,9 @@ const FileUpload = forwardRef<FileUploadHandle, FileUploadProps>(
                                     onClick={() => inputRef.current?.click()}
                                     className="absolute inset-0 rounded-full bg-black/0 opacity-0 transition hover:bg-black/45 hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                                 >
-                                    <span className="sr-only">Change photo</span>
+                                    <span className="sr-only">
+                                        Change photo
+                                    </span>
                                 </button>
                             ) : null}
                         </div>
