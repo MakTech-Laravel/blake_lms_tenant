@@ -21,6 +21,10 @@ Route::middleware(['auth', 'verified', 'type:teacher'])
     ->group(function () {
         Route::get('courses', [CourseController::class, 'index'])->name('courses.index');
         Route::get('certificates', [CertificateController::class, 'index'])->name('certificates.index');
+        Route::get('certificates/{certificate}/download', [CertificateController::class, 'download'])
+            ->name('certificates.download');
+        Route::get('certificates/{certificate}/preview', [CertificateController::class, 'preview'])
+            ->name('certificates.preview');
 
         Route::get('learning', fn () => Inertia::render('teacher/my-learning'))
             ->name('learning.index');

@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\PermissionEnum;
+use App\Http\Controllers\Platform\CertificateController;
 use App\Http\Controllers\Platform\DashboardController;
 use App\Http\Controllers\Platform\PermissionController;
 use App\Http\Controllers\Platform\RoleController;
@@ -73,29 +74,33 @@ Route::middleware(['auth', 'verified', 'type:platform'])
                 ->middleware('permission:'.PermissionEnum::PERMISSIONS_EXPORT->value);
         });
 
-        // ── Static AquaCert UI modules (fixtures only) ────────────────────────
+        // ── AquaCert UI modules (fixture-backed dedicated pages) ──────────────
         Route::get('organizations', fn () => Inertia::render('platform/organizations'))
             ->name('organizations.index');
-
-        $staticModules = [
-            'locations' => ['Locations', 'All swim school locations across the platform'],
-            'subscriptions' => ['Subscriptions', 'Plans, renewals, and MRR overview'],
-            'people' => ['People', 'Platform staff and organization contacts'],
-            'access' => ['Roles & Permissions', 'Access control across the AquaCert platform'],
-            'learning' => ['Learning', 'Platform course library and content packs'],
-            'pathways' => ['Learning Pathways', 'Structured learning journeys for staff'],
-            'assessments' => ['Assessments', 'Quizzes and competency checks'],
-            'certificates' => ['Certificates', 'Issued, pending, and expired certificates'],
-            'reports' => ['Reports', 'Platform analytics and exportable reports'],
-            'notifications' => ['Notifications', 'Announcements and system alerts'],
-            'support' => ['Support Tools', 'Impersonation, audits, and support utilities'],
-            'system-settings' => ['System Settings', 'Platform configuration and integrations'],
-        ];
-
-        foreach ($staticModules as $slug => [$title, $subtitle]) {
-            Route::get($slug, fn () => Inertia::render('platform/static-resource', [
-                'title' => $title,
-                'subtitle' => $subtitle,
-            ]))->name(str_replace('-', '_', $slug).'.index');
-        }
+        Route::get('locations', fn () => Inertia::render('platform/locations/index'))
+            ->name('locations.index');
+        Route::get('subscriptions', fn () => Inertia::render('platform/subscriptions/index'))
+            ->name('subscriptions.index');
+        Route::get('people', [UserController::class, 'people'])->name('people.index');
+        Route::get('access', fn () => Inertia::render('platform/access/index'))
+            ->name('access.index');
+        Route::get('learning', fn () => Inertia::render('platform/learning/index'))
+            ->name('learning.index');
+        Route::get('pathways', fn () => Inertia::render('platform/pathways/index'))
+            ->name('pathways.index');
+        Route::get('assessments', fn () => Inertia::render('platform/assessments/index'))
+            ->name('assessments.index');
+        Route::controller(CertificateController::class)->group(function () {
+            Route::get('certificates', 'index')->name('certificates.index');
+            Route::post('certificates', 'store')->name('certificates.store');
+            Route::get('certificates/{certificate}/download', 'download')->name('certificates.download');
+        });
+        Route::get('reports', fn () => Inertia::render('platform/reports/index'))
+            ->name('reports.index');
+        Route::get('notifications', fn () => Inertia::render('platform/notifications/index'))
+            ->name('notifications.index');
+        Route::get('support', fn () => Inertia::render('platform/support/index'))
+            ->name('support.index');
+        Route::get('system-settings', fn () => Inertia::render('platform/system-settings/index'))
+            ->name('system_settings.index');
     });

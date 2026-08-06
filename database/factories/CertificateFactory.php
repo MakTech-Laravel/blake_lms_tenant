@@ -29,6 +29,8 @@ class CertificateFactory extends Factory
             'course_id' => $enrollment->course_id,
             'certificate_number' => 'CERT-'.Str::upper(fake()->unique()->bothify('????-#####')),
             'issued_at' => now(),
+            'expires_at' => now()->addYears(2),
+            'status' => 'valid',
         ];
     }
 

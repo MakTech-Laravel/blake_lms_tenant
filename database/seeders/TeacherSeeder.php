@@ -79,6 +79,8 @@ class TeacherSeeder extends Seeder
                     'course_id' => $course->id,
                     'certificate_number' => 'CERT-'.now()->year.'-'.str_pad((string) $enrollment->id, 5, '0', STR_PAD_LEFT),
                     'issued_at' => now()->subWeeks(2),
+                    'expires_at' => now()->addYears(2),
+                    'status' => 'valid',
                 ],
             );
         }

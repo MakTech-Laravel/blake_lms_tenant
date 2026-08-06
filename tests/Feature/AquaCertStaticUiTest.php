@@ -28,9 +28,7 @@ test('platform locations static page renders', function () {
     $this->actingAs($user)
         ->get(route('platform.locations.index'))
         ->assertOk()
-        ->assertInertia(fn (Assert $page) => $page
-            ->component('platform/static-resource')
-            ->where('title', 'Locations'));
+        ->assertInertia(fn (Assert $page) => $page->component('platform/locations/index'));
 });
 
 test('school dashboard renders aqua cert overview', function () {
@@ -50,9 +48,7 @@ test('school static people page renders', function () {
     $this->actingAs($user)
         ->get(route('school.people.ui', $school))
         ->assertOk()
-        ->assertInertia(fn (Assert $page) => $page
-            ->component('school/static-resource')
-            ->where('title', 'People'));
+        ->assertInertia(fn (Assert $page) => $page->component('school/people/index'));
 });
 
 test('school course wizard renders', function () {

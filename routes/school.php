@@ -2,6 +2,7 @@
 
 use App\Enums\PermissionEnum;
 use App\Http\Controllers\School\BranchController;
+use App\Http\Controllers\School\CertificateController;
 use App\Http\Controllers\School\CourseController;
 use App\Http\Controllers\School\DashboardController;
 use App\Http\Controllers\School\RoleController;
@@ -90,29 +91,35 @@ Route::middleware(['auth', 'verified', 'tenant', 'type:school'])
                 ->middleware('permission:'.PermissionEnum::SCHOOL_ROLES_DELETE->value);
         });
 
-        // ── Static AquaCert UI modules (fixtures only) ────────────────────────
-        $staticModules = [
-            'people' => ['People', 'Staff directory for your school'],
-            'access' => ['Roles & Permissions', 'School roles and permission sets'],
-            'locations' => ['Locations', 'Branches and facility locations'],
-            'courses-ui' => ['Courses', 'School courses and training content'],
-            'library' => ['Library', 'Shared training library and media'],
-            'pathways' => ['Pathways', 'Role-based learning pathways'],
-            'assignments' => ['Assignments', 'Assigned training across locations'],
-            'assessments' => ['Assessments', 'Quizzes and competency checks'],
-            'certificates' => ['Certificates', 'Issued and expiring certificates'],
-            'billing' => ['Subscription & Billing', 'Plan details and invoices'],
-            'reports' => ['Reports', 'Compliance and training reports'],
-            'notifications' => ['Notifications', 'School alerts and announcements'],
-            'settings' => ['Settings', 'School preferences and branding'],
-        ];
-
-        foreach ($staticModules as $slug => [$title, $subtitle]) {
-            Route::get($slug, fn () => Inertia::render('school/static-resource', [
-                'title' => $title,
-                'subtitle' => $subtitle,
-            ]))->name(str_replace('-', '_', $slug).'.ui');
-        }
+        // ── AquaCert UI modules (fixture-backed dedicated pages) ──────────────
+        Route::get('people', [UserController::class, 'people'])->name('people.ui');
+        Route::get('access', fn () => Inertia::render('school/access/index'))
+            ->name('access.ui');
+        Route::get('locations', [BranchController::class, 'locations'])
+            ->name('locations.ui');
+        Route::get('courses-ui', fn () => Inertia::render('school/courses-ui/index'))
+            ->name('courses_ui.ui');
+        Route::get('library', fn () => Inertia::render('school/library/index'))
+            ->name('library.ui');
+        Route::get('pathways', fn () => Inertia::render('school/pathways/index'))
+            ->name('pathways.ui');
+        Route::get('assignments', fn () => Inertia::render('school/assignments/index'))
+            ->name('assignments.ui');
+        Route::get('assessments', fn () => Inertia::render('school/assessments/index'))
+            ->name('assessments.ui');
+        Route::controller(CertificateController::class)->group(function () {
+            Route::get('certificates', 'index')->name('certificates.ui');
+            Route::post('certificates', 'store')->name('certificates.store');
+            Route::get('certificates/{certificate}/download', 'download')->name('certificates.download');
+        });
+        Route::get('billing', fn () => Inertia::render('school/billing/index'))
+            ->name('billing.ui');
+        Route::get('reports', fn () => Inertia::render('school/reports/index'))
+            ->name('reports.ui');
+        Route::get('notifications', fn () => Inertia::render('school/notifications/index'))
+            ->name('notifications.ui');
+        Route::get('settings', fn () => Inertia::render('school/settings/index'))
+            ->name('settings.ui');
 
         Route::get('courses/wizard', fn () => Inertia::render('school/course-wizard'))
             ->name('courses.wizard');

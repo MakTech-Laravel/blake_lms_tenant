@@ -192,6 +192,16 @@ export default function CourseWizard() {
                             Cancel
                         </Button>
                         <div className="flex gap-2">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                disabled={step === 1}
+                                onClick={() =>
+                                    setStep((current) => Math.max(1, current - 1))
+                                }
+                            >
+                                Back
+                            </Button>
                             <Button type="button" variant="outline">
                                 Save as Draft
                             </Button>

@@ -60,6 +60,31 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * AquaCert People module — same staff dataset as users index, Figma-oriented page.
+     */
+    public function people(Request $request): Response
+    {
+        $people = User::query()
+            ->where('type', UserType::PLATFORM)
+            ->with('roles:id,name')
+            ->latest('id')
+            ->limit(50)
+            ->get()
+            ->map(fn (User $user): array => [
+                'id' => (string) $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->roles->first()?->name ?? 'Staff',
+                'organization' => 'AquaCert',
+                'status' => $user->email_verified_at ? 'Active' : 'Invited',
+            ]);
+
+        return Inertia::render('platform/people/index', [
+            'people' => $people,
+        ]);
+    }
+
     public function create(): Response
     {
         return Inertia::render('platform/users/create', [

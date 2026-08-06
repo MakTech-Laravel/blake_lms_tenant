@@ -69,6 +69,33 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * AquaCert People module — school staff directory with Figma-oriented layout.
+     */
+    public function people(School $school): Response
+    {
+        $people = User::query()
+            ->where('type', UserType::SCHOOL)
+            ->where('school_id', $school->id)
+            ->forCurrentBranch()
+            ->with('roles:id,name', 'branch:id,name')
+            ->latest('id')
+            ->limit(50)
+            ->get()
+            ->map(fn (User $user): array => [
+                'id' => (string) $user->id,
+                'name' => $user->name,
+                'role' => $user->roles->first()?->name ?? 'Staff',
+                'location' => $user->branch?->name ?? 'Head Office',
+                'compliance' => '—',
+                'status' => $user->email_verified_at ? 'Active' : 'Invited',
+            ]);
+
+        return Inertia::render('school/people/index', [
+            'people' => $people,
+        ]);
+    }
+
     public function create(School $school): Response
     {
         return Inertia::render('school/users/create', [

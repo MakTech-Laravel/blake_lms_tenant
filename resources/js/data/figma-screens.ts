@@ -54,15 +54,18 @@ export const figmaScreens: FigmaScreen[] = [
 
     // Branch
     { portal: 'branch', family: 'Overview', primary: 'figma/school/branch/Overview 1.png' },
-    { portal: 'branch', family: 'People', primary: 'figma/school/branch/People.png' },
+    { portal: 'branch', family: 'People', primary: 'figma/school/branch/People.png', variants: ['People-1', 'People-2', 'People-3'] },
     { portal: 'branch', family: 'Locations', primary: 'figma/school/branch/Locations.png' },
-    { portal: 'branch', family: 'Courses', primary: 'figma/school/branch/Courses.png' },
-    { portal: 'branch', family: 'Pathways', primary: 'figma/school/branch/Pathways.png' },
-    { portal: 'branch', family: 'Assignments', primary: 'figma/school/branch/Assignments.png' },
-    { portal: 'branch', family: 'Assessments', primary: 'figma/school/branch/Assessments.png' },
-    { portal: 'branch', family: 'Certificates', primary: 'figma/school/branch/Certificates.png' },
+    { portal: 'branch', family: 'Locations overviews', primary: 'figma/school/branch/Locations overviews.png' },
+    { portal: 'branch', family: 'Add Location', primary: 'figma/school/branch/Add Location.png' },
+    { portal: 'branch', family: 'Courses', primary: 'figma/school/branch/Courses.png', variants: ['Courses-1', 'Courses-2'] },
+    { portal: 'branch', family: 'Pathways', primary: 'figma/school/branch/Pathways.png', variants: ['Pathways-1', 'Pathways-2'] },
+    { portal: 'branch', family: 'Assignments', primary: 'figma/school/branch/Assignments.png', variants: ['Assignments-1', 'Assignments-2', 'Assignments-3', 'Assignments-4', 'Assignments-5'] },
+    { portal: 'branch', family: 'Assessments', primary: 'figma/school/branch/Assessments.png', variants: ['Assessments-1', 'Assessments-2', 'Assessments-3'] },
+    { portal: 'branch', family: 'Certificates', primary: 'figma/school/branch/Certificates.png', variants: ['Certificates-1', 'Certificates-2', 'Certificates-3', 'Certificates-4', 'Certificates-5'] },
     { portal: 'branch', family: 'Reports', primary: 'figma/school/branch/Reports.png' },
     { portal: 'branch', family: 'Notifications', primary: 'figma/school/branch/Notifications.png' },
+    { portal: 'branch', family: 'Notification', primary: 'figma/school/branch/Notification.png' },
 
     // Learner
     { portal: 'learner', family: 'Overview', primary: 'figma/teacher or learner/Overview.png', variants: ['Overview 4'] },
