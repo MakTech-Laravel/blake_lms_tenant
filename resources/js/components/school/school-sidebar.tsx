@@ -85,7 +85,7 @@ export function SchoolSidebar() {
     const mainNav = isHeadOffice ? headOfficeNav : branchNav;
 
     return (
-        <Sidebar collapsible="icon" variant="inset">
+        <Sidebar collapsible="icon" variant="sidebar">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>

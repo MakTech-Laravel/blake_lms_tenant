@@ -17,8 +17,7 @@ export function AppContent({
         return (
             <SidebarInset
                 className={cn(
-                    'h-svh max-h-svh min-h-0 overflow-hidden',
-                    'md:peer-data-[variant=inset]:h-[calc(100svh-(--spacing(4)))] md:peer-data-[variant=inset]:max-h-[calc(100svh-(--spacing(4)))]',
+                    'h-svh max-h-svh min-h-0 overflow-hidden rounded-none shadow-none',
                     className,
                 )}
                 {...props}
