@@ -107,11 +107,24 @@ Then open the app, log in with a seeded account, and you'll be routed to the rig
 
 **Schools** (`/school/{slug}`) — two schools, `riverside-teacher-institute` and `summit-education-academy`
 
+These accounts are **head office**: they see every branch of their school.
+
 | Role | School 1 (Riverside) | School 2 (Summit) |
 |---|---|---|
 | Super Admin | `school.superadmin1@dev.com` | `school.superadmin2@dev.com` |
 | Admin | `school.admin1@dev.com` | `school.admin2@dev.com` |
 | Manager | `school.manager1@dev.com` | `school.manager2@dev.com` |
+
+**Branch managers** — pinned to a single branch, seeing only that branch's data
+
+Riverside has three branches, Summit one. Every manager below holds the *same* `manager` role as their school's head-office manager; only the branch pin differs. See [docs/branches.md](docs/branches.md).
+
+| School | Branch | Email (= password) |
+|---|---|---|
+| Riverside | Rangpur | `rangpur.manager@dev.com` |
+| Riverside | Khulna | `khulna.manager@dev.com` |
+| Riverside | Barishal | `barishal.manager@dev.com` |
+| Summit | Main Campus | `campus.manager@dev.com` |
 
 **Teachers** (`/dashboard`)
 
@@ -121,6 +134,8 @@ Then open the app, log in with a seeded account, and you'll be routed to the rig
 | `teacher2@dev.com` |
 
 Example: sign in as `school.superadmin1@dev.com` and visit `/school/riverside-teacher-institute`.
+
+To see branch scoping in action, compare that with `rangpur.manager@dev.com` at the same URL: head office sees all four Riverside courses (including the school-wide one) and every staff account, while the Rangpur manager sees only Rangpur's single course and Rangpur's staff — and has no **Branches** nav item at all.
 
 ---
 
@@ -143,7 +158,8 @@ php artisan test         # Pest / PHPUnit suite
 Detailed developer guides live in [`docs/`](docs/README.md):
 
 - [Permissions](docs/permissions.md) — domain isolation, adding permissions, roles & assignment, super-admin bypass.
-- [Middleware & tenancy](docs/middleware-and-tenancy.md) — `ResolveTenant` / `EnsureUserType`, adding routes, slug → active-team resolution.
+- [Branches](docs/branches.md) — the branch data-scoping layer inside a school: head office vs pinned users, `BelongsToBranch`, and why `User` is the exception.
+- [Middleware & tenancy](docs/middleware-and-tenancy.md) — `ResolveTenant` / `EnsureUserType` / `EnsureHeadOffice`, adding routes, slug → active-team resolution.
 - [Layouts & dashboards](docs/layouts-and-dashboards.md) — layout resolver, per-dashboard sidebars, independent redesigns.
 - [Permission checks in the UI](docs/permission-checks-in-ui.md) — `usePermission()` helpers with real examples.
 - [Project structure](docs/project-structure.md) — full file map and where new files go.

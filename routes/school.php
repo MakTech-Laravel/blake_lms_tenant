@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\PermissionEnum;
+use App\Http\Controllers\School\BranchController;
 use App\Http\Controllers\School\CourseController;
 use App\Http\Controllers\School\DashboardController;
 use App\Http\Controllers\School\RoleController;
@@ -28,6 +29,31 @@ Route::middleware(['auth', 'verified', 'tenant', 'type:school'])
         // ── Courses ───────────────────────────────────────────────────────────
         Route::get('courses', [CourseController::class, 'index'])->name('courses.index')
             ->middleware('permission:'.PermissionEnum::SCHOOL_COURSES_INDEX->value);
+
+        // ── Branches (head office only) ───────────────────────────────────────
+        // `head_office` is an independent gate: holding school.branches.* via a
+        // role is not enough, the account must also be school-wide.
+        //
+        // scopeBindings() resolves `{branch}` through the school's own relation.
+        // Branch slugs are unique per school, so an unscoped global lookup could
+        // otherwise bind another school's identically-slugged branch.
+        Route::controller(BranchController::class)
+            ->middleware('head_office')
+            ->scopeBindings()
+            ->group(function () {
+                Route::get('branches', 'index')->name('branches.index')
+                    ->middleware('permission:'.PermissionEnum::SCHOOL_BRANCHES_INDEX->value);
+                Route::get('branches/create', 'create')->name('branches.create')
+                    ->middleware('permission:'.PermissionEnum::SCHOOL_BRANCHES_CREATE->value);
+                Route::post('branches', 'store')->name('branches.store')
+                    ->middleware(['permission:'.PermissionEnum::SCHOOL_BRANCHES_CREATE->value, HandlePrecognitiveRequests::class]);
+                Route::get('branches/{branch}/edit', 'edit')->name('branches.edit')
+                    ->middleware('permission:'.PermissionEnum::SCHOOL_BRANCHES_EDIT->value);
+                Route::put('branches/{branch}', 'update')->name('branches.update')
+                    ->middleware(['permission:'.PermissionEnum::SCHOOL_BRANCHES_EDIT->value, HandlePrecognitiveRequests::class]);
+                Route::delete('branches/{branch}', 'destroy')->name('branches.destroy')
+                    ->middleware('permission:'.PermissionEnum::SCHOOL_BRANCHES_DELETE->value);
+            });
 
         // ── School staff ──────────────────────────────────────────────────────
         Route::controller(UserController::class)->group(function () {

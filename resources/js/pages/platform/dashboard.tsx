@@ -25,13 +25,21 @@ export default function PlatformDashboard({ stats }: PlatformDashboardProps) {
                 />
 
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    <StatCard label="Schools" value={stats.schools} icon={Building2} />
+                    <StatCard
+                        label="Schools"
+                        value={stats.schools}
+                        icon={Building2}
+                    />
                     <StatCard
                         label="Platform staff"
                         value={stats.staff}
                         icon={Users}
                     />
-                    <StatCard label="Courses" value={stats.courses} icon={Layers} />
+                    <StatCard
+                        label="Courses"
+                        value={stats.courses}
+                        icon={Layers}
+                    />
                     <StatCard
                         label="Teachers"
                         value={stats.teachers}

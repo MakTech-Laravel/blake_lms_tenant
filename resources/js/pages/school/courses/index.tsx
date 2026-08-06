@@ -1,11 +1,18 @@
 import { Head, router } from '@inertiajs/react';
-import { BookOpen, Clock, GraduationCap, Search } from 'lucide-react';
+import { BookOpen, Clock, GraduationCap, MapPin, Search } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { AdminPageHeader } from '@/components/admin/admin-page-header';
 import { DataPagination } from '@/components/admin/data-pagination';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import {
     Table,
     TableBody,
@@ -14,9 +21,10 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useBranch } from '@/hooks/use-branch';
 import { useTenant } from '@/hooks/use-tenant';
 import courses from '@/routes/school/courses';
-import type { Paginated } from '@/types/admin';
+import type { BranchOption, Paginated } from '@/types/admin';
 
 interface CourseListItem {
     id: number;
@@ -26,19 +34,28 @@ interface CourseListItem {
     price: string;
     is_published: boolean;
     enrollments_count: number;
+    branch: BranchOption | null;
 }
 
 interface CoursesIndexProps {
     courses: Paginated<CourseListItem>;
-    filters: { search: string };
+    branches: BranchOption[];
+    filters: { search: string; branch: number | null };
 }
+
+const ALL_BRANCHES = 'all';
 
 export default function CoursesIndex({
     courses: paginated,
+    branches,
     filters,
 }: CoursesIndexProps) {
     const { slug } = useTenant();
+    const { isHeadOffice } = useBranch();
     const [search, setSearch] = useState(filters.search ?? '');
+    const [branch, setBranch] = useState(
+        filters.branch ? String(filters.branch) : ALL_BRANCHES,
+    );
     const firstRender = useRef(true);
 
     useEffect(() => {
@@ -51,13 +68,16 @@ export default function CoursesIndex({
         const timeout = setTimeout(() => {
             router.get(
                 courses.index(slug).url,
-                { search: search || undefined },
+                {
+                    search: search || undefined,
+                    branch: branch === ALL_BRANCHES ? undefined : branch,
+                },
                 { preserveState: true, preserveScroll: true, replace: true },
             );
         }, 350);
 
         return () => clearTimeout(timeout);
-    }, [search, slug]);
+    }, [search, branch, slug]);
 
     return (
         <>
@@ -70,14 +90,35 @@ export default function CoursesIndex({
                     icon={BookOpen}
                 />
 
-                <div className="relative w-full sm:max-w-xs">
-                    <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Search courses…"
-                        className="pl-9"
-                    />
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <div className="relative w-full sm:max-w-xs">
+                        <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder="Search courses…"
+                            className="pl-9"
+                        />
+                    </div>
+                    {/* Pinned staff already only receive their own branch's
+                        courses from the server, so the filter is redundant. */}
+                    {isHeadOffice && branches.length > 0 && (
+                        <Select value={branch} onValueChange={setBranch}>
+                            <SelectTrigger className="w-full sm:w-48">
+                                <SelectValue placeholder="Filter by branch" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value={ALL_BRANCHES}>
+                                    All branches
+                                </SelectItem>
+                                {branches.map((b) => (
+                                    <SelectItem key={b.id} value={String(b.id)}>
+                                        {b.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    )}
                 </div>
 
                 <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
@@ -92,6 +133,11 @@ export default function CoursesIndex({
                                     <TableHead className="hidden sm:table-cell">
                                         Enrolled
                                     </TableHead>
+                                    {isHeadOffice && (
+                                        <TableHead className="hidden lg:table-cell">
+                                            Branch
+                                        </TableHead>
+                                    )}
                                     <TableHead className="text-right">
                                         Status
                                     </TableHead>
@@ -142,6 +188,23 @@ export default function CoursesIndex({
                                                     {course.enrollments_count}
                                                 </span>
                                             </TableCell>
+                                            {isHeadOffice && (
+                                                <TableCell className="hidden lg:table-cell">
+                                                    {course.branch ? (
+                                                        <Badge
+                                                            variant="outline"
+                                                            className="gap-1"
+                                                        >
+                                                            <MapPin className="h-3 w-3" />
+                                                            {course.branch.name}
+                                                        </Badge>
+                                                    ) : (
+                                                        <span className="text-xs text-muted-foreground">
+                                                            School-wide
+                                                        </span>
+                                                    )}
+                                                </TableCell>
+                                            )}
                                             <TableCell className="text-right">
                                                 <Badge
                                                     variant={

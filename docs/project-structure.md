@@ -27,10 +27,11 @@ Platform/
   RoleController.php          # platform role CRUD (platform-domain perms)
   PermissionController.php    # platform permission listing + export
 School/
-  DashboardController.php     # /school/{school} overview
-  UserController.php          # school staff CRUD (tenant-scoped)
+  DashboardController.php     # /school/{school} overview (branch-scoped counts)
+  UserController.php          # school staff CRUD (tenant- + branch-scoped)
   RoleController.php          # school role CRUD (school-domain perms)
-  CourseController.php        # school courses list
+  BranchController.php        # branch CRUD (head office only)
+  CourseController.php        # school courses list (branch-scoped)
 Teacher/
   DashboardController.php     # __invoke: dispatches by user type; renders teacher dashboard
   CourseController.php        # the teacher's own enrollments
@@ -42,9 +43,10 @@ Settings/…                    # profile & security
 
 ### Middleware (`app/Http/Middleware/`)
 
-- [`ResolveTenant.php`](../app/Http/Middleware/ResolveTenant.php) — alias `tenant`; resolves `{school}` slug → active Spatie team.
+- [`ResolveTenant.php`](../app/Http/Middleware/ResolveTenant.php) — alias `tenant`; resolves `{school}` slug → active Spatie team, and validates the user's pinned branch.
 - [`EnsureUserType.php`](../app/Http/Middleware/EnsureUserType.php) — alias `type`; guards routes by `users.type`.
-- [`HandleInertiaRequests.php`](../app/Http/Middleware/HandleInertiaRequests.php) — shares `auth.user` (roles/permissions/`is_super_admin`) and the current `school`.
+- [`EnsureHeadOffice.php`](../app/Http/Middleware/EnsureHeadOffice.php) — alias `head_office`; requires `branch_id` to be `NULL` (school-wide access). See [branches.md](branches.md).
+- [`HandleInertiaRequests.php`](../app/Http/Middleware/HandleInertiaRequests.php) — shares `auth.user` (roles/permissions/`is_super_admin`), the current `school`, and the `branch` scoping context.
 - `HandleAppearance.php` — starter-kit light/dark handling.
 
 Aliases + priority are registered in [`bootstrap/app.php`](../bootstrap/app.php).
@@ -53,9 +55,10 @@ Aliases + priority are registered in [`bootstrap/app.php`](../bootstrap/app.php)
 
 | Model | Notes |
 |---|---|
-| [`User.php`](../app/Models/User.php) | `type` (UserType cast) + `school_id`; `isPlatformStaff()/isSchoolStaff()/isTeacher()/isSuperAdmin()`; relations `school()`, `courseEnrollments()`, `enrolledCourses()`, `certificates()`; `HasRoles`. |
-| [`School.php`](../app/Models/School.php) | Tenant. `getRouteKeyName() = 'slug'`; relations `users()`, `courses()`. |
-| [`Course.php`](../app/Models/Course.php) | `belongsTo(School)`, `enrollments()`, `teachers()`, `certificates()`. |
+| [`User.php`](../app/Models/User.php) | `type` (UserType cast) + `school_id` + nullable `branch_id`; `isPlatformStaff()/isSchoolStaff()/isTeacher()/isSuperAdmin()/isHeadOffice()`; relations `school()`, `branch()`, `courseEnrollments()`, `enrolledCourses()`, `certificates()`; `HasRoles`. Uses **local** branch scopes (`forCurrentBranch()`, `forBranch()`) — never the global one, see [branches.md](branches.md#why-user-is-the-exception). |
+| [`School.php`](../app/Models/School.php) | Tenant. `getRouteKeyName() = 'slug'`; relations `users()`, `courses()`, `branches()`. |
+| [`Branch.php`](../app/Models/Branch.php) | A school location. `getRouteKeyName() = 'slug'` (unique **per school**); relations `school()`, `users()`, `courses()`. |
+| [`Course.php`](../app/Models/Course.php) | `belongsTo(School)`, `enrollments()`, `teachers()`, `certificates()`; uses `BelongsToBranch`. |
 | [`CourseEnrollment.php`](../app/Models/CourseEnrollment.php) | `belongsTo(Course)`, `belongsTo(User)`, `hasOne(Certificate)`. |
 | [`Certificate.php`](../app/Models/Certificate.php) | `belongsTo(CourseEnrollment/User/Course)`. |
 | `Post.php`, `Attachment.php` | starter-kit file-upload demo. |
@@ -72,6 +75,9 @@ Aliases + priority are registered in [`bootstrap/app.php`](../bootstrap/app.php)
 
 - [`app/Support/PlatformTeamResolver.php`](../app/Support/PlatformTeamResolver.php) — reserved platform team `0`; wired via [`config/permission.php`](../config/permission.php).
 - [`app/Support/SuperAdmin.php`](../app/Support/SuperAdmin.php) — super-admin invariants (count / isLast / isGrantedBy), all team-aware.
+- [`app/Support/BranchContext.php`](../app/Support/BranchContext.php) — the current user's pinned branch id (`null` for head office and outside a request).
+- [`app/Models/Scopes/BranchScope.php`](../app/Models/Scopes/BranchScope.php) — the branch global scope; a no-op when no branch is pinned.
+- [`app/Models/Concerns/BelongsToBranch.php`](../app/Models/Concerns/BelongsToBranch.php) — the trait that applies the scope, adds `branch()`, and auto-fills `branch_id` on create.
 - [`app/Providers/AppServiceProvider.php`](../app/Providers/AppServiceProvider.php) — the `Gate::before` super-admin bypass.
 - [`app/Policies/UserPolicy.php`](../app/Policies/UserPolicy.php) — only a super-admin may modify/delete a super-admin.
 
@@ -92,7 +98,9 @@ Settings/…
 - `2026_05_30_105200_create_permission_tables.php` — Spatie; the `school_id` team column is generated from `config/permission.php`.
 - `2026_05_30_111535_add_group_to_permissions_table.php` — added `group` **and** `domain`.
 
-New tenant tables (one each): `create_schools_table`, `create_courses_table`, `create_course_enrollments_table`, `create_certificates_table` (the `2026_07_09_*` files).
+New tenant tables (one each): `create_schools_table`, `create_courses_table`, `create_course_enrollments_table`, `create_certificates_table`, `create_branches_table` (the `2026_07_09_*` files).
+
+`create_branches_table` runs **last** of those and owns the `branch_id` foreign keys for every branch-scoped table (its `$branchTables` array), because those tables are created before `branches` exists. The columns themselves are declared in each table's own migration. See [branches.md](branches.md#adding-branch-scoping-to-a-model).
 
 ### Seeders (`database/seeders/`)
 
@@ -101,11 +109,12 @@ Run in this order by [`DatabaseSeeder.php`](../database/seeders/DatabaseSeeder.p
 1. [`PermissionSeeder.php`](../database/seeders/PermissionSeeder.php) — all permissions (name/group/domain).
 2. [`RoleSeeder.php`](../database/seeders/RoleSeeder.php) — global platform roles (team `0`).
 3. [`UserSeeder.php`](../database/seeders/UserSeeder.php) — platform staff.
-4. [`SchoolSeeder.php`](../database/seeders/SchoolSeeder.php) — 2 schools + per-school roles + staff.
-5. [`CourseSeeder.php`](../database/seeders/CourseSeeder.php) — courses per school.
-6. [`TeacherSeeder.php`](../database/seeders/TeacherSeeder.php) — teachers + enrollments + certificates.
+4. [`SchoolSeeder.php`](../database/seeders/SchoolSeeder.php) — 2 schools + per-school roles + head-office staff.
+5. [`BranchSeeder.php`](../database/seeders/BranchSeeder.php) — branches (Riverside ×3, Summit ×1) + a manager pinned to each.
+6. [`CourseSeeder.php`](../database/seeders/CourseSeeder.php) — courses per school, pinned to branches (plus one deliberately school-wide).
+7. [`TeacherSeeder.php`](../database/seeders/TeacherSeeder.php) — teachers + enrollments + certificates.
 
-Factories live in `database/factories/` (incl. `SchoolFactory`, `CourseFactory`, `CourseEnrollmentFactory`, `CertificateFactory`, and the `UserFactory` states `platform()`, `schoolStaff($school)`, `teacher()`).
+Factories live in `database/factories/` (incl. `SchoolFactory`, `BranchFactory`, `CourseFactory`, `CourseEnrollmentFactory`, `CertificateFactory`, the `UserFactory` states `platform()`, `schoolStaff($school)`, `branchStaff($branch)`, `teacher()`, and `CourseFactory::forBranch($branch)`).
 
 ---
 
@@ -125,6 +134,7 @@ platform/
 school/
   dashboard.tsx
   courses/index.tsx
+  branches/{index,create,edit}.tsx
   users/{index,create,edit,show}.tsx
   roles/{index,create,edit}.tsx
 teacher/
@@ -142,16 +152,17 @@ auth/…, settings/…, welcome.tsx     # starter kit
 
 - `platform/platform-sidebar.tsx`, `school/school-sidebar.tsx`, `teacher/teacher-sidebar.tsx` — each holds a `NavNode[]` config.
 - Shared nav rendering + filtering: [`resources/js/components/navigation/`](../resources/js/components/navigation/) (`sidebar-nav.tsx`, `nav-node.tsx`, `nav-utils.ts`, `types.ts`).
-- Reusable CRUD components (used by both platform and school pages): [`resources/js/components/admin/`](../resources/js/components/admin/) (`user-form.tsx`, `role-form.tsx`, `permission-selector.tsx`, `data-pagination.tsx`, `confirm-delete-dialog.tsx`, `admin-page-header.tsx`).
+- Reusable CRUD components (used by both platform and school pages): [`resources/js/components/admin/`](../resources/js/components/admin/) (`user-form.tsx`, `role-form.tsx`, `branch-form.tsx`, `permission-selector.tsx`, `data-pagination.tsx`, `confirm-delete-dialog.tsx`, `admin-page-header.tsx`).
 - Shared metric tile: `resources/js/components/dashboard/stat-card.tsx`.
 
 ### Hooks & types
 
 - [`resources/js/hooks/use-permissions.tsx`](../resources/js/hooks/use-permissions.tsx) — `usePermission()`.
 - [`resources/js/hooks/use-tenant.ts`](../resources/js/hooks/use-tenant.ts) — `useTenant()` (current school).
+- [`resources/js/hooks/use-branch.ts`](../resources/js/hooks/use-branch.ts) — `useBranch()` (`isHeadOffice` + the pinned branch, if any).
 - [`resources/js/types/permissions.ts`](../resources/js/types/permissions.ts) — `PERMISSIONS` constant + `PermissionKey`.
-- [`resources/js/types/tenant.ts`](../resources/js/types/tenant.ts) — `Tenant`; wired into shared props in `types/global.d.ts`.
-- `resources/js/types/admin.ts` — shared CRUD types (`Paginated`, `AdminUser`, `RoleRef`, `PermissionOption`, …).
+- [`resources/js/types/tenant.ts`](../resources/js/types/tenant.ts) — `Tenant`, `BranchContext`, `BranchRef`; wired into shared props in `types/global.d.ts`.
+- `resources/js/types/admin.ts` — shared CRUD types (`Paginated`, `AdminUser`, `RoleRef`, `BranchOption`, `PermissionOption`, …).
 
 ### Generated route helpers (`resources/js/routes/`)
 

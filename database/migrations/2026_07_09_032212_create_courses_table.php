@@ -16,6 +16,12 @@ return new class extends Migration
             $table->foreignId('school_id')
                 ->constrained('schools')
                 ->cascadeOnDelete();
+
+            // Branch offering this course. NULL means school-wide, which only
+            // head-office users can see. The foreign key is added in
+            // create_branches_table, which runs after this migration.
+            $table->foreignId('branch_id')->nullable()->index();
+
             $table->string('title');
             $table->string('slug');
             $table->text('description')->nullable();

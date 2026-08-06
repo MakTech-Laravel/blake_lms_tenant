@@ -5,9 +5,14 @@ import { UserForm } from '@/components/admin/user-form';
 import { Button } from '@/components/ui/button';
 import { useTenant } from '@/hooks/use-tenant';
 import users from '@/routes/school/users';
-import type { RoleRef } from '@/types/admin';
+import type { BranchOption, RoleRef } from '@/types/admin';
 
-export default function CreateUser({ roles }: { roles: RoleRef[] }) {
+interface CreateUserProps {
+    roles: RoleRef[];
+    branches: BranchOption[];
+}
+
+export default function CreateUser({ roles, branches }: CreateUserProps) {
     const { slug } = useTenant();
 
     return (
@@ -31,6 +36,7 @@ export default function CreateUser({ roles }: { roles: RoleRef[] }) {
                     <UserForm
                         action={users.store(slug)}
                         roles={roles}
+                        branches={branches}
                         onCancel={() => router.visit(users.index(slug).url)}
                     />
                 </div>

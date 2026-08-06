@@ -65,6 +65,17 @@ class School extends Model
         return $this->hasMany(Course::class);
     }
 
+    /**
+     * Physical branches / locations of this school.
+     *
+     * Also the relation the `branches.*` routes bind `{branch}` through, since
+     * branch slugs are only unique per school.
+     */
+    public function branches(): HasMany
+    {
+        return $this->hasMany(Branch::class);
+    }
+
     // ── Casts ─────────────────────────────────────────────────────────────────
 
     /**

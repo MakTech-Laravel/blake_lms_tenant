@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Branch;
 use App\Models\Course;
 use App\Models\School;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -23,6 +24,8 @@ class CourseFactory extends Factory
 
         return [
             'school_id' => School::factory(),
+            // School-wide by default; use forBranch() to pin a course.
+            'branch_id' => null,
             'title' => $title,
             'slug' => Str::slug($title).'-'.fake()->unique()->numberBetween(1, 99999),
             'description' => fake()->paragraph(),
@@ -30,6 +33,18 @@ class CourseFactory extends Factory
             'price' => fake()->randomFloat(2, 0, 999),
             'is_published' => true,
         ];
+    }
+
+    /**
+     * Indicate that the course belongs to the given branch, and to that
+     * branch's school.
+     */
+    public function forBranch(Branch $branch): static
+    {
+        return $this->state(fn (array $attributes): array => [
+            'school_id' => $branch->school_id,
+            'branch_id' => $branch->id,
+        ]);
     }
 
     /**

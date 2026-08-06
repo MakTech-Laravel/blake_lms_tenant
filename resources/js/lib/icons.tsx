@@ -17,9 +17,7 @@ function normalizeIconKey(value: string): string {
     return ICON_ALIASES[value] ?? value;
 }
 
-export function isIconKey(
-    value: string | null | undefined,
-): value is IconKey {
+export function isIconKey(value: string | null | undefined): value is IconKey {
     return Boolean(value && VALID_LUCIDE_KEYS.has(value));
 }
 

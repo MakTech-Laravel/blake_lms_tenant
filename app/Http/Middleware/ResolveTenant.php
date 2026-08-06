@@ -42,7 +42,19 @@ class ResolveTenant
             abort(403, 'You do not belong to this school.');
         }
 
+        // A branch-pinned user's branch must still belong to this school and be
+        // active. Validating it here means the branch data-scoping layer can
+        // trust `branch_id` without re-checking it on every query. Head-office
+        // users (branch_id NULL) skip this entirely — the relation short-circuits
+        // to null without a query.
+        $branch = $user?->branch;
+        if ($branch !== null && ($branch->school_id !== $school->id || ! $branch->is_active)) {
+            abort(403, 'Your branch is not available.');
+        }
+
         // Scope every subsequent role/permission check to this school's team.
+        // Branch is intentionally absent here: the team key stays school-only so
+        // roles remain reusable across all of a school's branches.
         setPermissionsTeamId($school->id);
 
         // Reset any relations already loaded under a different team context.

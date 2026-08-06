@@ -93,7 +93,7 @@ export function IconPickerPanel({
 
             <div
                 className={cn(
-                    'shrink-0 grid gap-1.5',
+                    'grid shrink-0 gap-1.5',
                     fillHeight
                         ? 'bg-background'
                         : 'sticky top-0 z-10 bg-background/95 pb-1 backdrop-blur-sm',
@@ -142,12 +142,7 @@ export function IconPickerPanel({
             </div>
 
             {showRecents && recentOptions.length > 0 ? (
-                <div
-                    className={cn(
-                        'shrink-0 space-y-2',
-                        classNames?.recents,
-                    )}
-                >
+                <div className={cn('shrink-0 space-y-2', classNames?.recents)}>
                     <div className="flex items-center justify-between gap-2">
                         <p className="text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
                             {labels.recent}
@@ -163,7 +158,7 @@ export function IconPickerPanel({
                             </button>
                         ) : null}
                     </div>
-                    <div className="scrollbar-none flex gap-2 overflow-x-auto">
+                    <div className="flex scrollbar-none gap-2 overflow-x-auto">
                         {recentOptions.map((option) => (
                             <button
                                 key={option.key}

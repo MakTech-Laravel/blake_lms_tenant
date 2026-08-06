@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
             $user->syncRoles([$data['role']]);
         }
 
-        $this->command->info('Platform users: ' . count($this->users()) . ' seeded.');
+        $this->command->info('Platform users: '.count($this->users()).' seeded.');
     }
 
     /**

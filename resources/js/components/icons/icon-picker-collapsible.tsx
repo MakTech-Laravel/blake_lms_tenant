@@ -1,4 +1,5 @@
-import { useEffect, useLayoutEffect, useRef, useState, type Ref } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import type { Ref } from 'react';
 
 import { IconPickerPanel } from '@/components/icons/icon-picker-panel';
 import { IconPickerTrigger } from '@/components/icons/icon-picker-trigger';
@@ -69,9 +70,15 @@ export function IconPickerCollapsible({
             : 'inline');
 
     const shellRef = useRef<HTMLDivElement>(null);
-    const [alignSide, setAlignSide] = useState<AlignSide>(
-        triggerVariant === 'compact' ? 'end' : 'start',
-    );
+
+    // Only `panelAlign: 'auto'` needs a measurement; an explicit alignment is
+    // derived from the prop rather than mirrored into state.
+    const [measuredAlign, setMeasuredAlign] = useState<AlignSide | null>(null);
+    const alignSide: AlignSide =
+        panelAlign === 'start' || panelAlign === 'end'
+            ? panelAlign
+            : (measuredAlign ??
+              (triggerVariant === 'compact' ? 'end' : 'start'));
 
     const {
         open,
@@ -103,10 +110,6 @@ export function IconPickerCollapsible({
 
     useLayoutEffect(() => {
         if (!open || panelBehavior !== 'overlay' || panelAlign !== 'auto') {
-            if (panelAlign === 'start' || panelAlign === 'end') {
-                setAlignSide(panelAlign);
-            }
-
             return;
         }
 
@@ -121,7 +124,11 @@ export function IconPickerCollapsible({
         const spaceRight = window.innerWidth - rect.left;
         const spaceLeft = rect.right;
 
-        setAlignSide(spaceRight >= panelWidth || spaceRight >= spaceLeft ? 'start' : 'end');
+        setMeasuredAlign(
+            spaceRight >= panelWidth || spaceRight >= spaceLeft
+                ? 'start'
+                : 'end',
+        );
     }, [open, panelAlign, panelBehavior]);
 
     useEffect(() => {

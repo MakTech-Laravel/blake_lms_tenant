@@ -61,6 +61,18 @@ class HandleInertiaRequests extends Middleware
                 'name' => $school->name,
                 'slug' => $school->slug,
             ] : null,
+            // The branch data-scoping context. Null outside the school
+            // dashboard. `pinned` is null for head-office staff, who see every
+            // branch; the relation is already loaded by ResolveTenant, which
+            // validated it, so this costs no extra query.
+            'branch' => $school && $user ? [
+                'isHeadOffice' => $user->isHeadOffice(),
+                'pinned' => $user->branch ? [
+                    'id' => $user->branch->id,
+                    'name' => $user->branch->name,
+                    'slug' => $user->branch->slug,
+                ] : null,
+            ] : null,
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
     }

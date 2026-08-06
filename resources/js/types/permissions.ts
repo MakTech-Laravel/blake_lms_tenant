@@ -65,6 +65,13 @@ export const PERMISSIONS = {
     },
 
     // ── School domain — isolated from the platform permission set ────────────
+    SCHOOL_BRANCHES: {
+        INDEX: 'school.branches.index',
+        VIEW: 'school.branches.view',
+        CREATE: 'school.branches.create',
+        EDIT: 'school.branches.edit',
+        DELETE: 'school.branches.delete',
+    },
     SCHOOL_STAFF: {
         INDEX: 'school.staff.index',
         VIEW: 'school.staff.view',
@@ -195,8 +202,8 @@ export function groupPermissions(
         const key = permission.group ?? 'Other';
 
         if (!acc[key]) {
-acc[key] = [];
-}
+            acc[key] = [];
+        }
 
         acc[key].push(permission);
 

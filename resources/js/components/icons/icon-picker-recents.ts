@@ -23,7 +23,9 @@ export function readRecentIcons(scope = 'global'): string[] {
             return [];
         }
 
-        return parsed.filter((item): item is string => typeof item === 'string');
+        return parsed.filter(
+            (item): item is string => typeof item === 'string',
+        );
     } catch {
         return [];
     }
@@ -37,7 +39,10 @@ export function pushRecentIcon(key: string, scope = 'global'): string[] {
 
     if (typeof window !== 'undefined') {
         try {
-            window.localStorage.setItem(storageKey(scope), JSON.stringify(next));
+            window.localStorage.setItem(
+                storageKey(scope),
+                JSON.stringify(next),
+            );
         } catch {
             // Ignore quota / private-mode failures.
         }

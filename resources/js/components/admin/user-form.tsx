@@ -11,6 +11,13 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { avatarUrl, SUPER_ADMIN_ROLE } from '@/types/admin';
 import type { RoleRef } from '@/types/admin';
@@ -19,11 +26,18 @@ interface UserFormDefaults {
     name: string;
     email: string;
     roles: string[];
+    branch_id?: number | null;
 }
 
 interface UserFormProps {
     action: UrlMethodPair;
     roles: RoleRef[];
+    /**
+     * Branches this staff member may be pinned to. Empty when the actor is
+     * themselves branch-pinned: they have no choice, and the server forces
+     * their own branch regardless of what is submitted.
+     */
+    branches?: BranchOption[];
     isEdit?: boolean;
     currentAvatar?: string | null;
     /** The target is the only remaining super-admin — its role is locked. */
@@ -32,9 +46,18 @@ interface UserFormProps {
     onCancel?: () => void;
 }
 
+interface BranchOption {
+    id: number;
+    name: string;
+}
+
+/** Sentinel for the "no branch" option, since Select cannot hold an empty value. */
+const HEAD_OFFICE = 'head-office';
+
 export function UserForm({
     action,
     roles,
+    branches = [],
     isEdit = false,
     currentAvatar = null,
     isLastSuperAdmin = false,
@@ -49,6 +72,7 @@ export function UserForm({
         email: defaults?.email ?? '',
         password: '',
         roles: defaults?.roles ?? [],
+        branch_id: defaults?.branch_id ?? null,
         avatar: null as File | null,
         remove_avatar: false as boolean,
     });
@@ -194,6 +218,49 @@ export function UserForm({
                 />
                 <InputError message={form.errors.password} />
             </div>
+
+            {/* Branch — head office only; a pinned actor receives no options */}
+            {branches.length > 0 && (
+                <div className="grid gap-2 sm:max-w-sm">
+                    <Label htmlFor="branch_id">Branch</Label>
+                    <Select
+                        value={
+                            form.data.branch_id === null
+                                ? HEAD_OFFICE
+                                : String(form.data.branch_id)
+                        }
+                        onValueChange={(value) =>
+                            form.setData(
+                                'branch_id',
+                                value === HEAD_OFFICE ? null : Number(value),
+                            )
+                        }
+                    >
+                        <SelectTrigger id="branch_id" className="w-full">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value={HEAD_OFFICE}>
+                                Head office (all branches)
+                            </SelectItem>
+                            {branches.map((branch) => (
+                                <SelectItem
+                                    key={branch.id}
+                                    value={String(branch.id)}
+                                >
+                                    {branch.name}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <p className="text-xs text-muted-foreground">
+                        Head office sees every branch. Pinning to a branch
+                        limits this account to that branch's data only — their
+                        role stays the same either way.
+                    </p>
+                    <InputError message={form.errors.branch_id} />
+                </div>
+            )}
 
             {/* Roles */}
             <div className="grid gap-2">

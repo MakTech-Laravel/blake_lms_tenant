@@ -3,6 +3,7 @@ import {
     Calendar,
     Eye,
     Mail,
+    MapPin,
     Pencil,
     Plus,
     Search,
@@ -33,34 +34,42 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import { useBranch } from '@/hooks/use-branch';
 import { usePermission } from '@/hooks/use-permissions';
 import { useTenant } from '@/hooks/use-tenant';
 import users from '@/routes/school/users';
 import { avatarUrl, SUPER_ADMIN_ROLE } from '@/types/admin';
-import type { AdminUser, Paginated } from '@/types/admin';
+import type { AdminUser, BranchOption, Paginated } from '@/types/admin';
 import { PERMISSIONS } from '@/types/permissions';
 
 interface UsersIndexProps {
     users: Paginated<AdminUser>;
     roles: string[];
-    filters: { search: string; role: string };
+    branches: BranchOption[];
+    filters: { search: string; role: string; branch: number | null };
     superAdminCount: number;
 }
 
 const ALL_ROLES = 'all';
+const ALL_BRANCHES = 'all';
 
 export default function UsersIndex({
     users: paginated,
     roles,
+    branches,
     filters,
     superAdminCount,
 }: UsersIndexProps) {
     const { can } = usePermission();
     const { slug } = useTenant();
+    const { isHeadOffice } = useBranch();
     const actorIsSuperAdmin =
         usePage().props.auth.user?.is_super_admin ?? false;
     const [search, setSearch] = useState(filters.search ?? '');
     const [role, setRole] = useState(filters.role || ALL_ROLES);
+    const [branch, setBranch] = useState(
+        filters.branch ? String(filters.branch) : ALL_BRANCHES,
+    );
     const firstRender = useRef(true);
 
     useEffect(() => {
@@ -76,13 +85,14 @@ export default function UsersIndex({
                 {
                     search: search || undefined,
                     role: role === ALL_ROLES ? undefined : role,
+                    branch: branch === ALL_BRANCHES ? undefined : branch,
                 },
                 { preserveState: true, preserveScroll: true, replace: true },
             );
         }, 350);
 
         return () => clearTimeout(timeout);
-    }, [search, role, slug]);
+    }, [search, role, branch, slug]);
 
     const handleDelete = (user: AdminUser) => {
         router.delete(users.destroy([slug, user.id]).url, {
@@ -136,6 +146,25 @@ export default function UsersIndex({
                             ))}
                         </SelectContent>
                     </Select>
+                    {/* Branch-pinned staff see only their own branch, so the
+                        filter would have exactly one option — hide it. */}
+                    {isHeadOffice && branches.length > 0 && (
+                        <Select value={branch} onValueChange={setBranch}>
+                            <SelectTrigger className="w-full sm:w-48">
+                                <SelectValue placeholder="Filter by branch" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value={ALL_BRANCHES}>
+                                    All branches
+                                </SelectItem>
+                                {branches.map((b) => (
+                                    <SelectItem key={b.id} value={String(b.id)}>
+                                        {b.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    )}
                 </div>
 
                 <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
@@ -147,6 +176,11 @@ export default function UsersIndex({
                                     <TableHead className="hidden md:table-cell">
                                         Roles
                                     </TableHead>
+                                    {isHeadOffice && (
+                                        <TableHead className="hidden lg:table-cell">
+                                            Branch
+                                        </TableHead>
+                                    )}
                                     <TableHead className="hidden lg:table-cell">
                                         Joined
                                     </TableHead>
@@ -222,6 +256,26 @@ export default function UsersIndex({
                                                         )}
                                                     </div>
                                                 </TableCell>
+                                                {isHeadOffice && (
+                                                    <TableCell className="hidden lg:table-cell">
+                                                        {user.branch ? (
+                                                            <Badge
+                                                                variant="outline"
+                                                                className="gap-1"
+                                                            >
+                                                                <MapPin className="h-3 w-3" />
+                                                                {
+                                                                    user.branch
+                                                                        .name
+                                                                }
+                                                            </Badge>
+                                                        ) : (
+                                                            <span className="text-xs text-muted-foreground">
+                                                                Head office
+                                                            </span>
+                                                        )}
+                                                    </TableCell>
+                                                )}
                                                 <TableCell className="hidden lg:table-cell">
                                                     <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
                                                         <Calendar className="h-3.5 w-3.5" />
@@ -281,7 +335,8 @@ export default function UsersIndex({
                                                                                     slug,
                                                                                     user.id,
                                                                                 ],
-                                                                            ).url
+                                                                            )
+                                                                                .url
                                                                         }
                                                                         title="Edit"
                                                                     >

@@ -5,11 +5,12 @@ import { UserForm } from '@/components/admin/user-form';
 import { Button } from '@/components/ui/button';
 import { useTenant } from '@/hooks/use-tenant';
 import users from '@/routes/school/users';
-import type { AdminUser, RoleRef } from '@/types/admin';
+import type { AdminUser, BranchOption, RoleRef } from '@/types/admin';
 
 interface EditUserProps {
     user: AdminUser;
     roles: RoleRef[];
+    branches: BranchOption[];
     userRoles: string[];
     isLastSuperAdmin: boolean;
 }
@@ -17,6 +18,7 @@ interface EditUserProps {
 export default function EditUser({
     user,
     roles,
+    branches,
     userRoles,
     isLastSuperAdmin,
 }: EditUserProps) {
@@ -43,6 +45,7 @@ export default function EditUser({
                     <UserForm
                         action={users.update([slug, user.id])}
                         roles={roles}
+                        branches={branches}
                         isEdit
                         currentAvatar={user.avatar}
                         isLastSuperAdmin={isLastSuperAdmin}
@@ -50,6 +53,7 @@ export default function EditUser({
                             name: user.name,
                             email: user.email,
                             roles: userRoles,
+                            branch_id: user.branch_id ?? null,
                         }}
                         onCancel={() => router.visit(users.index(slug).url)}
                     />

@@ -29,8 +29,7 @@ export function pushError(
     error: unknown,
     componentStack: string | null,
 ): StoredError {
-    const message =
-        error instanceof Error ? error.message : String(error);
+    const message = error instanceof Error ? error.message : String(error);
     const stack =
         error instanceof Error
             ? (error.stack ?? 'No stack trace available')
@@ -41,8 +40,7 @@ export function pushError(
     // De-duplicate by message+stack fingerprint
     const fingerprint = `${message}|${stack.slice(0, 200)}`;
     const dupIdx = existing.findIndex(
-        (e) =>
-            `${e.message}|${e.stack.slice(0, 200)}` === fingerprint,
+        (e) => `${e.message}|${e.stack.slice(0, 200)}` === fingerprint,
     );
 
     if (dupIdx !== -1) {
