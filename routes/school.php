@@ -8,6 +8,7 @@ use App\Http\Controllers\School\RoleController;
 use App\Http\Controllers\School\UserController;
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,4 +89,31 @@ Route::middleware(['auth', 'verified', 'tenant', 'type:school'])
             Route::delete('roles/{role}', 'destroy')->name('roles.destroy')
                 ->middleware('permission:'.PermissionEnum::SCHOOL_ROLES_DELETE->value);
         });
+
+        // ── Static AquaCert UI modules (fixtures only) ────────────────────────
+        $staticModules = [
+            'people' => ['People', 'Staff directory for your school'],
+            'access' => ['Roles & Permissions', 'School roles and permission sets'],
+            'locations' => ['Locations', 'Branches and facility locations'],
+            'courses-ui' => ['Courses', 'School courses and training content'],
+            'library' => ['Library', 'Shared training library and media'],
+            'pathways' => ['Pathways', 'Role-based learning pathways'],
+            'assignments' => ['Assignments', 'Assigned training across locations'],
+            'assessments' => ['Assessments', 'Quizzes and competency checks'],
+            'certificates' => ['Certificates', 'Issued and expiring certificates'],
+            'billing' => ['Subscription & Billing', 'Plan details and invoices'],
+            'reports' => ['Reports', 'Compliance and training reports'],
+            'notifications' => ['Notifications', 'School alerts and announcements'],
+            'settings' => ['Settings', 'School preferences and branding'],
+        ];
+
+        foreach ($staticModules as $slug => [$title, $subtitle]) {
+            Route::get($slug, fn () => Inertia::render('school/static-resource', [
+                'title' => $title,
+                'subtitle' => $subtitle,
+            ]))->name(str_replace('-', '_', $slug).'.ui');
+        }
+
+        Route::get('courses/wizard', fn () => Inertia::render('school/course-wizard'))
+            ->name('courses.wizard');
     });

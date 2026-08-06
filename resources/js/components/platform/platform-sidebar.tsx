@@ -1,14 +1,21 @@
 import { Link } from '@inertiajs/react';
 import {
+    Bell,
+    BookOpen,
     Building2,
-    KeyRound,
+    ClipboardCheck,
+    CreditCard,
+    FileBadge2,
+    GitBranch,
     LayoutGrid,
+    LifeBuoy,
+    MapPin,
+    Route,
+    Settings,
     Shield,
-    ShieldCheck,
-    Sparkles,
     Users,
 } from 'lucide-react';
-import AppLogo from '@/components/app-logo';
+import { AquaCertLogo } from '@/components/landing/aqua-cert-logo';
 import { NavUser } from '@/components/nav-user';
 import { SidebarNav } from '@/components/navigation';
 import type { NavNode } from '@/components/navigation';
@@ -21,73 +28,42 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { index as iconPickerDemo } from '@/routes/icon-picker-demo';
 import { dashboard } from '@/routes/platform';
-import platformPermissions from '@/routes/platform/permissions';
-import platformRoles from '@/routes/platform/roles';
-import platformSchools from '@/routes/platform/schools';
-import platformUsers from '@/routes/platform/users';
-import { PERMISSIONS } from '@/types/permissions';
 
-// Platform navigation. Permission-filtered via SidebarNav; the Dashboard entry
-// has no gate so every platform account can reach it.
 const mainNav: NavNode[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Schools',
-        href: platformSchools.index(),
-        icon: Building2,
-        permissions: [PERMISSIONS.SCHOOLS.INDEX],
-    },
-    {
-        title: 'Access Control',
-        icon: ShieldCheck,
-        permissions: [
-            PERMISSIONS.USERS.INDEX,
-            PERMISSIONS.ROLES.INDEX,
-            PERMISSIONS.PERMISSIONS.INDEX,
-        ],
-        items: [
-            {
-                title: 'Staff',
-                href: platformUsers.index(),
-                icon: Users,
-                permissions: [PERMISSIONS.USERS.INDEX],
-            },
-            {
-                title: 'Roles',
-                href: platformRoles.index(),
-                icon: Shield,
-                permissions: [PERMISSIONS.ROLES.INDEX],
-            },
-            {
-                title: 'Permissions',
-                href: platformPermissions.index(),
-                icon: KeyRound,
-                permissions: [PERMISSIONS.PERMISSIONS.INDEX],
-            },
-        ],
-    },
-    {
-        title: 'Icon Picker Demo',
-        href: iconPickerDemo(),
-        icon: Sparkles,
-    },
+    { title: 'Dashboard', href: dashboard(), icon: LayoutGrid },
+    { title: 'Organizations', href: '/platform/organizations', icon: Building2 },
+    { title: 'Locations', href: '/platform/locations', icon: MapPin },
+    { title: 'Subscriptions', href: '/platform/subscriptions', icon: CreditCard },
+    { title: 'People', href: '/platform/people', icon: Users },
+    { title: 'Roles & Permissions', href: '/platform/access', icon: Shield },
+    { title: 'Learning', href: '/platform/learning', icon: BookOpen },
+    { title: 'Learning Pathways', href: '/platform/pathways', icon: Route },
+    { title: 'Assessments', href: '/platform/assessments', icon: ClipboardCheck },
+    { title: 'Certificates', href: '/platform/certificates', icon: FileBadge2 },
+    { title: 'Reports', href: '/platform/reports', icon: GitBranch },
+    { title: 'Notifications', href: '/platform/notifications', icon: Bell },
+    { title: 'Support Tools', href: '/platform/support', icon: LifeBuoy },
+    { title: 'System Settings', href: '/platform/system-settings', icon: Settings },
 ];
 
 export function PlatformSidebar() {
     return (
-        <Sidebar collapsible="icon" variant="inset">
+        <Sidebar
+            collapsible="icon"
+            variant="inset"
+            className="border-navy-700 bg-navy-500 text-white **:data-[slot=sidebar-inner]:bg-navy-500"
+        >
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" asChild>
+                        <SidebarMenuButton
+                            size="lg"
+                            asChild
+                            className="text-white hover:bg-navy-400 hover:text-white"
+                        >
                             <Link href={dashboard()} prefetch>
-                                <AppLogo />
+                                <AquaCertLogo variant="light" />
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -95,7 +71,13 @@ export function PlatformSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <SidebarNav items={mainNav} label="Platform" />
+                <SidebarNav
+                    items={mainNav}
+                    label="Platform"
+                    classNames={{
+                        row: 'text-navy-100 hover:bg-navy-400 hover:text-white data-[active=true]:bg-navy-400 data-[active=true]:text-white',
+                    }}
+                />
             </SidebarContent>
 
             <SidebarFooter>

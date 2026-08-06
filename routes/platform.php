@@ -8,6 +8,7 @@ use App\Http\Controllers\Platform\SchoolController;
 use App\Http\Controllers\Platform\UserController;
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,4 +72,30 @@ Route::middleware(['auth', 'verified', 'type:platform'])
             Route::get('permissions/export', 'export')->name('permissions.export')
                 ->middleware('permission:'.PermissionEnum::PERMISSIONS_EXPORT->value);
         });
+
+        // ── Static AquaCert UI modules (fixtures only) ────────────────────────
+        Route::get('organizations', fn () => Inertia::render('platform/organizations'))
+            ->name('organizations.index');
+
+        $staticModules = [
+            'locations' => ['Locations', 'All swim school locations across the platform'],
+            'subscriptions' => ['Subscriptions', 'Plans, renewals, and MRR overview'],
+            'people' => ['People', 'Platform staff and organization contacts'],
+            'access' => ['Roles & Permissions', 'Access control across the AquaCert platform'],
+            'learning' => ['Learning', 'Platform course library and content packs'],
+            'pathways' => ['Learning Pathways', 'Structured learning journeys for staff'],
+            'assessments' => ['Assessments', 'Quizzes and competency checks'],
+            'certificates' => ['Certificates', 'Issued, pending, and expired certificates'],
+            'reports' => ['Reports', 'Platform analytics and exportable reports'],
+            'notifications' => ['Notifications', 'Announcements and system alerts'],
+            'support' => ['Support Tools', 'Impersonation, audits, and support utilities'],
+            'system-settings' => ['System Settings', 'Platform configuration and integrations'],
+        ];
+
+        foreach ($staticModules as $slug => [$title, $subtitle]) {
+            Route::get($slug, fn () => Inertia::render('platform/static-resource', [
+                'title' => $title,
+                'subtitle' => $subtitle,
+            ]))->name(str_replace('-', '_', $slug).'.index');
+        }
     });

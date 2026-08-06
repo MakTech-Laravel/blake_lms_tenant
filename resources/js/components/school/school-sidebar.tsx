@@ -1,13 +1,20 @@
 import { Link } from '@inertiajs/react';
 import {
+    Bell,
     BookOpen,
-    Building2,
+    ClipboardCheck,
+    CreditCard,
+    FileBadge2,
+    FolderOpen,
     LayoutGrid,
+    Library,
+    MapPin,
+    Route,
+    Settings,
     Shield,
-    Sparkles,
     Users,
 } from 'lucide-react';
-import AppLogo from '@/components/app-logo';
+import { AquaCertLogo } from '@/components/landing/aqua-cert-logo';
 import { NavUser } from '@/components/nav-user';
 import { SidebarNav } from '@/components/navigation';
 import type { NavNode } from '@/components/navigation';
@@ -22,71 +29,61 @@ import {
 } from '@/components/ui/sidebar';
 import { useBranch } from '@/hooks/use-branch';
 import { useTenant } from '@/hooks/use-tenant';
-import { index as iconPickerDemo } from '@/routes/icon-picker-demo';
 import { dashboard } from '@/routes/school';
-import schoolBranches from '@/routes/school/branches';
-import schoolCourses from '@/routes/school/courses';
-import schoolRoles from '@/routes/school/roles';
-import schoolUsers from '@/routes/school/users';
-import { PERMISSIONS } from '@/types/permissions';
 
 export function SchoolSidebar() {
     const school = useTenant();
     const { isHeadOffice, pinned } = useBranch();
+    const base = `/school/${school.slug}`;
 
-    // Permission-filtered via SidebarNav. All links are scoped to the current
-    // school by passing its slug to the tenant route helpers.
-    const mainNav: NavNode[] = [
-        {
-            title: 'Dashboard',
-            href: dashboard(school.slug),
-            icon: LayoutGrid,
-        },
-        {
-            title: 'Staff',
-            href: schoolUsers.index(school.slug),
-            icon: Users,
-            permissions: [PERMISSIONS.SCHOOL_STAFF.INDEX],
-        },
-        // Managing branches is head-office only, matching the `head_office`
-        // middleware on the routes. Holding the permission is not enough.
-        ...(isHeadOffice
-            ? [
-                  {
-                      title: 'Branches',
-                      href: schoolBranches.index(school.slug),
-                      icon: Building2,
-                      permissions: [PERMISSIONS.SCHOOL_BRANCHES.INDEX],
-                  },
-              ]
-            : []),
-        {
-            title: 'Roles',
-            href: schoolRoles.index(school.slug),
-            icon: Shield,
-            permissions: [PERMISSIONS.SCHOOL_ROLES.INDEX],
-        },
-        {
-            title: 'Courses',
-            href: schoolCourses.index(school.slug),
-            icon: BookOpen,
-            permissions: [PERMISSIONS.SCHOOL_COURSES.INDEX],
-        },
-        {
-            title: 'Icon Picker Demo',
-            href: iconPickerDemo(),
-            icon: Sparkles,
-        },
+    const headOfficeNav: NavNode[] = [
+        { title: 'Dashboard', href: dashboard(school.slug), icon: LayoutGrid },
+        { title: 'People', href: `${base}/people`, icon: Users },
+        { title: 'Roles & Permissions', href: `${base}/access`, icon: Shield },
+        { title: 'Locations', href: `${base}/locations`, icon: MapPin },
+        { title: 'Courses', href: `${base}/courses-ui`, icon: BookOpen },
+        { title: 'Library', href: `${base}/library`, icon: Library },
+        { title: 'Pathways', href: `${base}/pathways`, icon: Route },
+        { title: 'Assignments', href: `${base}/assignments`, icon: FolderOpen },
+        { title: 'Assessments', href: `${base}/assessments`, icon: ClipboardCheck },
+        { title: 'Certificates', href: `${base}/certificates`, icon: FileBadge2 },
+        { title: 'Subscriptions', href: `${base}/billing`, icon: CreditCard },
+        { title: 'Reports', href: `${base}/reports`, icon: BookOpen },
+        { title: 'Notifications', href: `${base}/notifications`, icon: Bell },
+        { title: 'Settings', href: `${base}/settings`, icon: Settings },
     ];
 
+    const branchNav: NavNode[] = [
+        { title: 'Dashboard', href: dashboard(school.slug), icon: LayoutGrid },
+        { title: 'People', href: `${base}/people`, icon: Users },
+        { title: 'Locations', href: `${base}/locations`, icon: MapPin },
+        { title: 'Courses', href: `${base}/courses-ui`, icon: BookOpen },
+        { title: 'Pathways', href: `${base}/pathways`, icon: Route },
+        { title: 'Assignments', href: `${base}/assignments`, icon: FolderOpen },
+        { title: 'Assessments', href: `${base}/assessments`, icon: ClipboardCheck },
+        { title: 'Certificates', href: `${base}/certificates`, icon: FileBadge2 },
+        { title: 'Reports', href: `${base}/reports`, icon: BookOpen },
+        { title: 'Notifications', href: `${base}/notifications`, icon: Bell },
+    ];
+
+    const mainNav = isHeadOffice ? headOfficeNav : branchNav;
+
     return (
-        <Sidebar collapsible="icon" variant="inset">
+        <Sidebar
+            collapsible="icon"
+            variant="inset"
+            className="border-navy-700 bg-navy-500 text-white **:data-[slot=sidebar-inner]:bg-navy-500"
+        >
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" asChild>
+                        <SidebarMenuButton
+                            size="lg"
+                            asChild
+                            className="text-white hover:bg-navy-400 hover:text-white"
+                        >
                             <Link href={dashboard(school.slug)} prefetch>
-                                <AppLogo />
+                                <AquaCertLogo variant="light" />
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -99,6 +96,9 @@ export function SchoolSidebar() {
                     label={
                         pinned ? `${school.name} — ${pinned.name}` : school.name
                     }
+                    classNames={{
+                        row: 'text-navy-100 hover:bg-navy-400 hover:text-white data-[active=true]:bg-navy-400 data-[active=true]:text-white',
+                    }}
                 />
             </SidebarContent>
 

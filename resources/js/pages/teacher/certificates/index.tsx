@@ -1,75 +1,70 @@
 import { Head } from '@inertiajs/react';
-import { Award } from 'lucide-react';
-import Heading from '@/components/heading';
+import { AquaPageHeader } from '@/components/aquacert/aqua-page-header';
+import { StatusBadge } from '@/components/aquacert/status-badge';
+import { Card } from '@/components/ui/card';
+import { learnerOverview } from '@/data/aquacert-fixtures';
 
-interface CertificateItem {
-    id: number;
-    certificate_number: string;
-    course_title: string;
-    issued_at: string | null;
-}
+type CertificateRow = {
+    id: number | string;
+    certificate_number?: string;
+    course_title?: string;
+    title?: string;
+    issued_at?: string;
+    issued?: string;
+    expires?: string;
+    status?: string;
+};
 
-interface CertificatesIndexProps {
-    certificates: CertificateItem[];
-}
+type Props = {
+    certificates?: CertificateRow[];
+};
 
-export default function CertificatesIndex({
-    certificates,
-}: CertificatesIndexProps) {
+export default function TeacherCertificatesPage({ certificates }: Props) {
+    const rows =
+        certificates && certificates.length > 0
+            ? certificates.map((certificate) => ({
+                  id: certificate.id,
+                  title:
+                      certificate.course_title ??
+                      certificate.title ??
+                      'Certificate',
+                  issued: certificate.issued_at ?? certificate.issued ?? '—',
+                  expires: certificate.expires ?? '—',
+                  status: certificate.status ?? 'Valid',
+              }))
+            : learnerOverview.certificates;
+
     return (
         <>
             <Head title="Certificates" />
-
-            <div className="w-full space-y-6 px-4 py-6 sm:px-6 lg:px-8">
-                <Heading
+            <div className="flex h-full flex-1 flex-col gap-6 bg-[#f8fafc] p-4 md:p-6">
+                <AquaPageHeader
                     title="Certificates"
-                    description="Certificates you have earned."
+                    subtitle="Your earned and available certificates"
                 />
-
-                {certificates.length === 0 ? (
-                    <div className="rounded-xl border border-dashed py-16 text-center">
-                        <Award className="mx-auto h-10 w-10 text-muted-foreground/40" />
-                        <h3 className="mt-4 text-sm font-semibold">
-                            No certificates yet
-                        </h3>
-                        <p className="mt-1 text-xs text-muted-foreground">
-                            Complete a course to earn your first certificate.
-                        </p>
-                    </div>
-                ) : (
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        {certificates.map((certificate) => (
-                            <div
-                                key={certificate.id}
-                                className="relative overflow-hidden rounded-xl border bg-card p-5 shadow-sm"
-                            >
-                                <div className="flex items-center gap-3">
-                                    <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                                        <Award className="h-5 w-5" />
-                                    </div>
-                                    <div className="min-w-0">
-                                        <h3 className="truncate font-semibold">
-                                            {certificate.course_title}
-                                        </h3>
-                                        <p className="truncate font-mono text-xs text-muted-foreground">
-                                            {certificate.certificate_number}
-                                        </p>
-                                    </div>
-                                </div>
-                                {certificate.issued_at && (
-                                    <p className="mt-4 text-xs text-muted-foreground">
-                                        Issued{' '}
-                                        {new Date(
-                                            certificate.issued_at,
-                                        ).toLocaleDateString(undefined, {
-                                            dateStyle: 'medium',
-                                        })}
+                <div className="grid gap-4 md:grid-cols-2">
+                    {rows.map((certificate) => (
+                        <Card
+                            key={certificate.id}
+                            className="border-navy-50 bg-white p-5 shadow-sm"
+                        >
+                            <div className="flex items-start justify-between gap-3">
+                                <div>
+                                    <h3 className="text-h6 font-semibold text-navy-500">
+                                        {certificate.title}
+                                    </h3>
+                                    <p className="mt-2 text-body-4 text-navy-300">
+                                        Issued {certificate.issued}
                                     </p>
-                                )}
+                                    <p className="text-body-4 text-navy-300">
+                                        Expires {certificate.expires}
+                                    </p>
+                                </div>
+                                <StatusBadge status={certificate.status} />
                             </div>
-                        ))}
-                    </div>
-                )}
+                        </Card>
+                    ))}
+                </div>
             </div>
         </>
     );

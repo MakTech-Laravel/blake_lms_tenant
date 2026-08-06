@@ -12,7 +12,7 @@ export default function TeacherLayout({
         <AppShell variant="sidebar">
             <TeacherSidebar />
             <AppContent variant="sidebar" className="overflow-x-hidden">
-                <AppSidebarHeader breadcrumbs={breadcrumbs} />
+                <AppSidebarHeader breadcrumbs={breadcrumbs} showSearch />
                 {children}
             </AppContent>
         </AppShell>
