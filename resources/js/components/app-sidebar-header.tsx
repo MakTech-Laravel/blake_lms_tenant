@@ -1,9 +1,7 @@
 import { Link, usePage } from '@inertiajs/react';
-import { Bell } from 'lucide-react';
+import { NotificationsBell } from '@/components/aquacert/notifications-bell';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useInitials } from '@/hooks/use-initials';
@@ -35,18 +33,7 @@ export function AppSidebarHeader({
                         readOnly
                     />
                 )}
-                <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="relative text-navy-400"
-                    aria-label="Notifications"
-                >
-                    <Bell className="size-5" />
-                    <Badge className="absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full bg-red-500 p-0 text-[10px] text-white">
-                        2
-                    </Badge>
-                </Button>
+                <NotificationsBell />
                 {user && (
                     <Link
                         href="/settings/profile"
