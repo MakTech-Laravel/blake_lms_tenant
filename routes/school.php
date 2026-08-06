@@ -26,7 +26,8 @@ Route::middleware(['auth', 'verified', 'tenant', 'type:school'])
     ->prefix('school/{school}')
     ->name('school.')
     ->group(function () {
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard')
+            ->middleware('permission:'.PermissionEnum::SCHOOL_DASHBOARD_VIEW->value);
 
         // ── Courses ───────────────────────────────────────────────────────────
         Route::get('courses', [CourseController::class, 'index'])->name('courses.index')
@@ -92,35 +93,51 @@ Route::middleware(['auth', 'verified', 'tenant', 'type:school'])
         });
 
         // ── AquaCert UI modules (fixture-backed dedicated pages) ──────────────
-        Route::get('people', [UserController::class, 'people'])->name('people.ui');
+        Route::get('people', [UserController::class, 'people'])->name('people.ui')
+            ->middleware('permission:'.PermissionEnum::SCHOOL_STAFF_INDEX->value);
         Route::get('access', fn () => Inertia::render('school/access/index'))
-            ->name('access.ui');
+            ->name('access.ui')
+            ->middleware('permission:'.PermissionEnum::SCHOOL_ROLES_INDEX->value);
         Route::get('locations', [BranchController::class, 'locations'])
-            ->name('locations.ui');
+            ->name('locations.ui')
+            ->middleware('permission:'.PermissionEnum::SCHOOL_LOCATIONS_INDEX->value);
         Route::get('courses-ui', fn () => Inertia::render('school/courses-ui/index'))
-            ->name('courses_ui.ui');
+            ->name('courses_ui.ui')
+            ->middleware('permission:'.PermissionEnum::SCHOOL_COURSES_INDEX->value);
         Route::get('library', fn () => Inertia::render('school/library/index'))
-            ->name('library.ui');
+            ->name('library.ui')
+            ->middleware('permission:'.PermissionEnum::SCHOOL_LIBRARY_INDEX->value);
         Route::get('pathways', fn () => Inertia::render('school/pathways/index'))
-            ->name('pathways.ui');
+            ->name('pathways.ui')
+            ->middleware('permission:'.PermissionEnum::SCHOOL_PATHWAYS_INDEX->value);
         Route::get('assignments', fn () => Inertia::render('school/assignments/index'))
-            ->name('assignments.ui');
+            ->name('assignments.ui')
+            ->middleware('permission:'.PermissionEnum::SCHOOL_ASSIGNMENTS_INDEX->value);
         Route::get('assessments', fn () => Inertia::render('school/assessments/index'))
-            ->name('assessments.ui');
+            ->name('assessments.ui')
+            ->middleware('permission:'.PermissionEnum::SCHOOL_ASSESSMENTS_INDEX->value);
         Route::controller(CertificateController::class)->group(function () {
-            Route::get('certificates', 'index')->name('certificates.ui');
-            Route::post('certificates', 'store')->name('certificates.store');
-            Route::get('certificates/{certificate}/download', 'download')->name('certificates.download');
+            Route::get('certificates', 'index')->name('certificates.ui')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_CERTIFICATES_INDEX->value);
+            Route::post('certificates', 'store')->name('certificates.store')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_CERTIFICATES_ISSUE->value);
+            Route::get('certificates/{certificate}/download', 'download')->name('certificates.download')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_CERTIFICATES_DOWNLOAD->value);
         });
         Route::get('billing', fn () => Inertia::render('school/billing/index'))
-            ->name('billing.ui');
+            ->name('billing.ui')
+            ->middleware('permission:'.PermissionEnum::SCHOOL_BILLING_VIEW->value);
         Route::get('reports', fn () => Inertia::render('school/reports/index'))
-            ->name('reports.ui');
+            ->name('reports.ui')
+            ->middleware('permission:'.PermissionEnum::SCHOOL_REPORTS_INDEX->value);
         Route::get('notifications', fn () => Inertia::render('school/notifications/index'))
-            ->name('notifications.ui');
+            ->name('notifications.ui')
+            ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_INDEX->value);
         Route::get('settings', fn () => Inertia::render('school/settings/index'))
-            ->name('settings.ui');
+            ->name('settings.ui')
+            ->middleware('permission:'.PermissionEnum::SCHOOL_SETTINGS_VIEW->value);
 
         Route::get('courses/wizard', fn () => Inertia::render('school/course-wizard'))
-            ->name('courses.wizard');
+            ->name('courses.wizard')
+            ->middleware('permission:'.PermissionEnum::SCHOOL_COURSES_CREATE->value);
     });

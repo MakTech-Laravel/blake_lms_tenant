@@ -113,6 +113,8 @@ class UserController extends Controller
 
     public function show(User $user): Response
     {
+        abort_unless($user->type === UserType::PLATFORM, 404);
+
         $user->load('roles:id,name', 'permissions:id,name');
 
         return Inertia::render('platform/users/show', [

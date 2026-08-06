@@ -64,6 +64,12 @@ class CertificateController extends Controller
 
     public function download(Certificate $certificate): BinaryFileResponse|StreamedResponse
     {
+        $certificate->loadMissing('course');
+
+        // Platform staff may download any tenant certificate, but only ones that
+        // are bound to a course (and therefore a school). Orphan rows are rejected.
+        abort_unless($certificate->course !== null, 404);
+
         if (blank($certificate->pdf_path) || ! Storage::disk('local')->exists($certificate->pdf_path)) {
             app(CertificateGenerator::class)->renderFiles($certificate);
             $certificate->refresh();

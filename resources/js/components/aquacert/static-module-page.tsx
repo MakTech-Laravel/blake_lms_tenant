@@ -10,6 +10,7 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
+import type { PermissionKey } from '@/types/permissions';
 
 export type StaticColumn = {
     key: string;
@@ -24,6 +25,7 @@ type StaticModulePageProps = {
     rows: Record<string, ReactNode>[];
     actions?: ReactNode;
     searchPlaceholder?: string;
+    exportPermission?: PermissionKey;
 };
 
 export function StaticModulePage({
@@ -33,6 +35,7 @@ export function StaticModulePage({
     rows,
     actions,
     searchPlaceholder,
+    exportPermission,
 }: StaticModulePageProps) {
     return (
         <div className="flex h-full flex-1 flex-col gap-6 bg-canvas p-4 md:p-6">
@@ -43,7 +46,10 @@ export function StaticModulePage({
             />
 
             <Card className="border-navy-50 bg-white p-4 shadow-sm md:p-6">
-                <DataTableToolbar placeholder={searchPlaceholder} />
+                <DataTableToolbar
+                    placeholder={searchPlaceholder}
+                    exportPermission={exportPermission}
+                />
                 <div className="mt-4 overflow-x-auto">
                     <Table>
                         <TableHeader>

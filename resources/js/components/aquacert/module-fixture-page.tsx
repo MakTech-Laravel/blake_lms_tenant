@@ -7,6 +7,8 @@ import { ModuleEmptyState } from '@/components/aquacert/module-empty-state';
 import { StaticModulePage } from '@/components/aquacert/static-module-page';
 import { StatusBadge } from '@/components/aquacert/status-badge';
 import { Button } from '@/components/ui/button';
+import { usePermission } from '@/hooks/use-permissions';
+import type { PermissionKey } from '@/types/permissions';
 
 export type FixtureColumn = { key: string; label: string; className?: string };
 export type FixtureRow = Record<string, string | number> & { id?: string };
@@ -19,6 +21,8 @@ type ModuleFixturePageProps = {
     searchPlaceholder?: string;
     createLabel?: string;
     createHref?: string;
+    createPermission?: PermissionKey;
+    exportPermission?: PermissionKey;
     statusKey?: string;
     detailTitle?: (row: FixtureRow) => string;
     extraActions?: ReactNode;
@@ -32,29 +36,35 @@ export function ModuleFixturePage({
     searchPlaceholder,
     createLabel = 'Create',
     createHref,
+    createPermission,
+    exportPermission,
     statusKey = 'status',
     detailTitle,
     extraActions,
 }: ModuleFixturePageProps) {
+    const { can } = usePermission();
     const [selected, setSelected] = useState<FixtureRow | null>(null);
+    const canCreate = !createPermission || can(createPermission);
 
-    const createButton = createHref ? (
-        <Button asChild className="bg-navy-500 text-white hover:bg-navy-600">
-            <Link href={createHref}>
+    const createButton = canCreate ? (
+        createHref ? (
+            <Button asChild className="bg-navy-500 text-white hover:bg-navy-600">
+                <Link href={createHref}>
+                    <Plus className="size-4" />
+                    {createLabel}
+                </Link>
+            </Button>
+        ) : (
+            <Button
+                type="button"
+                className="bg-navy-500 text-white hover:bg-navy-600"
+                onClick={() => setSelected(rows[0] ?? null)}
+            >
                 <Plus className="size-4" />
                 {createLabel}
-            </Link>
-        </Button>
-    ) : (
-        <Button
-            type="button"
-            className="bg-navy-500 text-white hover:bg-navy-600"
-            onClick={() => setSelected(rows[0] ?? null)}
-        >
-            <Plus className="size-4" />
-            {createLabel}
-        </Button>
-    );
+            </Button>
+        )
+    ) : null;
 
     if (rows.length === 0) {
         return (
@@ -80,6 +90,7 @@ export function ModuleFixturePage({
                 searchPlaceholder={
                     searchPlaceholder ?? `Search ${title.toLowerCase()}...`
                 }
+                exportPermission={exportPermission}
                 actions={
                     <>
                         {extraActions}

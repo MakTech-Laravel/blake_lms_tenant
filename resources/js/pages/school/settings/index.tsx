@@ -3,8 +3,27 @@ import { AquaPageHeader } from '@/components/aquacert/aqua-page-header';
 import { SectionCard } from '@/components/aquacert/section-card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { schoolSettings } from '@/data/modules/school-modules';
+import { usePermission } from '@/hooks/use-permissions';
+import { PERMISSIONS } from '@/types/permissions';
+import type { PermissionKey } from '@/types/permissions';
+
+const tabPermissions: Record<string, PermissionKey | undefined> = {
+    branding: PERMISSIONS.SCHOOL_SETTINGS.BRANDING_EDIT,
+    compliance: PERMISSIONS.SCHOOL_SETTINGS.COMPLIANCE_EDIT,
+    notifications: PERMISSIONS.SCHOOL_SETTINGS.NOTIFICATIONS_EDIT,
+};
 
 export default function SchoolSettingsPage() {
+    const { can } = usePermission();
+
+    const tabs = schoolSettings.tabs.filter((tab) => {
+        const permission = tabPermissions[tab.id];
+
+        return !permission || can(permission);
+    });
+
+    const defaultTab = tabs[0]?.id ?? schoolSettings.tabs[0].id;
+
     return (
         <>
             <Head title={schoolSettings.title} />
@@ -13,9 +32,9 @@ export default function SchoolSettingsPage() {
                     title={schoolSettings.title}
                     subtitle={schoolSettings.subtitle}
                 />
-                <Tabs defaultValue={schoolSettings.tabs[0].id}>
+                <Tabs defaultValue={defaultTab}>
                     <TabsList className="flex h-auto flex-wrap gap-1 bg-navy-50/60 p-1">
-                        {schoolSettings.tabs.map((tab) => (
+                        {tabs.map((tab) => (
                             <TabsTrigger
                                 key={tab.id}
                                 value={tab.id}
@@ -25,7 +44,7 @@ export default function SchoolSettingsPage() {
                             </TabsTrigger>
                         ))}
                     </TabsList>
-                    {schoolSettings.tabs.map((tab) => (
+                    {tabs.map((tab) => (
                         <TabsContent
                             key={tab.id}
                             value={tab.id}

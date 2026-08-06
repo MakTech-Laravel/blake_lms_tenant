@@ -1,6 +1,7 @@
 import { ModuleFixturePage } from '@/components/aquacert/module-fixture-page';
 import type { ModuleRow } from '@/data/modules/platform-modules';
 import { useSchoolModuleVariant } from '@/hooks/use-school-module-variant';
+import { PERMISSIONS } from '@/types/permissions';
 
 type Props = {
     people?: ModuleRow[];
@@ -17,6 +18,7 @@ export default function SchoolPeoplePage({ people }: Props) {
             columns={fixture.columns}
             rows={rows}
             createLabel="Add Staff"
+            createPermission={PERMISSIONS.SCHOOL_STAFF.CREATE}
         />
     );
 }

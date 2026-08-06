@@ -1,5 +1,6 @@
 import { ModuleFixturePage } from '@/components/aquacert/module-fixture-page';
 import { platformNotifications } from '@/data/modules/platform-modules';
+import { PERMISSIONS } from '@/types/permissions';
 
 export default function PlatformNotificationsPage() {
     return (
@@ -9,6 +10,7 @@ export default function PlatformNotificationsPage() {
             columns={platformNotifications.columns}
             rows={platformNotifications.rows}
             createLabel="Send Notification"
+            createPermission={PERMISSIONS.PLATFORM_NOTIFICATIONS.SEND}
         />
     );
 }

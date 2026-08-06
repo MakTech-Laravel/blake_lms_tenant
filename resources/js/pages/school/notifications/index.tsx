@@ -1,5 +1,6 @@
 import { ModuleFixturePage } from '@/components/aquacert/module-fixture-page';
 import { schoolNotifications } from '@/data/modules/school-modules';
+import { PERMISSIONS } from '@/types/permissions';
 
 export default function SchoolNotificationsPage() {
     return (
@@ -9,6 +10,7 @@ export default function SchoolNotificationsPage() {
             columns={schoolNotifications.columns}
             rows={schoolNotifications.rows}
             createLabel="Send Notification"
+            createPermission={PERMISSIONS.SCHOOL_NOTIFICATIONS.SEND}
         />
     );
 }

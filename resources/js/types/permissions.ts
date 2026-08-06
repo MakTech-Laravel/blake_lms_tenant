@@ -1,7 +1,8 @@
 // =============================================================================
-// PERMISSIONS — Fixed, developer-defined, seeded from CSV.
+// PERMISSIONS — Fixed, developer-defined, seeded from PermissionEnum.
 // Never created, edited, or deleted from the UI.
-// To add a new permission: add it here + permissions.csv, re-run seeder.
+// To add a new permission: add it to app/Enums/PermissionEnum.php + here,
+// then re-run: php artisan db:seed --class=PermissionSeeder
 // =============================================================================
 
 export const PERMISSIONS = {
@@ -16,6 +17,7 @@ export const PERMISSIONS = {
     },
     FILE_UPLOAD: {
         INDEX: 'file-upload.index',
+        STORE: 'file-upload.store',
     },
     POSTS: {
         INDEX: 'posts.index',
@@ -47,12 +49,12 @@ export const PERMISSIONS = {
     SETTINGS: {
         INDEX: 'settings.index',
         VIEW: 'settings.view',
+        CREATE: 'settings.create',
         EDIT: 'settings.edit',
-    },
-    REPORTS: {
-        INDEX: 'reports.index',
-        VIEW: 'reports.view',
-        EXPORT: 'reports.export',
+        DELETE: 'settings.delete',
+        IMPORT: 'settings.import',
+        EXPORT: 'settings.export',
+        PRINT: 'settings.print',
     },
 
     // ── Platform domain — tenant (school) management ─────────────────────────
@@ -63,14 +65,94 @@ export const PERMISSIONS = {
         EDIT: 'platform.schools.edit',
         DELETE: 'platform.schools.delete',
     },
+    PLATFORM_LOCATIONS: {
+        INDEX: 'platform.locations.index',
+        VIEW: 'platform.locations.view',
+        CREATE: 'platform.locations.create',
+        EDIT: 'platform.locations.edit',
+        DELETE: 'platform.locations.delete',
+    },
+    PLATFORM_SUBSCRIPTIONS: {
+        INDEX: 'platform.subscriptions.index',
+        VIEW: 'platform.subscriptions.view',
+        CREATE: 'platform.subscriptions.create',
+        EDIT: 'platform.subscriptions.edit',
+        DELETE: 'platform.subscriptions.delete',
+        EXPORT: 'platform.subscriptions.export',
+    },
+    PLATFORM_LEARNING: {
+        INDEX: 'platform.learning.index',
+        VIEW: 'platform.learning.view',
+        CREATE: 'platform.learning.create',
+        EDIT: 'platform.learning.edit',
+        DELETE: 'platform.learning.delete',
+        PUBLISH: 'platform.learning.publish',
+    },
+    PLATFORM_PATHWAYS: {
+        INDEX: 'platform.pathways.index',
+        VIEW: 'platform.pathways.view',
+        CREATE: 'platform.pathways.create',
+        EDIT: 'platform.pathways.edit',
+        DELETE: 'platform.pathways.delete',
+        ASSIGN: 'platform.pathways.assign',
+    },
+    PLATFORM_ASSESSMENTS: {
+        INDEX: 'platform.assessments.index',
+        VIEW: 'platform.assessments.view',
+        CREATE: 'platform.assessments.create',
+        EDIT: 'platform.assessments.edit',
+        DELETE: 'platform.assessments.delete',
+        PUBLISH: 'platform.assessments.publish',
+    },
+    PLATFORM_CERTIFICATES: {
+        INDEX: 'platform.certificates.index',
+        VIEW: 'platform.certificates.view',
+        ISSUE: 'platform.certificates.issue',
+        DOWNLOAD: 'platform.certificates.download',
+        REVOKE: 'platform.certificates.revoke',
+        TEMPLATES_MANAGE: 'platform.certificates.templates.manage',
+    },
+    PLATFORM_REPORTS: {
+        INDEX: 'platform.reports.index',
+        VIEW: 'platform.reports.view',
+        CREATE: 'platform.reports.create',
+        RUN: 'platform.reports.run',
+        EXPORT: 'platform.reports.export',
+    },
+    PLATFORM_NOTIFICATIONS: {
+        INDEX: 'platform.notifications.index',
+        VIEW: 'platform.notifications.view',
+        SEND: 'platform.notifications.send',
+        EDIT: 'platform.notifications.edit',
+        DELETE: 'platform.notifications.delete',
+    },
+    PLATFORM_SUPPORT: {
+        INDEX: 'platform.support.index',
+        IMPERSONATE: 'platform.support.impersonate',
+        AUDIT_EXPORT: 'platform.support.audit.export',
+        PASSWORD_RESET: 'platform.support.password.reset',
+        FEATURE_FLAGS: 'platform.support.feature-flags.toggle',
+    },
+    PLATFORM_SYSTEM: {
+        SECURITY_EDIT: 'platform.system.security.edit',
+        INTEGRATIONS_EDIT: 'platform.system.integrations.edit',
+        BILLING_VIEW: 'platform.system.billing.view',
+    },
 
     // ── School domain — isolated from the platform permission set ────────────
+    SCHOOL_DASHBOARD: {
+        VIEW: 'school.dashboard.view',
+    },
     SCHOOL_BRANCHES: {
         INDEX: 'school.branches.index',
         VIEW: 'school.branches.view',
         CREATE: 'school.branches.create',
         EDIT: 'school.branches.edit',
         DELETE: 'school.branches.delete',
+    },
+    SCHOOL_LOCATIONS: {
+        INDEX: 'school.locations.index',
+        VIEW: 'school.locations.view',
     },
     SCHOOL_STAFF: {
         INDEX: 'school.staff.index',
@@ -92,14 +174,72 @@ export const PERMISSIONS = {
         CREATE: 'school.courses.create',
         EDIT: 'school.courses.edit',
         DELETE: 'school.courses.delete',
+        PUBLISH: 'school.courses.publish',
+        ASSIGN: 'school.courses.assign',
+    },
+    SCHOOL_LIBRARY: {
+        INDEX: 'school.library.index',
+        VIEW: 'school.library.view',
+        UPLOAD: 'school.library.upload',
+        EDIT: 'school.library.edit',
+        DELETE: 'school.library.delete',
+    },
+    SCHOOL_PATHWAYS: {
+        INDEX: 'school.pathways.index',
+        VIEW: 'school.pathways.view',
+        CREATE: 'school.pathways.create',
+        EDIT: 'school.pathways.edit',
+        DELETE: 'school.pathways.delete',
+        ASSIGN: 'school.pathways.assign',
+    },
+    SCHOOL_ASSIGNMENTS: {
+        INDEX: 'school.assignments.index',
+        VIEW: 'school.assignments.view',
+        CREATE: 'school.assignments.create',
+        EDIT: 'school.assignments.edit',
+        DELETE: 'school.assignments.delete',
+    },
+    SCHOOL_ASSESSMENTS: {
+        INDEX: 'school.assessments.index',
+        VIEW: 'school.assessments.view',
+        CREATE: 'school.assessments.create',
+        EDIT: 'school.assessments.edit',
+        DELETE: 'school.assessments.delete',
+        PUBLISH: 'school.assessments.publish',
+        GRADE: 'school.assessments.grade',
+    },
+    SCHOOL_CERTIFICATES: {
+        INDEX: 'school.certificates.index',
+        VIEW: 'school.certificates.view',
+        ISSUE: 'school.certificates.issue',
+        DOWNLOAD: 'school.certificates.download',
+        REVOKE: 'school.certificates.revoke',
     },
     SCHOOL_BILLING: {
         VIEW: 'school.billing.view',
         EXPORT: 'school.billing.export',
+        INVOICE_DOWNLOAD: 'school.billing.invoice.download',
+        MANAGE: 'school.billing.manage',
+    },
+    SCHOOL_REPORTS: {
+        INDEX: 'school.reports.index',
+        VIEW: 'school.reports.view',
+        CREATE: 'school.reports.create',
+        EXPORT: 'school.reports.export',
+    },
+    SCHOOL_NOTIFICATIONS: {
+        INDEX: 'school.notifications.index',
+        VIEW: 'school.notifications.view',
+        SEND: 'school.notifications.send',
+        EDIT: 'school.notifications.edit',
+        DELETE: 'school.notifications.delete',
     },
     SCHOOL_SETTINGS: {
         VIEW: 'school.settings.view',
         EDIT: 'school.settings.edit',
+        BRANDING_EDIT: 'school.settings.branding.edit',
+        COMPLIANCE_EDIT: 'school.settings.compliance.edit',
+        NOTIFICATIONS_EDIT: 'school.settings.notifications.edit',
     },
 } as const;
 
@@ -117,17 +257,6 @@ export type PermissionKey = {
 // `group` is ONLY used when fetching the full permission list for the
 // role management UI (e.g. GET /admin/permissions).
 // It is NOT included in auth.permissions — that is a flat PermissionKey[].
-//
-// With group:
-//   Useful for rendering grouped checkboxes in the role editor UI.
-//   Example grouped output:
-//     Posts       → [ ] posts.view  [ ] posts.create  [ ] posts.edit ...
-//     Users       → [ ] users.view  [ ] users.create  ...
-//     Roles       → [ ] roles.view  ...
-//
-// Without group:
-//   If you don't need grouping in your UI, ignore `group` entirely.
-//   The flat permissions array on auth.user is always enough for can() checks.
 // =============================================================================
 
 // Use this when you need grouping in the role management UI
@@ -146,8 +275,7 @@ export interface PermissionFlat {
 }
 
 // Helper type: permissions grouped by their group key.
-// Returned by the groupPermissions() utility below.
-// Example: { Posts: [Permission, ...], Users: [...] }
+// Returned by groupByGroup() in types/admin.ts.
 export type PermissionsByGroup = Record<string, Permission[]>;
 
 // =============================================================================
@@ -173,40 +301,4 @@ export interface CreateRolePayload {
 export interface UpdateRolePayload {
     name?: string;
     permissions: PermissionKey[];
-}
-
-// =============================================================================
-// UTILITY — group a flat Permission[] by their group field.
-//
-// Use this on the role management page to render grouped checkboxes.
-//
-// Example:
-//   const grouped = groupPermissions(permissions);
-//   // {
-//   //   Posts:    [{ id:1, name:'posts.view', group:'Posts' }, ...],
-//   //   Users:    [{ id:6, name:'users.view', group:'Users' }, ...],
-//   //   ...
-//   // }
-//
-//   Object.entries(grouped).map(([group, perms]) => (
-//     <fieldset key={group}>
-//       <legend>{group}</legend>
-//       {perms.map(p => <Checkbox key={p.id} label={p.name} />)}
-//     </fieldset>
-//   ))
-// =============================================================================
-export function groupPermissions(
-    permissions: Permission[],
-): PermissionsByGroup {
-    return permissions.reduce<PermissionsByGroup>((acc, permission) => {
-        const key = permission.group ?? 'Other';
-
-        if (!acc[key]) {
-            acc[key] = [];
-        }
-
-        acc[key].push(permission);
-
-        return acc;
-    }, {});
 }

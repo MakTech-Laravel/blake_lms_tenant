@@ -26,7 +26,8 @@ Route::middleware(['auth', 'verified', 'type:platform'])
     ->prefix('platform')
     ->name('platform.')
     ->group(function () {
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard')
+            ->middleware('permission:'.PermissionEnum::DASHBOARD_VIEW->value);
 
         // ── Schools (tenants) ─────────────────────────────────────────────────
         Route::get('schools', [SchoolController::class, 'index'])->name('schools.index')
@@ -76,31 +77,46 @@ Route::middleware(['auth', 'verified', 'type:platform'])
 
         // ── AquaCert UI modules (fixture-backed dedicated pages) ──────────────
         Route::get('organizations', fn () => Inertia::render('platform/organizations'))
-            ->name('organizations.index');
+            ->name('organizations.index')
+            ->middleware('permission:'.PermissionEnum::PLATFORM_SCHOOLS_INDEX->value);
         Route::get('locations', fn () => Inertia::render('platform/locations/index'))
-            ->name('locations.index');
+            ->name('locations.index')
+            ->middleware('permission:'.PermissionEnum::PLATFORM_LOCATIONS_INDEX->value);
         Route::get('subscriptions', fn () => Inertia::render('platform/subscriptions/index'))
-            ->name('subscriptions.index');
-        Route::get('people', [UserController::class, 'people'])->name('people.index');
+            ->name('subscriptions.index')
+            ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_INDEX->value);
+        Route::get('people', [UserController::class, 'people'])->name('people.index')
+            ->middleware('permission:'.PermissionEnum::USERS_INDEX->value);
         Route::get('access', fn () => Inertia::render('platform/access/index'))
-            ->name('access.index');
+            ->name('access.index')
+            ->middleware('permission:'.PermissionEnum::ROLES_INDEX->value);
         Route::get('learning', fn () => Inertia::render('platform/learning/index'))
-            ->name('learning.index');
+            ->name('learning.index')
+            ->middleware('permission:'.PermissionEnum::PLATFORM_LEARNING_INDEX->value);
         Route::get('pathways', fn () => Inertia::render('platform/pathways/index'))
-            ->name('pathways.index');
+            ->name('pathways.index')
+            ->middleware('permission:'.PermissionEnum::PLATFORM_PATHWAYS_INDEX->value);
         Route::get('assessments', fn () => Inertia::render('platform/assessments/index'))
-            ->name('assessments.index');
+            ->name('assessments.index')
+            ->middleware('permission:'.PermissionEnum::PLATFORM_ASSESSMENTS_INDEX->value);
         Route::controller(CertificateController::class)->group(function () {
-            Route::get('certificates', 'index')->name('certificates.index');
-            Route::post('certificates', 'store')->name('certificates.store');
-            Route::get('certificates/{certificate}/download', 'download')->name('certificates.download');
+            Route::get('certificates', 'index')->name('certificates.index')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_CERTIFICATES_INDEX->value);
+            Route::post('certificates', 'store')->name('certificates.store')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_CERTIFICATES_ISSUE->value);
+            Route::get('certificates/{certificate}/download', 'download')->name('certificates.download')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_CERTIFICATES_DOWNLOAD->value);
         });
         Route::get('reports', fn () => Inertia::render('platform/reports/index'))
-            ->name('reports.index');
+            ->name('reports.index')
+            ->middleware('permission:'.PermissionEnum::PLATFORM_REPORTS_INDEX->value);
         Route::get('notifications', fn () => Inertia::render('platform/notifications/index'))
-            ->name('notifications.index');
+            ->name('notifications.index')
+            ->middleware('permission:'.PermissionEnum::PLATFORM_NOTIFICATIONS_INDEX->value);
         Route::get('support', fn () => Inertia::render('platform/support/index'))
-            ->name('support.index');
+            ->name('support.index')
+            ->middleware('permission:'.PermissionEnum::PLATFORM_SUPPORT_INDEX->value);
         Route::get('system-settings', fn () => Inertia::render('platform/system-settings/index'))
-            ->name('system_settings.index');
+            ->name('system_settings.index')
+            ->middleware('permission:'.PermissionEnum::SETTINGS_VIEW->value);
     });

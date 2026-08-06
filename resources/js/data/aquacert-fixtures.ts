@@ -1,4 +1,5 @@
 import { brandColors } from '@/lib/brand-colors';
+import { PERMISSIONS } from '@/types/permissions';
 
 export type StatMetric = {
     label: string;
@@ -18,6 +19,7 @@ export type ActivityItem = {
 export type QuickAction = {
     id: string;
     label: string;
+    permissions?: import('@/types/permissions').PermissionKey[];
 };
 
 export type ChartPoint = {
@@ -135,12 +137,36 @@ export const platformOverview = {
         },
     ] satisfies ActivityItem[],
     quickActions: [
-        { id: '1', label: 'Create Organization' },
-        { id: '2', label: 'Create Plan' },
-        { id: '3', label: 'Create Course' },
-        { id: '4', label: 'Create Pathway' },
-        { id: '5', label: 'Send Announcement' },
-        { id: '6', label: 'Generate Report' },
+        {
+            id: '1',
+            label: 'Create Organization',
+            permissions: [PERMISSIONS.SCHOOLS.CREATE],
+        },
+        {
+            id: '2',
+            label: 'Create Plan',
+            permissions: [PERMISSIONS.PLATFORM_SUBSCRIPTIONS.CREATE],
+        },
+        {
+            id: '3',
+            label: 'Create Course',
+            permissions: [PERMISSIONS.PLATFORM_LEARNING.CREATE],
+        },
+        {
+            id: '4',
+            label: 'Create Pathway',
+            permissions: [PERMISSIONS.PLATFORM_PATHWAYS.CREATE],
+        },
+        {
+            id: '5',
+            label: 'Send Announcement',
+            permissions: [PERMISSIONS.PLATFORM_NOTIFICATIONS.SEND],
+        },
+        {
+            id: '6',
+            label: 'Generate Report',
+            permissions: [PERMISSIONS.PLATFORM_REPORTS.CREATE],
+        },
     ] satisfies QuickAction[],
     organizations: [
         {
@@ -329,12 +355,36 @@ export const schoolOverview = {
         },
     ],
     quickActions: [
-        { id: '1', label: 'Add Staff' },
-        { id: '2', label: 'Create Course' },
-        { id: '3', label: 'Assign Training' },
-        { id: '4', label: 'Create Pathway' },
-        { id: '5', label: 'Generate Report' },
-        { id: '6', label: 'View Certificates' },
+        {
+            id: '1',
+            label: 'Add Staff',
+            permissions: [PERMISSIONS.SCHOOL_STAFF.CREATE],
+        },
+        {
+            id: '2',
+            label: 'Create Course',
+            permissions: [PERMISSIONS.SCHOOL_COURSES.CREATE],
+        },
+        {
+            id: '3',
+            label: 'Assign Training',
+            permissions: [PERMISSIONS.SCHOOL_ASSIGNMENTS.CREATE],
+        },
+        {
+            id: '4',
+            label: 'Create Pathway',
+            permissions: [PERMISSIONS.SCHOOL_PATHWAYS.CREATE],
+        },
+        {
+            id: '5',
+            label: 'Generate Report',
+            permissions: [PERMISSIONS.SCHOOL_REPORTS.CREATE],
+        },
+        {
+            id: '6',
+            label: 'View Certificates',
+            permissions: [PERMISSIONS.SCHOOL_CERTIFICATES.INDEX],
+        },
     ] satisfies QuickAction[],
 };
 

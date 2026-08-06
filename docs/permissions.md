@@ -86,23 +86,47 @@ PermissionEnum::forDomain(PermissionDomain::SCHOOL); // array<PermissionEnum>
 
 ## 2. Naming convention
 
-Permissions are named `module.action` (dot-separated, lowercase, kebab within a segment). Real examples already seeded (from [`PermissionEnum`](../app/Enums/PermissionEnum.php)):
+Permissions are named `module.action` (dot-separated, lowercase, kebab within a segment). Legacy platform permissions keep bare names (`users.index`, `settings.edit`); **new** platform modules use a `platform.*` prefix. Every school permission starts with `school.`.
 
 | Domain | Name | Group |
 |---|---|---|
 | platform | `dashboard.view` | Dashboard |
-| platform | `users.index`, `users.create`, `users.edit`, `users.delete` | Users |
-| platform | `roles.index`, `roles.create`, `roles.edit`, `roles.delete` | Roles |
+| platform | `users.index` … `users.impersonate` | Users |
+| platform | `roles.index` … `roles.delete` | Roles |
 | platform | `permissions.index`, `permissions.export` | Permissions |
-| platform | `platform.schools.index`, `platform.schools.view`, `platform.schools.edit` | Schools |
-| platform | `settings.view`, `settings.edit` | Settings |
-| school | `school.staff.index`, `school.staff.create`, `school.staff.edit`, `school.staff.delete` | Staff |
-| school | `school.roles.index` … `school.roles.delete` | Roles |
-| school | `school.courses.index` … `school.courses.delete` | Courses |
-| school | `school.billing.view`, `school.billing.export` | Billing |
-| school | `school.settings.view`, `school.settings.edit` | Settings |
+| platform | `platform.schools.*` | Schools |
+| platform | `platform.locations.*` | Locations |
+| platform | `platform.subscriptions.*` | Subscriptions |
+| platform | `platform.learning.*` | Learning |
+| platform | `platform.pathways.*` | Pathways |
+| platform | `platform.assessments.*` | Assessments |
+| platform | `platform.certificates.*` | Certificates |
+| platform | `platform.reports.*` | Reports |
+| platform | `platform.notifications.*` | Notifications |
+| platform | `platform.support.*` | Support Tools |
+| platform | `platform.system.*` | System |
+| platform | `settings.*` | Settings |
+| school | `school.dashboard.view` | Dashboard |
+| school | `school.branches.*` | Branches |
+| school | `school.locations.index`, `school.locations.view` | Locations |
+| school | `school.staff.*` | Staff |
+| school | `school.roles.*` | Roles |
+| school | `school.courses.*` (incl. publish, assign) | Courses |
+| school | `school.library.*` | Library |
+| school | `school.pathways.*` | Pathways |
+| school | `school.assignments.*` | Assignments |
+| school | `school.assessments.*` | Assessments |
+| school | `school.certificates.*` | Certificates |
+| school | `school.billing.*` | Billing |
+| school | `school.reports.*` | Reports |
+| school | `school.notifications.*` | Notifications |
+| school | `school.settings.*` | Settings |
 
 The `group` (e.g. "Courses", "Billing") is the display grouping used by the role-assignment UI's grouped checkboxes. It comes from `PermissionEnum::group()`.
+
+Teachers/learners stay **permission-free** — the teacher portal is gated by ownership/enrollment checks only, not Spatie permissions.
+
+Keep the TS mirror in sync: `tests/Feature/PermissionParityTest.php` asserts a two-way match between `PermissionEnum` and `resources/js/types/permissions.ts`.
 
 ---
 

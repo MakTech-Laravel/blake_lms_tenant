@@ -1,5 +1,6 @@
 import { ModuleFixturePage } from '@/components/aquacert/module-fixture-page';
 import { platformLocations } from '@/data/modules/platform-modules';
+import { PERMISSIONS } from '@/types/permissions';
 
 export default function PlatformLocationsPage() {
     return (
@@ -9,6 +10,7 @@ export default function PlatformLocationsPage() {
             columns={platformLocations.columns}
             rows={platformLocations.rows}
             createLabel="Add Location"
+            createPermission={PERMISSIONS.PLATFORM_LOCATIONS.CREATE}
         />
     );
 }

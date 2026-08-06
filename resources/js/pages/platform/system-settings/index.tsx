@@ -3,8 +3,27 @@ import { AquaPageHeader } from '@/components/aquacert/aqua-page-header';
 import { SectionCard } from '@/components/aquacert/section-card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { platformSystemSettings } from '@/data/modules/platform-modules';
+import { usePermission } from '@/hooks/use-permissions';
+import { PERMISSIONS } from '@/types/permissions';
+import type { PermissionKey } from '@/types/permissions';
+
+const tabPermissions: Record<string, PermissionKey | undefined> = {
+    integrations: PERMISSIONS.PLATFORM_SYSTEM.INTEGRATIONS_EDIT,
+    security: PERMISSIONS.PLATFORM_SYSTEM.SECURITY_EDIT,
+    billing: PERMISSIONS.PLATFORM_SYSTEM.BILLING_VIEW,
+};
 
 export default function PlatformSystemSettingsPage() {
+    const { can } = usePermission();
+
+    const tabs = platformSystemSettings.tabs.filter((tab) => {
+        const permission = tabPermissions[tab.id];
+
+        return !permission || can(permission);
+    });
+
+    const defaultTab = tabs[0]?.id ?? platformSystemSettings.tabs[0].id;
+
     return (
         <>
             <Head title={platformSystemSettings.title} />
@@ -13,9 +32,9 @@ export default function PlatformSystemSettingsPage() {
                     title={platformSystemSettings.title}
                     subtitle={platformSystemSettings.subtitle}
                 />
-                <Tabs defaultValue={platformSystemSettings.tabs[0].id}>
+                <Tabs defaultValue={defaultTab}>
                     <TabsList className="flex h-auto flex-wrap gap-1 bg-navy-50/60 p-1">
-                        {platformSystemSettings.tabs.map((tab) => (
+                        {tabs.map((tab) => (
                             <TabsTrigger
                                 key={tab.id}
                                 value={tab.id}
@@ -25,7 +44,7 @@ export default function PlatformSystemSettingsPage() {
                             </TabsTrigger>
                         ))}
                     </TabsList>
-                    {platformSystemSettings.tabs.map((tab) => (
+                    {tabs.map((tab) => (
                         <TabsContent
                             key={tab.id}
                             value={tab.id}

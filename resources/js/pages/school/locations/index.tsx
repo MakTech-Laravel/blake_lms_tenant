@@ -1,6 +1,7 @@
 import { ModuleFixturePage } from '@/components/aquacert/module-fixture-page';
 import type { ModuleRow } from '@/data/modules/platform-modules';
 import { schoolLocations } from '@/data/modules/school-modules';
+import { PERMISSIONS } from '@/types/permissions';
 
 type Props = {
     locations?: ModuleRow[];
@@ -17,6 +18,7 @@ export default function SchoolLocationsPage({ locations }: Props) {
             columns={schoolLocations.columns}
             rows={rows}
             createLabel="Add Location"
+            createPermission={PERMISSIONS.SCHOOL_BRANCHES.CREATE}
         />
     );
 }

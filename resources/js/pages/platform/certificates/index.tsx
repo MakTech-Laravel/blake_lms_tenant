@@ -17,6 +17,8 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { platformCertificates } from '@/data/modules/platform-modules';
+import { usePermission } from '@/hooks/use-permissions';
+import { PERMISSIONS } from '@/types/permissions';
 
 type LiveCertificate = {
     id: number;
@@ -44,6 +46,11 @@ export default function PlatformCertificatesPage({
     certificates,
     templates = [],
 }: Props) {
+    const { can } = usePermission();
+    const canIssue = can(PERMISSIONS.PLATFORM_CERTIFICATES.ISSUE);
+    const canDownload = can(PERMISSIONS.PLATFORM_CERTIFICATES.DOWNLOAD);
+    const canRevoke = can(PERMISSIONS.PLATFORM_CERTIFICATES.REVOKE);
+
     const rows =
         certificates && certificates.length > 0
             ? certificates
@@ -72,10 +79,12 @@ export default function PlatformCertificatesPage({
                             : platformCertificates.subtitle
                     }
                     actions={
-                        <Button className="bg-navy-500 text-white hover:bg-navy-600">
-                            <Plus className="size-4" />
-                            Issue Certificate
-                        </Button>
+                        canIssue ? (
+                            <Button className="bg-navy-500 text-white hover:bg-navy-600">
+                                <Plus className="size-4" />
+                                Issue Certificate
+                            </Button>
+                        ) : undefined
                     }
                 />
 
@@ -125,32 +134,33 @@ export default function PlatformCertificatesPage({
                                             <StatusBadge status={row.status} />
                                         </TableCell>
                                         <TableCell>
-                                            {certificates &&
-                                            certificates.length > 0 ? (
-                                                <Button
-                                                    asChild
-                                                    size="sm"
-                                                    variant="outline"
-                                                >
-                                                    <a
-                                                        href={`/platform/certificates/${row.id}/download`}
+                                            {canDownload &&
+                                                (certificates &&
+                                                certificates.length > 0 ? (
+                                                    <Button
+                                                        asChild
+                                                        size="sm"
+                                                        variant="outline"
                                                     >
-                                                        <Download className="size-4" />
-                                                        PDF
-                                                    </a>
-                                                </Button>
-                                            ) : (
-                                                <Button
-                                                    size="sm"
-                                                    variant="outline"
-                                                    type="button"
-                                                    onClick={() =>
-                                                        setSelected(row)
-                                                    }
-                                                >
-                                                    Preview
-                                                </Button>
-                                            )}
+                                                        <a
+                                                            href={`/platform/certificates/${row.id}/download`}
+                                                        >
+                                                            <Download className="size-4" />
+                                                            PDF
+                                                        </a>
+                                                    </Button>
+                                                ) : (
+                                                    <Button
+                                                        size="sm"
+                                                        variant="outline"
+                                                        type="button"
+                                                        onClick={() =>
+                                                            setSelected(row)
+                                                        }
+                                                    >
+                                                        Preview
+                                                    </Button>
+                                                ))}
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -170,18 +180,33 @@ export default function PlatformCertificatesPage({
                 title={selected?.course ?? 'Certificate'}
                 description={selected?.number}
                 footer={
-                    selected && certificates && certificates.length > 0 ? (
-                        <Button
-                            asChild
-                            className="bg-navy-500 text-white hover:bg-navy-600"
-                        >
-                            <a
-                                href={`/platform/certificates/${selected.id}/download`}
-                            >
-                                <Download className="size-4" />
-                                Download PDF
-                            </a>
-                        </Button>
+                    selected && (canDownload || canRevoke) ? (
+                        <div className="flex flex-wrap gap-2">
+                            {canDownload &&
+                                certificates &&
+                                certificates.length > 0 && (
+                                    <Button
+                                        asChild
+                                        className="bg-navy-500 text-white hover:bg-navy-600"
+                                    >
+                                        <a
+                                            href={`/platform/certificates/${selected.id}/download`}
+                                        >
+                                            <Download className="size-4" />
+                                            Download PDF
+                                        </a>
+                                    </Button>
+                                )}
+                            {canRevoke && (
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    className="border-navy-100 text-navy-400"
+                                >
+                                    Revoke
+                                </Button>
+                            )}
+                        </div>
                     ) : null
                 }
             >

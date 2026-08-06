@@ -29,41 +29,92 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes/platform';
+import { PERMISSIONS } from '@/types/permissions';
 
 const mainNav: NavNode[] = [
-    { title: 'Dashboard', href: dashboard(), icon: LayoutGrid },
+    {
+        title: 'Dashboard',
+        href: dashboard(),
+        icon: LayoutGrid,
+        permissions: [PERMISSIONS.DASHBOARD.VIEW],
+    },
     {
         title: 'Organizations',
         href: '/platform/organizations',
         icon: Building2,
+        permissions: [PERMISSIONS.SCHOOLS.INDEX],
     },
-    { title: 'Locations', href: '/platform/locations', icon: MapPin },
+    {
+        title: 'Locations',
+        href: '/platform/locations',
+        icon: MapPin,
+        permissions: [PERMISSIONS.PLATFORM_LOCATIONS.INDEX],
+    },
     {
         title: 'Subscriptions',
         href: '/platform/subscriptions',
         icon: CreditCard,
+        permissions: [PERMISSIONS.PLATFORM_SUBSCRIPTIONS.INDEX],
     },
-    { title: 'People', href: '/platform/people', icon: Users },
-    { title: 'Roles & Permissions', href: '/platform/access', icon: Shield },
-    { title: 'Learning', href: '/platform/learning', icon: BookOpen },
-    { title: 'Learning Pathways', href: '/platform/pathways', icon: Route },
+    {
+        title: 'People',
+        href: '/platform/people',
+        icon: Users,
+        permissions: [PERMISSIONS.USERS.INDEX],
+    },
+    {
+        title: 'Roles & Permissions',
+        href: '/platform/access',
+        icon: Shield,
+        permissions: [PERMISSIONS.ROLES.INDEX],
+    },
+    {
+        title: 'Learning',
+        href: '/platform/learning',
+        icon: BookOpen,
+        permissions: [PERMISSIONS.PLATFORM_LEARNING.INDEX],
+    },
+    {
+        title: 'Learning Pathways',
+        href: '/platform/pathways',
+        icon: Route,
+        permissions: [PERMISSIONS.PLATFORM_PATHWAYS.INDEX],
+    },
     {
         title: 'Assessments',
         href: '/platform/assessments',
         icon: ClipboardCheck,
+        permissions: [PERMISSIONS.PLATFORM_ASSESSMENTS.INDEX],
     },
     {
         title: 'Certificates',
         href: '/platform/certificates',
         icon: FileBadge2,
+        permissions: [PERMISSIONS.PLATFORM_CERTIFICATES.INDEX],
     },
-    { title: 'Reports', href: '/platform/reports', icon: GitBranch },
-    { title: 'Notifications', href: '/platform/notifications', icon: Bell },
-    { title: 'Support Tools', href: '/platform/support', icon: LifeBuoy },
+    {
+        title: 'Reports',
+        href: '/platform/reports',
+        icon: GitBranch,
+        permissions: [PERMISSIONS.PLATFORM_REPORTS.INDEX],
+    },
+    {
+        title: 'Notifications',
+        href: '/platform/notifications',
+        icon: Bell,
+        permissions: [PERMISSIONS.PLATFORM_NOTIFICATIONS.INDEX],
+    },
+    {
+        title: 'Support Tools',
+        href: '/platform/support',
+        icon: LifeBuoy,
+        permissions: [PERMISSIONS.PLATFORM_SUPPORT.INDEX],
+    },
     {
         title: 'System Settings',
         href: '/platform/system-settings',
         icon: Settings,
+        permissions: [PERMISSIONS.SETTINGS.VIEW],
     },
 ];
 

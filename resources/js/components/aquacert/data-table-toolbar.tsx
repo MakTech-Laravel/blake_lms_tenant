@@ -1,14 +1,21 @@
 import { Download, Filter, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { usePermission } from '@/hooks/use-permissions';
+import type { PermissionKey } from '@/types/permissions';
 
 type DataTableToolbarProps = {
     placeholder?: string;
+    exportPermission?: PermissionKey;
 };
 
 export function DataTableToolbar({
     placeholder = 'Search...',
+    exportPermission,
 }: DataTableToolbarProps) {
+    const { can } = usePermission();
+    const canExport = !exportPermission || can(exportPermission);
+
     return (
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="relative max-w-sm flex-1">
@@ -28,14 +35,16 @@ export function DataTableToolbar({
                     <Filter className="size-4" />
                     Filters
                 </Button>
-                <Button
-                    type="button"
-                    variant="outline"
-                    className="border-navy-100 text-navy-400"
-                >
-                    <Download className="size-4" />
-                    Export
-                </Button>
+                {canExport && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        className="border-navy-100 text-navy-400"
+                    >
+                        <Download className="size-4" />
+                        Export
+                    </Button>
+                )}
             </div>
         </div>
     );

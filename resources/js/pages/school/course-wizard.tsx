@@ -15,6 +15,8 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
+import { usePermission } from '@/hooks/use-permissions';
+import { PERMISSIONS } from '@/types/permissions';
 
 const steps = [
     { id: 1, title: 'Course Details', description: 'Name, category, duration' },
@@ -28,6 +30,8 @@ const steps = [
 ];
 
 export default function CourseWizard() {
+    const { can } = usePermission();
+    const canCreate = can(PERMISSIONS.SCHOOL_COURSES.CREATE);
     const [step, setStep] = useState(1);
     const [thumbnail, setThumbnail] = useState<File | File[] | null>(null);
     const [video, setVideo] = useState<File | File[] | null>(null);
@@ -216,9 +220,11 @@ export default function CourseWizard() {
                             >
                                 Back
                             </Button>
-                            <Button type="button" variant="outline">
-                                Save as Draft
-                            </Button>
+                            {canCreate && (
+                                <Button type="button" variant="outline">
+                                    Save as Draft
+                                </Button>
+                            )}
                             <Button
                                 type="button"
                                 className="bg-navy-500 text-white hover:bg-navy-600"
@@ -227,6 +233,7 @@ export default function CourseWizard() {
                                         Math.min(4, current + 1),
                                     )
                                 }
+                                disabled={step === 4 && !canCreate}
                             >
                                 {step === 4 ? 'Finish' : 'Next Step'}
                             </Button>

@@ -1,5 +1,6 @@
 import { ModuleFixturePage } from '@/components/aquacert/module-fixture-page';
 import { platformLearning } from '@/data/modules/platform-modules';
+import { PERMISSIONS } from '@/types/permissions';
 
 export default function PlatformLearningPage() {
     return (
@@ -9,6 +10,7 @@ export default function PlatformLearningPage() {
             columns={platformLearning.columns}
             rows={platformLearning.rows}
             createLabel="Create Course"
+            createPermission={PERMISSIONS.PLATFORM_LEARNING.CREATE}
         />
     );
 }

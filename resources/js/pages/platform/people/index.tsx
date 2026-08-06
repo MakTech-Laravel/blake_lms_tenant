@@ -1,6 +1,7 @@
 import { ModuleFixturePage } from '@/components/aquacert/module-fixture-page';
 import { platformPeople } from '@/data/modules/platform-modules';
 import type { ModuleRow } from '@/data/modules/platform-modules';
+import { PERMISSIONS } from '@/types/permissions';
 
 type Props = {
     people?: ModuleRow[];
@@ -16,6 +17,7 @@ export default function PlatformPeoplePage({ people }: Props) {
             columns={platformPeople.columns}
             rows={rows}
             createLabel="Invite Person"
+            createPermission={PERMISSIONS.USERS.CREATE}
         />
     );
 }

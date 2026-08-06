@@ -1,5 +1,6 @@
 import { ModuleFixturePage } from '@/components/aquacert/module-fixture-page';
 import { platformPathways } from '@/data/modules/platform-modules';
+import { PERMISSIONS } from '@/types/permissions';
 
 export default function PlatformPathwaysPage() {
     return (
@@ -9,6 +10,7 @@ export default function PlatformPathwaysPage() {
             columns={platformPathways.columns}
             rows={platformPathways.rows}
             createLabel="Create Pathway"
+            createPermission={PERMISSIONS.PLATFORM_PATHWAYS.CREATE}
         />
     );
 }

@@ -11,8 +11,12 @@ use Database\Seeders\RoleSeeder;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 
+beforeEach(function () {
+    $this->withoutVite();
+});
+
 test('platform module pages render dedicated components', function () {
-    $user = User::factory()->platform()->create();
+    $user = platformSuperAdmin();
 
     $this->actingAs($user)
         ->get(route('platform.locations.index'))
@@ -44,7 +48,7 @@ test('platform role create still uses role form page', function () {
 
 test('school module pages render dedicated components', function () {
     $school = School::factory()->create();
-    $user = User::factory()->schoolStaff($school)->create();
+    $user = schoolSuperAdmin($school);
 
     $this->actingAs($user)
         ->get(route('school.people.ui', $school))

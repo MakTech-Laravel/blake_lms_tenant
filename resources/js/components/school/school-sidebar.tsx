@@ -30,6 +30,7 @@ import {
 import { useBranch } from '@/hooks/use-branch';
 import { useTenant } from '@/hooks/use-tenant';
 import { dashboard } from '@/routes/school';
+import { PERMISSIONS } from '@/types/permissions';
 
 export function SchoolSidebar() {
     const school = useTenant();
@@ -37,49 +38,153 @@ export function SchoolSidebar() {
     const base = `/school/${school.slug}`;
 
     const headOfficeNav: NavNode[] = [
-        { title: 'Dashboard', href: dashboard(school.slug), icon: LayoutGrid },
-        { title: 'People', href: `${base}/people`, icon: Users },
-        { title: 'Roles & Permissions', href: `${base}/access`, icon: Shield },
-        { title: 'Locations', href: `${base}/locations`, icon: MapPin },
-        { title: 'Courses', href: `${base}/courses-ui`, icon: BookOpen },
-        { title: 'Library', href: `${base}/library`, icon: Library },
-        { title: 'Pathways', href: `${base}/pathways`, icon: Route },
-        { title: 'Assignments', href: `${base}/assignments`, icon: FolderOpen },
+        {
+            title: 'Dashboard',
+            href: dashboard(school.slug),
+            icon: LayoutGrid,
+            permissions: [PERMISSIONS.SCHOOL_DASHBOARD.VIEW],
+        },
+        {
+            title: 'People',
+            href: `${base}/people`,
+            icon: Users,
+            permissions: [PERMISSIONS.SCHOOL_STAFF.INDEX],
+        },
+        {
+            title: 'Roles & Permissions',
+            href: `${base}/access`,
+            icon: Shield,
+            permissions: [PERMISSIONS.SCHOOL_ROLES.INDEX],
+        },
+        {
+            title: 'Locations',
+            href: `${base}/locations`,
+            icon: MapPin,
+            permissions: [PERMISSIONS.SCHOOL_LOCATIONS.INDEX],
+        },
+        {
+            title: 'Courses',
+            href: `${base}/courses-ui`,
+            icon: BookOpen,
+            permissions: [PERMISSIONS.SCHOOL_COURSES.INDEX],
+        },
+        {
+            title: 'Library',
+            href: `${base}/library`,
+            icon: Library,
+            permissions: [PERMISSIONS.SCHOOL_LIBRARY.INDEX],
+        },
+        {
+            title: 'Pathways',
+            href: `${base}/pathways`,
+            icon: Route,
+            permissions: [PERMISSIONS.SCHOOL_PATHWAYS.INDEX],
+        },
+        {
+            title: 'Assignments',
+            href: `${base}/assignments`,
+            icon: FolderOpen,
+            permissions: [PERMISSIONS.SCHOOL_ASSIGNMENTS.INDEX],
+        },
         {
             title: 'Assessments',
             href: `${base}/assessments`,
             icon: ClipboardCheck,
+            permissions: [PERMISSIONS.SCHOOL_ASSESSMENTS.INDEX],
         },
         {
             title: 'Certificates',
             href: `${base}/certificates`,
             icon: FileBadge2,
+            permissions: [PERMISSIONS.SCHOOL_CERTIFICATES.INDEX],
         },
-        { title: 'Subscriptions', href: `${base}/billing`, icon: CreditCard },
-        { title: 'Reports', href: `${base}/reports`, icon: BookOpen },
-        { title: 'Notifications', href: `${base}/notifications`, icon: Bell },
-        { title: 'Settings', href: `${base}/settings`, icon: Settings },
+        {
+            title: 'Subscriptions',
+            href: `${base}/billing`,
+            icon: CreditCard,
+            permissions: [PERMISSIONS.SCHOOL_BILLING.VIEW],
+        },
+        {
+            title: 'Reports',
+            href: `${base}/reports`,
+            icon: BookOpen,
+            permissions: [PERMISSIONS.SCHOOL_REPORTS.INDEX],
+        },
+        {
+            title: 'Notifications',
+            href: `${base}/notifications`,
+            icon: Bell,
+            permissions: [PERMISSIONS.SCHOOL_NOTIFICATIONS.INDEX],
+        },
+        {
+            title: 'Settings',
+            href: `${base}/settings`,
+            icon: Settings,
+            permissions: [PERMISSIONS.SCHOOL_SETTINGS.VIEW],
+        },
     ];
 
     const branchNav: NavNode[] = [
-        { title: 'Dashboard', href: dashboard(school.slug), icon: LayoutGrid },
-        { title: 'People', href: `${base}/people`, icon: Users },
-        { title: 'Locations', href: `${base}/locations`, icon: MapPin },
-        { title: 'Courses', href: `${base}/courses-ui`, icon: BookOpen },
-        { title: 'Pathways', href: `${base}/pathways`, icon: Route },
-        { title: 'Assignments', href: `${base}/assignments`, icon: FolderOpen },
+        {
+            title: 'Dashboard',
+            href: dashboard(school.slug),
+            icon: LayoutGrid,
+            permissions: [PERMISSIONS.SCHOOL_DASHBOARD.VIEW],
+        },
+        {
+            title: 'People',
+            href: `${base}/people`,
+            icon: Users,
+            permissions: [PERMISSIONS.SCHOOL_STAFF.INDEX],
+        },
+        {
+            title: 'Locations',
+            href: `${base}/locations`,
+            icon: MapPin,
+            permissions: [PERMISSIONS.SCHOOL_LOCATIONS.INDEX],
+        },
+        {
+            title: 'Courses',
+            href: `${base}/courses-ui`,
+            icon: BookOpen,
+            permissions: [PERMISSIONS.SCHOOL_COURSES.INDEX],
+        },
+        {
+            title: 'Pathways',
+            href: `${base}/pathways`,
+            icon: Route,
+            permissions: [PERMISSIONS.SCHOOL_PATHWAYS.INDEX],
+        },
+        {
+            title: 'Assignments',
+            href: `${base}/assignments`,
+            icon: FolderOpen,
+            permissions: [PERMISSIONS.SCHOOL_ASSIGNMENTS.INDEX],
+        },
         {
             title: 'Assessments',
             href: `${base}/assessments`,
             icon: ClipboardCheck,
+            permissions: [PERMISSIONS.SCHOOL_ASSESSMENTS.INDEX],
         },
         {
             title: 'Certificates',
             href: `${base}/certificates`,
             icon: FileBadge2,
+            permissions: [PERMISSIONS.SCHOOL_CERTIFICATES.INDEX],
         },
-        { title: 'Reports', href: `${base}/reports`, icon: BookOpen },
-        { title: 'Notifications', href: `${base}/notifications`, icon: Bell },
+        {
+            title: 'Reports',
+            href: `${base}/reports`,
+            icon: BookOpen,
+            permissions: [PERMISSIONS.SCHOOL_REPORTS.INDEX],
+        },
+        {
+            title: 'Notifications',
+            href: `${base}/notifications`,
+            icon: Bell,
+            permissions: [PERMISSIONS.SCHOOL_NOTIFICATIONS.INDEX],
+        },
     ];
 
     const mainNav = isHeadOffice ? headOfficeNav : branchNav;

@@ -13,6 +13,8 @@ import { SectionCard } from '@/components/aquacert/section-card';
 import { StatusBadge } from '@/components/aquacert/status-badge';
 import { Button } from '@/components/ui/button';
 import { schoolOverview } from '@/data/aquacert-fixtures';
+import { usePermission } from '@/hooks/use-permissions';
+import { PERMISSIONS } from '@/types/permissions';
 
 interface SchoolDashboardProps {
     stats?: {
@@ -24,6 +26,7 @@ interface SchoolDashboardProps {
 }
 
 export default function SchoolDashboard({ stats = {} }: SchoolDashboardProps) {
+    const { can } = usePermission();
     const data = schoolOverview;
 
     return (
@@ -96,35 +99,59 @@ export default function SchoolDashboard({ stats = {} }: SchoolDashboardProps) {
                 </div>
 
                 <div className="grid gap-4 lg:grid-cols-3">
-                    <div className="lg:col-span-2">
-                        <AreaChartCard
-                            title="Training Completion Trend"
-                            data={data.completionTrend}
-                            secondaryKey="secondary"
-                            action={
-                                <Button
-                                    variant="outline"
-                                    className="border-navy-100 text-navy-400"
-                                    size="sm"
-                                    type="button"
-                                >
-                                    Filter
-                                </Button>
-                            }
+                    {can(PERMISSIONS.SCHOOL_COURSES.INDEX) && (
+                        <div className="lg:col-span-2">
+                            <AreaChartCard
+                                title="Training Completion Trend"
+                                data={data.completionTrend}
+                                secondaryKey="secondary"
+                                action={
+                                    <Button
+                                        variant="outline"
+                                        className="border-navy-100 text-navy-400"
+                                        size="sm"
+                                        type="button"
+                                    >
+                                        Filter
+                                    </Button>
+                                }
+                            />
+                        </div>
+                    )}
+                    {can(PERMISSIONS.SCHOOL_CERTIFICATES.INDEX) && (
+                        <DonutChartCard
+                            title="Certificate Status"
+                            data={data.certificates}
+                            centerLabel="439"
                         />
-                    </div>
-                    <DonutChartCard
-                        title="Certificate Status"
-                        data={data.certificates}
-                        centerLabel="439"
-                    />
+                    )}
                 </div>
 
                 <div className="grid gap-4 lg:grid-cols-3">
-                    <div className="lg:col-span-2">
-                        <BarChartCard
-                            title="Location Performance"
-                            data={data.locationPerformance}
+                    {can(PERMISSIONS.SCHOOL_LOCATIONS.INDEX) && (
+                        <div className="lg:col-span-2">
+                            <BarChartCard
+                                title="Location Performance"
+                                data={data.locationPerformance}
+                                action={
+                                    <Button
+                                        variant="link"
+                                        className="h-auto p-0 text-aqua-600"
+                                    >
+                                        View Report
+                                    </Button>
+                                }
+                            />
+                        </div>
+                    )}
+                    <ActivityFeed items={data.activity} />
+                </div>
+
+                <div className="grid gap-4 lg:grid-cols-3">
+                    {can(PERMISSIONS.SCHOOL_ASSIGNMENTS.INDEX) && (
+                        <SectionCard
+                            title="Upcoming Deadlines"
+                            className="lg:col-span-2"
                             action={
                                 <Button
                                     variant="link"
@@ -133,43 +160,27 @@ export default function SchoolDashboard({ stats = {} }: SchoolDashboardProps) {
                                     View Report
                                 </Button>
                             }
-                        />
-                    </div>
-                    <ActivityFeed items={data.activity} />
-                </div>
-
-                <div className="grid gap-4 lg:grid-cols-3">
-                    <SectionCard
-                        title="Upcoming Deadlines"
-                        className="lg:col-span-2"
-                        action={
-                            <Button
-                                variant="link"
-                                className="h-auto p-0 text-aqua-600"
-                            >
-                                View Report
-                            </Button>
-                        }
-                    >
-                        <ul className="space-y-3">
-                            {data.deadlines.map((item) => (
-                                <li
-                                    key={item.id}
-                                    className="flex items-center justify-between gap-3 rounded-lg border border-navy-50 px-3 py-3"
-                                >
-                                    <div>
-                                        <p className="text-label-2 font-medium text-navy-500">
-                                            {item.title}
-                                        </p>
-                                        <p className="text-body-4 text-navy-300">
-                                            {item.meta}
-                                        </p>
-                                    </div>
-                                    <StatusBadge status={item.status} />
-                                </li>
-                            ))}
-                        </ul>
-                    </SectionCard>
+                        >
+                            <ul className="space-y-3">
+                                {data.deadlines.map((item) => (
+                                    <li
+                                        key={item.id}
+                                        className="flex items-center justify-between gap-3 rounded-lg border border-navy-50 px-3 py-3"
+                                    >
+                                        <div>
+                                            <p className="text-label-2 font-medium text-navy-500">
+                                                {item.title}
+                                            </p>
+                                            <p className="text-body-4 text-navy-300">
+                                                {item.meta}
+                                            </p>
+                                        </div>
+                                        <StatusBadge status={item.status} />
+                                    </li>
+                                ))}
+                            </ul>
+                        </SectionCard>
+                    )}
                     <QuickActions actions={data.quickActions} columns={2} />
                 </div>
             </div>

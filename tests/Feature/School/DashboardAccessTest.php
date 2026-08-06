@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\PermissionEnum;
 use App\Models\School;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -7,9 +8,15 @@ use Inertia\Testing\AssertableInertia as Assert;
 
 uses(RefreshDatabase::class);
 
+beforeEach(function () {
+    $this->withoutVite();
+});
+
 test('school staff can view their own school dashboard', function () {
     $school = School::factory()->create();
-    $staff = User::factory()->schoolStaff($school)->create();
+    $staff = schoolStaffWithPermissions($school, [
+        PermissionEnum::SCHOOL_DASHBOARD_VIEW,
+    ]);
 
     $this->actingAs($staff)
         ->get(route('school.dashboard', $school))
@@ -19,6 +26,15 @@ test('school staff can view their own school dashboard', function () {
             ->has('stats')
             ->where('school.slug', $school->slug)
         );
+});
+
+test('school staff without dashboard permission is forbidden', function () {
+    $school = School::factory()->create();
+    $staff = User::factory()->schoolStaff($school)->create();
+
+    $this->actingAs($staff)
+        ->get(route('school.dashboard', $school))
+        ->assertForbidden();
 });
 
 test('school staff cannot view another school dashboard', function () {

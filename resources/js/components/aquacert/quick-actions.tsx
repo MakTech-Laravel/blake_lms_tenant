@@ -1,6 +1,7 @@
 import { SectionCard } from '@/components/aquacert/section-card';
 import { Button } from '@/components/ui/button';
 import type { QuickAction } from '@/data/aquacert-fixtures';
+import { usePermission } from '@/hooks/use-permissions';
 
 type QuickActionsProps = {
     actions: QuickAction[];
@@ -8,6 +9,19 @@ type QuickActionsProps = {
 };
 
 export function QuickActions({ actions, columns = 2 }: QuickActionsProps) {
+    const { canAny } = usePermission();
+
+    const visible = actions.filter(
+        (action) =>
+            !action.permissions ||
+            action.permissions.length === 0 ||
+            canAny(action.permissions),
+    );
+
+    if (visible.length === 0) {
+        return null;
+    }
+
     return (
         <SectionCard title="Quick Actions">
             <div
@@ -19,7 +33,7 @@ export function QuickActions({ actions, columns = 2 }: QuickActionsProps) {
                           : 'grid grid-cols-2 gap-3'
                 }
             >
-                {actions.map((action) => (
+                {visible.map((action) => (
                     <Button
                         key={action.id}
                         type="button"
