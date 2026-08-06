@@ -11,9 +11,11 @@ export default function SchoolLayout({
     return (
         <AppShell variant="sidebar">
             <SchoolSidebar />
-            <AppContent variant="sidebar" className="overflow-x-hidden">
+            <AppContent variant="sidebar">
                 <AppSidebarHeader breadcrumbs={breadcrumbs} />
-                {children}
+                <div className="flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto">
+                    {children}
+                </div>
             </AppContent>
         </AppShell>
     );

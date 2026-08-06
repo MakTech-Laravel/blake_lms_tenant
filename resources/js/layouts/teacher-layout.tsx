@@ -11,9 +11,11 @@ export default function TeacherLayout({
     return (
         <AppShell variant="sidebar">
             <TeacherSidebar />
-            <AppContent variant="sidebar" className="overflow-x-hidden">
+            <AppContent variant="sidebar">
                 <AppSidebarHeader breadcrumbs={breadcrumbs} showSearch />
-                {children}
+                <div className="flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto">
+                    {children}
+                </div>
             </AppContent>
         </AppShell>
     );
