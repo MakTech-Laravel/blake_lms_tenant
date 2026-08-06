@@ -15,14 +15,14 @@ export function AdminPageHeader({
     children,
 }: AdminPageHeaderProps) {
     return (
-        <div className="flex flex-col gap-4 border-b pb-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 border-b border-navy-50 pb-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 className="flex items-center gap-2 text-2xl font-bold tracking-tight text-foreground">
-                    {Icon && <Icon className="h-6 w-6 text-primary" />}
+                <h1 className="flex items-center gap-2 text-h5 font-bold tracking-tight text-navy-500">
+                    {Icon && <Icon className="h-6 w-6 text-aqua-600" />}
                     {title}
                 </h1>
                 {description && (
-                    <p className="mt-1 text-sm text-muted-foreground">
+                    <p className="mt-1 text-body-3 text-aqua-600">
                         {description}
                     </p>
                 )}

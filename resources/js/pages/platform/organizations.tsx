@@ -30,8 +30,12 @@ export default function Organizations() {
                 rows={platformOverview.organizations.map((org) => ({
                     name: (
                         <div>
-                            <p className="font-semibold text-navy-500">{org.name}</p>
-                            <p className="text-body-4 text-navy-300">{org.region}</p>
+                            <p className="font-semibold text-navy-500">
+                                {org.name}
+                            </p>
+                            <p className="text-body-4 text-navy-300">
+                                {org.region}
+                            </p>
                         </div>
                     ),
                     plan: org.plan,

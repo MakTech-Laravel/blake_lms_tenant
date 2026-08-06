@@ -55,7 +55,7 @@ export default function SchoolCertificatesPage({ certificates }: Props) {
     return (
         <>
             <Head title="Certificates" />
-            <div className="flex h-full flex-1 flex-col gap-6 p-4 md:p-6">
+            <div className="flex h-full flex-1 flex-col gap-6 bg-canvas p-4 md:p-6">
                 <AquaPageHeader
                     title={fixture.title}
                     subtitle={fixture.subtitle}
@@ -88,7 +88,10 @@ export default function SchoolCertificatesPage({ certificates }: Props) {
                             </TableHeader>
                             <TableBody>
                                 {rows.map((row) => (
-                                    <TableRow key={row.id} className="border-navy-50">
+                                    <TableRow
+                                        key={row.id}
+                                        className="border-navy-50"
+                                    >
                                         <TableCell>
                                             <button
                                                 type="button"
@@ -107,7 +110,11 @@ export default function SchoolCertificatesPage({ certificates }: Props) {
                                         </TableCell>
                                         <TableCell>
                                             {live ? (
-                                                <Button asChild size="sm" variant="outline">
+                                                <Button
+                                                    asChild
+                                                    size="sm"
+                                                    variant="outline"
+                                                >
                                                     <a
                                                         href={`/school/${slug}/certificates/${row.id}/download`}
                                                     >
@@ -120,7 +127,9 @@ export default function SchoolCertificatesPage({ certificates }: Props) {
                                                     size="sm"
                                                     variant="outline"
                                                     type="button"
-                                                    onClick={() => setSelected(row)}
+                                                    onClick={() =>
+                                                        setSelected(row)
+                                                    }
                                                 >
                                                     Preview
                                                 </Button>

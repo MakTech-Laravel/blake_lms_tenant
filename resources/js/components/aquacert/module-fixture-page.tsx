@@ -60,7 +60,7 @@ export function ModuleFixturePage({
         return (
             <>
                 <Head title={title} />
-                <div className="flex h-full flex-1 flex-col gap-6 p-4 md:p-6">
+                <div className="flex h-full flex-1 flex-col gap-6 bg-canvas p-4 md:p-6">
                     <ModuleEmptyState
                         title={`No ${title.toLowerCase()} yet`}
                         description={`Create your first entry to start managing ${title.toLowerCase()}.`}
@@ -77,7 +77,9 @@ export function ModuleFixturePage({
             <StaticModulePage
                 title={title}
                 subtitle={subtitle}
-                searchPlaceholder={searchPlaceholder ?? `Search ${title.toLowerCase()}...`}
+                searchPlaceholder={
+                    searchPlaceholder ?? `Search ${title.toLowerCase()}...`
+                }
                 actions={
                     <>
                         {extraActions}
@@ -91,7 +93,10 @@ export function ModuleFixturePage({
                     for (const column of columns) {
                         const value = row[column.key];
 
-                        if (column.key === statusKey && typeof value === 'string') {
+                        if (
+                            column.key === statusKey &&
+                            typeof value === 'string'
+                        ) {
                             mapped[column.key] = <StatusBadge status={value} />;
                         } else if (column.key === columns[0]?.key) {
                             mapped[column.key] = (
@@ -121,14 +126,18 @@ export function ModuleFixturePage({
                 }}
                 title={
                     selected
-                        ? (detailTitle?.(selected) ?? String(selected[columns[0]?.key ?? 'id'] ?? title))
+                        ? (detailTitle?.(selected) ??
+                          String(selected[columns[0]?.key ?? 'id'] ?? title))
                         : title
                 }
                 description="Fixture detail preview — wiring comes in a later phase."
             >
                 {selected &&
                     columns.map((column) => (
-                        <div key={column.key} className="flex items-start justify-between gap-4 border-b border-navy-50 py-2">
+                        <div
+                            key={column.key}
+                            className="flex items-start justify-between gap-4 border-b border-navy-50 py-2"
+                        >
                             <span className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase">
                                 {column.label}
                             </span>

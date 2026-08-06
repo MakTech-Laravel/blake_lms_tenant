@@ -63,7 +63,7 @@ export default function PlatformCertificatesPage({
     return (
         <>
             <Head title="Certificates" />
-            <div className="flex h-full flex-1 flex-col gap-6 p-4 md:p-6">
+            <div className="flex h-full flex-1 flex-col gap-6 bg-canvas p-4 md:p-6">
                 <AquaPageHeader
                     title="Certificates"
                     subtitle={
@@ -85,14 +85,16 @@ export default function PlatformCertificatesPage({
                         <Table>
                             <TableHeader>
                                 <TableRow className="border-navy-50 hover:bg-transparent">
-                                    {platformCertificates.columns.map((column) => (
-                                        <TableHead
-                                            key={column.key}
-                                            className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase"
-                                        >
-                                            {column.label}
-                                        </TableHead>
-                                    ))}
+                                    {platformCertificates.columns.map(
+                                        (column) => (
+                                            <TableHead
+                                                key={column.key}
+                                                className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase"
+                                            >
+                                                {column.label}
+                                            </TableHead>
+                                        ),
+                                    )}
                                     <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase">
                                         Actions
                                     </TableHead>
@@ -100,7 +102,10 @@ export default function PlatformCertificatesPage({
                             </TableHeader>
                             <TableBody>
                                 {rows.map((row) => (
-                                    <TableRow key={row.id} className="border-navy-50">
+                                    <TableRow
+                                        key={row.id}
+                                        className="border-navy-50"
+                                    >
                                         <TableCell>
                                             <button
                                                 type="button"
@@ -112,15 +117,24 @@ export default function PlatformCertificatesPage({
                                         </TableCell>
                                         <TableCell>{row.holder}</TableCell>
                                         <TableCell>{row.course}</TableCell>
-                                        <TableCell>{row.organization}</TableCell>
+                                        <TableCell>
+                                            {row.organization}
+                                        </TableCell>
                                         <TableCell>{row.issued}</TableCell>
                                         <TableCell>
                                             <StatusBadge status={row.status} />
                                         </TableCell>
                                         <TableCell>
-                                            {certificates && certificates.length > 0 ? (
-                                                <Button asChild size="sm" variant="outline">
-                                                    <a href={`/platform/certificates/${row.id}/download`}>
+                                            {certificates &&
+                                            certificates.length > 0 ? (
+                                                <Button
+                                                    asChild
+                                                    size="sm"
+                                                    variant="outline"
+                                                >
+                                                    <a
+                                                        href={`/platform/certificates/${row.id}/download`}
+                                                    >
                                                         <Download className="size-4" />
                                                         PDF
                                                     </a>
@@ -130,7 +144,9 @@ export default function PlatformCertificatesPage({
                                                     size="sm"
                                                     variant="outline"
                                                     type="button"
-                                                    onClick={() => setSelected(row)}
+                                                    onClick={() =>
+                                                        setSelected(row)
+                                                    }
                                                 >
                                                     Preview
                                                 </Button>
@@ -155,8 +171,13 @@ export default function PlatformCertificatesPage({
                 description={selected?.number}
                 footer={
                     selected && certificates && certificates.length > 0 ? (
-                        <Button asChild className="bg-navy-500 text-white hover:bg-navy-600">
-                            <a href={`/platform/certificates/${selected.id}/download`}>
+                        <Button
+                            asChild
+                            className="bg-navy-500 text-white hover:bg-navy-600"
+                        >
+                            <a
+                                href={`/platform/certificates/${selected.id}/download`}
+                            >
                                 <Download className="size-4" />
                                 Download PDF
                             </a>

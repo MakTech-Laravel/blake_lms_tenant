@@ -1,11 +1,5 @@
 import { Head } from '@inertiajs/react';
-import {
-    BookOpen,
-    Building2,
-    FileBadge2,
-    UserPlus,
-    Users,
-} from 'lucide-react';
+import { BookOpen, Building2, FileBadge2, UserPlus, Users } from 'lucide-react';
 import { ActivityFeed } from '@/components/aquacert/activity-feed';
 import { AquaPageHeader } from '@/components/aquacert/aqua-page-header';
 import { AquaStatCard } from '@/components/aquacert/aqua-stat-card';
@@ -36,7 +30,7 @@ export default function SchoolDashboard({ stats = {} }: SchoolDashboardProps) {
         <>
             <Head title="School Dashboard" />
 
-            <div className="flex h-full flex-1 flex-col gap-6 bg-[#f8fafc] p-4 md:p-6">
+            <div className="flex h-full flex-1 flex-col gap-6 bg-canvas p-4 md:p-6">
                 <AquaPageHeader
                     title={data.greeting}
                     subtitle={data.subtitle}
@@ -108,7 +102,12 @@ export default function SchoolDashboard({ stats = {} }: SchoolDashboardProps) {
                             data={data.completionTrend}
                             secondaryKey="secondary"
                             action={
-                                <Button variant="outline" size="sm" type="button">
+                                <Button
+                                    variant="outline"
+                                    className="border-navy-100 text-navy-400"
+                                    size="sm"
+                                    type="button"
+                                >
                                     Filter
                                 </Button>
                             }
@@ -127,7 +126,10 @@ export default function SchoolDashboard({ stats = {} }: SchoolDashboardProps) {
                             title="Location Performance"
                             data={data.locationPerformance}
                             action={
-                                <Button variant="link" className="h-auto p-0 text-aqua-600">
+                                <Button
+                                    variant="link"
+                                    className="h-auto p-0 text-aqua-600"
+                                >
                                     View Report
                                 </Button>
                             }
@@ -141,7 +143,10 @@ export default function SchoolDashboard({ stats = {} }: SchoolDashboardProps) {
                         title="Upcoming Deadlines"
                         className="lg:col-span-2"
                         action={
-                            <Button variant="link" className="h-auto p-0 text-aqua-600">
+                            <Button
+                                variant="link"
+                                className="h-auto p-0 text-aqua-600"
+                            >
                                 View Report
                             </Button>
                         }

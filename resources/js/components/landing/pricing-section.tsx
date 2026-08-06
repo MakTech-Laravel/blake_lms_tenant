@@ -32,8 +32,12 @@ export function PricingSection() {
                                     Most Popular
                                 </span>
                             )}
-                            <h3 className="text-h6 font-semibold">{plan.name}</h3>
-                            <p className="mt-3 text-h4 font-bold">{plan.price}</p>
+                            <h3 className="text-h6 font-semibold">
+                                {plan.name}
+                            </h3>
+                            <p className="mt-3 text-h4 font-bold">
+                                {plan.price}
+                            </p>
                             <ul className="mt-6 flex-1 space-y-3">
                                 {plan.features.map((feature) => (
                                     <li

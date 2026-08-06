@@ -62,7 +62,7 @@ export default function SchoolsIndex({
         <>
             <Head title="Schools" />
 
-            <div className="w-full space-y-6 px-4 py-6 sm:px-6 lg:px-8">
+            <div className="w-full space-y-6 bg-canvas px-4 py-6 sm:px-6 lg:px-8">
                 <AdminPageHeader
                     title="Schools"
                     description="Every school (tenant) on the platform."
@@ -70,7 +70,7 @@ export default function SchoolsIndex({
                 />
 
                 <div className="relative w-full sm:max-w-xs">
-                    <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-navy-300" />
                     <Input
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
@@ -79,19 +79,19 @@ export default function SchoolsIndex({
                     />
                 </div>
 
-                <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
+                <div className="overflow-hidden rounded-xl border border-navy-50 bg-white shadow-sm">
                     <div className="overflow-x-auto">
                         <Table>
                             <TableHeader>
-                                <TableRow className="bg-muted/50 hover:bg-muted/50">
-                                    <TableHead>School</TableHead>
-                                    <TableHead className="hidden sm:table-cell">
+                                <TableRow className="bg-navy-50/60 hover:bg-navy-50/60">
+                                    <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase">School</TableHead>
+                                    <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase hidden sm:table-cell">
                                         Staff
                                     </TableHead>
-                                    <TableHead className="hidden sm:table-cell">
+                                    <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase hidden sm:table-cell">
                                         Courses
                                     </TableHead>
-                                    <TableHead className="text-right">
+                                    <TableHead className="text-right text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase">
                                         Status
                                     </TableHead>
                                 </TableRow>
@@ -110,7 +110,7 @@ export default function SchoolsIndex({
                                                 stiffness: 350,
                                                 damping: 28,
                                             }}
-                                            className="border-b transition-colors hover:bg-muted/30"
+                                            className="border-b transition-colors hover:bg-aqua-50/40"
                                         >
                                             <TableCell>
                                                 <div className="flex items-center gap-3">
@@ -121,20 +121,20 @@ export default function SchoolsIndex({
                                                         <p className="truncate font-medium">
                                                             {school.name}
                                                         </p>
-                                                        <p className="truncate font-mono text-xs text-muted-foreground">
+                                                        <p className="truncate font-mono text-xs text-navy-300">
                                                             /{school.slug}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </TableCell>
                                             <TableCell className="hidden sm:table-cell">
-                                                <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                                                <span className="flex items-center gap-1.5 text-sm text-navy-300">
                                                     <Users className="h-3.5 w-3.5" />
                                                     {school.users_count}
                                                 </span>
                                             </TableCell>
                                             <TableCell className="hidden sm:table-cell">
-                                                <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                                                <span className="flex items-center gap-1.5 text-sm text-navy-300">
                                                     <Layers className="h-3.5 w-3.5" />
                                                     {school.courses_count}
                                                 </span>
@@ -160,7 +160,7 @@ export default function SchoolsIndex({
 
                         {paginated.data.length === 0 && (
                             <div className="px-4 py-16 text-center">
-                                <Building2 className="mx-auto h-10 w-10 text-muted-foreground/40" />
+                                <Building2 className="mx-auto h-10 w-10 text-navy-200" />
                                 <h3 className="mt-4 text-sm font-semibold">
                                     No schools found
                                 </h3>

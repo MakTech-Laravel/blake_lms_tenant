@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
-import { Card } from '@/components/ui/card';
-import { DataTableToolbar } from '@/components/aquacert/data-table-toolbar';
 import { AquaPageHeader } from '@/components/aquacert/aqua-page-header';
+import { DataTableToolbar } from '@/components/aquacert/data-table-toolbar';
+import { Card } from '@/components/ui/card';
 import {
     Table,
     TableBody,
@@ -35,8 +35,12 @@ export function StaticModulePage({
     searchPlaceholder,
 }: StaticModulePageProps) {
     return (
-        <div className="flex h-full flex-1 flex-col gap-6 p-4 md:p-6">
-            <AquaPageHeader title={title} subtitle={subtitle} actions={actions} />
+        <div className="flex h-full flex-1 flex-col gap-6 bg-canvas p-4 md:p-6">
+            <AquaPageHeader
+                title={title}
+                subtitle={subtitle}
+                actions={actions}
+            />
 
             <Card className="border-navy-50 bg-white p-4 shadow-sm md:p-6">
                 <DataTableToolbar placeholder={searchPlaceholder} />
@@ -56,7 +60,10 @@ export function StaticModulePage({
                         </TableHeader>
                         <TableBody>
                             {rows.map((row, index) => (
-                                <TableRow key={index} className="border-navy-50">
+                                <TableRow
+                                    key={index}
+                                    className="border-navy-50"
+                                >
                                     {columns.map((column) => (
                                         <TableCell
                                             key={column.key}

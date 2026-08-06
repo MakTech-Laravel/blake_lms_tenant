@@ -65,14 +65,14 @@ export default function RolesIndex({
         <>
             <Head title="Roles" />
 
-            <div className="w-full space-y-6 px-4 py-6 sm:px-6 lg:px-8">
+            <div className="w-full space-y-6 bg-canvas px-4 py-6 sm:px-6 lg:px-8">
                 <AdminPageHeader
                     title="Roles"
                     description="Define roles and the permissions they grant."
                     icon={Shield}
                 >
                     {can(PERMISSIONS.ROLES.CREATE) && (
-                        <Button asChild>
+                        <Button asChild className="bg-navy-500 text-white hover:bg-navy-600">
                             <Link href={roles.create().url}>
                                 <Plus className="h-4 w-4" /> Add role
                             </Link>
@@ -81,7 +81,7 @@ export default function RolesIndex({
                 </AdminPageHeader>
 
                 <div className="relative w-full sm:max-w-xs">
-                    <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-navy-300" />
                     <Input
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
@@ -90,19 +90,19 @@ export default function RolesIndex({
                     />
                 </div>
 
-                <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
+                <div className="overflow-hidden rounded-xl border border-navy-50 bg-white shadow-sm">
                     <div className="overflow-x-auto">
                         <Table>
                             <TableHeader>
-                                <TableRow className="bg-muted/50 hover:bg-muted/50">
-                                    <TableHead>Role</TableHead>
-                                    <TableHead className="hidden sm:table-cell">
+                                <TableRow className="bg-navy-50/60 hover:bg-navy-50/60">
+                                    <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase">Role</TableHead>
+                                    <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase hidden sm:table-cell">
                                         Permissions
                                     </TableHead>
-                                    <TableHead className="hidden sm:table-cell">
+                                    <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase hidden sm:table-cell">
                                         Users
                                     </TableHead>
-                                    <TableHead className="text-right">
+                                    <TableHead className="text-right text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase">
                                         Actions
                                     </TableHead>
                                 </TableRow>
@@ -125,7 +125,7 @@ export default function RolesIndex({
                                                     stiffness: 350,
                                                     damping: 28,
                                                 }}
-                                                className="border-b transition-colors hover:bg-muted/30"
+                                                className="border-b transition-colors hover:bg-aqua-50/40"
                                             >
                                                 <TableCell>
                                                     <div className="flex items-center gap-3">
@@ -154,7 +154,7 @@ export default function RolesIndex({
                                                     </Badge>
                                                 </TableCell>
                                                 <TableCell className="hidden sm:table-cell">
-                                                    <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                                                    <span className="flex items-center gap-1.5 text-sm text-navy-300">
                                                         <UsersIcon className="h-3.5 w-3.5" />
                                                         {role.users_count}
                                                     </span>
@@ -223,7 +223,7 @@ export default function RolesIndex({
                                                                     <Button
                                                                         variant="ghost"
                                                                         size="icon"
-                                                                        className="text-muted-foreground hover:text-destructive"
+                                                                        className="text-navy-300 hover:text-destructive"
                                                                         title="Delete"
                                                                     >
                                                                         <Trash2 className="h-4 w-4" />
@@ -241,7 +241,7 @@ export default function RolesIndex({
 
                         {paginated.data.length === 0 && (
                             <div className="px-4 py-16 text-center">
-                                <Shield className="mx-auto h-10 w-10 text-muted-foreground/40" />
+                                <Shield className="mx-auto h-10 w-10 text-navy-200" />
                                 <h3 className="mt-4 text-sm font-semibold">
                                     No roles found
                                 </h3>

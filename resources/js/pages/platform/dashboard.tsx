@@ -10,10 +10,7 @@ import {
 import { ActivityFeed } from '@/components/aquacert/activity-feed';
 import { AquaPageHeader } from '@/components/aquacert/aqua-page-header';
 import { AquaStatCard } from '@/components/aquacert/aqua-stat-card';
-import {
-    AreaChartCard,
-    DonutChartCard,
-} from '@/components/aquacert/charts';
+import { AreaChartCard, DonutChartCard } from '@/components/aquacert/charts';
 import { QuickActions } from '@/components/aquacert/quick-actions';
 import { SectionCard } from '@/components/aquacert/section-card';
 import { Button } from '@/components/ui/button';
@@ -36,11 +33,8 @@ export default function PlatformDashboard({ stats }: PlatformDashboardProps) {
         <>
             <Head title="Platform Dashboard" />
 
-            <div className="flex h-full flex-1 flex-col gap-6 bg-[#f8fafc] p-4 md:p-6">
-                <AquaPageHeader
-                    title={data.title}
-                    subtitle={data.subtitle}
-                />
+            <div className="flex h-full flex-1 flex-col gap-6 bg-canvas p-4 md:p-6">
+                <AquaPageHeader title={data.title} subtitle={data.subtitle} />
 
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8">
                     <AquaStatCard
@@ -130,7 +124,10 @@ export default function PlatformDashboard({ stats }: PlatformDashboardProps) {
                 </div>
 
                 <div className="grid gap-4 lg:grid-cols-3">
-                    <SectionCard title="Learning Overview" className="lg:col-span-1">
+                    <SectionCard
+                        title="Learning Overview"
+                        className="lg:col-span-1"
+                    >
                         <div className="mb-4 grid grid-cols-2 gap-3 text-body-4">
                             <div>
                                 <p className="text-navy-300">Assigned</p>
@@ -168,7 +165,10 @@ export default function PlatformDashboard({ stats }: PlatformDashboardProps) {
                                             {course.value}%
                                         </span>
                                     </div>
-                                    <Progress value={course.value} className="h-2" />
+                                    <Progress
+                                        value={course.value}
+                                        className="h-2"
+                                    />
                                 </li>
                             ))}
                         </ul>

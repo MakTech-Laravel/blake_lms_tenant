@@ -1,4 +1,3 @@
-import { useBranch } from '@/hooks/use-branch';
 import {
     branchAssignments,
     branchCertificates,
@@ -9,6 +8,7 @@ import {
     schoolCoursesUi,
     schoolPeople,
 } from '@/data/modules/school-modules';
+import { useBranch } from '@/hooks/use-branch';
 
 /** Pick HO vs branch fixture slice for shared school module pages. */
 export function useSchoolModuleVariant() {

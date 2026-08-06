@@ -1,11 +1,5 @@
 import { Link } from '@inertiajs/react';
-import {
-    Award,
-    BookOpen,
-    LayoutGrid,
-    Settings,
-    UserRound,
-} from 'lucide-react';
+import { Award, BookOpen, LayoutGrid, Settings, UserRound } from 'lucide-react';
 import { AquaCertLogo } from '@/components/landing/aqua-cert-logo';
 import { NavUser } from '@/components/nav-user';
 import { SidebarNav } from '@/components/navigation';
@@ -33,21 +27,13 @@ const mainNav: NavNode[] = [
 
 export function TeacherSidebar() {
     return (
-        <Sidebar
-            collapsible="icon"
-            variant="inset"
-            className="border-navy-700 bg-navy-500 text-white **:data-[slot=sidebar-inner]:bg-navy-500"
-        >
+        <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton
-                            size="lg"
-                            asChild
-                            className="text-white hover:bg-navy-400 hover:text-white"
-                        >
+                        <SidebarMenuButton size="lg" asChild>
                             <Link href={dashboard()} prefetch>
-                                <AquaCertLogo variant="light" />
+                                <AquaCertLogo variant="dark" />
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -59,23 +45,24 @@ export function TeacherSidebar() {
                     items={mainNav}
                     label="Learning"
                     classNames={{
-                        row: 'text-navy-100 hover:bg-navy-400 hover:text-white data-[active=true]:bg-navy-400 data-[active=true]:text-white',
+                        row: 'text-navy-400 data-[active=true]:bg-aqua-50 data-[active=true]:text-navy-500',
+                        icon: 'text-navy-300 group-data-[active=true]/menu-button:text-navy-500',
                     }}
                 />
             </SidebarContent>
 
             <SidebarFooter className="gap-3">
-                <div className="mx-2 hidden rounded-xl bg-navy-600 p-3 group-data-[collapsible=icon]:hidden">
-                    <p className="text-caption-1 font-semibold text-navy-100">
+                <div className="mx-2 hidden rounded-xl border border-sidebar-border bg-aqua-50 p-3 group-data-[collapsible=icon]:hidden">
+                    <p className="text-caption-1 font-semibold text-navy-500">
                         Overall Progress
                     </p>
-                    <p className="mt-1 text-label-3 text-white">
+                    <p className="mt-1 text-label-3 text-navy-400">
                         {learnerOverview.progress.overall}% —{' '}
                         {learnerOverview.progress.coursesDone}
                     </p>
                     <Progress
                         value={learnerOverview.progress.overall}
-                        className="mt-2 h-2 bg-navy-400"
+                        className="mt-2 h-2 bg-aqua-100"
                     />
                 </div>
                 <NavUser />

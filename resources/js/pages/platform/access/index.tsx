@@ -14,7 +14,11 @@ export default function PlatformAccessPage() {
             createLabel="Create Role"
             createHref={roles.create().url}
             extraActions={
-                <Button asChild variant="outline" className="border-navy-100 text-navy-400">
+                <Button
+                    asChild
+                    variant="outline"
+                    className="border-navy-100 text-navy-400"
+                >
                     <Link href={roles.index().url}>Manage roles</Link>
                 </Button>
             }

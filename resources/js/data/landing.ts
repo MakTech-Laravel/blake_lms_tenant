@@ -78,27 +78,33 @@ export const roadmap = {
     steps: [
         {
             title: 'Invite Staff',
-            description: 'Send secure invites to instructors and admins across locations.',
+            description:
+                'Send secure invites to instructors and admins across locations.',
         },
         {
             title: 'Assign Role',
-            description: 'Map each person to pathways that match their responsibilities.',
+            description:
+                'Map each person to pathways that match their responsibilities.',
         },
         {
             title: 'Track Scores',
-            description: 'Monitor quiz results and learning progress in real time.',
+            description:
+                'Monitor quiz results and learning progress in real time.',
         },
         {
             title: 'Verify Docs',
-            description: 'Confirm credentials and upload supporting documentation.',
+            description:
+                'Confirm credentials and upload supporting documentation.',
         },
         {
             title: 'Send Certs',
-            description: 'Issue digital certificates the moment requirements are met.',
+            description:
+                'Issue digital certificates the moment requirements are met.',
         },
         {
             title: 'Compliance',
-            description: 'Export audit-ready reports for ISO and insurance reviews.',
+            description:
+                'Export audit-ready reports for ISO and insurance reviews.',
         },
     ],
 } as const;
@@ -118,11 +124,7 @@ export const multiLocation = {
     description:
         'Operate head office and every branch from one control plane — with shared standards and local visibility.',
     hq: 'Head Office (HQ)',
-    sites: [
-        'Site A: London',
-        'Site B: Manchester',
-        'Site C: Birmingham',
-    ],
+    sites: ['Site A: London', 'Site B: Manchester', 'Site C: Birmingham'],
 } as const;
 
 export const pricing = {
@@ -158,8 +160,7 @@ export const pricing = {
 } as const;
 
 export const testimonial = {
-    quote:
-        'We switched 14 aquatic facilities to AquaCert and cut more than 15 hours of paperwork every month. Compliance went from reactive to automatic.',
+    quote: 'We switched 14 aquatic facilities to AquaCert and cut more than 15 hours of paperwork every month. Compliance went from reactive to automatic.',
     name: 'Sarah Holmes',
     role: 'General Manager at Swim School Pro',
     avatar: '/images/marketing/testimonial-avatar.jpg',
@@ -168,18 +169,15 @@ export const testimonial = {
 export const faqs = [
     {
         question: 'How does certification verification work?',
-        answer:
-            'AquaCert tracks expiry dates, required modules, and uploaded credentials for every staff member. Managers get alerts before certificates lapse, and auditors can export a complete verification trail in one click.',
+        answer: 'AquaCert tracks expiry dates, required modules, and uploaded credentials for every staff member. Managers get alerts before certificates lapse, and auditors can export a complete verification trail in one click.',
     },
     {
         question: 'Can I upload our own training videos?',
-        answer:
-            'Yes. Upload school-specific videos, attach quizzes, and assign them to roles or locations while still using AquaCert’s shared aquatic curriculum.',
+        answer: 'Yes. Upload school-specific videos, attach quizzes, and assign them to roles or locations while still using AquaCert’s shared aquatic curriculum.',
     },
     {
         question: 'Is pricing fixed or tied to users?',
-        answer:
-            'Pricing is custom-quoted based on locations and content needs — not a rigid per-seat ladder — so growing schools are not punished for adding instructors.',
+        answer: 'Pricing is custom-quoted based on locations and content needs — not a rigid per-seat ladder — so growing schools are not punished for adding instructors.',
     },
 ] as const;
 

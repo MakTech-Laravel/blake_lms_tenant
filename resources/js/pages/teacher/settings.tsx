@@ -8,7 +8,7 @@ export default function TeacherSettings() {
     return (
         <>
             <Head title="Settings" />
-            <div className="flex h-full flex-1 flex-col gap-6 bg-[#f8fafc] p-4 md:p-6">
+            <div className="flex h-full flex-1 flex-col gap-6 bg-canvas p-4 md:p-6">
                 <AquaPageHeader
                     title="Settings"
                     subtitle="Notification and learning preferences"
@@ -23,7 +23,9 @@ export default function TeacherSettings() {
                             key={label}
                             className="flex items-center justify-between gap-4"
                         >
-                            <Label className="text-body-2 text-navy-500">{label}</Label>
+                            <Label className="text-body-2 text-navy-500">
+                                {label}
+                            </Label>
                             <Switch defaultChecked />
                         </div>
                     ))}

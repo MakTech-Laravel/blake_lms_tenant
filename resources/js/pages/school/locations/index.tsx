@@ -7,7 +7,8 @@ type Props = {
 };
 
 export default function SchoolLocationsPage({ locations }: Props) {
-    const rows = locations && locations.length > 0 ? locations : schoolLocations.rows;
+    const rows =
+        locations && locations.length > 0 ? locations : schoolLocations.rows;
 
     return (
         <ModuleFixturePage

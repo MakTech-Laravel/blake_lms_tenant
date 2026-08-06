@@ -27,7 +27,11 @@ export function AquaPageHeader({
                     <p className="mt-1 text-body-2 text-aqua-600">{subtitle}</p>
                 )}
             </div>
-            {actions && <div className="flex shrink-0 items-center gap-2">{actions}</div>}
+            {actions && (
+                <div className="flex shrink-0 items-center gap-2">
+                    {actions}
+                </div>
+            )}
         </div>
     );
 }

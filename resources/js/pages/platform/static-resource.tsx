@@ -18,10 +18,34 @@ const defaultColumns = [
 ];
 
 const defaultRows = [
-    { name: 'Water Safety Fundamentals', meta: 'Core curriculum', owner: 'Alex Park', status: 'Active', updated: '2026-03-01' },
-    { name: 'Lifeguard Pathway', meta: '12 modules', owner: 'Sam Lee', status: 'Active', updated: '2026-02-18' },
-    { name: 'Pool Operations Quiz', meta: 'Assessment pack', owner: 'Jordan Wells', status: 'Pending', updated: '2026-03-10' },
-    { name: 'Emergency Drill Cert', meta: 'Certificate template', owner: 'Alex Park', status: 'Active', updated: '2026-01-22' },
+    {
+        name: 'Water Safety Fundamentals',
+        meta: 'Core curriculum',
+        owner: 'Alex Park',
+        status: 'Active',
+        updated: '2026-03-01',
+    },
+    {
+        name: 'Lifeguard Pathway',
+        meta: '12 modules',
+        owner: 'Sam Lee',
+        status: 'Active',
+        updated: '2026-02-18',
+    },
+    {
+        name: 'Pool Operations Quiz',
+        meta: 'Assessment pack',
+        owner: 'Jordan Wells',
+        status: 'Pending',
+        updated: '2026-03-10',
+    },
+    {
+        name: 'Emergency Drill Cert',
+        meta: 'Certificate template',
+        owner: 'Alex Park',
+        status: 'Active',
+        updated: '2026-01-22',
+    },
 ];
 
 export default function StaticResourcePage({

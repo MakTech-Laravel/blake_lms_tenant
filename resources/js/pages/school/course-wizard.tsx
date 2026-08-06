@@ -20,7 +20,11 @@ const steps = [
     { id: 1, title: 'Course Details', description: 'Name, category, duration' },
     { id: 2, title: 'Training Video', description: 'Upload or link content' },
     { id: 3, title: 'Quiz', description: 'Knowledge check settings' },
-    { id: 4, title: 'Assignment', description: 'Audience, due date, reminders' },
+    {
+        id: 4,
+        title: 'Assignment',
+        description: 'Audience, due date, reminders',
+    },
 ];
 
 export default function CourseWizard() {
@@ -31,7 +35,7 @@ export default function CourseWizard() {
     return (
         <>
             <Head title="Create Course Wizard" />
-            <div className="flex h-full flex-1 flex-col gap-6 bg-[#f8fafc] p-4 md:p-6">
+            <div className="flex h-full flex-1 flex-col gap-6 bg-canvas p-4 md:p-6">
                 <AquaPageHeader
                     title="Create Course Wizard"
                     subtitle="Build a new training course for your school staff."
@@ -74,7 +78,10 @@ export default function CourseWizard() {
                             </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="title">Course Title</Label>
-                                <Input id="title" placeholder="Enter course title" />
+                                <Input
+                                    id="title"
+                                    placeholder="Enter course title"
+                                />
                             </div>
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <div className="grid gap-2">
@@ -84,7 +91,9 @@ export default function CourseWizard() {
                                             <SelectValue placeholder="Category" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="safety">Safety</SelectItem>
+                                            <SelectItem value="safety">
+                                                Safety
+                                            </SelectItem>
                                             <SelectItem value="emergency">
                                                 Emergency
                                             </SelectItem>
@@ -148,14 +157,17 @@ export default function CourseWizard() {
                                 Quiz
                             </h2>
                             <p className="text-body-2 text-aqua-600">
-                                Configure knowledge check settings for this course.
+                                Configure knowledge check settings for this
+                                course.
                             </p>
                             <div className="grid gap-2">
                                 <Label htmlFor="pass_mark">Pass mark (%)</Label>
                                 <Input id="pass_mark" defaultValue="80" />
                             </div>
                             <div className="grid gap-2">
-                                <Label htmlFor="attempts">Allowed attempts</Label>
+                                <Label htmlFor="attempts">
+                                    Allowed attempts
+                                </Label>
                                 <Input id="attempts" defaultValue="3" />
                             </div>
                         </div>
@@ -197,7 +209,9 @@ export default function CourseWizard() {
                                 variant="outline"
                                 disabled={step === 1}
                                 onClick={() =>
-                                    setStep((current) => Math.max(1, current - 1))
+                                    setStep((current) =>
+                                        Math.max(1, current - 1),
+                                    )
                                 }
                             >
                                 Back
@@ -209,7 +223,9 @@ export default function CourseWizard() {
                                 type="button"
                                 className="bg-navy-500 text-white hover:bg-navy-600"
                                 onClick={() =>
-                                    setStep((current) => Math.min(4, current + 1))
+                                    setStep((current) =>
+                                        Math.min(4, current + 1),
+                                    )
                                 }
                             >
                                 {step === 4 ? 'Finish' : 'Next Step'}

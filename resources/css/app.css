@@ -83,6 +83,9 @@
     --color-aqua-800: #066166;
     --color-aqua-900: #044a4e;
 
+    /* Portal page canvas (Figma light surface) */
+    --color-canvas: #f8fafc;
+
     /* Figma typography scale (Inter) */
     --text-title-1: 72px;
     --text-title-1--line-height: 88px;
@@ -139,7 +142,7 @@
     --accent-foreground: #03264e;
     --destructive: oklch(0.577 0.245 27.325);
     --destructive-foreground: oklch(0.577 0.245 27.325);
-    --border: #b1bcc8;
+    --border: #e6e9ed;
     --input: #b1bcc8;
     --ring: #0ab1b9;
     --chart-1: #0ab1b9;

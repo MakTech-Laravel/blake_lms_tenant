@@ -11,7 +11,10 @@ export function DemoCtaSection() {
     }
 
     return (
-        <section id="demo" className="scroll-mt-20 bg-navy-50/40 py-20 sm:py-24">
+        <section
+            id="demo"
+            className="scroll-mt-20 bg-navy-50/40 py-20 sm:py-24"
+        >
             <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
                 <div className="overflow-hidden rounded-2xl border border-navy-50 shadow-xl md:grid md:grid-cols-2">
                     <div className="bg-navy-500 p-8 text-white sm:p-10">

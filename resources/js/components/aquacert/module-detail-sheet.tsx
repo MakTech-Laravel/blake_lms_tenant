@@ -30,11 +30,17 @@ export function ModuleDetailSheet({
                 <SheetHeader>
                     <SheetTitle className="text-navy-500">{title}</SheetTitle>
                     {description ? (
-                        <SheetDescription>{description}</SheetDescription>
+                        <SheetDescription className="text-navy-300">
+                            {description}
+                        </SheetDescription>
                     ) : null}
                 </SheetHeader>
                 <div className="mt-6 space-y-4 px-1">{children}</div>
-                {footer ? <div className="mt-8 border-t border-navy-50 pt-4">{footer}</div> : null}
+                {footer ? (
+                    <div className="mt-8 border-t border-navy-50 pt-4">
+                        {footer}
+                    </div>
+                ) : null}
             </SheetContent>
         </Sheet>
     );

@@ -22,28 +22,26 @@ export function AquaStatCard({
     return (
         <Card
             className={cn(
-                'gap-2 border-navy-50 bg-white py-4 shadow-sm',
+                'gap-1 border-navy-50 bg-white py-4 shadow-sm',
                 className,
             )}
         >
             <div className="flex items-start justify-between px-5">
-                <div className="flex items-center gap-2">
-                    {Icon && (
-                        <span className="flex size-8 items-center justify-center rounded-full bg-aqua-50 text-aqua-600">
-                            <Icon className="size-4" />
-                        </span>
-                    )}
-                    <span className="text-label-3 font-medium text-navy-300">
-                        {label}
+                {Icon ? (
+                    <span className="flex size-9 items-center justify-center rounded-full bg-aqua-50 text-aqua-600">
+                        <Icon className="size-4" />
                     </span>
-                </div>
+                ) : (
+                    <span />
+                )}
                 {trend && (
                     <span
                         className={cn(
                             'rounded-full px-2 py-0.5 text-caption-1 font-semibold',
-                            trendTone === 'up' && 'bg-emerald-50 text-emerald-700',
+                            trendTone === 'up' && 'bg-aqua-50 text-aqua-700',
                             trendTone === 'down' && 'bg-red-50 text-red-600',
-                            trendTone === 'neutral' && 'bg-navy-50 text-navy-400',
+                            trendTone === 'neutral' &&
+                                'bg-navy-50 text-navy-400',
                         )}
                     >
                         {trend}
@@ -53,6 +51,7 @@ export function AquaStatCard({
             <p className="px-5 text-h5 font-bold tracking-tight text-navy-500">
                 {value}
             </p>
+            <p className="px-5 text-label-3 font-medium text-navy-300">{label}</p>
         </Card>
     );
 }

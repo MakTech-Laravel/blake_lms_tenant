@@ -17,7 +17,11 @@ export default function SchoolAccessPage() {
             createLabel="Create Role"
             createHref={roles.create(slug).url}
             extraActions={
-                <Button asChild variant="outline" className="border-navy-100 text-navy-400">
+                <Button
+                    asChild
+                    variant="outline"
+                    className="border-navy-100 text-navy-400"
+                >
                     <Link href={roles.index(slug).url}>Manage roles</Link>
                 </Button>
             }

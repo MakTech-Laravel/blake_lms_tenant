@@ -50,12 +50,14 @@ export default function TeacherCertificatesPage({ certificates }: Props) {
               status: certificate.status,
           }));
 
-    const [selected, setSelected] = useState<(typeof rows)[number] | null>(null);
+    const [selected, setSelected] = useState<(typeof rows)[number] | null>(
+        null,
+    );
 
     return (
         <>
             <Head title="Certificates" />
-            <div className="flex h-full flex-1 flex-col gap-6 bg-[#f8fafc] p-4 md:p-6">
+            <div className="flex h-full flex-1 flex-col gap-6 bg-canvas p-4 md:p-6">
                 <AquaPageHeader
                     title="Certificates"
                     subtitle="Your earned and available certificates"
@@ -93,7 +95,11 @@ export default function TeacherCertificatesPage({ certificates }: Props) {
                                 </div>
                                 {live && (
                                     <div className="mt-4 flex gap-2">
-                                        <Button asChild size="sm" className="bg-navy-500 text-white hover:bg-navy-600">
+                                        <Button
+                                            asChild
+                                            size="sm"
+                                            className="bg-navy-500 text-white hover:bg-navy-600"
+                                        >
                                             <a
                                                 href={`/dashboard/certificates/${certificate.id}/download`}
                                             >
@@ -101,7 +107,11 @@ export default function TeacherCertificatesPage({ certificates }: Props) {
                                                 PDF
                                             </a>
                                         </Button>
-                                        <Button asChild size="sm" variant="outline">
+                                        <Button
+                                            asChild
+                                            size="sm"
+                                            variant="outline"
+                                        >
                                             <a
                                                 href={`/dashboard/certificates/${certificate.id}/preview`}
                                             >

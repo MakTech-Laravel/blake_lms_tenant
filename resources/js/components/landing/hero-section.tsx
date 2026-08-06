@@ -1,5 +1,5 @@
-import { motion } from 'motion/react';
 import { CheckCircle2, Play } from 'lucide-react';
+import { motion } from 'motion/react';
 import { Button } from '@/components/ui/button';
 import { hero } from '@/data/landing';
 
@@ -20,7 +20,9 @@ export function HeroSection() {
                     </p>
                     <h1 className="mt-4 text-h3 font-bold text-navy-500 sm:text-h2 lg:text-title-2">
                         {hero.titleBefore}{' '}
-                        <span className="text-navy-400">{hero.titleHighlight}</span>
+                        <span className="text-navy-400">
+                            {hero.titleHighlight}
+                        </span>
                     </h1>
                     <p className="mx-auto mt-5 max-w-2xl text-body-2 text-navy-300 sm:text-body-1">
                         {hero.description}
@@ -62,7 +64,7 @@ export function HeroSection() {
                     </motion.div>
 
                     <div className="absolute -bottom-4 left-4 flex items-center gap-2 rounded-full border border-navy-50 bg-white px-3 py-2 shadow-lg sm:left-8">
-                        <CheckCircle2 className="size-4 text-emerald-500" />
+                        <CheckCircle2 className="size-4 text-aqua-500" />
                         <span className="text-label-3 font-semibold text-navy-500">
                             {hero.complianceBadge}
                         </span>

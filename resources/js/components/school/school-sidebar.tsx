@@ -45,8 +45,16 @@ export function SchoolSidebar() {
         { title: 'Library', href: `${base}/library`, icon: Library },
         { title: 'Pathways', href: `${base}/pathways`, icon: Route },
         { title: 'Assignments', href: `${base}/assignments`, icon: FolderOpen },
-        { title: 'Assessments', href: `${base}/assessments`, icon: ClipboardCheck },
-        { title: 'Certificates', href: `${base}/certificates`, icon: FileBadge2 },
+        {
+            title: 'Assessments',
+            href: `${base}/assessments`,
+            icon: ClipboardCheck,
+        },
+        {
+            title: 'Certificates',
+            href: `${base}/certificates`,
+            icon: FileBadge2,
+        },
         { title: 'Subscriptions', href: `${base}/billing`, icon: CreditCard },
         { title: 'Reports', href: `${base}/reports`, icon: BookOpen },
         { title: 'Notifications', href: `${base}/notifications`, icon: Bell },
@@ -60,8 +68,16 @@ export function SchoolSidebar() {
         { title: 'Courses', href: `${base}/courses-ui`, icon: BookOpen },
         { title: 'Pathways', href: `${base}/pathways`, icon: Route },
         { title: 'Assignments', href: `${base}/assignments`, icon: FolderOpen },
-        { title: 'Assessments', href: `${base}/assessments`, icon: ClipboardCheck },
-        { title: 'Certificates', href: `${base}/certificates`, icon: FileBadge2 },
+        {
+            title: 'Assessments',
+            href: `${base}/assessments`,
+            icon: ClipboardCheck,
+        },
+        {
+            title: 'Certificates',
+            href: `${base}/certificates`,
+            icon: FileBadge2,
+        },
         { title: 'Reports', href: `${base}/reports`, icon: BookOpen },
         { title: 'Notifications', href: `${base}/notifications`, icon: Bell },
     ];
@@ -69,21 +85,13 @@ export function SchoolSidebar() {
     const mainNav = isHeadOffice ? headOfficeNav : branchNav;
 
     return (
-        <Sidebar
-            collapsible="icon"
-            variant="inset"
-            className="border-navy-700 bg-navy-500 text-white **:data-[slot=sidebar-inner]:bg-navy-500"
-        >
+        <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton
-                            size="lg"
-                            asChild
-                            className="text-white hover:bg-navy-400 hover:text-white"
-                        >
+                        <SidebarMenuButton size="lg" asChild>
                             <Link href={dashboard(school.slug)} prefetch>
-                                <AquaCertLogo variant="light" />
+                                <AquaCertLogo variant="dark" />
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -97,7 +105,8 @@ export function SchoolSidebar() {
                         pinned ? `${school.name} — ${pinned.name}` : school.name
                     }
                     classNames={{
-                        row: 'text-navy-100 hover:bg-navy-400 hover:text-white data-[active=true]:bg-navy-400 data-[active=true]:text-white',
+                        row: 'text-navy-400 data-[active=true]:bg-aqua-50 data-[active=true]:text-navy-500',
+                        icon: 'text-navy-300 group-data-[active=true]/menu-button:text-navy-500',
                     }}
                 />
             </SidebarContent>

@@ -81,7 +81,10 @@ export default function Login({ status, canResetPassword }: Props) {
 
                 <main className="flex flex-col justify-center px-6 py-12 sm:px-10 lg:px-16">
                     <div className="mx-auto w-full max-w-md">
-                        <Link href={home()} className="mb-10 inline-flex lg:hidden">
+                        <Link
+                            href={home()}
+                            className="mb-10 inline-flex lg:hidden"
+                        >
                             <AquaCertLogo />
                         </Link>
 

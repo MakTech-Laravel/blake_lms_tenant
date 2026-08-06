@@ -1,6 +1,6 @@
-import type { QuickAction } from '@/data/aquacert-fixtures';
-import { Button } from '@/components/ui/button';
 import { SectionCard } from '@/components/aquacert/section-card';
+import { Button } from '@/components/ui/button';
+import type { QuickAction } from '@/data/aquacert-fixtures';
 
 type QuickActionsProps = {
     actions: QuickAction[];

@@ -11,7 +11,10 @@ const icons = [UserPlus, FolderKanban, MonitorPlay, Presentation];
 
 export function FeaturesSection() {
     return (
-        <section id="solutions" className="scroll-mt-20 bg-navy-50/40 py-20 sm:py-24">
+        <section
+            id="solutions"
+            className="scroll-mt-20 bg-navy-50/40 py-20 sm:py-24"
+        >
             <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl text-center">
                     <h2 className="text-h4 font-bold text-navy-500 sm:text-h3">

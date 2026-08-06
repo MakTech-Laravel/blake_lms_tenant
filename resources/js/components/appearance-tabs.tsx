@@ -5,6 +5,11 @@ import type { Appearance } from '@/hooks/use-appearance';
 import { useAppearance } from '@/hooks/use-appearance';
 import { cn } from '@/lib/utils';
 
+/**
+ * Appearance picker. The product is light-mode only — Dark / System choices are
+ * still offered so a previously saved preference can be "changed", but every
+ * selection is coerced to light by `useAppearance`.
+ */
 export default function AppearanceToggleTab({
     className = '',
     ...props
@@ -18,28 +23,35 @@ export default function AppearanceToggleTab({
     ];
 
     return (
-        <div
-            className={cn(
-                'inline-flex gap-1 rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800',
-                className,
-            )}
-            {...props}
-        >
-            {tabs.map(({ value, icon: Icon, label }) => (
-                <button
-                    key={value}
-                    onClick={() => updateAppearance(value)}
-                    className={cn(
-                        'flex items-center rounded-md px-3.5 py-1.5 transition-colors',
-                        appearance === value
-                            ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100'
-                            : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60',
-                    )}
-                >
-                    <Icon className="-ml-1 h-4 w-4" />
-                    <span className="ml-1.5 text-sm">{label}</span>
-                </button>
-            ))}
+        <div className="space-y-3">
+            <div
+                className={cn(
+                    'inline-flex gap-1 rounded-lg bg-neutral-100 p-1',
+                    className,
+                )}
+                {...props}
+            >
+                {tabs.map(({ value, icon: Icon, label }) => (
+                    <button
+                        key={value}
+                        type="button"
+                        onClick={() => updateAppearance(value)}
+                        className={cn(
+                            'flex items-center rounded-md px-3.5 py-1.5 transition-colors',
+                            appearance === value
+                                ? 'bg-white text-navy-500 shadow-xs'
+                                : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-navy-500',
+                        )}
+                    >
+                        <Icon className="-ml-1 h-4 w-4" />
+                        <span className="ml-1.5 text-sm">{label}</span>
+                    </button>
+                ))}
+            </div>
+            <p className="text-sm text-muted-foreground">
+                AquaCert is light-mode only. Choosing Dark or System still
+                applies Light across every layout.
+            </p>
         </div>
     );
 }

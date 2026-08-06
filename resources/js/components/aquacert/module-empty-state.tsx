@@ -26,8 +26,12 @@ export function ModuleEmptyState({
                 <Inbox className="size-6" />
             </div>
             <div>
-                <p className="text-body-1 font-semibold text-navy-500">{title}</p>
-                <p className="mt-1 max-w-sm text-body-3 text-navy-300">{description}</p>
+                <p className="text-body-1 font-semibold text-navy-500">
+                    {title}
+                </p>
+                <p className="mt-1 max-w-sm text-body-3 text-navy-300">
+                    {description}
+                </p>
             </div>
             {action}
         </div>

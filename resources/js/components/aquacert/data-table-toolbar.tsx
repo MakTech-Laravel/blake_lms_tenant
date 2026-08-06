@@ -20,11 +20,19 @@ export function DataTableToolbar({
                 />
             </div>
             <div className="flex gap-2">
-                <Button type="button" variant="outline" className="border-navy-100 text-navy-400">
+                <Button
+                    type="button"
+                    variant="outline"
+                    className="border-navy-100 text-navy-400"
+                >
                     <Filter className="size-4" />
                     Filters
                 </Button>
-                <Button type="button" variant="outline" className="border-navy-100 text-navy-400">
+                <Button
+                    type="button"
+                    variant="outline"
+                    className="border-navy-100 text-navy-400"
+                >
                     <Download className="size-4" />
                     Export
                 </Button>

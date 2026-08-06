@@ -1,15 +1,15 @@
 import { Head } from '@inertiajs/react';
 import { AquaPageHeader } from '@/components/aquacert/aqua-page-header';
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
 
 export default function TeacherProfile() {
     return (
         <>
             <Head title="Profile" />
-            <div className="flex h-full flex-1 flex-col gap-6 bg-[#f8fafc] p-4 md:p-6">
+            <div className="flex h-full flex-1 flex-col gap-6 bg-canvas p-4 md:p-6">
                 <AquaPageHeader
                     title="Profile"
                     subtitle="Manage your learner profile details"
@@ -25,9 +25,16 @@ export default function TeacherProfile() {
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="role">Role</Label>
-                        <Input id="role" defaultValue="Swim Instructor" readOnly />
+                        <Input
+                            id="role"
+                            defaultValue="Swim Instructor"
+                            readOnly
+                        />
                     </div>
-                    <Button type="button" className="bg-navy-500 text-white hover:bg-navy-600">
+                    <Button
+                        type="button"
+                        className="bg-navy-500 text-white hover:bg-navy-600"
+                    >
                         Save changes
                     </Button>
                 </Card>

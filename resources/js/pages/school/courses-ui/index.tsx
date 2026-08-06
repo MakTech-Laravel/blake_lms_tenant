@@ -16,8 +16,14 @@ export default function SchoolCoursesUiPage() {
             rows={courses.rows}
             createLabel="Create Course"
             extraActions={
-                <Button asChild variant="outline" className="border-navy-100 text-navy-400">
-                    <Link href={`/school/${slug}/courses/wizard`}>Open wizard</Link>
+                <Button
+                    asChild
+                    variant="outline"
+                    className="border-navy-100 text-navy-400"
+                >
+                    <Link href={`/school/${slug}/courses/wizard`}>
+                        Open wizard
+                    </Link>
                 </Button>
             }
         />

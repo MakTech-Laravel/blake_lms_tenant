@@ -40,7 +40,7 @@ export default function MyLearning() {
     return (
         <>
             <Head title="My Learning" />
-            <div className="flex h-full flex-1 flex-col gap-6 bg-[#f8fafc] p-4 md:p-6">
+            <div className="flex h-full flex-1 flex-col gap-6 bg-canvas p-4 md:p-6">
                 <AquaPageHeader
                     title="My Learning"
                     subtitle={`${learnerOverview.courses.length} courses assigned`}
@@ -53,9 +53,15 @@ export default function MyLearning() {
                     >
                         <TabsList>
                             <TabsTrigger value="all">All</TabsTrigger>
-                            <TabsTrigger value="progress">In Progress</TabsTrigger>
-                            <TabsTrigger value="not-started">Not Started</TabsTrigger>
-                            <TabsTrigger value="completed">Completed</TabsTrigger>
+                            <TabsTrigger value="progress">
+                                In Progress
+                            </TabsTrigger>
+                            <TabsTrigger value="not-started">
+                                Not Started
+                            </TabsTrigger>
+                            <TabsTrigger value="completed">
+                                Completed
+                            </TabsTrigger>
                             <TabsTrigger value="overdue">Overdue</TabsTrigger>
                         </TabsList>
                     </Tabs>
@@ -89,9 +95,13 @@ export default function MyLearning() {
                                         {course.title}
                                     </h3>
                                     <p className="text-body-4 text-navy-300">
-                                        {course.duration} · {course.modules} modules
+                                        {course.duration} · {course.modules}{' '}
+                                        modules
                                     </p>
-                                    <Progress value={course.progress} className="h-2" />
+                                    <Progress
+                                        value={course.progress}
+                                        className="h-2"
+                                    />
                                     <div className="flex items-center justify-between gap-2">
                                         <StatusBadge status={course.status} />
                                         <Button
@@ -101,7 +111,8 @@ export default function MyLearning() {
                                         >
                                             {course.status === 'Completed'
                                                 ? 'Review'
-                                                : course.status === 'Not Started'
+                                                : course.status ===
+                                                    'Not Started'
                                                   ? 'Start'
                                                   : 'Continue'}
                                         </Button>

@@ -1,7 +1,7 @@
-import type { ActivityItem } from '@/data/aquacert-fixtures';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { SectionCard } from '@/components/aquacert/section-card';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import type { ActivityItem } from '@/data/aquacert-fixtures';
 
 type ActivityFeedProps = {
     items: ActivityItem[];

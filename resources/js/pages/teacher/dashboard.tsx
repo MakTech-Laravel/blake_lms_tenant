@@ -1,11 +1,5 @@
 import { Head } from '@inertiajs/react';
-import {
-    Award,
-    BookOpen,
-    Calendar,
-    ClipboardCheck,
-    Route,
-} from 'lucide-react';
+import { Award, BookOpen, Calendar, ClipboardCheck, Route } from 'lucide-react';
 import { ActivityFeed } from '@/components/aquacert/activity-feed';
 import { AquaPageHeader } from '@/components/aquacert/aqua-page-header';
 import { AquaStatCard } from '@/components/aquacert/aqua-stat-card';
@@ -23,25 +17,49 @@ export default function TeacherDashboard() {
         <>
             <Head title="Dashboard" />
 
-            <div className="flex h-full flex-1 flex-col gap-6 bg-[#f8fafc] p-4 md:p-6">
+            <div className="flex h-full flex-1 flex-col gap-6 bg-canvas p-4 md:p-6">
                 <AquaPageHeader
                     title={data.greeting}
                     subtitle={data.subtitle}
                 />
 
                 <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
-                    <AquaStatCard label="Assigned" value={data.kpis[0].value} icon={BookOpen} />
-                    <AquaStatCard label="Completed" value={data.kpis[1].value} icon={Award} />
-                    <AquaStatCard label="Pathways" value={data.kpis[2].value} icon={Route} />
-                    <AquaStatCard label="Assessments" value={data.kpis[3].value} icon={ClipboardCheck} />
-                    <AquaStatCard label="Certificates" value={data.kpis[4].value} icon={Award} />
-                    <AquaStatCard label="Deadlines" value={data.kpis[5].value} icon={Calendar} />
+                    <AquaStatCard
+                        label="Assigned"
+                        value={data.kpis[0].value}
+                        icon={BookOpen}
+                    />
+                    <AquaStatCard
+                        label="Completed"
+                        value={data.kpis[1].value}
+                        icon={Award}
+                    />
+                    <AquaStatCard
+                        label="Pathways"
+                        value={data.kpis[2].value}
+                        icon={Route}
+                    />
+                    <AquaStatCard
+                        label="Assessments"
+                        value={data.kpis[3].value}
+                        icon={ClipboardCheck}
+                    />
+                    <AquaStatCard
+                        label="Certificates"
+                        value={data.kpis[4].value}
+                        icon={Award}
+                    />
+                    <AquaStatCard
+                        label="Deadlines"
+                        value={data.kpis[5].value}
+                        icon={Calendar}
+                    />
                 </div>
 
                 <SectionCard title="Continue Learning">
                     <div className="flex flex-col gap-4 rounded-xl bg-gradient-to-r from-navy-500 to-aqua-600 p-6 text-white sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex-1">
-                            <p className="text-caption-1 font-semibold tracking-wide uppercase text-aqua-100">
+                            <p className="text-caption-1 font-semibold tracking-wide text-aqua-100 uppercase">
                                 Continue Learning
                             </p>
                             <h2 className="mt-1 text-h5 font-bold">
@@ -50,7 +68,9 @@ export default function TeacherDashboard() {
                             <div className="mt-4 max-w-md">
                                 <div className="mb-1 flex justify-between text-body-4 text-aqua-100">
                                     <span>Progress</span>
-                                    <span>{data.continueLearning.progress}%</span>
+                                    <span>
+                                        {data.continueLearning.progress}%
+                                    </span>
                                 </div>
                                 <Progress
                                     value={data.continueLearning.progress}
@@ -79,23 +99,38 @@ export default function TeacherDashboard() {
                                 <li>
                                     <div className="mb-1 flex justify-between text-body-4">
                                         <span>Course Completion</span>
-                                        <span>{data.progress.courseCompletion}%</span>
+                                        <span>
+                                            {data.progress.courseCompletion}%
+                                        </span>
                                     </div>
-                                    <Progress value={data.progress.courseCompletion} className="h-2" />
+                                    <Progress
+                                        value={data.progress.courseCompletion}
+                                        className="h-2"
+                                    />
                                 </li>
                                 <li>
                                     <div className="mb-1 flex justify-between text-body-4">
                                         <span>Pathway Progress</span>
-                                        <span>{data.progress.pathwayProgress}%</span>
+                                        <span>
+                                            {data.progress.pathwayProgress}%
+                                        </span>
                                     </div>
-                                    <Progress value={data.progress.pathwayProgress} className="h-2" />
+                                    <Progress
+                                        value={data.progress.pathwayProgress}
+                                        className="h-2"
+                                    />
                                 </li>
                                 <li>
                                     <div className="mb-1 flex justify-between text-body-4">
                                         <span>Certifications</span>
-                                        <span>{data.progress.certifications}%</span>
+                                        <span>
+                                            {data.progress.certifications}%
+                                        </span>
                                     </div>
-                                    <Progress value={data.progress.certifications} className="h-2" />
+                                    <Progress
+                                        value={data.progress.certifications}
+                                        className="h-2"
+                                    />
                                 </li>
                             </ul>
                         </div>
