@@ -49,6 +49,7 @@ class UpdateUserRequest extends FormRequest
     /**
      * Enforce the super-admin invariants:
      *   - only a super-admin may grant the super-admin role;
+     *   - the platform may only have one super-admin;
      *   - the last super-admin cannot have the role removed.
      */
     public function withValidator(Validator $validator): void
@@ -65,6 +66,15 @@ class UpdateUserRequest extends FormRequest
                 $validator->errors()->add(
                     'roles',
                     'Only a super administrator can assign the super-admin role.'
+                );
+            }
+
+            if (SuperAdmin::isGrantedBy($roles)
+                && ! $target->isSuperAdmin()
+                && SuperAdmin::countInTeam(PlatformTeamResolver::PLATFORM_TEAM_ID) >= 1) {
+                $validator->errors()->add(
+                    'roles',
+                    'The platform may only have one super administrator.'
                 );
             }
 

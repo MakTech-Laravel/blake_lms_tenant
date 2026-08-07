@@ -2,6 +2,20 @@ export type PeopleTypeFilter = 'all' | 'teacher' | 'school' | 'platform';
 
 export type PeopleAudience = 'teacher' | 'school' | 'platform';
 
+export type PeopleDirectoryFilters = {
+    search: string;
+    type: PeopleTypeFilter;
+    status: string;
+    organization: string;
+    role: string;
+    last_login: string;
+};
+
+export type DirectoryFilterRoleOption = {
+    value: string;
+    label: string;
+};
+
 export type DirectoryPerson = {
     id: number;
     name: string;
@@ -17,6 +31,7 @@ export type DirectoryPerson = {
     last_login_at: string | null;
     last_login_label: string;
     edit_url: string | null;
+    can_delete: boolean;
 };
 
 export type DirectoryStats = {
@@ -34,6 +49,12 @@ export type DirectorySchoolOption = {
 export type DirectoryRoleOption = {
     id: number;
     name: string;
+};
+
+export type DirectorySchoolRoleOption = {
+    id: number;
+    name: string;
+    school_id: number;
 };
 
 export const PEOPLE_TYPE_TABS: { value: PeopleTypeFilter; label: string }[] = [

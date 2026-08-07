@@ -42,7 +42,7 @@ test('a non super-admin cannot assign the super-admin role when creating a user'
     expect(User::role(RoleEnum::SUPER_ADMIN->value)->count())->toBe(1);
 });
 
-test('a super-admin can assign the super-admin role', function () {
+test('a super-admin cannot assign a second platform super-admin role', function () {
     $this->actingAs($this->superAdmin)
         ->post(route('platform.users.store'), [
             'name' => 'New Super',
@@ -50,10 +50,9 @@ test('a super-admin can assign the super-admin role', function () {
             'password' => 'password123',
             'roles' => [RoleEnum::SUPER_ADMIN->value],
         ])
-        ->assertRedirect(route('platform.users.index'));
+        ->assertSessionHasErrors('roles');
 
-    expect(User::where('email', 'newsuper@example.com')->sole()->isSuperAdmin())
-        ->toBeTrue();
+    expect(User::where('email', 'newsuper@example.com')->exists())->toBeFalse();
 });
 
 // ── Acting on super-admin accounts ──────────────────────────────────────────

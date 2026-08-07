@@ -74,9 +74,9 @@ class UserController extends Controller
     public function people(Request $request): Response
     {
         $typeFilter = $this->resolvePeopleTypeFilter($request->query('type'));
-        $search = trim((string) $request->query('search', ''));
+        $directoryFilters = $this->resolvePeopleDirectoryFilters($request);
 
-        $query = $this->peopleDirectoryQuery($typeFilter, $search);
+        $query = $this->peopleDirectoryQuery($typeFilter, $directoryFilters);
 
         $paginator = $query->paginate(15)->withQueryString();
         $people = $paginator->through(fn (User $user): array => $this->mapDirectoryUser($user));
@@ -100,14 +100,32 @@ class UserController extends Controller
                 'disabled' => (clone $statsBase)->where('status', UserStatus::Disabled)->count(),
             ],
             'filters' => [
-                'search' => $search,
+                'search' => $directoryFilters['search'],
                 'type' => $typeFilter,
+                'status' => $directoryFilters['status'],
+                'organization' => $directoryFilters['organization'],
+                'role' => $directoryFilters['role'],
+                'last_login' => $directoryFilters['last_login'],
             ],
             'schools' => School::query()->orderBy('name')->get(['id', 'name']),
             'roles' => $this->platformRoles()->map(fn (Role $role): array => [
                 'id' => $role->id,
                 'name' => $role->name,
             ])->values(),
+            'schoolRoles' => Role::query()
+                ->where('school_id', '!=', PlatformTeamResolver::PLATFORM_TEAM_ID)
+                ->orderBy('name')
+                ->get(['id', 'name', 'school_id'])
+                ->map(fn (Role $role): array => [
+                    'id' => $role->id,
+                    'name' => $role->name,
+                    'school_id' => (int) $role->school_id,
+                ])
+                ->values(),
+            'filterRoles' => $this->peopleFilterRoleOptions(),
+            'platformHasSuperAdmin' => SuperAdmin::countInTeam(PlatformTeamResolver::PLATFORM_TEAM_ID) >= 1,
+            'canAssignPlatformSuperAdmin' => $request->user()?->isSuperAdmin()
+                && SuperAdmin::countInTeam(PlatformTeamResolver::PLATFORM_TEAM_ID) === 0,
         ]);
     }
 
@@ -118,11 +136,11 @@ class UserController extends Controller
     public function exportPeople(Request $request): BinaryFileResponse
     {
         $typeFilter = $this->resolvePeopleTypeFilter($request->query('type'));
-        $search = trim((string) $request->query('search', ''));
+        $directoryFilters = $this->resolvePeopleDirectoryFilters($request);
         $scope = $request->query('scope') === 'visible' ? 'visible' : 'all';
         $format = $request->query('format') === 'csv' ? 'csv' : 'xlsx';
 
-        $query = $this->peopleDirectoryQuery($typeFilter, $search);
+        $query = $this->peopleDirectoryQuery($typeFilter, $directoryFilters);
 
         if ($scope === 'visible') {
             $ids = collect($request->query('ids', []))
@@ -193,17 +211,27 @@ class UserController extends Controller
     public function storeOrganizationUser(StoreOrganizationUserRequest $request): RedirectResponse
     {
         $data = $request->validated();
+        $schoolId = (int) $data['school_id'];
 
-        User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
             'type' => UserType::SCHOOL,
             'status' => UserStatus::Pending,
-            'school_id' => $data['school_id'],
+            'school_id' => $schoolId,
             'branch_id' => $data['branch_id'] ?? null,
             'email_verified_at' => null,
         ]);
+
+        $previousTeamId = getPermissionsTeamId();
+        setPermissionsTeamId($schoolId);
+
+        try {
+            $user->syncRoles($request->validated('roles', []));
+        } finally {
+            setPermissionsTeamId($previousTeamId);
+        }
 
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Organization user added successfully.']);
 
@@ -253,17 +281,15 @@ class UserController extends Controller
             404,
         );
 
-        if ($user->type === UserType::PLATFORM) {
-            $this->authorize('delete', $user);
+        $this->authorize('delete', $user);
 
-            if (SuperAdmin::isLast($user)) {
-                Inertia::flash('toast', [
-                    'type' => 'error',
-                    'message' => 'You must assign the super-admin role to another user before deleting the last super administrator.',
-                ]);
+        if (SuperAdmin::isLast($user)) {
+            Inertia::flash('toast', [
+                'type' => 'error',
+                'message' => 'You must assign the super-admin role to another user before deleting the last super administrator.',
+            ]);
 
-                return redirect()->back();
-            }
+            return redirect()->back();
         }
 
         $this->deleteAvatar($user);
@@ -386,9 +412,41 @@ class UserController extends Controller
     }
 
     /**
+     * @return array{
+     *     search: string,
+     *     status: string,
+     *     organization: string,
+     *     role: string,
+     *     last_login: string
+     * }
+     */
+    private function resolvePeopleDirectoryFilters(Request $request): array
+    {
+        $status = strtolower(trim((string) $request->query('status', '')));
+        $organization = trim((string) $request->query('organization', ''));
+        $role = trim((string) $request->query('role', ''));
+        $lastLogin = strtolower(trim((string) $request->query('last_login', '')));
+
+        return [
+            'search' => trim((string) $request->query('search', '')),
+            'status' => in_array($status, ['active', 'pending', 'disabled'], true) ? $status : '',
+            'organization' => $organization === 'aquacert' || ctype_digit($organization) ? $organization : '',
+            'role' => $role,
+            'last_login' => in_array($lastLogin, ['never', 'week', 'month'], true) ? $lastLogin : '',
+        ];
+    }
+
+    /**
+     * @param  array{
+     *     search: string,
+     *     status: string,
+     *     organization: string,
+     *     role: string,
+     *     last_login: string
+     * }  $filters
      * @return Builder<User>
      */
-    private function peopleDirectoryQuery(string $typeFilter, string $search): Builder
+    private function peopleDirectoryQuery(string $typeFilter, array $filters): Builder
     {
         return User::query()
             ->with(['school:id,name,slug', 'branch:id,name', 'roles:id,name'])
@@ -402,10 +460,63 @@ class UserController extends Controller
                 ]),
             )
             ->when(
-                $search !== '',
-                fn (Builder $builder) => $this->applyPeopleDirectorySearch($builder, $search),
+                $filters['search'] !== '',
+                fn (Builder $builder) => $this->applyPeopleDirectorySearch($builder, $filters['search']),
             )
+            ->when(
+                $filters['status'] !== '',
+                fn (Builder $builder) => $builder->where('status', $filters['status']),
+            )
+            ->when($filters['organization'] !== '', function (Builder $builder) use ($filters): void {
+                if ($filters['organization'] === 'aquacert') {
+                    $builder->where('type', UserType::PLATFORM);
+
+                    return;
+                }
+
+                $builder->where('school_id', (int) $filters['organization']);
+            })
+            ->when($filters['role'] !== '', function (Builder $builder) use ($filters): void {
+                if (strcasecmp($filters['role'], 'Instructor') === 0) {
+                    $builder->where('type', UserType::TEACHER);
+
+                    return;
+                }
+
+                $builder->whereHas(
+                    'roles',
+                    fn (Builder $roles) => $roles->where('name', $filters['role']),
+                );
+            })
+            ->when($filters['last_login'] !== '', function (Builder $builder) use ($filters): void {
+                match ($filters['last_login']) {
+                    'never' => $builder->whereNull('last_login_at'),
+                    'week' => $builder->where('last_login_at', '>=', now()->subDays(7)),
+                    'month' => $builder->where('last_login_at', '>=', now()->subDays(30)),
+                    default => null,
+                };
+            })
             ->latest('id');
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection<int, array{value: string, label: string}>
+     */
+    private function peopleFilterRoleOptions(): \Illuminate\Support\Collection
+    {
+        $roleNames = Role::query()
+            ->orderBy('name')
+            ->pluck('name')
+            ->unique()
+            ->values();
+
+        return collect([['value' => 'Instructor', 'label' => 'Instructor']])
+            ->merge($roleNames->map(fn (string $name): array => [
+                'value' => $name,
+                'label' => $name,
+            ]))
+            ->unique('value')
+            ->values();
     }
 
     /**
@@ -467,7 +578,8 @@ class UserController extends Controller
      *     user_type_label: string,
      *     last_login_at: string|null,
      *     last_login_label: string,
-     *     edit_url: string|null
+     *     edit_url: string|null,
+     *     can_delete: bool
      * }
      */
     private function mapDirectoryUser(User $user): array
@@ -501,6 +613,7 @@ class UserController extends Controller
                 ? $user->last_login_at->diffForHumans(short: true)
                 : '—',
             'edit_url' => $editUrl,
+            'can_delete' => (bool) auth()->user()?->can('delete', $user),
         ];
     }
 

@@ -44,17 +44,31 @@ class StoreUserRequest extends FormRequest
     }
 
     /**
-     * Enforce that only a super-admin may grant the super-admin role.
+     * Enforce that only a super-admin may grant the super-admin role, and that
+     * the platform keeps exactly one super-admin account.
      */
     public function withValidator(Validator $validator): void
     {
         $validator->after(function (Validator $validator): void {
             $roles = (array) $this->input('roles', []);
 
-            if (SuperAdmin::isGrantedBy($roles) && ! $this->user()->isSuperAdmin()) {
+            if (! SuperAdmin::isGrantedBy($roles)) {
+                return;
+            }
+
+            if (! $this->user()->isSuperAdmin()) {
                 $validator->errors()->add(
                     'roles',
                     'Only a super administrator can assign the super-admin role.'
+                );
+
+                return;
+            }
+
+            if (SuperAdmin::countInTeam(PlatformTeamResolver::PLATFORM_TEAM_ID) >= 1) {
+                $validator->errors()->add(
+                    'roles',
+                    'The platform may only have one super administrator.'
                 );
             }
         });

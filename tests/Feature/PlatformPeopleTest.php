@@ -9,6 +9,7 @@ use Database\Seeders\PermissionSeeder;
 use Database\Seeders\RoleSeeder;
 use Inertia\Testing\AssertableInertia as Assert;
 use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Permission\Models\Role;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 beforeEach(function () {
@@ -80,6 +81,43 @@ test('people directory search matches name email role organization type and stat
     'type' => ['teacher', 'Alice Teacher'],
     'status' => ['disabled', 'Carol Org'],
 ]);
+
+test('people index filters by status organization role and last login', function () {
+    $school = School::factory()->create();
+    $active = User::factory()->teacher($school)->create([
+        'name' => 'Active Teacher',
+        'status' => UserStatus::Active,
+        'last_login_at' => now()->subDay(),
+    ]);
+    User::factory()->teacher($school)->create([
+        'name' => 'Pending Teacher',
+        'status' => UserStatus::Pending,
+        'last_login_at' => null,
+    ]);
+    User::factory()->platform()->create([
+        'name' => 'Platform Never',
+        'status' => UserStatus::Active,
+        'last_login_at' => null,
+    ]);
+
+    $this->actingAs($this->admin)
+        ->get(route('platform.people.index', [
+            'type' => 'teacher',
+            'status' => 'active',
+            'organization' => $school->id,
+            'role' => 'Instructor',
+            'last_login' => 'month',
+        ]))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('filters.status', 'active')
+            ->where('filters.organization', (string) $school->id)
+            ->where('filters.role', 'Instructor')
+            ->where('filters.last_login', 'month')
+            ->has('people.data', 1)
+            ->where('people.data.0.id', $active->id)
+            ->has('filterRoles'));
+});
 
 test('people index defaults to all user types', function () {
     $school = School::factory()->create();
@@ -182,6 +220,11 @@ test('can create platform user from people directory', function () {
 
 test('can create organization user from people directory', function () {
     $school = School::factory()->create();
+    Role::create([
+        'name' => RoleEnum::ADMIN->value,
+        'guard_name' => 'web',
+        'school_id' => $school->id,
+    ]);
 
     $this->actingAs($this->admin)
         ->post(route('platform.people.store_organization'), [
@@ -189,6 +232,7 @@ test('can create organization user from people directory', function () {
             'email' => 'org.staff@example.com',
             'password' => 'password123',
             'school_id' => $school->id,
+            'roles' => [RoleEnum::ADMIN->value],
         ])
         ->assertRedirect(route('platform.people.index', ['type' => 'school']));
 
@@ -197,6 +241,48 @@ test('can create organization user from people directory', function () {
     expect($user)->not->toBeNull()
         ->and($user->type)->toBe(UserType::SCHOOL)
         ->and($user->school_id)->toBe($school->id);
+
+    setPermissionsTeamId($school->id);
+    expect($user->fresh()->hasRole(RoleEnum::ADMIN->value))->toBeTrue();
+});
+
+test('platform admin cannot delete a platform super-admin from the directory', function () {
+    $admin = User::factory()->platform()->create();
+    $admin->assignRole(RoleEnum::ADMIN->value);
+
+    $this->actingAs($admin)
+        ->delete(route('platform.directory_users.destroy', $this->admin))
+        ->assertForbidden();
+
+    expect(User::find($this->admin->id))->not->toBeNull();
+});
+
+test('platform admin can delete a school super-admin from the directory', function () {
+    $school = School::factory()->create();
+    setPermissionsTeamId($school->id);
+    $schoolSaRole = Role::create([
+        'name' => RoleEnum::SUPER_ADMIN->value,
+        'guard_name' => 'web',
+        'school_id' => $school->id,
+    ]);
+    $schoolSa = User::factory()->schoolStaff($school)->create();
+    $schoolSa->assignRole($schoolSaRole);
+    setPermissionsTeamId(0);
+
+    $admin = User::factory()->platform()->create();
+    $admin->assignRole(RoleEnum::ADMIN->value);
+
+    // Seed a second school SA so deleting the first is not blocked by last-SA.
+    $other = User::factory()->schoolStaff($school)->create();
+    setPermissionsTeamId($school->id);
+    $other->assignRole($schoolSaRole);
+    setPermissionsTeamId(0);
+
+    $this->actingAs($admin)
+        ->delete(route('platform.directory_users.destroy', $schoolSa))
+        ->assertRedirect();
+
+    expect(User::find($schoolSa->id))->toBeNull();
 });
 
 test('can disable a teacher from the directory', function () {

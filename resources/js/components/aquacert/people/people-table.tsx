@@ -226,7 +226,8 @@ export function PeopleTable({
                                                     Enable
                                                 </DropdownMenuItem>
                                             )}
-                                        {can(PERMISSIONS.USERS.DELETE) && (
+                                        {can(PERMISSIONS.USERS.DELETE) &&
+                                            person.can_delete && (
                                             <>
                                                 <DropdownMenuSeparator />
                                                 <DropdownMenuItem
