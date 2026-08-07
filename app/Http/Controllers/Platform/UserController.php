@@ -113,7 +113,7 @@ class UserController extends Controller
 
     public function show(User $user): Response
     {
-        abort_unless($user->type === UserType::PLATFORM, 404);
+        $this->ensurePlatformUser($user);
 
         $user->load('roles:id,name', 'permissions:id,name');
 
@@ -124,6 +124,7 @@ class UserController extends Controller
 
     public function edit(User $user): Response
     {
+        $this->ensurePlatformUser($user);
         $this->authorize('update', $user);
 
         $user->load('roles:id,name');
@@ -138,6 +139,7 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
+        $this->ensurePlatformUser($user);
         $this->authorize('update', $user);
 
         $data = $request->validated();
@@ -164,6 +166,7 @@ class UserController extends Controller
 
     public function destroy(User $user): RedirectResponse
     {
+        $this->ensurePlatformUser($user);
         $this->authorize('delete', $user);
 
         if (SuperAdmin::isLast($user)) {
@@ -184,7 +187,19 @@ class UserController extends Controller
     }
 
     /**
-     * The global platform roles (school_id NULL) assignable to platform staff.
+     * Guard against operating on a tenant's staff account via a forged id.
+     *
+     * The `users.*` permissions authorize administering PLATFORM accounts; a
+     * school user is administered through the school dashboard, where the
+     * actor's tenancy is verified.
+     */
+    private function ensurePlatformUser(User $user): void
+    {
+        abort_unless($user->type === UserType::PLATFORM, 404);
+    }
+
+    /**
+     * The platform's own roles (team 0) assignable to platform staff.
      *
      * @return Collection<int, Role>
      */

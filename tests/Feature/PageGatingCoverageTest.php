@@ -47,13 +47,18 @@ function pagesRenderingTables(): array
 }
 
 /**
+ * Pages that offer a create affordance at all. A read-only module (the school
+ * locations directory, say) declares neither a label nor a target and therefore
+ * renders no create button — that is correct, not a missing gate.
+ *
  * @return array<string, array{0: string, 1: string}>
  */
-function pagesRenderingFixtureModules(): array
+function pagesOfferingCreate(): array
 {
     return array_filter(
         pagesRenderingTables(),
-        fn (array $case): bool => str_contains($case[1], '<ModuleFixturePage'),
+        fn (array $case): bool => str_contains($case[1], '<ModuleFixturePage')
+            && (str_contains($case[1], 'createLabel') || str_contains($case[1], 'createHref')),
     );
 }
 
@@ -61,9 +66,54 @@ test('every page that renders a data table declares an export permission', funct
     expect($contents)->toContain('exportPermission');
 })->with(fn (): array => pagesRenderingTables());
 
-test('every fixture module page declares a create permission', function (string $page, string $contents) {
+test('every page offering a create button declares a create permission', function (string $page, string $contents) {
     expect($contents)->toContain('createPermission');
-})->with(fn (): array => pagesRenderingFixtureModules());
+})->with(fn (): array => pagesOfferingCreate());
+
+/**
+ * Pages that gate tabs through a `tabPermissions` lookup.
+ *
+ * @return array<string, array{0: string, 1: string}>
+ */
+function pagesGatingTabs(): array
+{
+    $root = dirname(__DIR__, 2).'/resources/js/pages';
+
+    $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root, FilesystemIterator::SKIP_DOTS));
+
+    $pages = [];
+
+    foreach ($files as $file) {
+        if ($file->getExtension() !== 'tsx') {
+            continue;
+        }
+
+        $contents = (string) file_get_contents($file->getPathname());
+
+        if (! str_contains($contents, 'tabPermissions')) {
+            continue;
+        }
+
+        $page = str_replace('\\', '/', substr($file->getPathname(), strlen($root) + 1));
+
+        $pages[$page] = [$page, $contents];
+    }
+
+    ksort($pages);
+
+    return $pages;
+}
+
+/**
+ * A tab lookup must fail closed. `!permission || can(permission)` renders any
+ * tab missing from the map for everyone who can open the page, which is how the
+ * platform Branding and school General tabs originally went ungated.
+ */
+test('tab permission lookups fail closed', function (string $page, string $contents) {
+    expect($contents)
+        ->toContain('permission !== undefined && can(permission)')
+        ->not->toContain('!permission || can(permission)');
+})->with(fn (): array => pagesGatingTabs());
 
 test('the platform admin role can export every platform module', function () {
     $exportPermissions = collect(PermissionEnum::forDomain(PermissionDomain::PLATFORM))

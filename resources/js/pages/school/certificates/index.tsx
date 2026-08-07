@@ -94,9 +94,11 @@ export default function SchoolCertificatesPage({ certificates }: Props) {
                                             {column.label}
                                         </TableHead>
                                     ))}
-                                    <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase">
-                                        Actions
-                                    </TableHead>
+                                    {canDownload && (
+                                        <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase">
+                                            Actions
+                                        </TableHead>
+                                    )}
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -121,9 +123,9 @@ export default function SchoolCertificatesPage({ certificates }: Props) {
                                         <TableCell>
                                             <StatusBadge status={row.status} />
                                         </TableCell>
-                                        <TableCell>
-                                            {canDownload &&
-                                                (live ? (
+                                        {canDownload && (
+                                            <TableCell>
+                                                {live ? (
                                                     <Button
                                                         asChild
                                                         size="sm"
@@ -147,8 +149,9 @@ export default function SchoolCertificatesPage({ certificates }: Props) {
                                                     >
                                                         Preview
                                                     </Button>
-                                                ))}
-                                        </TableCell>
+                                                )}
+                                            </TableCell>
+                                        )}
                                     </TableRow>
                                 ))}
                             </TableBody>

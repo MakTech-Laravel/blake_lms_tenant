@@ -46,6 +46,7 @@ enum RoleEnum: string
                 PermissionEnum::ICON_PICKER_INDEX,
                 PermissionEnum::ICON_PICKER_STORE,
 
+                PermissionEnum::POSTS_INDEX,
                 PermissionEnum::POSTS_VIEW,
                 PermissionEnum::POSTS_CREATE,
                 PermissionEnum::POSTS_EDIT,
@@ -144,11 +145,17 @@ enum RoleEnum: string
 
                 PermissionEnum::PLATFORM_SYSTEM_SECURITY_EDIT,
                 PermissionEnum::PLATFORM_SYSTEM_INTEGRATIONS_EDIT,
+                PermissionEnum::PLATFORM_SYSTEM_BRANDING_EDIT,
                 PermissionEnum::PLATFORM_SYSTEM_BILLING_VIEW,
 
+                PermissionEnum::SETTINGS_INDEX,
                 PermissionEnum::SETTINGS_VIEW,
+                PermissionEnum::SETTINGS_CREATE,
                 PermissionEnum::SETTINGS_EDIT,
+                PermissionEnum::SETTINGS_DELETE,
+                PermissionEnum::SETTINGS_IMPORT,
                 PermissionEnum::SETTINGS_EXPORT,
+                PermissionEnum::SETTINGS_PRINT,
             ],
 
             self::MANAGER => [
@@ -178,6 +185,7 @@ enum RoleEnum: string
 
             self::EDITOR => [
                 PermissionEnum::DASHBOARD_VIEW,
+                PermissionEnum::POSTS_INDEX,
                 PermissionEnum::POSTS_VIEW,
                 PermissionEnum::POSTS_CREATE,
                 PermissionEnum::POSTS_EDIT,
@@ -190,6 +198,7 @@ enum RoleEnum: string
 
             self::AUTHOR => [
                 PermissionEnum::DASHBOARD_VIEW,
+                PermissionEnum::POSTS_INDEX,
                 PermissionEnum::POSTS_VIEW,
                 PermissionEnum::POSTS_CREATE,
                 PermissionEnum::POSTS_EDIT,
@@ -197,11 +206,13 @@ enum RoleEnum: string
 
             self::VIEWER => [
                 PermissionEnum::DASHBOARD_VIEW,
+                PermissionEnum::POSTS_INDEX,
                 PermissionEnum::POSTS_VIEW,
             ],
 
             self::USER => [
                 PermissionEnum::DASHBOARD_VIEW,
+                PermissionEnum::POSTS_INDEX,
                 PermissionEnum::POSTS_VIEW,
             ],
         };

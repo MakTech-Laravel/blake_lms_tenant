@@ -45,6 +45,7 @@ const mainNav: NavNode[] = [
         title: 'Icon Picker Demo',
         href: iconPickerDemo(),
         icon: Sparkles,
+        permissions: [PERMISSIONS.ICON_PICKER.INDEX],
     },
 ];
 

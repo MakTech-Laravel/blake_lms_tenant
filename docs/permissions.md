@@ -51,7 +51,7 @@ public function domain(): PermissionDomain
 
 ### Where isolation is enforced (server-side, not by convention)
 
-Isolation is enforced in **two** places on the backend, so it holds even if the client is tampered with:
+Isolation is enforced in **three** places on the backend, so it holds even if the client is tampered with:
 
 1. **The permission picker query.** Each dashboard's role controller only ever loads its own domain's permissions:
 
@@ -75,6 +75,21 @@ Isolation is enforced in **two** places on the backend, so it holds even if the 
      ],
      ```
    - School — [`app/Http/Requests/School/StoreRoleRequest.php`](../app/Http/Requests/School/StoreRoleRequest.php) and [`UpdateRoleRequest.php`](../app/Http/Requests/School/UpdateRoleRequest.php): identical but `PermissionDomain::SCHOOL->value`.
+
+3. **The record guard in every controller.** A permission says what an actor may
+   do, never *which rows* they may do it to, so each controller re-checks that the
+   bound model belongs to its own domain before touching it. Without this, a
+   forged id crosses the boundary while passing every permission check:
+
+   - Platform — `ensurePlatformUser()` / `ensurePlatformRole()` reject a tenant's
+     staff account or a school's team-scoped role with a 404.
+   - School — `ensureVisible()` / `ensureBelongsToSchool()` reject another
+     school's (or another branch's) record the same way.
+
+   `tests/Feature/Platform/CrossDomainObjectAccessTest.php` covers the platform
+   side; `tests/Feature/School/*` and `tests/Feature/BranchScopingTest.php` cover
+   the school side. Add a guard like these to any new controller that takes a
+   route-bound model.
 
 The `PermissionEnum::forDomain()` helper returns every case in a given domain (used by seeders and tests):
 
@@ -128,6 +143,14 @@ Every module whose page renders an exportable table carries an `export` action
 (`platform.locations.export`, `school.staff.export`, …). The exceptions are
 screens with nothing to export: `school.branches.*`, both dashboards, and the
 two settings modules. `tests/Feature/PageGatingCoverageTest.php` enforces this.
+
+Every permission must also be **grantable**: one that no role matrix lists shows
+as a checkbox in the role editor while only a super-admin (who bypasses the Gate
+entirely) behaves as though they hold it. The school domain gets this for free —
+`SchoolSeeder` builds its `admin` role from `PermissionEnum::forDomain(SCHOOL)` —
+but the platform matrices in `RoleEnum` are hand-written, so
+`tests/Feature/PermissionParityTest.php` asserts the platform `admin` role covers
+every platform-domain permission, and that no platform matrix leaks a school one.
 
 Teachers/learners stay **permission-free** — the teacher portal is gated by ownership/enrollment checks only, not Spatie permissions.
 

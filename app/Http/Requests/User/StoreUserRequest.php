@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\User;
 
+use App\Support\PlatformTeamResolver;
 use App\Support\SuperAdmin;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 class StoreUserRequest extends FormRequest
@@ -31,7 +33,13 @@ class StoreUserRequest extends FormRequest
             'avatar' => 'nullable|image|max:2048',
             'remove_avatar' => 'nullable|boolean',
             'roles' => 'nullable|array',
-            'roles.*' => 'string|exists:roles,name',
+            // Isolation: only the platform's own roles may be assigned, never a
+            // tenant's identically-named team-scoped role.
+            'roles.*' => [
+                'string',
+                Rule::exists('roles', 'name')
+                    ->where('school_id', PlatformTeamResolver::PLATFORM_TEAM_ID),
+            ],
         ];
     }
 

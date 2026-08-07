@@ -64,6 +64,8 @@ class RoleController extends Controller
 
     public function edit(Role $role): Response
     {
+        $this->ensurePlatformRole($role);
+
         $role->load('permissions:id,name');
 
         return Inertia::render('platform/roles/edit', [
@@ -79,6 +81,8 @@ class RoleController extends Controller
 
     public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
     {
+        $this->ensurePlatformRole($role);
+
         $role->update(['name' => $request->validated('name')]);
         $role->syncPermissions($request->validated('permissions', []));
 
@@ -89,6 +93,8 @@ class RoleController extends Controller
 
     public function destroy(Role $role): RedirectResponse
     {
+        $this->ensurePlatformRole($role);
+
         if ($role->name === RoleEnum::SUPER_ADMIN->value) {
             Inertia::flash('toast', ['type' => 'error', 'message' => 'The super-admin role cannot be deleted.']);
 
@@ -100,6 +106,18 @@ class RoleController extends Controller
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Role deleted successfully.']);
 
         return redirect()->back();
+    }
+
+    /**
+     * Guard against operating on a school's team-scoped role via a forged id.
+     *
+     * A tenant's roles are managed from that school's dashboard only; renaming,
+     * re-permissioning or deleting one here would silently rewrite the tenant's
+     * access model with platform-domain permissions.
+     */
+    private function ensurePlatformRole(Role $role): void
+    {
+        abort_unless($role->school_id === PlatformTeamResolver::PLATFORM_TEAM_ID, 404);
     }
 
     /**

@@ -133,6 +133,7 @@ enum PermissionEnum: string
     // SYSTEM SETTINGS (tab-level)
     case PLATFORM_SYSTEM_SECURITY_EDIT = 'platform.system.security.edit';
     case PLATFORM_SYSTEM_INTEGRATIONS_EDIT = 'platform.system.integrations.edit';
+    case PLATFORM_SYSTEM_BRANDING_EDIT = 'platform.system.branding.edit';
     case PLATFORM_SYSTEM_BILLING_VIEW = 'platform.system.billing.view';
 
     // SETTINGS (platform)
@@ -467,6 +468,7 @@ enum PermissionEnum: string
 
             self::PLATFORM_SYSTEM_SECURITY_EDIT,
             self::PLATFORM_SYSTEM_INTEGRATIONS_EDIT,
+            self::PLATFORM_SYSTEM_BRANDING_EDIT,
             self::PLATFORM_SYSTEM_BILLING_VIEW => 'System',
 
             self::SETTINGS_INDEX,

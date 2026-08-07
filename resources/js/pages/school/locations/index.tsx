@@ -7,6 +7,12 @@ type Props = {
     locations?: ModuleRow[];
 };
 
+/**
+ * Read-only branch directory, reachable by branch-pinned staff. Creating a
+ * branch record belongs to the Branches module, whose routes additionally
+ * require head-office access — `school.locations.*` has no create action, so
+ * this page offers no create affordance.
+ */
 export default function SchoolLocationsPage({ locations }: Props) {
     const rows =
         locations && locations.length > 0 ? locations : schoolLocations.rows;
@@ -17,8 +23,6 @@ export default function SchoolLocationsPage({ locations }: Props) {
             subtitle={schoolLocations.subtitle}
             columns={schoolLocations.columns}
             rows={rows}
-            createLabel="Add Location"
-            createPermission={PERMISSIONS.SCHOOL_BRANCHES.CREATE}
             exportPermission={PERMISSIONS.SCHOOL_LOCATIONS.EXPORT}
         />
     );

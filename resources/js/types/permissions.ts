@@ -149,6 +149,7 @@ export const PERMISSIONS = {
     PLATFORM_SYSTEM: {
         SECURITY_EDIT: 'platform.system.security.edit',
         INTEGRATIONS_EDIT: 'platform.system.integrations.edit',
+        BRANDING_EDIT: 'platform.system.branding.edit',
         BILLING_VIEW: 'platform.system.billing.view',
     },
 

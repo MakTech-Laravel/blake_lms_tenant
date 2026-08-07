@@ -23,22 +23,45 @@ import {
     headerNotifications,
 } from '@/data/header-notifications';
 import type { HeaderNotification } from '@/data/header-notifications';
+import { usePermission } from '@/hooks/use-permissions';
 import { cn } from '@/lib/utils';
+import { PERMISSIONS } from '@/types/permissions';
+import type { PermissionKey } from '@/types/permissions';
 
-function resolveNotificationsHref(url: string, schoolSlug?: string): string {
+type NotificationsTarget = { href: string; permission?: PermissionKey };
+
+/**
+ * The "View all" destination plus the permission guarding it.
+ *
+ * The permission is derived from the destination rather than passed in by the
+ * caller: this header is rendered in every layout, and the platform/school
+ * sidebars hide their Notifications entry behind these same keys, so a link
+ * offered here must answer to the same gate. The teacher portal's notifications
+ * page is deliberately permission-free, matching its route.
+ */
+function resolveNotificationsTarget(
+    url: string,
+    schoolSlug?: string,
+): NotificationsTarget {
     if (url.startsWith('/platform')) {
-        return '/platform/notifications';
+        return {
+            href: '/platform/notifications',
+            permission: PERMISSIONS.PLATFORM_NOTIFICATIONS.INDEX,
+        };
     }
 
     if (url.startsWith('/school/') && schoolSlug) {
-        return `/school/${schoolSlug}/notifications`;
+        return {
+            href: `/school/${schoolSlug}/notifications`,
+            permission: PERMISSIONS.SCHOOL_NOTIFICATIONS.INDEX,
+        };
     }
 
     if (url.startsWith('/dashboard')) {
-        return '/dashboard/notifications';
+        return { href: '/dashboard/notifications' };
     }
 
-    return '#';
+    return { href: '#' };
 }
 
 type NotificationsBellProps = {
@@ -56,6 +79,7 @@ export function NotificationsBell({
 }: NotificationsBellProps) {
     const page = usePage();
     const schoolSlug = page.props.school?.slug;
+    const { can } = usePermission();
 
     const [open, setOpen] = useState(false);
     const [notifications, setNotifications] = useState(items);
@@ -65,8 +89,10 @@ export function NotificationsBell({
         [notifications],
     );
 
-    const resolvedViewAll =
-        viewAllHref ?? resolveNotificationsHref(page.url, schoolSlug);
+    const target = resolveNotificationsTarget(page.url, schoolSlug);
+    const resolvedViewAll = viewAllHref ?? target.href;
+    const canViewAll =
+        target.permission === undefined || can(target.permission);
 
     const markAllRead = () => {
         setNotifications((current) =>
@@ -233,15 +259,17 @@ export function NotificationsBell({
                     )}
                 </ul>
 
-                <div className="border-t border-navy-50 px-4 py-3 text-center">
-                    <Link
-                        href={resolvedViewAll}
-                        className="text-label-3 font-semibold text-aqua-600 hover:text-aqua-700"
-                        onClick={() => setOpen(false)}
-                    >
-                        View all notifications
-                    </Link>
-                </div>
+                {canViewAll && (
+                    <div className="border-t border-navy-50 px-4 py-3 text-center">
+                        <Link
+                            href={resolvedViewAll}
+                            className="text-label-3 font-semibold text-aqua-600 hover:text-aqua-700"
+                            onClick={() => setOpen(false)}
+                        >
+                            View all notifications
+                        </Link>
+                    </div>
+                )}
             </PopoverContent>
         </Popover>
     );

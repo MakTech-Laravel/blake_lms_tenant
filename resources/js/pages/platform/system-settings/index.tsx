@@ -7,9 +7,15 @@ import { usePermission } from '@/hooks/use-permissions';
 import { PERMISSIONS } from '@/types/permissions';
 import type { PermissionKey } from '@/types/permissions';
 
-const tabPermissions: Record<string, PermissionKey | undefined> = {
+/**
+ * Every tab needs its own entry: an unmapped tab would be visible to anyone who
+ * can reach the page, which only requires `settings.view`.
+ */
+const tabPermissions: Record<string, PermissionKey> = {
+    general: PERMISSIONS.SETTINGS.EDIT,
     integrations: PERMISSIONS.PLATFORM_SYSTEM.INTEGRATIONS_EDIT,
     security: PERMISSIONS.PLATFORM_SYSTEM.SECURITY_EDIT,
+    branding: PERMISSIONS.PLATFORM_SYSTEM.BRANDING_EDIT,
     billing: PERMISSIONS.PLATFORM_SYSTEM.BILLING_VIEW,
 };
 
@@ -19,7 +25,7 @@ export default function PlatformSystemSettingsPage() {
     const tabs = platformSystemSettings.tabs.filter((tab) => {
         const permission = tabPermissions[tab.id];
 
-        return !permission || can(permission);
+        return permission !== undefined && can(permission);
     });
 
     const defaultTab = tabs[0]?.id ?? platformSystemSettings.tabs[0].id;

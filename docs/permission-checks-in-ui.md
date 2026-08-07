@@ -121,10 +121,38 @@ Shared AquaCert components accept permission props so Create / Export buttons st
 button never renders, not even for a super-admin. A forgotten prop therefore
 hides an action rather than exposing ungated data.
 [`PageGatingCoverageTest`](../tests/Feature/PageGatingCoverageTest.php) asserts
-every page rendering one of these components declares both props.
+that every page rendering one of these components declares `exportPermission`,
+and that every page offering a create button declares `createPermission`. A
+read-only module such as the school locations directory declares neither a
+`createLabel` nor a `createHref`, so it has no create button to gate.
 
 `QuickActions` is the one exception — it stays fail-open, because the teacher
 dashboard's tiles are intentionally permission-free.
+
+### Tab-level gates
+
+Pages whose tabs each need their own permission (both settings modules) map tab
+id → permission and **must fail closed**, so a tab added to the fixture without
+an entry disappears instead of showing to everyone who can open the page:
+
+```tsx
+const tabPermissions: Record<string, PermissionKey> = {
+    general: PERMISSIONS.SCHOOL_SETTINGS.EDIT,
+    branding: PERMISSIONS.SCHOOL_SETTINGS.BRANDING_EDIT,
+    // …one entry per tab
+};
+
+const tabs = schoolSettings.tabs.filter((tab) => {
+    const permission = tabPermissions[tab.id];
+
+    return permission !== undefined && can(permission);
+});
+```
+
+Gate a tab on the action it performs (`*.edit`), never on the permission the
+page's own route already requires (`*.view`) — that check could never be false.
+`PageGatingCoverageTest` asserts every `tabPermissions` lookup uses the
+fail-closed form.
 
 ```tsx
 const { canAny } = usePermission();

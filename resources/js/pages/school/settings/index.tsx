@@ -7,7 +7,12 @@ import { usePermission } from '@/hooks/use-permissions';
 import { PERMISSIONS } from '@/types/permissions';
 import type { PermissionKey } from '@/types/permissions';
 
-const tabPermissions: Record<string, PermissionKey | undefined> = {
+/**
+ * Every tab needs its own entry: an unmapped tab would be visible to anyone who
+ * can reach the page, which only requires `school.settings.view`.
+ */
+const tabPermissions: Record<string, PermissionKey> = {
+    general: PERMISSIONS.SCHOOL_SETTINGS.EDIT,
     branding: PERMISSIONS.SCHOOL_SETTINGS.BRANDING_EDIT,
     compliance: PERMISSIONS.SCHOOL_SETTINGS.COMPLIANCE_EDIT,
     notifications: PERMISSIONS.SCHOOL_SETTINGS.NOTIFICATIONS_EDIT,
@@ -19,7 +24,7 @@ export default function SchoolSettingsPage() {
     const tabs = schoolSettings.tabs.filter((tab) => {
         const permission = tabPermissions[tab.id];
 
-        return !permission || can(permission);
+        return permission !== undefined && can(permission);
     });
 
     const defaultTab = tabs[0]?.id ?? schoolSettings.tabs[0].id;
