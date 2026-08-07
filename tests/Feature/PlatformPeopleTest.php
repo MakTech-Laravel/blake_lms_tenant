@@ -8,6 +8,7 @@ use App\Models\User;
 use Database\Seeders\PermissionSeeder;
 use Database\Seeders\RoleSeeder;
 use Inertia\Testing\AssertableInertia as Assert;
+use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 beforeEach(function () {
@@ -228,6 +229,60 @@ test('login stamps last_login_at', function () {
     ])->assertRedirect();
 
     expect($user->fresh()->last_login_at)->not->toBeNull();
+});
+
+test('people can be exported as csv', function () {
+    Excel::fake();
+
+    $this->actingAs($this->admin)
+        ->get(route('platform.people.export', ['format' => 'csv', 'scope' => 'all']))
+        ->assertOk();
+
+    Excel::matchByRegex();
+    Excel::assertDownloaded('/people-all-.*\.csv/');
+});
+
+test('people can be exported as excel', function () {
+    Excel::fake();
+
+    $this->actingAs($this->admin)
+        ->get(route('platform.people.export', [
+            'format' => 'xlsx',
+            'type' => 'teacher',
+            'scope' => 'all',
+        ]))
+        ->assertOk();
+
+    Excel::matchByRegex();
+    Excel::assertDownloaded('/people-all-.*\.xlsx/');
+});
+
+test('people visible export only includes requested ids within the active tab', function () {
+    Excel::fake();
+
+    $school = School::factory()->create();
+    $visible = User::factory()->teacher($school)->create(['name' => 'Visible Teacher']);
+    User::factory()->teacher($school)->create(['name' => 'Hidden Teacher']);
+
+    $this->actingAs($this->admin)
+        ->get(route('platform.people.export', [
+            'format' => 'csv',
+            'type' => 'teacher',
+            'scope' => 'visible',
+            'ids' => [$visible->id],
+        ]))
+        ->assertOk();
+
+    Excel::matchByRegex();
+    Excel::assertDownloaded('/people-visible-.*\.csv/');
+});
+
+test('people export requires the export permission', function () {
+    $plain = User::factory()->platform()->create();
+
+    $this->actingAs($plain)
+        ->get(route('platform.people.export', ['format' => 'csv']))
+        ->assertForbidden();
 });
 
 test('guest cannot access people directory', function () {

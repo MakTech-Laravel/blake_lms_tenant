@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Platform;
 
 use App\Enums\UserStatus;
 use App\Enums\UserType;
+use App\Exports\PeopleExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreOrganizationUserRequest;
 use App\Http\Requests\User\StoreTeacherRequest;
@@ -21,7 +22,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
  * Platform staff management and AquaCert People / Platform Staff directories.
@@ -73,22 +76,7 @@ class UserController extends Controller
         $typeFilter = $this->resolvePeopleTypeFilter($request->query('type'));
         $search = trim((string) $request->query('search', ''));
 
-        $query = User::query()
-            ->with(['school:id,name,slug', 'branch:id,name', 'roles:id,name'])
-            ->when(
-                $typeFilter !== 'all',
-                fn (Builder $builder) => $builder->where('type', $typeFilter),
-                fn (Builder $builder) => $builder->whereIn('type', [
-                    UserType::TEACHER,
-                    UserType::SCHOOL,
-                    UserType::PLATFORM,
-                ]),
-            )
-            ->when(
-                $search !== '',
-                fn (Builder $builder) => $this->applyPeopleDirectorySearch($builder, $search),
-            )
-            ->latest('id');
+        $query = $this->peopleDirectoryQuery($typeFilter, $search);
 
         $paginator = $query->paginate(15)->withQueryString();
         $people = $paginator->through(fn (User $user): array => $this->mapDirectoryUser($user));
@@ -121,6 +109,44 @@ class UserController extends Controller
                 'name' => $role->name,
             ])->values(),
         ]);
+    }
+
+    /**
+     * Export the current People directory filters as CSV or Excel.
+     * scope=all (default) exports every matching row; scope=visible exports only ids on the current page.
+     */
+    public function exportPeople(Request $request): BinaryFileResponse
+    {
+        $typeFilter = $this->resolvePeopleTypeFilter($request->query('type'));
+        $search = trim((string) $request->query('search', ''));
+        $scope = $request->query('scope') === 'visible' ? 'visible' : 'all';
+        $format = $request->query('format') === 'csv' ? 'csv' : 'xlsx';
+
+        $query = $this->peopleDirectoryQuery($typeFilter, $search);
+
+        if ($scope === 'visible') {
+            $ids = collect($request->query('ids', []))
+                ->map(fn (mixed $id): int => (int) $id)
+                ->filter(fn (int $id): bool => $id > 0)
+                ->unique()
+                ->values()
+                ->all();
+
+            $query->whereIn('id', $ids !== [] ? $ids : [0]);
+        }
+
+        $extension = $format === 'csv' ? 'csv' : 'xlsx';
+        $writerType = $format === 'csv'
+            ? \Maatwebsite\Excel\Excel::CSV
+            : \Maatwebsite\Excel\Excel::XLSX;
+
+        $filename = 'people-'.$scope.'-'.now()->format('Y-m-d').'.'.$extension;
+
+        return Excel::download(
+            new PeopleExport($query),
+            $filename,
+            $writerType,
+        );
     }
 
     public function storeTeacher(StoreTeacherRequest $request): RedirectResponse
@@ -357,6 +383,29 @@ class UserController extends Controller
         return in_array($value, ['all', 'teacher', 'school', 'platform'], true)
             ? $value
             : 'all';
+    }
+
+    /**
+     * @return Builder<User>
+     */
+    private function peopleDirectoryQuery(string $typeFilter, string $search): Builder
+    {
+        return User::query()
+            ->with(['school:id,name,slug', 'branch:id,name', 'roles:id,name'])
+            ->when(
+                $typeFilter !== 'all',
+                fn (Builder $builder) => $builder->where('type', $typeFilter),
+                fn (Builder $builder) => $builder->whereIn('type', [
+                    UserType::TEACHER,
+                    UserType::SCHOOL,
+                    UserType::PLATFORM,
+                ]),
+            )
+            ->when(
+                $search !== '',
+                fn (Builder $builder) => $this->applyPeopleDirectorySearch($builder, $search),
+            )
+            ->latest('id');
     }
 
     /**

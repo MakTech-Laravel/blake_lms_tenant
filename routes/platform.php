@@ -87,6 +87,8 @@ Route::middleware(['auth', 'verified', 'type:platform'])
             ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_INDEX->value);
         Route::get('people', [UserController::class, 'people'])->name('people.index')
             ->middleware('permission:'.PermissionEnum::USERS_INDEX->value);
+        Route::get('people/export', [UserController::class, 'exportPeople'])->name('people.export')
+            ->middleware('permission:'.PermissionEnum::USERS_EXPORT->value);
         Route::post('people', [UserController::class, 'storeTeacher'])->name('people.store')
             ->middleware(['permission:'.PermissionEnum::USERS_CREATE->value, HandlePrecognitiveRequests::class]);
         Route::post('people/platform', [UserController::class, 'storePlatformStaff'])->name('people.store_platform')

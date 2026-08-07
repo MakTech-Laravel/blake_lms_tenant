@@ -1,6 +1,15 @@
 import { Head, router } from '@inertiajs/react';
-import { Download, Filter, Plus, Search } from 'lucide-react';
+import {
+    ChevronDown,
+    Download,
+    FileSpreadsheet,
+    FileText,
+    Filter,
+    Plus,
+    Search,
+} from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { exportPeople } from '@/actions/App/Http/Controllers/Platform/UserController';
 import { DataPagination } from '@/components/admin/data-pagination';
 import { AquaPageHeader } from '@/components/aquacert/aqua-page-header';
 import { AddUserDialog } from '@/components/aquacert/people/add-user-dialog';
@@ -21,6 +30,16 @@ import {
 import { UserDetailsDialog } from '@/components/aquacert/people/user-details-dialog';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { usePermission } from '@/hooks/use-permissions';
@@ -98,6 +117,23 @@ export function PeopleDirectoryPage({
         );
     };
 
+    const exportHref = (
+        format: 'csv' | 'xlsx',
+        scope: 'all' | 'visible',
+    ) =>
+        exportPeople.url({
+            query: {
+                format,
+                scope,
+                type: typeFilter === 'all' ? undefined : typeFilter,
+                search: search || undefined,
+                ids:
+                    scope === 'visible'
+                        ? people.data.map((person) => person.id)
+                        : undefined,
+            },
+        });
+
     const handleEdit = (person: DirectoryPerson) => {
         if (person.edit_url) {
             router.visit(person.edit_url);
@@ -172,14 +208,75 @@ export function PeopleDirectoryPage({
                                 Filters
                             </Button>
                             {can(PERMISSIONS.USERS.EXPORT) && (
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    className="border-navy-100 text-navy-400"
-                                >
-                                    <Download className="size-4" />
-                                    Export
-                                </Button>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            className="border-navy-100 text-navy-400"
+                                        >
+                                            <Download className="size-4" />
+                                            Export
+                                            <ChevronDown className="size-4 opacity-70" />
+                                        </Button>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent align="end" className="w-52">
+                                        <DropdownMenuSub>
+                                            <DropdownMenuSubTrigger>
+                                                All matching
+                                            </DropdownMenuSubTrigger>
+                                            <DropdownMenuSubContent>
+                                                <DropdownMenuItem asChild>
+                                                    <a href={exportHref('csv', 'all')}>
+                                                        <FileText className="size-4" />
+                                                        CSV
+                                                    </a>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem asChild>
+                                                    <a
+                                                        href={exportHref(
+                                                            'xlsx',
+                                                            'all',
+                                                        )}
+                                                    >
+                                                        <FileSpreadsheet className="size-4" />
+                                                        Excel
+                                                    </a>
+                                                </DropdownMenuItem>
+                                            </DropdownMenuSubContent>
+                                        </DropdownMenuSub>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuSub>
+                                            <DropdownMenuSubTrigger>
+                                                Only visible
+                                            </DropdownMenuSubTrigger>
+                                            <DropdownMenuSubContent>
+                                                <DropdownMenuItem asChild>
+                                                    <a
+                                                        href={exportHref(
+                                                            'csv',
+                                                            'visible',
+                                                        )}
+                                                    >
+                                                        <FileText className="size-4" />
+                                                        CSV
+                                                    </a>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem asChild>
+                                                    <a
+                                                        href={exportHref(
+                                                            'xlsx',
+                                                            'visible',
+                                                        )}
+                                                    >
+                                                        <FileSpreadsheet className="size-4" />
+                                                        Excel
+                                                    </a>
+                                                </DropdownMenuItem>
+                                            </DropdownMenuSubContent>
+                                        </DropdownMenuSub>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                             )}
                         </div>
                     </div>
