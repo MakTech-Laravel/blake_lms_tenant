@@ -579,6 +579,75 @@ enum PermissionEnum: string
     }
 
     /**
+     * Human-readable label for UI (role editors, listings). Auth still uses `value`.
+     */
+    public function label(): string
+    {
+        return match ($this) {
+            self::DASHBOARD_VIEW => 'View dashboard',
+            self::REPOSITORY_VIEW => 'View content repository',
+            self::DOCUMENTATION_VIEW => 'View documentation',
+            self::USERS_IMPERSONATE => 'Impersonate users',
+            self::PLATFORM_CERTIFICATES_TEMPLATES_MANAGE => 'Manage certificate templates',
+            self::PLATFORM_REPORTS_RUN => 'Run reports',
+            self::PLATFORM_SUPPORT_IMPERSONATE => 'Impersonate organization users',
+            self::PLATFORM_SUPPORT_AUDIT_EXPORT => 'Export audit logs',
+            self::PLATFORM_SUPPORT_PASSWORD_RESET => 'Reset user passwords',
+            self::PLATFORM_SUPPORT_FEATURE_FLAGS => 'Toggle feature flags',
+            self::PLATFORM_SYSTEM_SECURITY_EDIT => 'Edit security settings',
+            self::PLATFORM_SYSTEM_INTEGRATIONS_EDIT => 'Edit integrations',
+            self::PLATFORM_SYSTEM_BRANDING_EDIT => 'Edit branding',
+            self::PLATFORM_SYSTEM_BILLING_VIEW => 'View platform billing',
+            self::SETTINGS_IMPORT => 'Import settings',
+            self::SETTINGS_PRINT => 'Print settings',
+            self::SCHOOL_BILLING_INVOICE_DOWNLOAD => 'Download invoices',
+            self::SCHOOL_SETTINGS_BRANDING_EDIT => 'Edit school branding',
+            self::SCHOOL_SETTINGS_COMPLIANCE_EDIT => 'Edit compliance settings',
+            self::SCHOOL_SETTINGS_NOTIFICATIONS_EDIT => 'Edit notification settings',
+            default => $this->generatedLabel(),
+        };
+    }
+
+    /**
+     * Derive a readable label from the permission action + group.
+     */
+    private function generatedLabel(): string
+    {
+        $segments = explode('.', $this->value);
+        $action = str_replace(['-', '_'], ' ', (string) array_pop($segments));
+        $resource = $this->group();
+
+        return match ($action) {
+            'index' => "View {$resource}",
+            'view' => "View {$resource} details",
+            'create' => "Create {$resource}",
+            'edit' => "Edit {$resource}",
+            'delete' => "Delete {$resource}",
+            'export' => "Export {$resource}",
+            'publish' => "Publish {$resource}",
+            'assign' => "Assign {$resource}",
+            'issue' => "Issue {$resource}",
+            'download' => "Download {$resource}",
+            'revoke' => "Revoke {$resource}",
+            'send' => "Send {$resource}",
+            'grade' => "Grade {$resource}",
+            'upload' => "Upload to {$resource}",
+            'store' => "Save {$resource}",
+            'manage' => "Manage {$resource}",
+            'impersonate' => 'Impersonate users',
+            default => ucwords($action).' — '.$resource,
+        };
+    }
+
+    /**
+     * Resolve a friendly label for a permission name string.
+     */
+    public static function labelFor(string $name): string
+    {
+        return self::tryFrom($name)?->label() ?? $name;
+    }
+
+    /**
      * All permission cases for the given domain.
      *
      * @return array<int, self>

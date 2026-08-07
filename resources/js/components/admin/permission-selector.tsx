@@ -51,7 +51,8 @@ export function PermissionSelector({
             ? permissions.filter(
                   (p) =>
                       p.name.toLowerCase().includes(q) ||
-                      p.group.toLowerCase().includes(q),
+                      p.group.toLowerCase().includes(q) ||
+                      (p.label ?? '').toLowerCase().includes(q),
               )
             : permissions;
 
@@ -123,24 +124,28 @@ export function PermissionSelector({
             {/* Toolbar */}
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="relative w-full sm:max-w-xs">
-                    <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-navy-300" />
                     <Input
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         placeholder="Filter permissions…"
-                        className="pl-9"
+                        className="border-navy-100 pl-9"
                         disabled={disabled}
                     />
                 </div>
                 <div className="flex items-center gap-2">
-                    <Badge variant="secondary" className="gap-1.5">
-                        <ShieldCheck className="h-3.5 w-3.5" />
+                    <Badge
+                        variant="secondary"
+                        className="gap-1.5 bg-navy-50 text-navy-500"
+                    >
+                        <ShieldCheck className="h-3.5 w-3.5 text-aqua-600" />
                         {selected.length} / {permissions.length} selected
                     </Badge>
                     <Button
                         type="button"
                         size="sm"
                         variant="outline"
+                        className="border-navy-100 text-navy-500"
                         onClick={() => setAll(true)}
                         disabled={
                             disabled || selected.length === permissions.length
@@ -152,6 +157,7 @@ export function PermissionSelector({
                         type="button"
                         size="sm"
                         variant="ghost"
+                        className="text-navy-400"
                         onClick={() => setAll(false)}
                         disabled={disabled || selected.length === 0}
                     >
@@ -174,11 +180,11 @@ export function PermissionSelector({
                         <div
                             key={group}
                             className={cn(
-                                'overflow-hidden rounded-lg border bg-card transition-colors',
-                                state !== 'none' && 'border-primary/30',
+                                'overflow-hidden rounded-xl border border-navy-50 bg-white transition-colors',
+                                state !== 'none' && 'border-aqua-300',
                             )}
                         >
-                            <div className="flex items-center justify-between gap-3 bg-muted/40 px-4 py-3">
+                            <div className="flex items-center justify-between gap-3 bg-navy-50/60 px-4 py-3">
                                 <button
                                     type="button"
                                     onClick={() =>
@@ -191,11 +197,11 @@ export function PermissionSelector({
                                 >
                                     <ChevronDown
                                         className={cn(
-                                            'h-4 w-4 text-muted-foreground transition-transform',
+                                            'h-4 w-4 text-aqua-600 transition-transform',
                                             isCollapsed && '-rotate-90',
                                         )}
                                     />
-                                    <span className="text-sm font-semibold text-foreground">
+                                    <span className="text-sm font-semibold text-navy-500">
                                         {group}
                                     </span>
                                     <Badge
@@ -204,14 +210,17 @@ export function PermissionSelector({
                                                 ? 'default'
                                                 : 'secondary'
                                         }
-                                        className="ml-1 tabular-nums"
+                                        className={cn(
+                                            'ml-1 tabular-nums',
+                                            state === 'all' &&
+                                                'bg-navy-500 text-white',
+                                        )}
                                     >
                                         {selectedCount}/{names.length}
                                     </Badge>
                                 </button>
 
-                                {/* Group-level tri-state checkbox */}
-                                <label className="flex cursor-pointer items-center gap-2 text-xs font-medium text-muted-foreground select-none">
+                                <label className="flex cursor-pointer items-center gap-2 text-xs font-medium text-navy-400 select-none">
                                     Select group
                                     <TriStateCheckbox
                                         state={state}
@@ -239,9 +248,9 @@ export function PermissionSelector({
                                                     <Label
                                                         key={perm.id}
                                                         className={cn(
-                                                            'flex cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2 text-sm font-normal transition-colors hover:bg-muted/60',
+                                                            'flex cursor-pointer items-start gap-2.5 rounded-md px-2.5 py-2 text-sm font-normal transition-colors hover:bg-aqua-50/60',
                                                             checked &&
-                                                                'bg-primary/5',
+                                                                'bg-aqua-50',
                                                             disabled &&
                                                                 'cursor-not-allowed opacity-60',
                                                         )}
@@ -249,14 +258,21 @@ export function PermissionSelector({
                                                         <Checkbox
                                                             checked={checked}
                                                             disabled={disabled}
+                                                            className="mt-0.5"
                                                             onCheckedChange={() =>
                                                                 toggleItem(
                                                                     perm.name,
                                                                 )
                                                             }
                                                         />
-                                                        <span className="truncate font-mono text-xs text-foreground">
-                                                            {perm.name}
+                                                        <span className="min-w-0">
+                                                            <span className="block text-sm text-navy-500">
+                                                                {perm.label ??
+                                                                    perm.name}
+                                                            </span>
+                                                            <span className="block truncate font-mono text-[11px] text-navy-300">
+                                                                {perm.name}
+                                                            </span>
                                                         </span>
                                                     </Label>
                                                 );
@@ -270,7 +286,7 @@ export function PermissionSelector({
                 })}
 
                 {groups.length === 0 && (
-                    <div className="rounded-lg border border-dashed py-10 text-center text-sm text-muted-foreground">
+                    <div className="rounded-xl border border-dashed border-navy-100 py-10 text-center text-sm text-navy-300">
                         No permissions match “{query}”.
                     </div>
                 )}
@@ -299,7 +315,7 @@ function TriStateCheckbox({
             }
             onCheckedChange={onToggle}
             disabled={disabled}
-            className="peer size-4 shrink-0 rounded-[4px] border border-input shadow-xs transition-shadow outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=indeterminate]:border-primary data-[state=indeterminate]:bg-primary data-[state=indeterminate]:text-primary-foreground"
+            className="peer size-4 shrink-0 rounded-[4px] border border-navy-100 shadow-xs transition-shadow outline-none focus-visible:border-aqua-400 focus-visible:ring-[3px] focus-visible:ring-aqua-200/50 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-navy-500 data-[state=checked]:bg-navy-500 data-[state=checked]:text-white data-[state=indeterminate]:border-navy-500 data-[state=indeterminate]:bg-navy-500 data-[state=indeterminate]:text-white"
         >
             <CheckboxPrimitive.Indicator className="flex items-center justify-center text-current">
                 {state === 'some' ? (

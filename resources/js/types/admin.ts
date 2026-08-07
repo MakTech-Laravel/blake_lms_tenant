@@ -60,6 +60,10 @@ export interface AdminRoleListItem {
     guard_name: string;
     permissions_count: number;
     users_count: number;
+    is_system: boolean;
+    scope: string;
+    updated_at: string | null;
+    updated_label: string;
     created_at: string;
 }
 
@@ -75,6 +79,7 @@ export interface PermissionOption {
     id: number;
     name: string;
     group: string;
+    label?: string;
 }
 
 /** A permission row for the read-only permissions listing. */

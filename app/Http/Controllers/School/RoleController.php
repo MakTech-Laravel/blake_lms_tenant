@@ -4,14 +4,15 @@ namespace App\Http\Controllers\School;
 
 use App\Enums\GuardEnum;
 use App\Enums\PermissionDomain;
+use App\Enums\PermissionEnum;
 use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\School\StoreRoleRequest;
 use App\Http\Requests\School\UpdateRoleRequest;
 use App\Models\School;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Permission;
@@ -120,7 +121,7 @@ class RoleController extends Controller
     /**
      * School-domain permissions only — isolated from the platform permission set.
      *
-     * @return Collection<int, Permission>
+     * @return Collection<int, array{id: int, name: string, group: string, label: string}>
      */
     private function permissions(): Collection
     {
@@ -128,6 +129,12 @@ class RoleController extends Controller
             ->where('domain', PermissionDomain::SCHOOL->value)
             ->orderBy('group')
             ->orderBy('id')
-            ->get(['id', 'name', 'group']);
+            ->get(['id', 'name', 'group'])
+            ->map(fn (Permission $permission): array => [
+                'id' => $permission->id,
+                'name' => $permission->name,
+                'group' => $permission->group,
+                'label' => PermissionEnum::labelFor($permission->name),
+            ]);
     }
 }

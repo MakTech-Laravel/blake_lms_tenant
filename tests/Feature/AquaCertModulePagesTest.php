@@ -25,8 +25,7 @@ test('platform module pages render dedicated components', function () {
 
     $this->actingAs($user)
         ->get(route('platform.access.index'))
-        ->assertOk()
-        ->assertInertia(fn (Assert $page) => $page->component('platform/access/index'));
+        ->assertRedirect(route('platform.roles.index'));
 
     $this->actingAs($user)
         ->get(route('platform.certificates.index'))

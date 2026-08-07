@@ -38,7 +38,51 @@ test('the role editor receives only platform-domain permissions', function () {
             fn (Assert $page) => $page
                 ->component('platform/roles/create')
                 ->has('permissions', count(PermissionEnum::forDomain(PermissionDomain::PLATFORM)))
+                ->where('permissions.0.label', fn ($label) => is_string($label) && $label !== '')
         );
+});
+
+test('roles list supports search filters and pagination meta', function () {
+    Role::create(['name' => 'content-publisher', 'guard_name' => 'web']);
+    Role::create(['name' => 'billing-analyst', 'guard_name' => 'web']);
+
+    $this->actingAs($this->admin)
+        ->get(route('platform.roles.index', ['search' => 'billing']))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('platform/roles/index')
+                ->where('filters.search', 'billing')
+                ->has('roles.data', 1)
+                ->where('roles.data.0.name', 'billing-analyst')
+                ->has('roles.links')
+                ->where('roles.per_page', 15)
+        );
+});
+
+test('roles can be filtered by kind', function () {
+    $this->actingAs($this->admin)
+        ->get(route('platform.roles.index', ['kind' => 'system']))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->where('filters.kind', 'system')
+                ->has('roles.data', 1)
+                ->where('roles.data.0.name', RoleEnum::SUPER_ADMIN->value)
+        );
+});
+
+test('roles can be exported as csv', function () {
+    $this->actingAs($this->admin)
+        ->get(route('platform.roles.export', ['format' => 'csv']))
+        ->assertOk()
+        ->assertHeader('content-disposition');
+});
+
+test('permission labels are human readable', function () {
+    expect(PermissionEnum::PLATFORM_ASSESSMENTS_INDEX->label())->toBe('View Assessments')
+        ->and(PermissionEnum::PLATFORM_CERTIFICATES_TEMPLATES_MANAGE->label())->toBe('Manage certificate templates')
+        ->and(PermissionEnum::labelFor('dashboard.view'))->toBe('View dashboard');
 });
 
 test('a role can be created with grouped permissions', function () {

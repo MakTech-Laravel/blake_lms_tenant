@@ -55,6 +55,8 @@ Route::middleware(['auth', 'verified', 'type:platform'])
         Route::controller(RoleController::class)->group(function () {
             Route::get('roles', 'index')->name('roles.index')
                 ->middleware('permission:'.PermissionEnum::ROLES_INDEX->value);
+            Route::get('roles/export', 'export')->name('roles.export')
+                ->middleware('permission:'.PermissionEnum::ROLES_EXPORT->value);
             Route::get('roles/create', 'create')->name('roles.create')
                 ->middleware('permission:'.PermissionEnum::ROLES_CREATE->value);
             Route::post('roles', 'store')->name('roles.store')
@@ -101,7 +103,7 @@ Route::middleware(['auth', 'verified', 'type:platform'])
         Route::delete('directory-users/{user}', [UserController::class, 'destroyDirectoryUser'])
             ->name('directory_users.destroy')
             ->middleware('permission:'.PermissionEnum::USERS_DELETE->value);
-        Route::get('access', fn () => Inertia::render('platform/access/index'))
+        Route::get('access', fn () => redirect()->route('platform.roles.index'))
             ->name('access.index')
             ->middleware('permission:'.PermissionEnum::ROLES_INDEX->value);
         Route::get('learning', fn () => Inertia::render('platform/learning/index'))

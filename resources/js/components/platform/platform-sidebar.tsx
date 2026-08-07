@@ -65,7 +65,7 @@ const mainNav: NavNode[] = [
     },
     {
         title: 'Roles & Permissions',
-        href: '/platform/access',
+        href: '/platform/roles',
         icon: Shield,
         permissions: [PERMISSIONS.ROLES.INDEX],
     },
