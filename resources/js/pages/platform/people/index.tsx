@@ -1,24 +1,39 @@
-import { ModuleFixturePage } from '@/components/aquacert/module-fixture-page';
-import { platformPeople } from '@/data/modules/platform-modules';
-import type { ModuleRow } from '@/data/modules/platform-modules';
-import { PERMISSIONS } from '@/types/permissions';
+import { PeopleDirectoryPage } from '@/components/aquacert/people/people-directory-page';
+import type {
+    DirectoryPerson,
+    DirectoryRoleOption,
+    DirectorySchoolOption,
+    DirectoryStats,
+    PeopleTypeFilter,
+} from '@/components/aquacert/people/types';
+import type { Paginated } from '@/types/admin';
 
 type Props = {
-    people?: ModuleRow[];
+    people: Paginated<DirectoryPerson>;
+    stats: DirectoryStats;
+    filters: { search: string; type: PeopleTypeFilter };
+    schools: DirectorySchoolOption[];
+    roles: DirectoryRoleOption[];
 };
 
-export default function PlatformPeoplePage({ people }: Props) {
-    const rows = people && people.length > 0 ? people : platformPeople.rows;
-
+export default function PlatformPeoplePage({
+    people,
+    stats,
+    filters,
+    schools,
+    roles,
+}: Props) {
     return (
-        <ModuleFixturePage
-            title={platformPeople.title}
-            subtitle={platformPeople.subtitle}
-            columns={platformPeople.columns}
-            rows={rows}
-            createLabel="Invite Person"
-            createPermission={PERMISSIONS.USERS.CREATE}
-            exportPermission={PERMISSIONS.USERS.EXPORT}
+        <PeopleDirectoryPage
+            title="People"
+            people={people}
+            stats={stats}
+            filters={filters}
+            schools={schools}
+            roles={roles}
+            indexUrl="/platform/people"
+            statusUrl={(id) => `/platform/directory-users/${id}/status`}
+            destroyUrl={(id) => `/platform/directory-users/${id}`}
         />
     );
 }

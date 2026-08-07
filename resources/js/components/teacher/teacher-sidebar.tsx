@@ -18,7 +18,7 @@ import { learnerOverview } from '@/data/aquacert-fixtures';
 import { dashboard } from '@/routes';
 
 const mainNav: NavNode[] = [
-    { title: 'Dashboard', href: dashboard(), icon: LayoutGrid },
+    { title: 'Dashboard', href: dashboard(), icon: LayoutGrid, exact: true },
     { title: 'My Learning', href: '/dashboard/learning', icon: BookOpen },
     { title: 'Certificates', href: '/dashboard/certificates', icon: Award },
     { title: 'Profile', href: '/dashboard/profile', icon: UserRound },

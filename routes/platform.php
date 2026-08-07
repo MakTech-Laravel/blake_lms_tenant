@@ -87,6 +87,18 @@ Route::middleware(['auth', 'verified', 'type:platform'])
             ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_INDEX->value);
         Route::get('people', [UserController::class, 'people'])->name('people.index')
             ->middleware('permission:'.PermissionEnum::USERS_INDEX->value);
+        Route::post('people', [UserController::class, 'storeTeacher'])->name('people.store')
+            ->middleware(['permission:'.PermissionEnum::USERS_CREATE->value, HandlePrecognitiveRequests::class]);
+        Route::post('people/platform', [UserController::class, 'storePlatformStaff'])->name('people.store_platform')
+            ->middleware(['permission:'.PermissionEnum::USERS_CREATE->value, HandlePrecognitiveRequests::class]);
+        Route::post('people/organization', [UserController::class, 'storeOrganizationUser'])->name('people.store_organization')
+            ->middleware(['permission:'.PermissionEnum::USERS_CREATE->value, HandlePrecognitiveRequests::class]);
+        Route::patch('directory-users/{user}/status', [UserController::class, 'updateStatus'])
+            ->name('directory_users.status')
+            ->middleware('permission:'.PermissionEnum::USERS_EDIT->value);
+        Route::delete('directory-users/{user}', [UserController::class, 'destroyDirectoryUser'])
+            ->name('directory_users.destroy')
+            ->middleware('permission:'.PermissionEnum::USERS_DELETE->value);
         Route::get('access', fn () => Inertia::render('platform/access/index'))
             ->name('access.index')
             ->middleware('permission:'.PermissionEnum::ROLES_INDEX->value);

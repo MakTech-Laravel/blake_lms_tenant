@@ -42,6 +42,7 @@ export function SchoolSidebar() {
             title: 'Dashboard',
             href: dashboard(school.slug),
             icon: LayoutGrid,
+            exact: true,
             permissions: [PERMISSIONS.SCHOOL_DASHBOARD.VIEW],
         },
         {
@@ -129,6 +130,7 @@ export function SchoolSidebar() {
             title: 'Dashboard',
             href: dashboard(school.slug),
             icon: LayoutGrid,
+            exact: true,
             permissions: [PERMISSIONS.SCHOOL_DASHBOARD.VIEW],
         },
         {

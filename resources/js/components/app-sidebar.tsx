@@ -33,6 +33,7 @@ const mainNav: NavNode[] = [
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+        exact: true,
         permissions: [PERMISSIONS.DASHBOARD.VIEW],
     },
     {

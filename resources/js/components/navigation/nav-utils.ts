@@ -37,10 +37,12 @@ export function toPath(href?: Href): string | null {
  * Whether `href` matches the current path. Matches the exact path or a
  * sub-path (`/admin/users` is active on `/admin/users/5`), but never a sibling
  * that merely shares a prefix (`/admin/users` is NOT active on `/admin/users-archive`).
+ * Pass `exact` for section roots (e.g. `/platform`) that must not match children.
  */
 export function isPathActive(
     href: Href | undefined,
     currentPath: string,
+    exact = false,
 ): boolean {
     const target = toPath(href);
 
@@ -51,6 +53,10 @@ export function isPathActive(
     const current =
         currentPath.length > 1 ? currentPath.replace(/\/+$/, '') : currentPath;
 
+    if (exact) {
+        return current === target;
+    }
+
     return current === target || current.startsWith(`${target}/`);
 }
 
@@ -60,7 +66,7 @@ export function isNodeActive(node: NavNode, currentPath: string): boolean {
         return node.items.some((child) => isNodeActive(child, currentPath));
     }
 
-    return isPathActive(node.href, currentPath);
+    return isPathActive(node.href, currentPath, node.exact);
 }
 
 /**

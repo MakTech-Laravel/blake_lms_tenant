@@ -45,6 +45,12 @@ export interface NavNode {
     title: string;
     /** Destination. Omit for pure grouping rows. Accepts Wayfinder route objects. */
     href?: NonNullable<InertiaLinkProps['href']>;
+    /**
+     * When true, only the exact path is active (no child-path matching).
+     * Use for section roots like `/platform` that would otherwise match every
+     * nested page.
+     */
+    exact?: boolean;
     /** Leading icon (Lucide component). */
     icon?: LucideIcon;
     /** Trailing badge (count or short text). */

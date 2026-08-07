@@ -10,7 +10,8 @@ const tones: Record<string, string> = {
     'Not Started': 'border-navy-100 bg-navy-50 text-navy-400',
     Overdue: 'border-red-200 bg-red-50 text-red-700',
     Valid: 'border-aqua-200 bg-aqua-50 text-aqua-700',
-    Pending: 'border-aqua-200 bg-aqua-50 text-aqua-700',
+    Pending: 'border-amber-200 bg-amber-50 text-amber-700',
+    Disabled: 'border-red-200 bg-red-50 text-red-700',
     Expired: 'border-navy-200 bg-navy-50 text-navy-500',
     Revoked: 'border-navy-100 bg-navy-50 text-navy-300',
 };
