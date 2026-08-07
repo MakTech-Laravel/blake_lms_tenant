@@ -11,6 +11,7 @@ export default function PlatformPathwaysPage() {
             rows={platformPathways.rows}
             createLabel="Create Pathway"
             createPermission={PERMISSIONS.PLATFORM_PATHWAYS.CREATE}
+            exportPermission={PERMISSIONS.PLATFORM_PATHWAYS.EXPORT}
         />
     );
 }

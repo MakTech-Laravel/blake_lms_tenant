@@ -11,6 +11,7 @@ export default function SchoolPathwaysPage() {
             rows={schoolPathways.rows}
             createLabel="Create Pathway"
             createPermission={PERMISSIONS.SCHOOL_PATHWAYS.CREATE}
+            exportPermission={PERMISSIONS.SCHOOL_PATHWAYS.EXPORT}
         />
     );
 }

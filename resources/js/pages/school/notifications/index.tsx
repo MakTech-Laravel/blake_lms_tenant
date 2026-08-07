@@ -11,6 +11,7 @@ export default function SchoolNotificationsPage() {
             rows={schoolNotifications.rows}
             createLabel="Send Notification"
             createPermission={PERMISSIONS.SCHOOL_NOTIFICATIONS.SEND}
+            exportPermission={PERMISSIONS.SCHOOL_NOTIFICATIONS.EXPORT}
         />
     );
 }

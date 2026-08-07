@@ -11,6 +11,7 @@ export default function PlatformAssessmentsPage() {
             rows={platformAssessments.rows}
             createLabel="Create Assessment"
             createPermission={PERMISSIONS.PLATFORM_ASSESSMENTS.CREATE}
+            exportPermission={PERMISSIONS.PLATFORM_ASSESSMENTS.EXPORT}
         />
     );
 }

@@ -111,11 +111,20 @@ const visible = useMemo(() => filterNavNodes(items, canAny), [items, canAny]);
 
 Omitting `permissions` means the node is always visible (e.g. the platform Dashboard). School sidebars declare the same pattern, with branch-vs-head-office remaining an independent axis on top of permissions. The teacher sidebar stays ungated.
 
-Shared AquaCert components also accept optional permission props so Create / Export buttons stay declarative:
+Shared AquaCert components accept permission props so Create / Export buttons stay declarative:
 
-- `ModuleFixturePage` — `createPermission`, `exportPermission`
+- `ModuleFixturePage` — `createPermission` (a single key, or a list where any one unlocks the button), `exportPermission`
 - `DataTableToolbar` / `StaticModulePage` — `exportPermission`
 - `QuickActions` — each `QuickAction` may list `permissions?: PermissionKey[]`
+
+`createPermission` and `exportPermission` **fail closed**: leave one out and the
+button never renders, not even for a super-admin. A forgotten prop therefore
+hides an action rather than exposing ungated data.
+[`PageGatingCoverageTest`](../tests/Feature/PageGatingCoverageTest.php) asserts
+every page rendering one of these components declares both props.
+
+`QuickActions` is the one exception — it stays fail-open, because the teacher
+dashboard's tiles are intentionally permission-free.
 
 ```tsx
 const { canAny } = usePermission();

@@ -11,6 +11,7 @@ export default function SchoolLibraryPage() {
             rows={schoolLibrary.rows}
             createLabel="Upload Asset"
             createPermission={PERMISSIONS.SCHOOL_LIBRARY.UPLOAD}
+            exportPermission={PERMISSIONS.SCHOOL_LIBRARY.EXPORT}
         />
     );
 }

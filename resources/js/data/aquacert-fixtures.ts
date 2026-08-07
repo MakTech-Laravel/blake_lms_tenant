@@ -1,5 +1,6 @@
 import { brandColors } from '@/lib/brand-colors';
 import { PERMISSIONS } from '@/types/permissions';
+import type { PermissionKey } from '@/types/permissions';
 
 export type StatMetric = {
     label: string;
@@ -19,7 +20,7 @@ export type ActivityItem = {
 export type QuickAction = {
     id: string;
     label: string;
-    permissions?: import('@/types/permissions').PermissionKey[];
+    permissions?: PermissionKey[];
 };
 
 export type ChartPoint = {

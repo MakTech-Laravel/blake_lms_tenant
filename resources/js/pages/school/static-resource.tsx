@@ -1,10 +1,13 @@
 import { Head } from '@inertiajs/react';
 import { StaticModulePage } from '@/components/aquacert/static-module-page';
 import { StatusBadge } from '@/components/aquacert/status-badge';
+import type { PermissionKey } from '@/types/permissions';
 
 type Props = {
     title: string;
     subtitle: string;
+    /** Set by whichever module renders this page; Export stays hidden without it. */
+    exportPermission?: PermissionKey;
 };
 
 const rows = [
@@ -38,13 +41,18 @@ const rows = [
     },
 ];
 
-export default function SchoolStaticResource({ title, subtitle }: Props) {
+export default function SchoolStaticResource({
+    title,
+    subtitle,
+    exportPermission,
+}: Props) {
     return (
         <>
             <Head title={title} />
             <StaticModulePage
                 title={title}
                 subtitle={subtitle}
+                exportPermission={exportPermission}
                 columns={[
                     { key: 'name', label: 'Name' },
                     { key: 'meta', label: 'Details' },

@@ -11,6 +11,7 @@ export default function PlatformLocationsPage() {
             rows={platformLocations.rows}
             createLabel="Add Location"
             createPermission={PERMISSIONS.PLATFORM_LOCATIONS.CREATE}
+            exportPermission={PERMISSIONS.PLATFORM_LOCATIONS.EXPORT}
         />
     );
 }

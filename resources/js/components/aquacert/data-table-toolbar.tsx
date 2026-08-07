@@ -6,6 +6,10 @@ import type { PermissionKey } from '@/types/permissions';
 
 type DataTableToolbarProps = {
     placeholder?: string;
+    /**
+     * Permission that unlocks the Export button. Omitting it hides Export
+     * entirely — data extraction is never exposed by default.
+     */
     exportPermission?: PermissionKey;
 };
 
@@ -14,7 +18,7 @@ export function DataTableToolbar({
     exportPermission,
 }: DataTableToolbarProps) {
     const { can } = usePermission();
-    const canExport = !exportPermission || can(exportPermission);
+    const canExport = exportPermission !== undefined && can(exportPermission);
 
     return (
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

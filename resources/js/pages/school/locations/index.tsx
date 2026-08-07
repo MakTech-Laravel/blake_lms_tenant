@@ -19,6 +19,7 @@ export default function SchoolLocationsPage({ locations }: Props) {
             rows={rows}
             createLabel="Add Location"
             createPermission={PERMISSIONS.SCHOOL_BRANCHES.CREATE}
+            exportPermission={PERMISSIONS.SCHOOL_LOCATIONS.EXPORT}
         />
     );
 }

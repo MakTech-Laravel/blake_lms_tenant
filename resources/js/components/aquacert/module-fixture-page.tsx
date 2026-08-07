@@ -21,7 +21,11 @@ type ModuleFixturePageProps = {
     searchPlaceholder?: string;
     createLabel?: string;
     createHref?: string;
-    createPermission?: PermissionKey;
+    /**
+     * A single permission, or a list where any one of them unlocks the button.
+     * Omitting it hides the create button entirely.
+     */
+    createPermission?: PermissionKey | PermissionKey[];
     exportPermission?: PermissionKey;
     statusKey?: string;
     detailTitle?: (row: FixtureRow) => string;
@@ -42,13 +46,21 @@ export function ModuleFixturePage({
     detailTitle,
     extraActions,
 }: ModuleFixturePageProps) {
-    const { can } = usePermission();
+    const { can, canAny } = usePermission();
     const [selected, setSelected] = useState<FixtureRow | null>(null);
-    const canCreate = !createPermission || can(createPermission);
+    const canCreate =
+        createPermission === undefined
+            ? false
+            : Array.isArray(createPermission)
+              ? canAny(createPermission)
+              : can(createPermission);
 
     const createButton = canCreate ? (
         createHref ? (
-            <Button asChild className="bg-navy-500 text-white hover:bg-navy-600">
+            <Button
+                asChild
+                className="bg-navy-500 text-white hover:bg-navy-600"
+            >
                 <Link href={createHref}>
                     <Plus className="size-4" />
                     {createLabel}

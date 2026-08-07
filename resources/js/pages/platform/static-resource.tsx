@@ -1,12 +1,15 @@
 import { Head } from '@inertiajs/react';
 import { StaticModulePage } from '@/components/aquacert/static-module-page';
 import { StatusBadge } from '@/components/aquacert/status-badge';
+import type { PermissionKey } from '@/types/permissions';
 
 type Props = {
     title: string;
     subtitle: string;
     columns?: { key: string; label: string }[];
     rows?: Record<string, string | number>[];
+    /** Set by whichever module renders this page; Export stays hidden without it. */
+    exportPermission?: PermissionKey;
 };
 
 const defaultColumns = [
@@ -53,6 +56,7 @@ export default function StaticResourcePage({
     subtitle,
     columns = defaultColumns,
     rows = defaultRows,
+    exportPermission,
 }: Props) {
     return (
         <>
@@ -60,6 +64,7 @@ export default function StaticResourcePage({
             <StaticModulePage
                 title={title}
                 subtitle={subtitle}
+                exportPermission={exportPermission}
                 columns={columns}
                 rows={rows.map((row) => ({
                     ...row,

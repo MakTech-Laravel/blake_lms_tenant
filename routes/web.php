@@ -30,9 +30,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // ── Icon picker demo ──────────────────────────────────────────────────────
     Route::get('/icon-picker-demo', [IconPickerDemoController::class, 'index'])
-        ->name('icon-picker-demo.index');
+        ->name('icon-picker-demo.index')->middleware('permission:'.PermissionEnum::ICON_PICKER_INDEX->value);
     Route::post('/icon-picker-demo', [IconPickerDemoController::class, 'store'])
-        ->name('icon-picker-demo.store');
+        ->name('icon-picker-demo.store')->middleware('permission:'.PermissionEnum::ICON_PICKER_STORE->value);
 });
 
 require __DIR__.'/platform.php';

@@ -19,6 +19,7 @@ export default function SchoolPeoplePage({ people }: Props) {
             rows={rows}
             createLabel="Add Staff"
             createPermission={PERMISSIONS.SCHOOL_STAFF.CREATE}
+            exportPermission={PERMISSIONS.SCHOOL_STAFF.EXPORT}
         />
     );
 }

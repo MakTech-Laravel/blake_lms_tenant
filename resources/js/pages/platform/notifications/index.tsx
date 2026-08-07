@@ -11,6 +11,7 @@ export default function PlatformNotificationsPage() {
             rows={platformNotifications.rows}
             createLabel="Send Notification"
             createPermission={PERMISSIONS.PLATFORM_NOTIFICATIONS.SEND}
+            exportPermission={PERMISSIONS.PLATFORM_NOTIFICATIONS.EXPORT}
         />
     );
 }

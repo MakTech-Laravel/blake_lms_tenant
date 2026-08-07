@@ -91,8 +91,8 @@ Permissions are named `module.action` (dot-separated, lowercase, kebab within a 
 | Domain | Name | Group |
 |---|---|---|
 | platform | `dashboard.view` | Dashboard |
-| platform | `users.index` … `users.impersonate` | Users |
-| platform | `roles.index` … `roles.delete` | Roles |
+| platform | `users.index` … `users.export`, `users.impersonate` | Users |
+| platform | `roles.index` … `roles.export` | Roles |
 | platform | `permissions.index`, `permissions.export` | Permissions |
 | platform | `platform.schools.*` | Schools |
 | platform | `platform.locations.*` | Locations |
@@ -108,7 +108,7 @@ Permissions are named `module.action` (dot-separated, lowercase, kebab within a 
 | platform | `settings.*` | Settings |
 | school | `school.dashboard.view` | Dashboard |
 | school | `school.branches.*` | Branches |
-| school | `school.locations.index`, `school.locations.view` | Locations |
+| school | `school.locations.index`, `school.locations.view`, `school.locations.export` | Locations |
 | school | `school.staff.*` | Staff |
 | school | `school.roles.*` | Roles |
 | school | `school.courses.*` (incl. publish, assign) | Courses |
@@ -123,6 +123,11 @@ Permissions are named `module.action` (dot-separated, lowercase, kebab within a 
 | school | `school.settings.*` | Settings |
 
 The `group` (e.g. "Courses", "Billing") is the display grouping used by the role-assignment UI's grouped checkboxes. It comes from `PermissionEnum::group()`.
+
+Every module whose page renders an exportable table carries an `export` action
+(`platform.locations.export`, `school.staff.export`, …). The exceptions are
+screens with nothing to export: `school.branches.*`, both dashboards, and the
+two settings modules. `tests/Feature/PageGatingCoverageTest.php` enforces this.
 
 Teachers/learners stay **permission-free** — the teacher portal is gated by ownership/enrollment checks only, not Spatie permissions.
 

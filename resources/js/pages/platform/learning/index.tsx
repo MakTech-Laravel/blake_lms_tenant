@@ -11,6 +11,7 @@ export default function PlatformLearningPage() {
             rows={platformLearning.rows}
             createLabel="Create Course"
             createPermission={PERMISSIONS.PLATFORM_LEARNING.CREATE}
+            exportPermission={PERMISSIONS.PLATFORM_LEARNING.EXPORT}
         />
     );
 }

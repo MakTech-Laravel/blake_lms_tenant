@@ -13,6 +13,7 @@ export default function SchoolAssignmentsPage() {
             rows={assignments.rows}
             createLabel="Assign Training"
             createPermission={PERMISSIONS.SCHOOL_ASSIGNMENTS.CREATE}
+            exportPermission={PERMISSIONS.SCHOOL_ASSIGNMENTS.EXPORT}
         />
     );
 }

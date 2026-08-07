@@ -20,6 +20,7 @@ export default function SchoolAccessPage() {
             createLabel="Create Role"
             createHref={roles.create(slug).url}
             createPermission={PERMISSIONS.SCHOOL_ROLES.CREATE}
+            exportPermission={PERMISSIONS.SCHOOL_ROLES.EXPORT}
             extraActions={
                 can(PERMISSIONS.SCHOOL_ROLES.INDEX) ? (
                     <Button

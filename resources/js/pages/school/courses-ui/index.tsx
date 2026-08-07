@@ -20,6 +20,7 @@ export default function SchoolCoursesUiPage() {
             rows={courses.rows}
             createLabel="Create Course"
             createPermission={PERMISSIONS.SCHOOL_COURSES.CREATE}
+            exportPermission={PERMISSIONS.SCHOOL_COURSES.EXPORT}
             extraActions={
                 canCreate ? (
                     <Button

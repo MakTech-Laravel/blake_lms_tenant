@@ -4,8 +4,12 @@ import { StaticModulePage } from '@/components/aquacert/static-module-page';
 import { StatusBadge } from '@/components/aquacert/status-badge';
 import { Button } from '@/components/ui/button';
 import { platformOverview } from '@/data/aquacert-fixtures';
+import { usePermission } from '@/hooks/use-permissions';
+import { PERMISSIONS } from '@/types/permissions';
 
 export default function Organizations() {
+    const { can } = usePermission();
+
     return (
         <>
             <Head title="Organizations" />
@@ -13,11 +17,14 @@ export default function Organizations() {
                 title="Organizations"
                 subtitle={`Managing ${platformOverview.organizations.length} swim school organizations`}
                 searchPlaceholder="Search organizations..."
+                exportPermission={PERMISSIONS.SCHOOLS.EXPORT}
                 actions={
-                    <Button className="bg-navy-500 text-white hover:bg-navy-600">
-                        <Plus className="size-4" />
-                        Create Organization
-                    </Button>
+                    can(PERMISSIONS.SCHOOLS.CREATE) ? (
+                        <Button className="bg-navy-500 text-white hover:bg-navy-600">
+                            <Plus className="size-4" />
+                            Create Organization
+                        </Button>
+                    ) : undefined
                 }
                 columns={[
                     { key: 'name', label: 'Organization' },

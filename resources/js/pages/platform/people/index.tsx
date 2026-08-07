@@ -18,6 +18,7 @@ export default function PlatformPeoplePage({ people }: Props) {
             rows={rows}
             createLabel="Invite Person"
             createPermission={PERMISSIONS.USERS.CREATE}
+            exportPermission={PERMISSIONS.USERS.EXPORT}
         />
     );
 }

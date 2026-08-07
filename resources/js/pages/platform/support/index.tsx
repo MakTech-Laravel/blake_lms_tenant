@@ -27,6 +27,8 @@ export default function PlatformSupportPage() {
             columns={platformSupport.columns}
             rows={rows}
             createLabel="Open Tool"
+            createPermission={Object.values(supportToolPermissions)}
+            exportPermission={PERMISSIONS.PLATFORM_SUPPORT.AUDIT_EXPORT}
         />
     );
 }

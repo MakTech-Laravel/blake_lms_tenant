@@ -18,6 +18,7 @@ export default function PlatformAccessPage() {
             createLabel="Create Role"
             createHref={roles.create().url}
             createPermission={PERMISSIONS.ROLES.CREATE}
+            exportPermission={PERMISSIONS.ROLES.EXPORT}
             extraActions={
                 can(PERMISSIONS.ROLES.INDEX) ? (
                     <Button

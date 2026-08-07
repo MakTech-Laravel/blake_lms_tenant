@@ -19,6 +19,10 @@ export const PERMISSIONS = {
         INDEX: 'file-upload.index',
         STORE: 'file-upload.store',
     },
+    ICON_PICKER: {
+        INDEX: 'icon-picker.index',
+        STORE: 'icon-picker.store',
+    },
     POSTS: {
         INDEX: 'posts.index',
         VIEW: 'posts.view',
@@ -33,6 +37,7 @@ export const PERMISSIONS = {
         CREATE: 'users.create',
         EDIT: 'users.edit',
         DELETE: 'users.delete',
+        EXPORT: 'users.export',
         IMPERSONATE: 'users.impersonate',
     },
     ROLES: {
@@ -41,6 +46,7 @@ export const PERMISSIONS = {
         CREATE: 'roles.create',
         EDIT: 'roles.edit',
         DELETE: 'roles.delete',
+        EXPORT: 'roles.export',
     },
     PERMISSIONS: {
         INDEX: 'permissions.index',
@@ -64,6 +70,7 @@ export const PERMISSIONS = {
         CREATE: 'platform.schools.create',
         EDIT: 'platform.schools.edit',
         DELETE: 'platform.schools.delete',
+        EXPORT: 'platform.schools.export',
     },
     PLATFORM_LOCATIONS: {
         INDEX: 'platform.locations.index',
@@ -71,6 +78,7 @@ export const PERMISSIONS = {
         CREATE: 'platform.locations.create',
         EDIT: 'platform.locations.edit',
         DELETE: 'platform.locations.delete',
+        EXPORT: 'platform.locations.export',
     },
     PLATFORM_SUBSCRIPTIONS: {
         INDEX: 'platform.subscriptions.index',
@@ -87,6 +95,7 @@ export const PERMISSIONS = {
         EDIT: 'platform.learning.edit',
         DELETE: 'platform.learning.delete',
         PUBLISH: 'platform.learning.publish',
+        EXPORT: 'platform.learning.export',
     },
     PLATFORM_PATHWAYS: {
         INDEX: 'platform.pathways.index',
@@ -95,6 +104,7 @@ export const PERMISSIONS = {
         EDIT: 'platform.pathways.edit',
         DELETE: 'platform.pathways.delete',
         ASSIGN: 'platform.pathways.assign',
+        EXPORT: 'platform.pathways.export',
     },
     PLATFORM_ASSESSMENTS: {
         INDEX: 'platform.assessments.index',
@@ -103,6 +113,7 @@ export const PERMISSIONS = {
         EDIT: 'platform.assessments.edit',
         DELETE: 'platform.assessments.delete',
         PUBLISH: 'platform.assessments.publish',
+        EXPORT: 'platform.assessments.export',
     },
     PLATFORM_CERTIFICATES: {
         INDEX: 'platform.certificates.index',
@@ -110,6 +121,7 @@ export const PERMISSIONS = {
         ISSUE: 'platform.certificates.issue',
         DOWNLOAD: 'platform.certificates.download',
         REVOKE: 'platform.certificates.revoke',
+        EXPORT: 'platform.certificates.export',
         TEMPLATES_MANAGE: 'platform.certificates.templates.manage',
     },
     PLATFORM_REPORTS: {
@@ -125,6 +137,7 @@ export const PERMISSIONS = {
         SEND: 'platform.notifications.send',
         EDIT: 'platform.notifications.edit',
         DELETE: 'platform.notifications.delete',
+        EXPORT: 'platform.notifications.export',
     },
     PLATFORM_SUPPORT: {
         INDEX: 'platform.support.index',
@@ -153,6 +166,7 @@ export const PERMISSIONS = {
     SCHOOL_LOCATIONS: {
         INDEX: 'school.locations.index',
         VIEW: 'school.locations.view',
+        EXPORT: 'school.locations.export',
     },
     SCHOOL_STAFF: {
         INDEX: 'school.staff.index',
@@ -160,6 +174,7 @@ export const PERMISSIONS = {
         CREATE: 'school.staff.create',
         EDIT: 'school.staff.edit',
         DELETE: 'school.staff.delete',
+        EXPORT: 'school.staff.export',
     },
     SCHOOL_ROLES: {
         INDEX: 'school.roles.index',
@@ -167,6 +182,7 @@ export const PERMISSIONS = {
         CREATE: 'school.roles.create',
         EDIT: 'school.roles.edit',
         DELETE: 'school.roles.delete',
+        EXPORT: 'school.roles.export',
     },
     SCHOOL_COURSES: {
         INDEX: 'school.courses.index',
@@ -176,6 +192,7 @@ export const PERMISSIONS = {
         DELETE: 'school.courses.delete',
         PUBLISH: 'school.courses.publish',
         ASSIGN: 'school.courses.assign',
+        EXPORT: 'school.courses.export',
     },
     SCHOOL_LIBRARY: {
         INDEX: 'school.library.index',
@@ -183,6 +200,7 @@ export const PERMISSIONS = {
         UPLOAD: 'school.library.upload',
         EDIT: 'school.library.edit',
         DELETE: 'school.library.delete',
+        EXPORT: 'school.library.export',
     },
     SCHOOL_PATHWAYS: {
         INDEX: 'school.pathways.index',
@@ -191,6 +209,7 @@ export const PERMISSIONS = {
         EDIT: 'school.pathways.edit',
         DELETE: 'school.pathways.delete',
         ASSIGN: 'school.pathways.assign',
+        EXPORT: 'school.pathways.export',
     },
     SCHOOL_ASSIGNMENTS: {
         INDEX: 'school.assignments.index',
@@ -198,6 +217,7 @@ export const PERMISSIONS = {
         CREATE: 'school.assignments.create',
         EDIT: 'school.assignments.edit',
         DELETE: 'school.assignments.delete',
+        EXPORT: 'school.assignments.export',
     },
     SCHOOL_ASSESSMENTS: {
         INDEX: 'school.assessments.index',
@@ -207,6 +227,7 @@ export const PERMISSIONS = {
         DELETE: 'school.assessments.delete',
         PUBLISH: 'school.assessments.publish',
         GRADE: 'school.assessments.grade',
+        EXPORT: 'school.assessments.export',
     },
     SCHOOL_CERTIFICATES: {
         INDEX: 'school.certificates.index',
@@ -214,6 +235,7 @@ export const PERMISSIONS = {
         ISSUE: 'school.certificates.issue',
         DOWNLOAD: 'school.certificates.download',
         REVOKE: 'school.certificates.revoke',
+        EXPORT: 'school.certificates.export',
     },
     SCHOOL_BILLING: {
         VIEW: 'school.billing.view',
@@ -233,6 +255,7 @@ export const PERMISSIONS = {
         SEND: 'school.notifications.send',
         EDIT: 'school.notifications.edit',
         DELETE: 'school.notifications.delete',
+        EXPORT: 'school.notifications.export',
     },
     SCHOOL_SETTINGS: {
         VIEW: 'school.settings.view',

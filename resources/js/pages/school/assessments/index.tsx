@@ -11,6 +11,7 @@ export default function SchoolAssessmentsPage() {
             rows={schoolAssessments.rows}
             createLabel="Create Assessment"
             createPermission={PERMISSIONS.SCHOOL_ASSESSMENTS.CREATE}
+            exportPermission={PERMISSIONS.SCHOOL_ASSESSMENTS.EXPORT}
         />
     );
 }

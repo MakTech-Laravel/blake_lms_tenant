@@ -89,7 +89,12 @@ export default function PlatformCertificatesPage({
                 />
 
                 <Card className="border-navy-50 bg-white p-4 shadow-sm md:p-6">
-                    <DataTableToolbar placeholder="Search certificates..." />
+                    <DataTableToolbar
+                        placeholder="Search certificates..."
+                        exportPermission={
+                            PERMISSIONS.PLATFORM_CERTIFICATES.EXPORT
+                        }
+                    />
                     <div className="mt-4 overflow-x-auto">
                         <Table>
                             <TableHeader>
