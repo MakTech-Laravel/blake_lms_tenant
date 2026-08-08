@@ -2,6 +2,7 @@ import { Head, Link, router } from '@inertiajs/react';
 import {
     ChevronDown,
     Download,
+    Eye,
     FileSpreadsheet,
     FileText,
     Pencil,
@@ -11,6 +12,8 @@ import {
     Trash2,
 } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { ConfirmDeleteDialog } from '@/components/admin/confirm-delete-dialog';
+import { DataPagination } from '@/components/admin/data-pagination';
 import {
     AquaFilterChips,
     AquaFilterPopover,
@@ -20,8 +23,6 @@ import type {
     AquaFilterValues,
 } from '@/components/aquacert/aqua-filter-popover';
 import { AquaPageHeader } from '@/components/aquacert/aqua-page-header';
-import { ConfirmDeleteDialog } from '@/components/admin/confirm-delete-dialog';
-import { DataPagination } from '@/components/admin/data-pagination';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -261,7 +262,7 @@ export default function RolesIndex({
                                     <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-700 uppercase">
                                         Updated
                                     </TableHead>
-                                    <TableHead className="w-24" />
+                                    <TableHead className="w-32" />
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -271,7 +272,10 @@ export default function RolesIndex({
                                         className="border-navy-50"
                                     >
                                         <TableCell>
-                                            <div className="flex items-center gap-3">
+                                            <Link
+                                                href={roles.show(role.id).url}
+                                                className="flex items-center gap-3"
+                                            >
                                                 <span className="flex size-9 items-center justify-center rounded-lg bg-aqua-50 text-aqua-700">
                                                     <Shield className="size-4" />
                                                 </span>
@@ -288,7 +292,7 @@ export default function RolesIndex({
                                                         </Badge>
                                                     ) : null}
                                                 </span>
-                                            </div>
+                                            </Link>
                                         </TableCell>
                                         <TableCell className="text-body-3 text-navy-500">
                                             {role.users_count} users
@@ -306,7 +310,33 @@ export default function RolesIndex({
                                         </TableCell>
                                         <TableCell>
                                             <div className="flex justify-end gap-1">
-                                                {can(PERMISSIONS.ROLES.EDIT) && (
+                                                {can(
+                                                    PERMISSIONS.ROLES.VIEW,
+                                                ) && (
+                                                    <Button
+                                                        asChild
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        className="size-8 text-navy-400"
+                                                        title="View role"
+                                                    >
+                                                        <Link
+                                                            href={
+                                                                roles.show(
+                                                                    role.id,
+                                                                ).url
+                                                            }
+                                                        >
+                                                            <Eye className="size-4" />
+                                                            <span className="sr-only">
+                                                                View
+                                                            </span>
+                                                        </Link>
+                                                    </Button>
+                                                )}
+                                                {can(
+                                                    PERMISSIONS.ROLES.EDIT,
+                                                ) && (
                                                     <Button
                                                         asChild
                                                         variant="ghost"
@@ -324,7 +354,9 @@ export default function RolesIndex({
                                                         </Link>
                                                     </Button>
                                                 )}
-                                                {can(PERMISSIONS.ROLES.DELETE) &&
+                                                {can(
+                                                    PERMISSIONS.ROLES.DELETE,
+                                                ) &&
                                                     !role.is_system && (
                                                         <ConfirmDeleteDialog
                                                             description={

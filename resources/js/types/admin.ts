@@ -74,6 +74,45 @@ export interface AdminRoleDetail {
     is_super_admin: boolean;
 }
 
+/** Role summary shown on the read-only role detail page. */
+export interface AdminRoleSummary {
+    id: number;
+    name: string;
+    display_name: string;
+    guard_name: string;
+    is_system: boolean;
+    scope: string;
+    users_count: number;
+    granted_count: number;
+    total_count: number;
+    created_label: string;
+    updated_label: string;
+    updated_relative: string;
+}
+
+/** Every permission in a group, flagged with whether the role grants it. */
+export interface RolePermissionGroup {
+    group: string;
+    total: number;
+    granted_count: number;
+    permissions: {
+        name: string;
+        label: string;
+        granted: boolean;
+    }[];
+}
+
+export interface RoleAssignedUser {
+    id: number;
+    name: string;
+    email: string;
+    initials: string;
+    avatar_url: string | null;
+    type_label: string;
+    status: string;
+    profile_url: string;
+}
+
 /** A single assignable permission, as sent to the role editor. */
 export interface PermissionOption {
     id: number;

@@ -85,6 +85,105 @@ test('permission labels are human readable', function () {
         ->and(PermissionEnum::labelFor('dashboard.view'))->toBe('View dashboard');
 });
 
+test('the role detail page shows the summary permission coverage and assigned users', function () {
+    $role = Role::create(['name' => 'content-publisher', 'guard_name' => 'web']);
+    $role->syncPermissions([
+        PermissionEnum::POSTS_INDEX->value,
+        PermissionEnum::POSTS_CREATE->value,
+    ]);
+
+    $holder = User::factory()->platform()->create(['name' => 'Pat Publisher']);
+    $holder->assignRole($role);
+
+    $totalPlatformPermissions = count(PermissionEnum::forDomain(PermissionDomain::PLATFORM));
+
+    $this->actingAs($this->admin)
+        ->get(route('platform.roles.show', $role))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('platform/roles/show')
+                ->where('role.id', $role->id)
+                ->where('role.name', 'content-publisher')
+                ->where('role.display_name', 'Content Publisher')
+                ->where('role.is_system', false)
+                ->where('role.scope', 'Global')
+                ->where('role.users_count', 1)
+                ->where('role.granted_count', 2)
+                ->where('role.total_count', $totalPlatformPermissions)
+                ->has('permissionGroups')
+                ->has('assignedUsers', 1)
+                ->where('assignedUsers.0.name', 'Pat Publisher')
+                ->where('assignedUsers.0.profile_url', route('platform.people.show', $holder))
+        );
+});
+
+test('the role detail page lists every permission flagged as granted or not', function () {
+    $role = Role::create(['name' => 'post-reader', 'guard_name' => 'web']);
+    $role->syncPermissions([PermissionEnum::POSTS_INDEX->value]);
+
+    $this->actingAs($this->admin)
+        ->get(route('platform.roles.show', $role))
+        ->assertOk()
+        ->assertInertia(function (Assert $page) {
+            $groups = collect($page->toArray()['props']['permissionGroups']);
+            $permissions = $groups->flatMap(fn (array $group): array => $group['permissions']);
+
+            expect($permissions)->toHaveCount(
+                count(PermissionEnum::forDomain(PermissionDomain::PLATFORM))
+            );
+
+            $granted = $permissions->where('granted', true);
+
+            expect($granted)->toHaveCount(1)
+                ->and($granted->first()['name'])->toBe(PermissionEnum::POSTS_INDEX->value)
+                ->and($granted->first()['label'])->not->toBe('');
+
+            $postsGroup = $groups->firstWhere('group', 'Posts');
+
+            expect($postsGroup['granted_count'])->toBe(1)
+                ->and($postsGroup['total'])->toBeGreaterThan(1);
+        });
+});
+
+test('the super admin role detail reports every permission as granted', function () {
+    $role = Role::findByName(RoleEnum::SUPER_ADMIN->value);
+    $total = count(PermissionEnum::forDomain(PermissionDomain::PLATFORM));
+
+    $this->actingAs($this->admin)
+        ->get(route('platform.roles.show', $role))
+        ->assertOk()
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->where('role.is_system', true)
+                ->where('role.granted_count', $total)
+                ->where('role.total_count', $total)
+                ->where('role.display_name', 'Super Admin')
+        );
+});
+
+test('the role detail page requires the roles view permission', function () {
+    $role = Role::findByName(RoleEnum::EDITOR->value);
+    $viewer = User::factory()->platform()->create();
+    $viewer->givePermissionTo(PermissionEnum::ROLES_INDEX->value);
+
+    $this->actingAs($viewer)
+        ->get(route('platform.roles.show', $role))
+        ->assertForbidden();
+});
+
+test('the role detail page rejects a role outside the platform team', function () {
+    $schoolRole = Role::create([
+        'name' => 'school-only',
+        'guard_name' => 'web',
+        'school_id' => 99,
+    ]);
+
+    $this->actingAs($this->admin)
+        ->get(route('platform.roles.show', $schoolRole))
+        ->assertNotFound();
+});
+
 test('a role can be created with grouped permissions', function () {
     $permissions = [
         PermissionEnum::POSTS_INDEX->value,

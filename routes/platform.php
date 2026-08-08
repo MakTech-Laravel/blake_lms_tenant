@@ -61,6 +61,8 @@ Route::middleware(['auth', 'verified', 'type:platform'])
                 ->middleware('permission:'.PermissionEnum::ROLES_CREATE->value);
             Route::post('roles', 'store')->name('roles.store')
                 ->middleware(['permission:'.PermissionEnum::ROLES_CREATE->value, HandlePrecognitiveRequests::class]);
+            Route::get('roles/{role}', 'show')->name('roles.show')
+                ->middleware('permission:'.PermissionEnum::ROLES_VIEW->value);
             Route::get('roles/{role}/edit', 'edit')->name('roles.edit')
                 ->middleware('permission:'.PermissionEnum::ROLES_EDIT->value);
             Route::put('roles/{role}', 'update')->name('roles.update')
