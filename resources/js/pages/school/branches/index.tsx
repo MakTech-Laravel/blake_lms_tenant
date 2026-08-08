@@ -78,14 +78,14 @@ export default function BranchesIndex({
         <>
             <Head title="Branches" />
 
-            <div className="w-full space-y-6 px-4 py-6 sm:px-6 lg:px-8">
+            <div className="w-full space-y-6 bg-canvas px-4 py-6 sm:px-6 lg:px-8">
                 <AdminPageHeader
                     title="Branches"
                     description="Your school's locations. Staff pinned to a branch only ever see that branch's data."
                     icon={Building2}
                 >
                     {can(PERMISSIONS.SCHOOL_BRANCHES.CREATE) && (
-                        <Button asChild>
+                        <Button asChild className="bg-navy-500 text-white hover:bg-navy-600">
                             <Link href={branches.create(slug).url}>
                                 <Plus className="h-4 w-4" /> Add branch
                             </Link>
@@ -94,7 +94,7 @@ export default function BranchesIndex({
                 </AdminPageHeader>
 
                 <div className="relative w-full sm:max-w-xs">
-                    <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-navy-300" />
                     <Input
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
@@ -103,22 +103,22 @@ export default function BranchesIndex({
                     />
                 </div>
 
-                <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
+                <div className="overflow-hidden rounded-xl border border-navy-50 bg-white shadow-sm">
                     <div className="overflow-x-auto">
                         <Table>
                             <TableHeader>
-                                <TableRow className="bg-muted/50 hover:bg-muted/50">
-                                    <TableHead>Branch</TableHead>
-                                    <TableHead className="hidden md:table-cell">
+                                <TableRow className="bg-navy-50/60 hover:bg-navy-50/60">
+                                    <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase">Branch</TableHead>
+                                    <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase hidden md:table-cell">
                                         Staff
                                     </TableHead>
-                                    <TableHead className="hidden md:table-cell">
+                                    <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase hidden md:table-cell">
                                         Courses
                                     </TableHead>
-                                    <TableHead className="hidden sm:table-cell">
+                                    <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase hidden sm:table-cell">
                                         Status
                                     </TableHead>
-                                    <TableHead className="text-right">
+                                    <TableHead className="text-right text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase">
                                         Actions
                                     </TableHead>
                                 </TableRow>
@@ -137,7 +137,7 @@ export default function BranchesIndex({
                                                 stiffness: 350,
                                                 damping: 28,
                                             }}
-                                            className="border-b transition-colors hover:bg-muted/30"
+                                            className="border-b transition-colors hover:bg-aqua-50/40"
                                         >
                                             <TableCell>
                                                 <div className="flex items-center gap-3">
@@ -148,7 +148,7 @@ export default function BranchesIndex({
                                                         <p className="truncate font-medium">
                                                             {branch.name}
                                                         </p>
-                                                        <p className="truncate text-xs text-muted-foreground">
+                                                        <p className="truncate text-xs text-navy-300">
                                                             {branch.address ??
                                                                 branch.email ??
                                                                 `/${branch.slug}`}
@@ -157,13 +157,13 @@ export default function BranchesIndex({
                                                 </div>
                                             </TableCell>
                                             <TableCell className="hidden md:table-cell">
-                                                <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                                                <span className="flex items-center gap-1.5 text-sm text-navy-300">
                                                     <UsersIcon className="h-3.5 w-3.5" />
                                                     {branch.users_count}
                                                 </span>
                                             </TableCell>
                                             <TableCell className="hidden md:table-cell">
-                                                <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                                                <span className="flex items-center gap-1.5 text-sm text-navy-300">
                                                     <Layers className="h-3.5 w-3.5" />
                                                     {branch.courses_count}
                                                 </span>
@@ -249,7 +249,7 @@ export default function BranchesIndex({
                                                             <Button
                                                                 variant="ghost"
                                                                 size="icon"
-                                                                className="text-muted-foreground hover:text-destructive"
+                                                                className="text-navy-300 hover:text-destructive"
                                                                 title="Delete"
                                                             >
                                                                 <Trash2 className="h-4 w-4" />
@@ -266,11 +266,11 @@ export default function BranchesIndex({
 
                         {paginated.data.length === 0 && (
                             <div className="px-4 py-16 text-center">
-                                <Building2 className="mx-auto h-10 w-10 text-muted-foreground/40" />
+                                <Building2 className="mx-auto h-10 w-10 text-navy-200" />
                                 <h3 className="mt-4 text-sm font-semibold">
                                     No branches found
                                 </h3>
-                                <p className="mt-1 text-sm text-muted-foreground">
+                                <p className="mt-1 text-sm text-navy-300">
                                     Add a branch to start scoping staff and
                                     courses to a location.
                                 </p>

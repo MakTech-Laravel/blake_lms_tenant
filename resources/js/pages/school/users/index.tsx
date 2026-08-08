@@ -104,14 +104,14 @@ export default function UsersIndex({
         <>
             <Head title="Staff" />
 
-            <div className="w-full space-y-6 px-4 py-6 sm:px-6 lg:px-8">
+            <div className="w-full space-y-6 bg-canvas px-4 py-6 sm:px-6 lg:px-8">
                 <AdminPageHeader
                     title="Staff"
                     description="Manage your school's staff accounts and their roles."
                     icon={Users}
                 >
                     {can(PERMISSIONS.SCHOOL_STAFF.CREATE) && (
-                        <Button asChild>
+                        <Button asChild className="bg-navy-500 text-white hover:bg-navy-600">
                             <Link href={users.create(slug).url}>
                                 <Plus className="h-4 w-4" /> Add staff
                             </Link>
@@ -121,7 +121,7 @@ export default function UsersIndex({
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                     <div className="relative w-full sm:max-w-xs">
-                        <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-navy-300" />
                         <Input
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
@@ -167,24 +167,24 @@ export default function UsersIndex({
                     )}
                 </div>
 
-                <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
+                <div className="overflow-hidden rounded-xl border border-navy-50 bg-white shadow-sm">
                     <div className="overflow-x-auto">
                         <Table>
                             <TableHeader>
-                                <TableRow className="bg-muted/50 hover:bg-muted/50">
-                                    <TableHead>User</TableHead>
-                                    <TableHead className="hidden md:table-cell">
+                                <TableRow className="bg-navy-50/60 hover:bg-navy-50/60">
+                                    <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase">User</TableHead>
+                                    <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase hidden md:table-cell">
                                         Roles
                                     </TableHead>
                                     {isHeadOffice && (
-                                        <TableHead className="hidden lg:table-cell">
+                                        <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase hidden lg:table-cell">
                                             Branch
                                         </TableHead>
                                     )}
-                                    <TableHead className="hidden lg:table-cell">
+                                    <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase hidden lg:table-cell">
                                         Joined
                                     </TableHead>
-                                    <TableHead className="text-right">
+                                    <TableHead className="text-right text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase">
                                         Actions
                                     </TableHead>
                                 </TableRow>
@@ -216,7 +216,7 @@ export default function UsersIndex({
                                                     stiffness: 350,
                                                     damping: 28,
                                                 }}
-                                                className="border-b transition-colors hover:bg-muted/30"
+                                                className="border-b transition-colors hover:bg-aqua-50/40"
                                             >
                                                 <TableCell>
                                                     <div className="flex items-center gap-3">
@@ -225,7 +225,7 @@ export default function UsersIndex({
                                                             <span className="block truncate font-medium text-foreground">
                                                                 {user.name}
                                                             </span>
-                                                            <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                                                            <span className="flex items-center gap-1 text-xs text-navy-300">
                                                                 <Mail className="h-3 w-3" />
                                                                 {user.email}
                                                             </span>
@@ -236,7 +236,7 @@ export default function UsersIndex({
                                                     <div className="flex flex-wrap gap-1">
                                                         {user.roles.length ===
                                                         0 ? (
-                                                            <span className="text-xs text-muted-foreground">
+                                                            <span className="text-xs text-navy-300">
                                                                 —
                                                             </span>
                                                         ) : (
@@ -270,14 +270,14 @@ export default function UsersIndex({
                                                                 }
                                                             </Badge>
                                                         ) : (
-                                                            <span className="text-xs text-muted-foreground">
+                                                            <span className="text-xs text-navy-300">
                                                                 Head office
                                                             </span>
                                                         )}
                                                     </TableCell>
                                                 )}
                                                 <TableCell className="hidden lg:table-cell">
-                                                    <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                                                    <span className="flex items-center gap-1.5 text-sm text-navy-300">
                                                         <Calendar className="h-3.5 w-3.5" />
                                                         {new Date(
                                                             user.created_at,
@@ -355,7 +355,7 @@ export default function UsersIndex({
                                                                     variant="ghost"
                                                                     size="icon"
                                                                     disabled
-                                                                    className="text-muted-foreground"
+                                                                    className="text-navy-300"
                                                                     title="The last super administrator cannot be deleted."
                                                                 >
                                                                     <Trash2 className="h-4 w-4" />
@@ -385,7 +385,7 @@ export default function UsersIndex({
                                                                     <Button
                                                                         variant="ghost"
                                                                         size="icon"
-                                                                        className="text-muted-foreground hover:text-destructive"
+                                                                        className="text-navy-300 hover:text-destructive"
                                                                         title="Delete"
                                                                     >
                                                                         <Trash2 className="h-4 w-4" />
@@ -403,7 +403,7 @@ export default function UsersIndex({
 
                         {paginated.data.length === 0 && (
                             <div className="px-4 py-16 text-center">
-                                <UsersRound className="mx-auto h-10 w-10 text-muted-foreground/40" />
+                                <UsersRound className="mx-auto h-10 w-10 text-navy-200" />
                                 <h3 className="mt-4 text-sm font-semibold">
                                     No staff found
                                 </h3>

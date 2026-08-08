@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\GuardEnum;
 use App\Enums\RoleEnum;
+use App\Enums\UserStatus;
 use App\Enums\UserType;
 use App\Support\BranchContext;
 use Database\Factories\UserFactory;
@@ -17,10 +18,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
-#[Fillable(['name', 'email', 'password', 'avatar', 'type', 'school_id', 'branch_id'])]
+#[Fillable(['name', 'email', 'password', 'avatar', 'type', 'status', 'school_id', 'branch_id', 'last_login_at'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -62,6 +64,59 @@ class User extends Authenticatable
     public function isTeacher(): bool
     {
         return $this->type === UserType::TEACHER;
+    }
+
+    /**
+     * Whether this account is disabled in the people directory.
+     */
+    public function isDisabled(): bool
+    {
+        return $this->status === UserStatus::Disabled;
+    }
+
+    /**
+     * Display role for Platform People / Platform Staff tables.
+     * Teachers use a fixed Instructor label (no Spatie roles).
+     */
+    public function directoryRoleLabel(): string
+    {
+        if ($this->isTeacher()) {
+            return 'Instructor';
+        }
+
+        return $this->roles->first()?->name ?? 'Staff';
+    }
+
+    /**
+     * Public avatar URL when stored, otherwise null (UI falls back to initials).
+     */
+    public function avatarUrl(): ?string
+    {
+        if (blank($this->avatar)) {
+            return null;
+        }
+
+        return Storage::disk('public')->url($this->avatar);
+    }
+
+    /**
+     * Initials for avatar fallback (e.g. "SC").
+     */
+    public function initials(): string
+    {
+        $parts = preg_split('/\s+/', trim($this->name)) ?: [];
+
+        if (count($parts) === 0) {
+            return '?';
+        }
+
+        if (count($parts) === 1) {
+            return mb_strtoupper(mb_substr($parts[0], 0, 2));
+        }
+
+        return mb_strtoupper(
+            mb_substr($parts[0], 0, 1).mb_substr($parts[array_key_last($parts)], 0, 1)
+        );
     }
 
     /**
@@ -107,11 +162,27 @@ class User extends Authenticatable
         $query->where($this->qualifyColumn('branch_id'), $branchId);
     }
 
+    /**
+     * @param  Builder<User>  $query
+     */
+    public function scopeTeachers(Builder $query): void
+    {
+        $query->where($this->qualifyColumn('type'), UserType::TEACHER);
+    }
+
+    /**
+     * @param  Builder<User>  $query
+     */
+    public function scopePlatformStaff(Builder $query): void
+    {
+        $query->where($this->qualifyColumn('type'), UserType::PLATFORM);
+    }
+
     // ── Relationships ─────────────────────────────────────────────────────────
 
     /**
-     * The school this staff member belongs to. NULL for platform staff and
-     * teachers.
+     * Home school / organization. Used by school staff and teachers (home org
+     * for the People directory). NULL for platform staff.
      */
     public function school(): BelongsTo
     {
@@ -119,8 +190,8 @@ class User extends Authenticatable
     }
 
     /**
-     * The branch this staff member is pinned to. NULL for head-office staff,
-     * platform staff, and teachers.
+     * Home branch / location. NULL for head-office school staff, platform staff,
+     * and teachers without a pinned location.
      */
     public function branch(): BelongsTo
     {
@@ -162,9 +233,11 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'last_login_at' => 'datetime',
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
             'type' => UserType::class,
+            'status' => UserStatus::class,
         ];
     }
 }

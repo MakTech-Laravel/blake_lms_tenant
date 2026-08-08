@@ -31,9 +31,11 @@ import {
 import { UserMenuContent } from '@/components/user-menu-content';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import { useInitials } from '@/hooks/use-initials';
+import { usePermission } from '@/hooks/use-permissions';
 import { cn, toUrl } from '@/lib/utils';
 import { dashboard } from '@/routes';
 import type { BreadcrumbItem, NavItem } from '@/types';
+import { PERMISSIONS } from '@/types/permissions';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];
@@ -44,6 +46,7 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+        permissions: [PERMISSIONS.DASHBOARD.VIEW],
     },
 ];
 
@@ -52,11 +55,13 @@ const rightNavItems: NavItem[] = [
         title: 'Repository',
         href: 'https://github.com/laravel/react-starter-kit',
         icon: Folder,
+        permissions: [PERMISSIONS.REPOSITORY.VIEW],
     },
     {
         title: 'Documentation',
         href: 'https://laravel.com/docs/starter-kits#react',
         icon: BookOpen,
+        permissions: [PERMISSIONS.DOCUMENTATION.VIEW],
     },
 ];
 
@@ -68,6 +73,14 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
     const { auth } = page.props;
     const getInitials = useInitials();
     const { isCurrentUrl, whenCurrentUrl } = useCurrentUrl();
+    const { canAny } = usePermission();
+
+    // Same destinations the sidebar exposes, so they need the same gates.
+    const isVisible = (item: NavItem): boolean =>
+        !item.permissions?.length || canAny(item.permissions);
+
+    const mainNav = mainNavItems.filter(isVisible);
+    const rightNav = rightNavItems.filter(isVisible);
 
     return (
         <>
@@ -98,7 +111,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                 <div className="flex h-full flex-1 flex-col space-y-4 p-4">
                                     <div className="flex h-full flex-col justify-between text-sm">
                                         <div className="flex flex-col space-y-4">
-                                            {mainNavItems.map((item) => (
+                                            {mainNav.map((item) => (
                                                 <Link
                                                     key={item.title}
                                                     href={item.href}
@@ -113,7 +126,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                         </div>
 
                                         <div className="flex flex-col space-y-4">
-                                            {rightNavItems.map((item) => (
+                                            {rightNav.map((item) => (
                                                 <a
                                                     key={item.title}
                                                     href={toUrl(item.href)}
@@ -146,7 +159,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                     <div className="ml-6 hidden h-full items-center space-x-6 lg:flex">
                         <NavigationMenu className="flex h-full items-stretch">
                             <NavigationMenuList className="flex h-full items-stretch space-x-2">
-                                {mainNavItems.map((item, index) => (
+                                {mainNav.map((item, index) => (
                                     <NavigationMenuItem
                                         key={index}
                                         className="relative flex h-full items-center"
@@ -186,7 +199,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                 <Search className="!size-5 opacity-80 group-hover:opacity-100" />
                             </Button>
                             <div className="ml-1 hidden gap-1 lg:flex">
-                                {rightNavItems.map((item) => (
+                                {rightNav.map((item) => (
                                     <Tooltip key={item.title}>
                                         <TooltipTrigger>
                                             <a

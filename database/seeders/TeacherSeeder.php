@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserStatus;
 use App\Enums\UserType;
 use App\Models\Certificate;
 use App\Models\Course;
@@ -14,6 +15,7 @@ use Spatie\Permission\PermissionRegistrar;
 /**
  * Two demo teachers with realistic enrollments and a couple of issued
  * certificates. Teachers hold no roles — access derives from enrollments.
+ * Home school_id is set for the Platform People directory.
  */
 class TeacherSeeder extends Seeder
 {
@@ -43,7 +45,10 @@ class TeacherSeeder extends Seeder
                 'password' => Hash::make($email),
                 'email_verified_at' => now(),
                 'type' => UserType::TEACHER,
+                'status' => UserStatus::Active,
+                'last_login_at' => now()->subHours(fake()->numberBetween(1, 48)),
                 'school_id' => null,
+                'branch_id' => null,
             ],
         );
     }
@@ -59,6 +64,14 @@ class TeacherSeeder extends Seeder
 
         if ($course === null) {
             return;
+        }
+
+        // Home organization for the People directory (first enrollment wins).
+        if ($teacher->school_id === null) {
+            $teacher->forceFill([
+                'school_id' => $course->school_id,
+                'branch_id' => $course->branch_id,
+            ])->save();
         }
 
         $enrollment = CourseEnrollment::updateOrCreate(
@@ -79,6 +92,8 @@ class TeacherSeeder extends Seeder
                     'course_id' => $course->id,
                     'certificate_number' => 'CERT-'.now()->year.'-'.str_pad((string) $enrollment->id, 5, '0', STR_PAD_LEFT),
                     'issued_at' => now()->subWeeks(2),
+                    'expires_at' => now()->addYears(2),
+                    'status' => 'valid',
                 ],
             );
         }

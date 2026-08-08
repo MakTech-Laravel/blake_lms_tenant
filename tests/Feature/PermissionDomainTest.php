@@ -81,3 +81,44 @@ test('every permission resolves a display group', function () {
 
     expect(PermissionEnum::SCHOOL_BRANCHES_INDEX->group())->toBe('Branches');
 });
+
+test('every platform-prefixed permission resolves to the PLATFORM domain', function () {
+    $misfiled = collect(PermissionEnum::cases())
+        ->filter(fn (PermissionEnum $permission): bool => str_starts_with($permission->value, 'platform.')
+            && $permission->domain() !== PermissionDomain::PLATFORM)
+        ->map(fn (PermissionEnum $permission): string => $permission->value)
+        ->values()
+        ->all();
+
+    expect($misfiled)->toBe(
+        [],
+        'These platform.* permissions are not in the PLATFORM domain: '
+        .implode(', ', $misfiled),
+    );
+});
+
+test('new display groups are non-empty', function () {
+    $requiredGroups = [
+        'Locations',
+        'Subscriptions',
+        'Learning',
+        'Pathways',
+        'Assessments',
+        'Certificates',
+        'Reports',
+        'Notifications',
+        'Support Tools',
+        'System',
+        'Library',
+        'Assignments',
+    ];
+
+    $populated = collect(PermissionEnum::cases())
+        ->map(fn (PermissionEnum $permission): string => $permission->group())
+        ->unique()
+        ->all();
+
+    foreach ($requiredGroups as $group) {
+        expect($populated)->toContain($group);
+    }
+});

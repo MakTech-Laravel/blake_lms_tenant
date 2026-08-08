@@ -14,7 +14,7 @@ export default function Appearance() {
                 <Heading
                     variant="small"
                     title="Appearance settings"
-                    description="Update your account's appearance settings"
+                    description="AquaCert is light-mode only. Dark and System preferences are ignored."
                 />
                 <AppearanceTabs />
             </div>

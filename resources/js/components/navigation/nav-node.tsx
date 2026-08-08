@@ -109,7 +109,7 @@ function NavRow({
 
 function NavLeaf({ node, depth, currentPath, defaults }: NavNodeItemProps) {
     const { isMobile, setOpenMobile } = useSidebar();
-    const active = isPathActive(node.href, currentPath);
+    const active = isPathActive(node.href, currentPath, node.exact);
 
     const handleNavigate = () => {
         if (isMobile) {

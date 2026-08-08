@@ -54,12 +54,14 @@ export function RoleForm({
             className="space-y-6"
         >
             {locked && (
-                <Alert>
-                    <ShieldAlert className="h-4 w-4" />
-                    <AlertTitle>Super Admin role</AlertTitle>
-                    <AlertDescription>
+                <Alert className="border-navy-100 bg-aqua-50/40">
+                    <ShieldAlert className="h-4 w-4 text-aqua-700" />
+                    <AlertTitle className="text-navy-500">
+                        Super Admin role
+                    </AlertTitle>
+                    <AlertDescription className="text-navy-400">
                         This role implicitly receives every permission via
-                        <code className="mx-1 rounded bg-muted px-1 py-0.5 text-xs">
+                        <code className="mx-1 rounded bg-navy-50 px-1 py-0.5 text-xs text-navy-500">
                             Gate::before
                         </code>
                         , so it cannot be renamed or edited.
@@ -68,7 +70,9 @@ export function RoleForm({
             )}
 
             <div className="grid gap-2 sm:max-w-md">
-                <Label htmlFor="name">Role name</Label>
+                <Label htmlFor="name" className="text-navy-500">
+                    Role name
+                </Label>
                 <Input
                     id="name"
                     value={form.data.name}
@@ -76,6 +80,7 @@ export function RoleForm({
                     onBlur={() => form.validate('name')}
                     aria-invalid={form.invalid('name')}
                     placeholder="e.g. content-manager"
+                    className="border-navy-100"
                     disabled={locked}
                 />
                 <InputError message={form.errors.name} />
@@ -84,14 +89,17 @@ export function RoleForm({
             <div className="space-y-3">
                 <div className="flex items-center justify-between">
                     <div>
-                        <Label>Permissions</Label>
-                        <p className="text-xs text-muted-foreground">
+                        <Label className="text-navy-500">Permissions</Label>
+                        <p className="text-xs text-navy-300">
                             Toggle individual permissions or whole groups at
                             once.
                         </p>
                     </div>
                     {form.validating && (
-                        <Badge variant="secondary" className="gap-1.5">
+                        <Badge
+                            variant="secondary"
+                            className="gap-1.5 bg-navy-50 text-navy-500"
+                        >
                             <Loader2 className="h-3 w-3 animate-spin" />{' '}
                             Validating…
                         </Badge>
@@ -107,8 +115,12 @@ export function RoleForm({
                 <InputError message={form.errors.permissions} />
             </div>
 
-            <div className="flex items-center gap-3 border-t pt-5">
-                <Button type="submit" disabled={form.processing || locked}>
+            <div className="flex items-center gap-3 border-t border-navy-50 pt-5">
+                <Button
+                    type="submit"
+                    className="bg-navy-500 text-white hover:bg-navy-600"
+                    disabled={form.processing || locked}
+                >
                     {form.processing ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
                     ) : (
@@ -120,6 +132,7 @@ export function RoleForm({
                     <Button
                         type="button"
                         variant="outline"
+                        className="border-navy-100 text-navy-400"
                         onClick={onCancel}
                         disabled={form.processing}
                     >

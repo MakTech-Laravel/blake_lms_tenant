@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\UserStatus;
 use App\Enums\UserType;
 use App\Models\Branch;
 use App\Models\School;
@@ -37,6 +38,8 @@ class UserFactory extends Factory
             'two_factor_recovery_codes' => null,
             'two_factor_confirmed_at' => null,
             'type' => UserType::TEACHER,
+            'status' => UserStatus::Active,
+            'last_login_at' => fake()->optional(0.7)->dateTimeBetween('-2 weeks'),
             'school_id' => null,
             'branch_id' => null,
         ];
@@ -60,6 +63,7 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'type' => UserType::PLATFORM,
             'school_id' => null,
+            'branch_id' => null,
         ]);
     }
 
@@ -88,13 +92,29 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the user is a teacher/student.
+     * Indicate that the user is a teacher/learner with an optional home school.
      */
-    public function teacher(): static
+    public function teacher(?School $school = null): static
     {
         return $this->state(fn (array $attributes) => [
             'type' => UserType::TEACHER,
-            'school_id' => null,
+            'school_id' => $school?->id,
+            'branch_id' => null,
+        ]);
+    }
+
+    public function pending(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => UserStatus::Pending,
+            'email_verified_at' => null,
+        ]);
+    }
+
+    public function disabled(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'status' => UserStatus::Disabled,
         ]);
     }
 

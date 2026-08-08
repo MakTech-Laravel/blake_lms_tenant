@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Shares the active appearance with Blade for the initial HTML shell.
+ *
+ * The product is light-mode only: whatever cookie (or system preference) the
+ * client may carry is ignored and `light` is always shared, so the SSR markup
+ * never receives a `dark` class.
+ */
 class HandleAppearance
 {
     /**
@@ -16,7 +23,7 @@ class HandleAppearance
      */
     public function handle(Request $request, Closure $next): Response
     {
-        View::share('appearance', $request->cookie('appearance') ?? 'system');
+        View::share('appearance', 'light');
 
         return $next($request);
     }

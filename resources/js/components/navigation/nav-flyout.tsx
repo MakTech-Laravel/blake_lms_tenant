@@ -160,7 +160,7 @@ function FlyoutNode({ node, currentPath, defaults }: NavFlyoutProps) {
         return <DropdownMenuItem disabled>{label}</DropdownMenuItem>;
     }
 
-    const active = isPathActive(node.href, currentPath);
+    const active = isPathActive(node.href, currentPath, node.exact);
 
     return (
         <DropdownMenuItem
