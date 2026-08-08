@@ -5,6 +5,7 @@ use App\Http\Controllers\School\BranchController;
 use App\Http\Controllers\School\CertificateController;
 use App\Http\Controllers\School\CourseController;
 use App\Http\Controllers\School\DashboardController;
+use App\Http\Controllers\School\NotificationController;
 use App\Http\Controllers\School\RoleController;
 use App\Http\Controllers\School\UserController;
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
@@ -130,9 +131,33 @@ Route::middleware(['auth', 'verified', 'tenant', 'type:school'])
         Route::get('reports', fn () => Inertia::render('school/reports/index'))
             ->name('reports.ui')
             ->middleware('permission:'.PermissionEnum::SCHOOL_REPORTS_INDEX->value);
-        Route::get('notifications', fn () => Inertia::render('school/notifications/index'))
-            ->name('notifications.ui')
-            ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_INDEX->value);
+        // ── Notifications & announcements ─────────────────────────────────────
+        // The same module as the platform's, scoped to this organization's own
+        // announcements and its own people.
+        Route::controller(NotificationController::class)->group(function () {
+            Route::get('notifications', 'index')->name('notifications.index')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_INDEX->value);
+            Route::get('notifications/export', 'export')->name('notifications.export')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_EXPORT->value);
+            Route::get('notifications/audience-options', 'audienceOptions')->name('notifications.audience_options')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_SEND->value);
+            Route::get('notifications/estimate', 'estimate')->name('notifications.estimate')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_SEND->value);
+            Route::post('notifications', 'store')->name('notifications.store')
+                ->middleware(['permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_SEND->value, HandlePrecognitiveRequests::class]);
+            Route::get('notifications/{notification}', 'show')->name('notifications.show')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_VIEW->value);
+            Route::put('notifications/{notification}', 'update')->name('notifications.update')
+                ->middleware(['permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_EDIT->value, HandlePrecognitiveRequests::class]);
+            Route::post('notifications/{notification}/send', 'send')->name('notifications.send')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_SEND->value);
+            Route::patch('notifications/{notification}/archive', 'archive')->name('notifications.archive')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_EDIT->value);
+            Route::patch('notifications/{notification}/unarchive', 'unarchive')->name('notifications.unarchive')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_EDIT->value);
+            Route::delete('notifications/{notification}', 'destroy')->name('notifications.destroy')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_DELETE->value);
+        });
         Route::get('settings', fn () => Inertia::render('school/settings/index'))
             ->name('settings.ui')
             ->middleware('permission:'.PermissionEnum::SCHOOL_SETTINGS_VIEW->value);

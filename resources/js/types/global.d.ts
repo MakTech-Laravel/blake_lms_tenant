@@ -15,6 +15,7 @@ declare module '@inertiajs/core' {
             auth: Auth;
             school: Tenant | null;
             branch: BranchContext | null;
+            notifications: { unread_count: number } | null;
             sidebarOpen: boolean;
             [key: string]: unknown;
         };

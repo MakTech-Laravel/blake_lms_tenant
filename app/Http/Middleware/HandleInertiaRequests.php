@@ -74,6 +74,12 @@ class HandleInertiaRequests extends Middleware
                     'slug' => $user->branch->slug,
                 ] : null,
             ] : null,
+            // The header bell's badge. Just the count: the list itself is fetched
+            // when the popover opens, so every page does not pay for notifications
+            // nobody is looking at.
+            'notifications' => $user ? [
+                'unread_count' => $user->unreadNotificationCount(),
+            ] : null,
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
     }

@@ -32,6 +32,8 @@ Route::middleware(['auth', 'verified', 'type:teacher'])
             ->name('profile.show');
         Route::get('settings', fn () => Inertia::render('teacher/settings'))
             ->name('settings.show');
-        Route::get('notifications', fn () => Inertia::render('teacher/notifications'))
+        // Teachers use the same personal inbox as everyone else; this keeps the
+        // sidebar's /dashboard/notifications link working.
+        Route::get('notifications', fn () => redirect()->route('notifications.index'))
             ->name('notifications.index');
     });

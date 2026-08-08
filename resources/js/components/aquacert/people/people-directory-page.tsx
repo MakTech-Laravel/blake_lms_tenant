@@ -101,6 +101,7 @@ export function PeopleDirectoryPage({
     const typeFilter = filters.type ?? 'all';
 
     const [search, setSearch] = useState(filters.search ?? '');
+    const [lastSearchTerm, setLastSearchTerm] = useState(filters.search ?? '');
     const [addOpen, setAddOpen] = useState(false);
     const firstRender = useRef(true);
 
@@ -166,9 +167,13 @@ export function PeopleDirectoryPage({
         [schools, filterRoles],
     );
 
-    useEffect(() => {
+    // The server's term wins whenever it changes — a back navigation or a cleared
+    // chip must be reflected in the box — while typing wins in between. Adjusted
+    // during render so the input never paints a term the server has replaced.
+    if (lastSearchTerm !== (filters.search ?? '')) {
+        setLastSearchTerm(filters.search ?? '');
         setSearch(filters.search ?? '');
-    }, [filters.search]);
+    }
 
     useEffect(() => {
         if (firstRender.current) {

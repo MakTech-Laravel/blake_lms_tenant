@@ -1,5 +1,5 @@
 import { Filter, RotateCcw, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import {
@@ -62,11 +62,10 @@ export function AquaFilterPopover({
     align = 'end',
 }: AquaFilterPopoverProps) {
     const [open, setOpen] = useState(false);
+    // Seeded on open rather than synced from props: the draft is only ever read
+    // while the popover is open, and applying it closes the popover, so there is
+    // no window in which committed values and the draft can drift apart.
     const [draft, setDraft] = useState<AquaFilterValues>(values);
-
-    useEffect(() => {
-        setDraft(values);
-    }, [values]);
 
     const activeCount = countActive(fields, values);
     const draftCount = countActive(fields, draft);

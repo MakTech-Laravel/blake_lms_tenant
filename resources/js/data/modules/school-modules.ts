@@ -515,44 +515,6 @@ export const schoolReports = {
     ] satisfies ModuleRow[],
 };
 
-export const schoolNotifications = {
-    title: 'Notifications',
-    subtitle: 'School alerts and announcements',
-    columns: [
-        { key: 'title', label: 'Notification' },
-        { key: 'audience', label: 'Audience' },
-        { key: 'channel', label: 'Channel' },
-        { key: 'sent', label: 'Sent' },
-        { key: 'status', label: 'Status' },
-    ],
-    rows: [
-        {
-            id: '1',
-            title: 'March training deadline',
-            audience: 'All staff',
-            channel: 'Email',
-            sent: '2026-03-01',
-            status: 'Sent',
-        },
-        {
-            id: '2',
-            title: 'New pathway published',
-            audience: 'Managers',
-            channel: 'In-app',
-            sent: '2026-03-12',
-            status: 'Sent',
-        },
-        {
-            id: '3',
-            title: 'Eastgate opening briefing',
-            audience: 'Eastgate staff',
-            channel: 'Email',
-            sent: '—',
-            status: 'Draft',
-        },
-    ] satisfies ModuleRow[],
-};
-
 export const schoolSettings = {
     title: 'Settings',
     subtitle: 'School preferences and branding',

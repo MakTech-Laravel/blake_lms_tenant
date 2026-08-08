@@ -1,12 +1,6 @@
-import { Link, usePage } from '@inertiajs/react';
-import {
-    Bell,
-    Check,
-    CheckCheck,
-    ExternalLink,
-    X,
-} from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { Link, router, useHttp, usePage } from '@inertiajs/react';
+import { Bell, Check, CheckCheck, ExternalLink, Loader2, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -19,92 +13,96 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from '@/components/ui/tooltip';
-import {
-    headerNotifications,
-} from '@/data/header-notifications';
-import type { HeaderNotification } from '@/data/header-notifications';
-import { usePermission } from '@/hooks/use-permissions';
 import { cn } from '@/lib/utils';
-import { PERMISSIONS } from '@/types/permissions';
-import type { PermissionKey } from '@/types/permissions';
-
-type NotificationsTarget = { href: string; permission?: PermissionKey };
-
-/**
- * The "View all" destination plus the permission guarding it.
- *
- * The permission is derived from the destination rather than passed in by the
- * caller: this header is rendered in every layout, and the platform/school
- * sidebars hide their Notifications entry behind these same keys, so a link
- * offered here must answer to the same gate. The teacher portal's notifications
- * page is deliberately permission-free, matching its route.
- */
-function resolveNotificationsTarget(
-    url: string,
-    schoolSlug?: string,
-): NotificationsTarget {
-    if (url.startsWith('/platform')) {
-        return {
-            href: '/platform/notifications',
-            permission: PERMISSIONS.PLATFORM_NOTIFICATIONS.INDEX,
-        };
-    }
-
-    if (url.startsWith('/school/') && schoolSlug) {
-        return {
-            href: `/school/${schoolSlug}/notifications`,
-            permission: PERMISSIONS.SCHOOL_NOTIFICATIONS.INDEX,
-        };
-    }
-
-    if (url.startsWith('/dashboard')) {
-        return { href: '/dashboard/notifications' };
-    }
-
-    return { href: '#' };
-}
+import {
+    index as inbox,
+    read_all,
+    recent,
+} from '@/routes/notifications';
+import type { InboxNotification } from '@/types/admin';
 
 type NotificationsBellProps = {
-    /** Override fixture list (useful in tests / portal-specific feeds). */
-    items?: HeaderNotification[];
-    /** Override the "View all" destination. */
-    viewAllHref?: string;
     className?: string;
 };
 
-export function NotificationsBell({
-    items = headerNotifications,
-    viewAllHref,
-    className,
-}: NotificationsBellProps) {
+type RecentResponse = {
+    items: InboxNotification[];
+    unread_count: number;
+};
+
+/**
+ * The header bell: this user's own recent notifications, from the server.
+ *
+ * The badge count rides along as a shared Inertia prop so it is correct on first
+ * paint and after any visit, but the list is only fetched when the popover opens.
+ * Most page loads never open it, and an unopened bell should not cost a query on
+ * every request.
+ *
+ * Mark-as-read is applied locally before the request resolves. The result is
+ * never in doubt — the row is this user's own receipt — and waiting for a round
+ * trip to remove a dot makes the control feel broken.
+ */
+export function NotificationsBell({ className }: NotificationsBellProps) {
     const page = usePage();
-    const schoolSlug = page.props.school?.slug;
-    const { can } = usePermission();
+    const sharedCount = page.props.notifications?.unread_count ?? 0;
 
     const [open, setOpen] = useState(false);
-    const [notifications, setNotifications] = useState(items);
+    const [items, setItems] = useState<InboxNotification[]>([]);
+    const [unreadCount, setUnreadCount] = useState(sharedCount);
+    const [lastSharedCount, setLastSharedCount] = useState(sharedCount);
 
-    const unreadCount = useMemo(
-        () => notifications.filter((item) => !item.read).length,
-        [notifications],
-    );
+    const feed = useHttp<Record<string, never>, RecentResponse>({});
 
-    const target = resolveNotificationsTarget(page.url, schoolSlug);
-    const resolvedViewAll = viewAllHref ?? target.href;
-    const canViewAll =
-        target.permission === undefined || can(target.permission);
+    // The shared prop wins whenever it changes: an optimistic decrement here is
+    // only a stand-in until the server's own count arrives with the next visit.
+    // Adjusted during render rather than in an effect so the badge never paints
+    // a number the server has already superseded.
+    if (lastSharedCount !== sharedCount) {
+        setLastSharedCount(sharedCount);
+        setUnreadCount(sharedCount);
+    }
 
-    const markAllRead = () => {
-        setNotifications((current) =>
-            current.map((item) => ({ ...item, read: true })),
+    useEffect(() => {
+        if (!open) {
+            return;
+        }
+
+        feed.get(recent().url, {
+            onSuccess: (response) => {
+                setItems(response.items ?? []);
+                setUnreadCount(response.unread_count ?? 0);
+            },
+        }).catch(() => undefined);
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- the http helper is stable
+    }, [open]);
+
+    const markRead = (notification: InboxNotification) => {
+        if (notification.is_read) {
+            return;
+        }
+
+        setItems((current) =>
+            current.map((item) =>
+                item.id === notification.id ? { ...item, is_read: true } : item,
+            ),
+        );
+        setUnreadCount((current) => Math.max(current - 1, 0));
+
+        router.patch(
+            notification.read_url,
+            {},
+            { preserveScroll: true, preserveState: true },
         );
     };
 
-    const markRead = (id: string) => {
-        setNotifications((current) =>
-            current.map((item) =>
-                item.id === id ? { ...item, read: true } : item,
-            ),
+    const markAllRead = () => {
+        setItems((current) => current.map((item) => ({ ...item, is_read: true })));
+        setUnreadCount(0);
+
+        router.patch(
+            read_all().url,
+            {},
+            { preserveScroll: true, preserveState: true },
         );
     };
 
@@ -116,7 +114,11 @@ export function NotificationsBell({
                     variant="ghost"
                     size="icon"
                     className={cn('relative text-navy-400', className)}
-                    aria-label="Notifications"
+                    aria-label={
+                        unreadCount > 0
+                            ? `Notifications, ${unreadCount} unread`
+                            : 'Notifications'
+                    }
                 >
                     <Bell className="size-5" />
                     {unreadCount > 0 && (
@@ -167,24 +169,29 @@ export function NotificationsBell({
                 </div>
 
                 <ul className="max-h-80 overflow-y-auto">
-                    {notifications.length === 0 ? (
+                    {feed.processing && items.length === 0 ? (
+                        <li className="flex items-center justify-center gap-2 px-4 py-10 text-body-3 text-navy-300">
+                            <Loader2 className="size-4 animate-spin" />
+                            Loading...
+                        </li>
+                    ) : items.length === 0 ? (
                         <li className="px-4 py-10 text-center text-body-3 text-navy-300">
                             You&apos;re all caught up.
                         </li>
                     ) : (
-                        notifications.map((item) => (
+                        items.map((item) => (
                             <li
                                 key={item.id}
                                 className={cn(
                                     'border-b border-navy-50 last:border-b-0',
-                                    !item.read && 'bg-aqua-50/40',
+                                    !item.is_read && 'bg-aqua-50/40',
                                 )}
                             >
                                 <div className="flex gap-3 px-4 py-3">
                                     <span
                                         className={cn(
                                             'mt-1.5 size-2 shrink-0 rounded-full',
-                                            item.read
+                                            item.is_read
                                                 ? 'bg-transparent'
                                                 : 'bg-aqua-500',
                                         )}
@@ -195,14 +202,14 @@ export function NotificationsBell({
                                             {item.title}
                                         </p>
                                         <p className="mt-0.5 text-body-4 text-navy-300">
-                                            {item.description}
+                                            {item.excerpt}
                                         </p>
                                         <p className="mt-1 text-caption-1 text-navy-200">
-                                            {item.time}
+                                            {item.received_relative}
                                         </p>
                                     </div>
                                     <div className="flex shrink-0 flex-col gap-0.5">
-                                        {!item.read && (
+                                        {!item.is_read && (
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
                                                     <Button
@@ -211,7 +218,7 @@ export function NotificationsBell({
                                                         size="icon"
                                                         className="size-7 text-navy-300 hover:text-aqua-600"
                                                         onClick={() =>
-                                                            markRead(item.id)
+                                                            markRead(item)
                                                         }
                                                         aria-label={`Mark ${item.title} as read`}
                                                     >
@@ -223,7 +230,7 @@ export function NotificationsBell({
                                                 </TooltipContent>
                                             </Tooltip>
                                         )}
-                                        {item.href ? (
+                                        {item.action_url ? (
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
                                                     <Button
@@ -233,22 +240,26 @@ export function NotificationsBell({
                                                         className="size-7 text-navy-300 hover:text-aqua-600"
                                                         asChild
                                                     >
-                                                        <Link
-                                                            href={item.href}
+                                                        <a
+                                                            href={
+                                                                item.action_url
+                                                            }
                                                             onClick={() => {
-                                                                markRead(
-                                                                    item.id,
-                                                                );
+                                                                markRead(item);
                                                                 setOpen(false);
                                                             }}
-                                                            aria-label={`Open ${item.title}`}
+                                                            aria-label={
+                                                                item.action_label ??
+                                                                `Open ${item.title}`
+                                                            }
                                                         >
                                                             <ExternalLink className="size-3.5" />
-                                                        </Link>
+                                                        </a>
                                                     </Button>
                                                 </TooltipTrigger>
                                                 <TooltipContent>
-                                                    Open
+                                                    {item.action_label ??
+                                                        'Open'}
                                                 </TooltipContent>
                                             </Tooltip>
                                         ) : null}
@@ -259,17 +270,15 @@ export function NotificationsBell({
                     )}
                 </ul>
 
-                {canViewAll && (
-                    <div className="border-t border-navy-50 px-4 py-3 text-center">
-                        <Link
-                            href={resolvedViewAll}
-                            className="text-label-3 font-semibold text-aqua-600 hover:text-aqua-700"
-                            onClick={() => setOpen(false)}
-                        >
-                            View all notifications
-                        </Link>
-                    </div>
-                )}
+                <div className="border-t border-navy-50 px-4 py-3 text-center">
+                    <Link
+                        href={inbox()}
+                        className="text-label-3 font-semibold text-aqua-600 hover:text-aqua-700"
+                        onClick={() => setOpen(false)}
+                    >
+                        View all notifications
+                    </Link>
+                </div>
             </PopoverContent>
         </Popover>
     );

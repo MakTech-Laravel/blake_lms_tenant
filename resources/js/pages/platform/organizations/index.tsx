@@ -107,6 +107,7 @@ export default function OrganizationsIndex({
 }: OrganizationsIndexProps) {
     const { can } = usePermission();
     const [search, setSearch] = useState(filters.search ?? '');
+    const [lastSearchTerm, setLastSearchTerm] = useState(filters.search ?? '');
     const [selected, setSelected] = useState<Set<number>>(new Set());
     const firstRender = useRef(true);
 
@@ -161,9 +162,13 @@ export default function OrganizationsIndex({
     const sort = filters.sort ?? 'name';
     const direction: SortDirection = filters.direction === 'desc' ? 'desc' : 'asc';
 
-    useEffect(() => {
+    // The server's term wins whenever it changes — a back navigation or a cleared
+    // chip must be reflected in the box — while typing wins in between. Adjusted
+    // during render so the input never paints a term the server has replaced.
+    if (lastSearchTerm !== (filters.search ?? '')) {
+        setLastSearchTerm(filters.search ?? '');
         setSearch(filters.search ?? '');
-    }, [filters.search]);
+    }
 
     useEffect(() => {
         if (firstRender.current) {

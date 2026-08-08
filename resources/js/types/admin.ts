@@ -280,6 +280,145 @@ export interface PermissionOption {
     label?: string;
 }
 
+/** A value/label pair for a select, filter, or audience picker. */
+export interface SelectOption {
+    value: string;
+    label: string;
+}
+
+/**
+ * One audience mode in the announcement builder.
+ *
+ * `resource` names the option list the mode needs ("organizations", "plans",
+ * "roles", "users") and is null for the self-contained modes such as "all users".
+ */
+export interface NotificationAudienceOption extends SelectOption {
+    description: string;
+    resource: string | null;
+}
+
+/** An authored announcement, as shown in the platform and school lists. */
+export interface NotificationListItem {
+    id: number;
+    title: string;
+    body: string;
+    excerpt: string;
+
+    category: string;
+    category_value: string;
+
+    priority: string;
+    priority_value: string;
+    /** False for Normal, whose badge would only add noise. */
+    priority_elevated: boolean;
+
+    audience_label: string;
+    audience_type: string;
+    audience_ids: number[];
+
+    channel_label: string;
+    sends_email: boolean;
+
+    action_label: string | null;
+    action_url: string | null;
+
+    /** Display label, e.g. "Scheduled". Keys into the StatusBadge tone map. */
+    status: string;
+    /** Enum value, e.g. "scheduled". */
+    status_value: string;
+    is_editable: boolean;
+    is_sendable: boolean;
+    is_archived: boolean;
+
+    date_label: string;
+    date_relative: string;
+    /** `YYYY-MM-DDTHH:mm`, ready for a datetime-local input. */
+    scheduled_at: string | null;
+    sent_label: string | null;
+
+    recipients_count: number;
+    read_count: number;
+
+    sender: string;
+    organization: string | null;
+
+    show_url: string;
+    update_url: string;
+    send_url: string;
+    archive_url: string;
+    unarchive_url: string;
+    destroy_url: string;
+}
+
+/** One count per notification status, plus the overall total. */
+export interface NotificationStats {
+    total: number;
+    draft: number;
+    scheduled: number;
+    sending: number;
+    sent: number;
+    failed: number;
+    archived: number;
+}
+
+/** Module-level endpoints, so one component serves both notification modules. */
+export interface NotificationModuleRoutes {
+    index: string;
+    store: string;
+    export: string;
+    audience_options: string;
+    estimate: string;
+}
+
+/** One row of an announcement's delivery report. */
+export interface NotificationRecipientRow {
+    id: number;
+    name: string;
+    email: string;
+    initials: string;
+    avatar_url: string | null;
+    type: string;
+    read_at_label: string;
+    read_relative: string | null;
+    is_read: boolean;
+    emailed: boolean;
+    /** The recipient deleted their own copy; it was still delivered. */
+    removed: boolean;
+}
+
+/** One notification as the recipient sees it, in the inbox and the bell. */
+export interface InboxNotification {
+    id: number;
+    title: string;
+    body: string;
+    excerpt: string;
+
+    category: string;
+    category_value: string;
+
+    priority: string;
+    priority_value: string;
+    priority_elevated: boolean;
+
+    action_label: string | null;
+    action_url: string | null;
+
+    sender: string;
+
+    is_read: boolean;
+    is_archived: boolean;
+    read_at_label: string | null;
+
+    received_label: string;
+    received_relative: string;
+
+    read_url: string;
+    unread_url: string;
+    archive_url: string;
+    unarchive_url: string;
+    destroy_url: string;
+}
+
 /** A permission row for the read-only permissions listing. */
 export interface PermissionListItem {
     id: number;

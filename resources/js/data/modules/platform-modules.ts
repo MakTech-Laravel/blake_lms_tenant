@@ -375,44 +375,6 @@ export const platformReports = {
     ] satisfies ModuleRow[],
 };
 
-export const platformNotifications = {
-    title: 'Notifications',
-    subtitle: 'Announcements and system alerts',
-    columns: [
-        { key: 'title', label: 'Notification' },
-        { key: 'audience', label: 'Audience' },
-        { key: 'channel', label: 'Channel' },
-        { key: 'sent', label: 'Sent' },
-        { key: 'status', label: 'Status' },
-    ],
-    rows: [
-        {
-            id: '1',
-            title: 'March compliance reminder',
-            audience: 'All schools',
-            channel: 'Email',
-            sent: '2026-03-01',
-            status: 'Sent',
-        },
-        {
-            id: '2',
-            title: 'New course pack available',
-            audience: 'School owners',
-            channel: 'In-app',
-            sent: '2026-03-12',
-            status: 'Sent',
-        },
-        {
-            id: '3',
-            title: 'Scheduled maintenance window',
-            audience: 'Platform staff',
-            channel: 'Email',
-            sent: '—',
-            status: 'Draft',
-        },
-    ] satisfies ModuleRow[],
-};
-
 export const platformSupport = {
     title: 'Support Tools',
     subtitle: 'Impersonation, audits, and support utilities',

@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             CourseSeeder::class,    // courses per school, pinned to branches
             CertificateTemplateSeeder::class,
             TeacherSeeder::class,   // teachers + enrollments + certificates
+            NotificationSeeder::class, // platform announcements, fanned out to the users above
         ]);
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
     }

@@ -128,6 +128,18 @@ test('every application route carries a permission gate or a documented reason n
         'security.edit',
         'user-password.update',
         'appearance.edit',
+        // A personal notification inbox, scoped to the signed-in user's own
+        // receipts. There is no permission that would make sense here: an
+        // account that could not read its own notifications could not be told
+        // anything. The authoring side is gated under platform.* and school.*.
+        'notifications.index',
+        'notifications.recent',
+        'notifications.read',
+        'notifications.unread',
+        'notifications.read_all',
+        'notifications.archive',
+        'notifications.unarchive',
+        'notifications.destroy',
     ];
 
     $ungated = collect(applicationRoutes())

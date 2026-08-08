@@ -3,6 +3,7 @@
 use App\Enums\PermissionEnum;
 use App\Http\Controllers\Platform\CertificateController;
 use App\Http\Controllers\Platform\DashboardController;
+use App\Http\Controllers\Platform\NotificationController;
 use App\Http\Controllers\Platform\OrganizationController;
 use App\Http\Controllers\Platform\PermissionController;
 use App\Http\Controllers\Platform\PlanController;
@@ -182,9 +183,34 @@ Route::middleware(['auth', 'verified', 'type:platform'])
         Route::get('reports', fn () => Inertia::render('platform/reports/index'))
             ->name('reports.index')
             ->middleware('permission:'.PermissionEnum::PLATFORM_REPORTS_INDEX->value);
-        Route::get('notifications', fn () => Inertia::render('platform/notifications/index'))
-            ->name('notifications.index')
-            ->middleware('permission:'.PermissionEnum::PLATFORM_NOTIFICATIONS_INDEX->value);
+        // ── Notifications & announcements ─────────────────────────────────────
+        // Authoring and delivery reporting. A recipient's own inbox lives on the
+        // shared `notifications.*` routes in web.php instead.
+        Route::controller(NotificationController::class)->group(function () {
+            Route::get('notifications', 'index')->name('notifications.index')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_NOTIFICATIONS_INDEX->value);
+            Route::get('notifications/export', 'export')->name('notifications.export')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_NOTIFICATIONS_EXPORT->value);
+            // Both feed the announcement builder as the author types.
+            Route::get('notifications/audience-options', 'audienceOptions')->name('notifications.audience_options')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_NOTIFICATIONS_SEND->value);
+            Route::get('notifications/estimate', 'estimate')->name('notifications.estimate')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_NOTIFICATIONS_SEND->value);
+            Route::post('notifications', 'store')->name('notifications.store')
+                ->middleware(['permission:'.PermissionEnum::PLATFORM_NOTIFICATIONS_SEND->value, HandlePrecognitiveRequests::class]);
+            Route::get('notifications/{notification}', 'show')->name('notifications.show')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_NOTIFICATIONS_VIEW->value);
+            Route::put('notifications/{notification}', 'update')->name('notifications.update')
+                ->middleware(['permission:'.PermissionEnum::PLATFORM_NOTIFICATIONS_EDIT->value, HandlePrecognitiveRequests::class]);
+            Route::post('notifications/{notification}/send', 'send')->name('notifications.send')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_NOTIFICATIONS_SEND->value);
+            Route::patch('notifications/{notification}/archive', 'archive')->name('notifications.archive')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_NOTIFICATIONS_EDIT->value);
+            Route::patch('notifications/{notification}/unarchive', 'unarchive')->name('notifications.unarchive')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_NOTIFICATIONS_EDIT->value);
+            Route::delete('notifications/{notification}', 'destroy')->name('notifications.destroy')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_NOTIFICATIONS_DELETE->value);
+        });
         Route::get('support', fn () => Inertia::render('platform/support/index'))
             ->name('support.index')
             ->middleware('permission:'.PermissionEnum::PLATFORM_SUPPORT_INDEX->value);

@@ -7,6 +7,7 @@ use App\Enums\GuardEnum;
 use App\Enums\RoleEnum;
 use App\Enums\UserStatus;
 use App\Enums\UserType;
+use App\Models\Concerns\ReceivesNotifications;
 use App\Support\BranchContext;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
@@ -27,7 +28,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, HasRoles, Notifiable, TwoFactorAuthenticatable;
+    use HasFactory, HasRoles, Notifiable, ReceivesNotifications, TwoFactorAuthenticatable;
 
     public function guardName(): string
     {
