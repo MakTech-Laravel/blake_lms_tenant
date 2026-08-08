@@ -66,12 +66,20 @@ test('non-school users are rejected from school routes by the type guard', funct
         ->get("/_test/school/{$school->slug}")->assertForbidden();
 });
 
-test('an inactive school is rejected by the tenant middleware', function () {
-    $school = School::factory()->inactive()->create();
+test('a suspended school is rejected by the tenant middleware', function () {
+    $school = School::factory()->suspended()->create();
 
     $this->actingAs(User::factory()->platform()->create())
         ->get("/_test/tenant-only/{$school->slug}")
         ->assertForbidden();
+});
+
+test('a school on trial is still allowed through the tenant middleware', function () {
+    $school = School::factory()->trial()->create();
+
+    $this->actingAs(User::factory()->platform()->create())
+        ->get("/_test/tenant-only/{$school->slug}")
+        ->assertOk();
 });
 
 test('an unknown school slug returns 404', function () {

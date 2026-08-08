@@ -78,7 +78,7 @@ export default function BranchesIndex({
         <>
             <Head title="Branches" />
 
-            <div className="w-full space-y-6 bg-canvas px-4 py-6 sm:px-6 lg:px-8">
+            <div className="w-full space-y-6 px-4 py-6 sm:px-6 lg:px-8">
                 <AdminPageHeader
                     title="Branches"
                     description="Your school's locations. Staff pinned to a branch only ever see that branch's data."

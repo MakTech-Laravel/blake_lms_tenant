@@ -229,7 +229,7 @@ export function PeopleDirectoryPage({
     return (
         <>
             <Head title={title} />
-            <div className="flex h-full flex-1 flex-col gap-6 bg-[#f8fafc] p-4 md:p-6">
+            <div className="flex flex-1 flex-col gap-6 p-4 md:p-6">
                 <AquaPageHeader
                     title={title}
                     subtitle={`${stats.total} users across the platform`}

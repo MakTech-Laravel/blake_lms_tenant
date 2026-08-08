@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\SchoolStatus;
 use App\Models\School;
 use Closure;
 use Illuminate\Http\Request;
@@ -34,7 +35,9 @@ class ResolveTenant
             ? $routeSchool
             : School::where('slug', $routeSchool)->firstOrFail();
 
-        abort_if(! $school->is_active, 403, 'This school is not active.');
+        // Trial organizations keep full access; only a suspended account is
+        // locked out of its dashboard.
+        abort_if($school->status === SchoolStatus::Suspended, 403, 'This school is not active.');
 
         // School staff may only operate within their own school.
         $user = $request->user();

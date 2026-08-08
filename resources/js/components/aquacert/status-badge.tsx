@@ -12,8 +12,10 @@ const tones: Record<string, string> = {
     Valid: 'border-aqua-200 bg-aqua-50 text-aqua-700',
     Pending: 'border-amber-200 bg-amber-50 text-amber-700',
     Disabled: 'border-red-200 bg-red-50 text-red-700',
-    Expired: 'border-navy-200 bg-navy-50 text-navy-500',
+    Expired: 'border-red-200 bg-red-50 text-red-700',
     Revoked: 'border-navy-100 bg-navy-50 text-navy-300',
+    Inactive: 'border-navy-100 bg-navy-50 text-navy-400',
+    Archived: 'border-navy-200 bg-navy-100/60 text-navy-500',
 };
 
 type StatusBadgeProps = {

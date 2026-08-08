@@ -228,7 +228,7 @@ export default function RoleShow({
         <>
             <Head title={role.display_name} />
 
-            <div className="flex h-full flex-1 flex-col gap-6 bg-canvas p-4 md:p-6">
+            <div className="flex flex-1 flex-col gap-6 p-4 md:p-6">
                 <AquaPageHeader
                     title={role.display_name}
                     subtitle={`${role.is_system ? 'System role' : 'Custom role'} · ${role.scope} scope`}

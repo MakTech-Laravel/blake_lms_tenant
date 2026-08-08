@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\SchoolStatus;
 use Database\Factories\SchoolFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 /**
@@ -21,7 +23,8 @@ use Illuminate\Support\Carbon;
  * @property string|null $email
  * @property string|null $phone
  * @property string|null $address
- * @property bool $is_active
+ * @property string|null $region
+ * @property SchoolStatus $status
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
@@ -36,7 +39,8 @@ class School extends Model
         'email',
         'phone',
         'address',
-        'is_active',
+        'region',
+        'status',
     ];
 
     /**
@@ -76,6 +80,14 @@ class School extends Model
         return $this->hasMany(Branch::class);
     }
 
+    /**
+     * The commercial agreement for this organization. At most one.
+     */
+    public function subscription(): HasOne
+    {
+        return $this->hasOne(Subscription::class);
+    }
+
     // ── Casts ─────────────────────────────────────────────────────────────────
 
     /**
@@ -84,7 +96,7 @@ class School extends Model
     protected function casts(): array
     {
         return [
-            'is_active' => 'boolean',
+            'status' => SchoolStatus::class,
         ];
     }
 }

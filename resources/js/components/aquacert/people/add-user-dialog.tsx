@@ -163,52 +163,39 @@ export function AddUserDialog({
 
         const storeUrl = storeUrlForAudience(audience);
 
+        // Each audience posts to a different endpoint with its own shape, so the
+        // payload is narrowed before submitting rather than sending every field
+        // and letting validation reject the ones that do not apply.
         if (audience === 'teacher') {
-            form
-                .transform((data) => ({
-                    name: data.name,
-                    email: data.email,
-                    password: data.password,
-                    school_id: Number(data.school_id),
-                    branch_id: data.branch_id ? Number(data.branch_id) : null,
-                }))
-                .post(storeUrl, {
-                    preserveScroll: true,
-                    onSuccess: () => onOpenChange(false),
-                });
-
-            return;
-        }
-
-        if (audience === 'school') {
-            form
-                .transform((data) => ({
-                    name: data.name,
-                    email: data.email,
-                    password: data.password,
-                    school_id: Number(data.school_id),
-                    branch_id: data.branch_id ? Number(data.branch_id) : null,
-                    roles: data.roles,
-                }))
-                .post(storeUrl, {
-                    preserveScroll: true,
-                    onSuccess: () => onOpenChange(false),
-                });
-
-            return;
-        }
-
-        form
-            .transform((data) => ({
+            form.transform((data) => ({
+                name: data.name,
+                email: data.email,
+                password: data.password,
+                school_id: Number(data.school_id),
+                branch_id: data.branch_id ? Number(data.branch_id) : null,
+            }));
+        } else if (audience === 'school') {
+            form.transform((data) => ({
+                name: data.name,
+                email: data.email,
+                password: data.password,
+                school_id: Number(data.school_id),
+                branch_id: data.branch_id ? Number(data.branch_id) : null,
+                roles: data.roles,
+            }));
+        } else {
+            form.transform((data) => ({
                 name: data.name,
                 email: data.email,
                 password: data.password,
                 roles: data.roles,
-            }))
-            .post(storeUrl, {
-                preserveScroll: true,
-                onSuccess: () => onOpenChange(false),
-            });
+            }));
+        }
+
+        form.post(storeUrl, {
+            preserveScroll: true,
+            onSuccess: () => onOpenChange(false),
+        });
     };
 
     const title =

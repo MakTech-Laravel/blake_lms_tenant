@@ -56,57 +56,6 @@ export const platformLocations = {
     ] satisfies ModuleRow[],
 };
 
-export const platformSubscriptions = {
-    title: 'Subscriptions',
-    subtitle: 'Plans, renewals, and MRR overview',
-    columns: [
-        { key: 'organization', label: 'Organization' },
-        { key: 'plan', label: 'Plan' },
-        { key: 'mrr', label: 'MRR' },
-        { key: 'seats', label: 'Seats' },
-        { key: 'renewal', label: 'Renewal' },
-        { key: 'status', label: 'Status' },
-    ],
-    rows: [
-        {
-            id: '1',
-            organization: 'BlueWave Swim',
-            plan: 'LMS + Content',
-            mrr: '$890',
-            seats: 124,
-            renewal: '2026-11-01',
-            status: 'Active',
-        },
-        {
-            id: '2',
-            organization: 'Coral Reef Academy',
-            plan: 'Enterprise',
-            mrr: '$2,400',
-            seats: 210,
-            renewal: '2026-09-15',
-            status: 'Active',
-        },
-        {
-            id: '3',
-            organization: 'TidePool Kids',
-            plan: 'LMS Only',
-            mrr: '$0',
-            seats: 28,
-            renewal: '2026-04-01',
-            status: 'Trial',
-        },
-        {
-            id: '4',
-            organization: 'Harbor Aquatics',
-            plan: 'LMS + Content',
-            mrr: '$450',
-            seats: 67,
-            renewal: '2026-03-20',
-            status: 'Past Due',
-        },
-    ] satisfies ModuleRow[],
-};
-
 export const platformPeople = {
     title: 'People',
     subtitle: 'Platform staff and organization contacts',

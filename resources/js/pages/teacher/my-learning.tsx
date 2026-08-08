@@ -40,7 +40,7 @@ export default function MyLearning() {
     return (
         <>
             <Head title="My Learning" />
-            <div className="flex h-full flex-1 flex-col gap-6 bg-canvas p-4 md:p-6">
+            <div className="flex flex-1 flex-col gap-6 p-4 md:p-6">
                 <AquaPageHeader
                     title="My Learning"
                     subtitle={`${learnerOverview.courses.length} courses assigned`}

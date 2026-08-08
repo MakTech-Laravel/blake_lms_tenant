@@ -3,9 +3,11 @@
 use App\Enums\PermissionEnum;
 use App\Http\Controllers\Platform\CertificateController;
 use App\Http\Controllers\Platform\DashboardController;
+use App\Http\Controllers\Platform\OrganizationController;
 use App\Http\Controllers\Platform\PermissionController;
+use App\Http\Controllers\Platform\PlanController;
 use App\Http\Controllers\Platform\RoleController;
-use App\Http\Controllers\Platform\SchoolController;
+use App\Http\Controllers\Platform\SubscriptionController;
 use App\Http\Controllers\Platform\UserController;
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
 use Illuminate\Support\Facades\Route;
@@ -29,8 +31,32 @@ Route::middleware(['auth', 'verified', 'type:platform'])
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard')
             ->middleware('permission:'.PermissionEnum::DASHBOARD_VIEW->value);
 
-        // ── Schools (tenants) ─────────────────────────────────────────────────
-        Route::get('schools', [SchoolController::class, 'index'])->name('schools.index')
+        // ── Organizations (tenants) ───────────────────────────────────────────
+        // The model is School; "Organization" is the customer-facing wording.
+        Route::controller(OrganizationController::class)->group(function () {
+            Route::get('organizations', 'index')->name('organizations.index')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SCHOOLS_INDEX->value);
+            Route::get('organizations/export', 'export')->name('organizations.export')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SCHOOLS_EXPORT->value);
+            Route::get('organizations/create', 'create')->name('organizations.create')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SCHOOLS_CREATE->value);
+            Route::post('organizations', 'store')->name('organizations.store')
+                ->middleware(['permission:'.PermissionEnum::PLATFORM_SCHOOLS_CREATE->value, HandlePrecognitiveRequests::class]);
+            Route::get('organizations/{organization}', 'show')->name('organizations.show')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SCHOOLS_VIEW->value);
+            Route::get('organizations/{organization}/edit', 'edit')->name('organizations.edit')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SCHOOLS_EDIT->value);
+            Route::put('organizations/{organization}', 'update')->name('organizations.update')
+                ->middleware(['permission:'.PermissionEnum::PLATFORM_SCHOOLS_EDIT->value, HandlePrecognitiveRequests::class]);
+            Route::patch('organizations/{organization}/status', 'updateStatus')->name('organizations.status')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SCHOOLS_EDIT->value);
+            Route::delete('organizations/{organization}', 'destroy')->name('organizations.destroy')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SCHOOLS_DELETE->value);
+        });
+
+        // Legacy path kept so existing links keep resolving.
+        Route::get('schools', fn () => redirect()->route('platform.organizations.index'))
+            ->name('schools.index')
             ->middleware('permission:'.PermissionEnum::PLATFORM_SCHOOLS_INDEX->value);
 
         // ── Access control: platform staff ────────────────────────────────────
@@ -80,15 +106,41 @@ Route::middleware(['auth', 'verified', 'type:platform'])
         });
 
         // ── AquaCert UI modules (fixture-backed dedicated pages) ──────────────
-        Route::get('organizations', fn () => Inertia::render('platform/organizations'))
-            ->name('organizations.index')
-            ->middleware('permission:'.PermissionEnum::PLATFORM_SCHOOLS_INDEX->value);
         Route::get('locations', fn () => Inertia::render('platform/locations/index'))
             ->name('locations.index')
             ->middleware('permission:'.PermissionEnum::PLATFORM_LOCATIONS_INDEX->value);
-        Route::get('subscriptions', fn () => Inertia::render('platform/subscriptions/index'))
-            ->name('subscriptions.index')
-            ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_INDEX->value);
+        // ── Subscriptions ─────────────────────────────────────────────────────
+        // One page, two tabs: the plan catalog and the per-organization
+        // agreements sold against it.
+        Route::controller(SubscriptionController::class)->group(function () {
+            Route::get('subscriptions', 'index')->name('subscriptions.index')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_INDEX->value);
+            Route::get('subscriptions/export', 'export')->name('subscriptions.export')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_EXPORT->value);
+            Route::patch('subscriptions/{subscription}/renew', 'renew')->name('subscriptions.renew')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_EDIT->value);
+        });
+
+        // Editing the plan catalog. Listed on the Subscriptions page above, so
+        // there is no plans.index of its own.
+        Route::controller(PlanController::class)->group(function () {
+            Route::get('plans/create', 'create')->name('plans.create')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_CREATE->value);
+            Route::post('plans', 'store')->name('plans.store')
+                ->middleware(['permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_CREATE->value, HandlePrecognitiveRequests::class]);
+            Route::get('plans/{plan}/edit', 'edit')->name('plans.edit')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_EDIT->value);
+            Route::put('plans/{plan}', 'update')->name('plans.update')
+                ->middleware(['permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_EDIT->value, HandlePrecognitiveRequests::class]);
+            Route::post('plans/{plan}/duplicate', 'duplicate')->name('plans.duplicate')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_CREATE->value);
+            Route::delete('plans/{plan}', 'destroy')->name('plans.destroy')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_DELETE->value);
+            // Restoring has to resolve an archived plan, hence withTrashed().
+            Route::patch('plans/{plan}/restore', 'restore')->name('plans.restore')
+                ->withTrashed()
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_EDIT->value);
+        });
         Route::get('people', [UserController::class, 'people'])->name('people.index')
             ->middleware('permission:'.PermissionEnum::USERS_INDEX->value);
         Route::get('people/export', [UserController::class, 'exportPeople'])->name('people.export')

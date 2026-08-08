@@ -10,7 +10,7 @@ export default function SchoolBillingPage() {
     const canViewPlan = can(PERMISSIONS.SCHOOL_BILLING.VIEW);
 
     return (
-        <div className="flex h-full flex-1 flex-col bg-canvas">
+        <div className="flex flex-1 flex-col">
             <div className="space-y-6 p-4 pb-0 md:p-6 md:pb-0">
                 <AquaPageHeader
                     title={schoolBilling.title}

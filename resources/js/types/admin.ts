@@ -113,6 +113,165 @@ export interface RoleAssignedUser {
     profile_url: string;
 }
 
+// =============================================================================
+// ORGANIZATIONS — platform tenant management
+// =============================================================================
+
+/** A row in the platform Organizations list. */
+export interface OrganizationListItem {
+    id: number;
+    slug: string;
+    name: string;
+    initials: string;
+    region: string;
+    email: string;
+    plan: string;
+    plan_slug: string;
+    locations_count: number;
+    staff_count: number;
+    /** Display label, e.g. "Active". Keys into the StatusBadge tone map. */
+    status: string;
+    /** Enum value, e.g. "active". Used when submitting a status change. */
+    status_value: string;
+    mrr_label: string;
+    renewal_label: string;
+    show_url: string;
+    edit_url: string;
+}
+
+/** Headline numbers above the Organizations list. */
+export interface OrganizationStats {
+    trial: number;
+    suspended: number;
+    total: number;
+    mrr: number;
+    mrr_label: string;
+}
+
+export interface OrganizationSummary {
+    id: number;
+    slug: string;
+    name: string;
+    initials: string;
+    email: string;
+    phone: string;
+    address: string;
+    region: string;
+    status: string;
+    status_value: string;
+    locations_count: number;
+    staff_count: number;
+    courses_count: number;
+    created_label: string;
+    updated_relative: string;
+}
+
+/** The organization's commercial agreement, or null when it has no plan. */
+export interface OrganizationSubscription {
+    plan: string;
+    plan_description: string;
+    /** "Fixed" or "TBA", from the plan's pricing type. */
+    pricing_label: string;
+    monthly_price_label: string;
+    mrr_label: string;
+    renewal_label: string;
+    renewal_relative: string;
+    trial_days: number;
+    trial_label: string;
+    trial_ends_label: string;
+    is_billable: boolean;
+}
+
+export interface OrganizationLocation {
+    id: number;
+    name: string;
+    slug: string;
+    address: string;
+    staff_count: number;
+    status: string;
+}
+
+export interface OrganizationStaffMember {
+    id: number;
+    name: string;
+    email: string;
+    initials: string;
+    avatar_url: string | null;
+    branch: string;
+    status: string;
+    profile_url: string;
+}
+
+/** A selectable plan, with the list price used to prefill the rate field. */
+export interface PlanOption {
+    value: string;
+    label: string;
+    id: number;
+    pricing_type: 'fixed' | 'custom';
+    /** NULL on custom-priced plans, where the rate is quoted per organization. */
+    monthly_price: number | null;
+    /** "$990.00" or "Custom". */
+    price_label: string;
+    trial_days: number;
+}
+
+/** A pricing card on the Subscriptions > Plans tab. */
+export interface PlanCard {
+    id: number;
+    slug: string;
+    name: string;
+    description: string;
+    pricing_type: 'fixed' | 'custom';
+    /** "Fixed" or "Custom". */
+    pricing_label: string;
+    /** "$990" on a fixed plan, "Let's Talk" on a custom one. */
+    price_headline: string;
+    /** "per month", or "Custom pricing" on a custom plan. */
+    price_caption: string;
+    /** NULL when the plan has no annual option. */
+    annual_price_label: string | null;
+    /** Staff, location, course, and storage caps as display strings. */
+    limit_badges: string[];
+    features: string[];
+    trial_label: string;
+    organizations_count: number;
+    sort_order: number;
+    /** Display label: "Active", "Inactive", or "Archived". */
+    status: string;
+    is_popular: boolean;
+    is_active: boolean;
+    is_archived: boolean;
+    edit_url: string;
+    /** The Organizations list, prefiltered to this plan. */
+    organizations_url: string;
+}
+
+/** A row on the Subscriptions > Subscription Tracking tab. */
+export interface SubscriptionTrackingRow {
+    id: number;
+    organization: string;
+    organization_slug: string;
+    region: string;
+    plan: string;
+    /** "$0" unless the organization is billable. */
+    mrr_label: string;
+    /** Display label, e.g. "Expired". Keys into the StatusBadge tone map. */
+    status: string;
+    /** Enum value, e.g. "expired". */
+    status_value: string;
+    renewal_label: string;
+    trial_label: string;
+    show_url: string;
+}
+
+/** One count per derived subscription status, keyed by enum value. */
+export interface SubscriptionStats {
+    active: number;
+    trial: number;
+    expired: number;
+    suspended: number;
+}
+
 /** A single assignable permission, as sent to the role editor. */
 export interface PermissionOption {
     id: number;

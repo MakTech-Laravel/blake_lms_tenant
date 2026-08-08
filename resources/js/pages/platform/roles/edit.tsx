@@ -1,7 +1,7 @@
 import { Head, Link, router } from '@inertiajs/react';
 import { ArrowLeft } from 'lucide-react';
-import { AquaPageHeader } from '@/components/aquacert/aqua-page-header';
 import { RoleForm } from '@/components/admin/role-form';
+import { AquaPageHeader } from '@/components/aquacert/aqua-page-header';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { dashboard } from '@/routes/platform';
@@ -18,7 +18,7 @@ export default function EditRole({ role, permissions }: EditRoleProps) {
         <>
             <Head title={`Edit ${role.name}`} />
 
-            <div className="flex h-full flex-1 flex-col gap-6 bg-[#f8fafc] p-4 md:p-6">
+            <div className="flex flex-1 flex-col gap-6 p-4 md:p-6">
                 <AquaPageHeader
                     title="Edit role"
                     subtitle={`Update the ${role.name} role and its permissions.`}

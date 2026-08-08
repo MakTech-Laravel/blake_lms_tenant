@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\SchoolStatus;
 use App\Models\School;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -11,6 +12,19 @@ use Illuminate\Support\Str;
  */
 class SchoolFactory extends Factory
 {
+    /**
+     * Regions shown under the organization name in the Organizations list.
+     *
+     * @var array<int, string>
+     */
+    public const REGIONS = [
+        'North America',
+        'Europe',
+        'Asia Pacific',
+        'Middle East',
+        'Oceania',
+    ];
+
     /**
      * Define the model's default state.
      *
@@ -26,17 +40,39 @@ class SchoolFactory extends Factory
             'email' => fake()->companyEmail(),
             'phone' => fake()->phoneNumber(),
             'address' => fake()->address(),
-            'is_active' => true,
+            'region' => fake()->randomElement(self::REGIONS),
+            'status' => SchoolStatus::Active,
         ];
     }
 
     /**
-     * Indicate that the school is deactivated.
+     * Indicate that the organization is on a trial.
      */
-    public function inactive(): static
+    public function trial(): static
     {
         return $this->state(fn (array $attributes): array => [
-            'is_active' => false,
+            'status' => SchoolStatus::Trial,
+        ]);
+    }
+
+    /**
+     * Indicate that the organization is suspended and locked out of its
+     * dashboard.
+     */
+    public function suspended(): static
+    {
+        return $this->state(fn (array $attributes): array => [
+            'status' => SchoolStatus::Suspended,
+        ]);
+    }
+
+    /**
+     * Pin the organization to a specific region.
+     */
+    public function region(string $region): static
+    {
+        return $this->state(fn (array $attributes): array => [
+            'region' => $region,
         ]);
     }
 }

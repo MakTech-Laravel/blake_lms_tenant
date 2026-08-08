@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\SchoolStatus;
 use App\Enums\UserType;
 use App\Models\Certificate;
 use App\Models\Course;
@@ -16,7 +17,7 @@ test('a school has courses and staff', function () {
         ->and($school->users->first()->is($staff))->toBeTrue()
         ->and($school->courses)->toHaveCount(1)
         ->and($school->courses->first()->is($course))->toBeTrue()
-        ->and($school->is_active)->toBeTrue();
+        ->and($school->status)->toBe(SchoolStatus::Active);
 });
 
 test('a course belongs to a school and has enrolled teachers', function () {

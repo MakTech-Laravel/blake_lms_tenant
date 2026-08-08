@@ -104,7 +104,7 @@ export default function UsersIndex({
         <>
             <Head title="Staff" />
 
-            <div className="w-full space-y-6 bg-canvas px-4 py-6 sm:px-6 lg:px-8">
+            <div className="w-full space-y-6 px-4 py-6 sm:px-6 lg:px-8">
                 <AdminPageHeader
                     title="Staff"
                     description="Manage your school's staff accounts and their roles."

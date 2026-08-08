@@ -386,7 +386,7 @@ export default function IconPickerDemo({ icon }: { icon: string }) {
         <>
             <Head title="Icon picker demo" />
 
-            <div className="flex h-full flex-1 flex-col gap-10 overflow-x-auto p-4 md:p-8">
+            <div className="flex flex-1 flex-col gap-10 overflow-x-auto p-4 md:p-8">
                 <Heading
                     title="Icon picker demo"
                     description="Calm Studio LucideIconPicker — field/compact/button triggers, dialog & sheet studios, categories, recents, and density."
