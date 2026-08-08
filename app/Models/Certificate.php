@@ -18,8 +18,13 @@ use Illuminate\Support\Carbon;
  * @property int $course_enrollment_id
  * @property int $user_id
  * @property int $course_id
+ * @property int|null $certificate_template_id
  * @property string $certificate_number
  * @property Carbon $issued_at
+ * @property Carbon|null $expires_at
+ * @property string $status
+ * @property string|null $pdf_path
+ * @property string|null $preview_path
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
@@ -32,8 +37,13 @@ class Certificate extends Model
         'course_enrollment_id',
         'user_id',
         'course_id',
+        'certificate_template_id',
         'certificate_number',
         'issued_at',
+        'expires_at',
+        'status',
+        'pdf_path',
+        'preview_path',
     ];
 
     // ── Relationships ─────────────────────────────────────────────────────────
@@ -62,6 +72,14 @@ class Certificate extends Model
         return $this->belongsTo(Course::class);
     }
 
+    /**
+     * The layout template used to render this certificate.
+     */
+    public function template(): BelongsTo
+    {
+        return $this->belongsTo(CertificateTemplate::class, 'certificate_template_id');
+    }
+
     // ── Casts ─────────────────────────────────────────────────────────────────
 
     /**
@@ -71,6 +89,7 @@ class Certificate extends Model
     {
         return [
             'issued_at' => 'datetime',
+            'expires_at' => 'datetime',
         ];
     }
 }

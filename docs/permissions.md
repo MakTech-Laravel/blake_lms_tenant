@@ -51,30 +51,70 @@ public function domain(): PermissionDomain
 
 ### Where isolation is enforced (server-side, not by convention)
 
-Isolation is enforced in **two** places on the backend, so it holds even if the client is tampered with:
+Isolation is enforced in **three** places on the backend, so it holds even if the client is tampered with:
 
 1. **The permission picker query.** Each dashboard's role controller only ever loads its own domain's permissions:
 
-   - Platform — [`app/Http/Controllers/Platform/RoleController.php`](../app/Http/Controllers/Platform/RoleController.php):
-     ```php
-     Permission::query()->where('domain', PermissionDomain::PLATFORM->value)->...->get();
-     ```
-   - School — [`app/Http/Controllers/School/RoleController.php`](../app/Http/Controllers/School/RoleController.php):
-     ```php
-     Permission::query()->where('domain', PermissionDomain::SCHOOL->value)->...->get();
-     ```
+    - Platform — [`app/Http/Controllers/Platform/RoleController.php`](../app/Http/Controllers/Platform/RoleController.php):
+        ```php
+        Permission::query()->where('domain', PermissionDomain::PLATFORM->value)->...->get();
+        ```
+    - School — [`app/Http/Controllers/School/RoleController.php`](../app/Http/Controllers/School/RoleController.php):
+        ```php
+        Permission::query()->where('domain', PermissionDomain::SCHOOL->value)->...->get();
+        ```
 
 2. **The write validation.** The store/update requests reject any permission from the wrong domain:
 
-   - Platform — [`app/Http/Requests/Role/StoreRoleRequest.php`](../app/Http/Requests/Role/StoreRoleRequest.php) and [`UpdateRoleRequest.php`](../app/Http/Requests/Role/UpdateRoleRequest.php):
-     ```php
-     'permissions.*' => [
-         'string',
-         Rule::exists('permissions', 'name')
-             ->where('domain', PermissionDomain::PLATFORM->value),
-     ],
-     ```
-   - School — [`app/Http/Requests/School/StoreRoleRequest.php`](../app/Http/Requests/School/StoreRoleRequest.php) and [`UpdateRoleRequest.php`](../app/Http/Requests/School/UpdateRoleRequest.php): identical but `PermissionDomain::SCHOOL->value`.
+    - Platform — [`app/Http/Requests/Role/StoreRoleRequest.php`](../app/Http/Requests/Role/StoreRoleRequest.php) and [`UpdateRoleRequest.php`](../app/Http/Requests/Role/UpdateRoleRequest.php):
+        ```php
+        'permissions.*' => [
+            'string',
+            Rule::exists('permissions', 'name')
+                ->where('domain', PermissionDomain::PLATFORM->value),
+        ],
+        ```
+    - School — [`app/Http/Requests/School/StoreRoleRequest.php`](../app/Http/Requests/School/StoreRoleRequest.php) and [`UpdateRoleRequest.php`](../app/Http/Requests/School/UpdateRoleRequest.php): identical but `PermissionDomain::SCHOOL->value`.
+
+3. **The record guard in every controller.** A permission says what an actor may
+   do, never _which rows_ they may do it to, so each controller re-checks that the
+   bound model belongs to its own domain before touching it. Without this, a
+   forged id crosses the boundary while passing every permission check:
+
+    - Platform — `ensurePlatformUser()` / `ensurePlatformRole()` reject a tenant's
+      staff account or a school's team-scoped role with a 404.
+    - School — `ensureVisible()` / `ensureBelongsToSchool()` reject another
+      school's (or another branch's) record the same way.
+
+    `tests/Feature/Platform/CrossDomainObjectAccessTest.php` covers the platform
+    side; `tests/Feature/School/*` and `tests/Feature/BranchScopingTest.php` cover
+    the school side. Add a guard like these to any new controller that takes a
+    route-bound model.
+
+4. **The route gate itself.** All of the above only runs once a request reaches
+   the controller, so every route carries `permission:` middleware naming a
+   permission from its own domain.
+   [`tests/Feature/RouteGatingCoverageTest.php`](../tests/Feature/RouteGatingCoverageTest.php)
+   walks the whole router rather than a hand-kept list, so an ungated route fails
+   the suite even when no one writes a test for it. It asserts that:
+
+    - every route this application declares carries a permission gate, unless it
+      is named in that test's `$ungatedByDesign` list (the public landing page,
+      the account-type dispatcher at `/dashboard`, and self-service profile and
+      security pages, which must stay reachable by their own owner);
+    - `platform.*`, `school.*` and `teacher.*` each carry their `type:` guard, and
+      every school route resolves the `tenant` — without it the permission check
+      would run against team `0` instead of the school;
+    - every `school.branches.*` route also requires `head_office`, while the
+      read-only locations directory deliberately does not;
+    - no route is gated by a permission from the other domain, and every gate
+      names a real `PermissionEnum` case. Spatie treats an unknown permission as
+      simply "not granted", so a typo would 403 everyone except super-admins
+      instead of raising anything.
+
+    Teacher routes are the deliberate exception to the first rule: teachers hold
+    no roles at all, so `type:teacher` plus enrollment/ownership checks are the
+    gate.
 
 The `PermissionEnum::forDomain()` helper returns every case in a given domain (used by seeders and tests):
 
@@ -86,23 +126,60 @@ PermissionEnum::forDomain(PermissionDomain::SCHOOL); // array<PermissionEnum>
 
 ## 2. Naming convention
 
-Permissions are named `module.action` (dot-separated, lowercase, kebab within a segment). Real examples already seeded (from [`PermissionEnum`](../app/Enums/PermissionEnum.php)):
+Permissions are named `module.action` (dot-separated, lowercase, kebab within a segment). Legacy platform permissions keep bare names (`users.index`, `settings.edit`); **new** platform modules use a `platform.*` prefix. Every school permission starts with `school.`.
 
-| Domain | Name | Group |
-|---|---|---|
-| platform | `dashboard.view` | Dashboard |
-| platform | `users.index`, `users.create`, `users.edit`, `users.delete` | Users |
-| platform | `roles.index`, `roles.create`, `roles.edit`, `roles.delete` | Roles |
-| platform | `permissions.index`, `permissions.export` | Permissions |
-| platform | `platform.schools.index`, `platform.schools.view`, `platform.schools.edit` | Schools |
-| platform | `settings.view`, `settings.edit` | Settings |
-| school | `school.staff.index`, `school.staff.create`, `school.staff.edit`, `school.staff.delete` | Staff |
-| school | `school.roles.index` … `school.roles.delete` | Roles |
-| school | `school.courses.index` … `school.courses.delete` | Courses |
-| school | `school.billing.view`, `school.billing.export` | Billing |
-| school | `school.settings.view`, `school.settings.edit` | Settings |
+| Domain   | Name                                                                         | Group         |
+| -------- | ---------------------------------------------------------------------------- | ------------- |
+| platform | `dashboard.view`                                                             | Dashboard     |
+| platform | `users.index` … `users.export`, `users.impersonate`                          | Users         |
+| platform | `roles.index` … `roles.export`                                               | Roles         |
+| platform | `permissions.index`, `permissions.export`                                    | Permissions   |
+| platform | `platform.schools.*`                                                         | Schools       |
+| platform | `platform.locations.*`                                                       | Locations     |
+| platform | `platform.subscriptions.*`                                                   | Subscriptions |
+| platform | `platform.learning.*`                                                        | Learning      |
+| platform | `platform.pathways.*`                                                        | Pathways      |
+| platform | `platform.assessments.*`                                                     | Assessments   |
+| platform | `platform.certificates.*`                                                    | Certificates  |
+| platform | `platform.reports.*`                                                         | Reports       |
+| platform | `platform.notifications.*`                                                   | Notifications |
+| platform | `platform.support.*`                                                         | Support Tools |
+| platform | `platform.system.*`                                                          | System        |
+| platform | `settings.*`                                                                 | Settings      |
+| school   | `school.dashboard.view`                                                      | Dashboard     |
+| school   | `school.branches.*`                                                          | Branches      |
+| school   | `school.locations.index`, `school.locations.view`, `school.locations.export` | Locations     |
+| school   | `school.staff.*`                                                             | Staff         |
+| school   | `school.roles.*`                                                             | Roles         |
+| school   | `school.courses.*` (incl. publish, assign)                                   | Courses       |
+| school   | `school.library.*`                                                           | Library       |
+| school   | `school.pathways.*`                                                          | Pathways      |
+| school   | `school.assignments.*`                                                       | Assignments   |
+| school   | `school.assessments.*`                                                       | Assessments   |
+| school   | `school.certificates.*`                                                      | Certificates  |
+| school   | `school.billing.*`                                                           | Billing       |
+| school   | `school.reports.*`                                                           | Reports       |
+| school   | `school.notifications.*`                                                     | Notifications |
+| school   | `school.settings.*`                                                          | Settings      |
 
 The `group` (e.g. "Courses", "Billing") is the display grouping used by the role-assignment UI's grouped checkboxes. It comes from `PermissionEnum::group()`.
+
+Every module whose page renders an exportable table carries an `export` action
+(`platform.locations.export`, `school.staff.export`, …). The exceptions are
+screens with nothing to export: `school.branches.*`, both dashboards, and the
+two settings modules. `tests/Feature/PageGatingCoverageTest.php` enforces this.
+
+Every permission must also be **grantable**: one that no role matrix lists shows
+as a checkbox in the role editor while only a super-admin (who bypasses the Gate
+entirely) behaves as though they hold it. The school domain gets this for free —
+`SchoolSeeder` builds its `admin` role from `PermissionEnum::forDomain(SCHOOL)` —
+but the platform matrices in `RoleEnum` are hand-written, so
+`tests/Feature/PermissionParityTest.php` asserts the platform `admin` role covers
+every platform-domain permission, and that no platform matrix leaks a school one.
+
+Teachers/learners stay **permission-free** — the teacher portal is gated by ownership/enrollment checks only, not Spatie permissions.
+
+Keep the TS mirror in sync: `tests/Feature/PermissionParityTest.php` asserts a two-way match between `PermissionEnum` and `resources/js/types/permissions.ts`.
 
 ---
 
@@ -110,11 +187,11 @@ The `group` (e.g. "Courses", "Billing") is the display grouping used by the role
 
 A permission touches exactly three source-of-truth locations:
 
-| Concern | File | What to add |
-|---|---|---|
-| Backend enum (name, group, domain) | [`app/Enums/PermissionEnum.php`](../app/Enums/PermissionEnum.php) | a `case`, a `group()` arm, and (if school) a `domain()` arm |
-| Database rows | [`database/seeders/PermissionSeeder.php`](../database/seeders/PermissionSeeder.php) | nothing — it iterates `PermissionEnum::cases()` automatically |
-| Frontend constant (for `can()` checks) | [`resources/js/types/permissions.ts`](../resources/js/types/permissions.ts) | a key under `PERMISSIONS` |
+| Concern                                | File                                                                                | What to add                                                   |
+| -------------------------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| Backend enum (name, group, domain)     | [`app/Enums/PermissionEnum.php`](../app/Enums/PermissionEnum.php)                   | a `case`, a `group()` arm, and (if school) a `domain()` arm   |
+| Database rows                          | [`database/seeders/PermissionSeeder.php`](../database/seeders/PermissionSeeder.php) | nothing — it iterates `PermissionEnum::cases()` automatically |
+| Frontend constant (for `can()` checks) | [`resources/js/types/permissions.ts`](../resources/js/types/permissions.ts)         | a key under `PERMISSIONS`                                     |
 
 `PermissionSeeder` writes `name`, `guard_name`, `group`, and `domain` for every enum case using `updateOrCreate`, so re-running it also refreshes metadata on existing rows:
 
@@ -138,40 +215,45 @@ The frontend never queries permission strings directly — it uses the typed `PE
 Example: add `school.courses.publish` (a **school**-domain permission).
 
 1. **Add the enum case** in [`app/Enums/PermissionEnum.php`](../app/Enums/PermissionEnum.php):
-   ```php
-   case SCHOOL_COURSES_PUBLISH = 'school.courses.publish';
-   ```
+
+    ```php
+    case SCHOOL_COURSES_PUBLISH = 'school.courses.publish';
+    ```
 
 2. **Add it to `group()`** (so the UI groups it):
-   ```php
-   self::SCHOOL_COURSES_INDEX,
-   self::SCHOOL_COURSES_VIEW,
-   self::SCHOOL_COURSES_CREATE,
-   self::SCHOOL_COURSES_EDIT,
-   self::SCHOOL_COURSES_DELETE,
-   self::SCHOOL_COURSES_PUBLISH => 'Courses',
-   ```
+
+    ```php
+    self::SCHOOL_COURSES_INDEX,
+    self::SCHOOL_COURSES_VIEW,
+    self::SCHOOL_COURSES_CREATE,
+    self::SCHOOL_COURSES_EDIT,
+    self::SCHOOL_COURSES_DELETE,
+    self::SCHOOL_COURSES_PUBLISH => 'Courses',
+    ```
 
 3. **Add it to `domain()`** — required for school permissions (platform ones fall through to the `default`):
-   ```php
-   self::SCHOOL_COURSES_PUBLISH,
-   // ... alongside the other school cases ...
-   => PermissionDomain::SCHOOL,
-   ```
+
+    ```php
+    self::SCHOOL_COURSES_PUBLISH,
+    // ... alongside the other school cases ...
+    => PermissionDomain::SCHOOL,
+    ```
 
 4. **Mirror it in the frontend** [`resources/js/types/permissions.ts`](../resources/js/types/permissions.ts):
-   ```ts
-   SCHOOL_COURSES: {
-       INDEX: 'school.courses.index',
-       // ...
-       PUBLISH: 'school.courses.publish',
-   },
-   ```
+
+    ```ts
+    SCHOOL_COURSES: {
+        INDEX: 'school.courses.index',
+        // ...
+        PUBLISH: 'school.courses.publish',
+    },
+    ```
 
 5. **Seed it into the database**:
-   ```bash
-   php artisan db:seed --class=PermissionSeeder    # or: php artisan migrate:fresh --seed
-   ```
+
+    ```bash
+    php artisan db:seed --class=PermissionSeeder    # or: php artisan migrate:fresh --seed
+    ```
 
 6. **Gate something with it** — a route (`->middleware('permission:'.PermissionEnum::SCHOOL_COURSES_PUBLISH->value)`) and/or UI (`can(PERMISSIONS.SCHOOL_COURSES.PUBLISH)`).
 

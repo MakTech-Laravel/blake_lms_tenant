@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             SchoolSeeder::class,    // schools + team-scoped roles + school staff
             BranchSeeder::class,    // branches + branch-pinned managers
             CourseSeeder::class,    // courses per school, pinned to branches
+            CertificateTemplateSeeder::class,
             TeacherSeeder::class,   // teachers + enrollments + certificates
         ]);
         app()[PermissionRegistrar::class]->forgetCachedPermissions();

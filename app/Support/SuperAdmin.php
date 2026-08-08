@@ -3,15 +3,15 @@
 namespace App\Support;
 
 use App\Enums\RoleEnum;
+use App\Enums\UserType;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Single source of truth for super-admin invariants.
  *
- * Two rules are enforced everywhere through this class:
- *   1. Only a super-admin may grant the super-admin role or act on a
- *      super-admin account.
- *   2. The system must always retain at least one super-admin account.
+ * Platform and school super-admins share the role name but live in separate
+ * Spatie teams (platform team id 0 vs school id). Helpers here are team-aware.
  */
 final class SuperAdmin
 {
@@ -21,19 +21,79 @@ final class SuperAdmin
         return RoleEnum::SUPER_ADMIN->value;
     }
 
-    /** Number of accounts currently holding the super-admin role. */
+    /**
+     * Number of accounts holding super-admin in the active Spatie team.
+     */
     public static function count(): int
     {
         return User::role(self::role())->count();
     }
 
     /**
-     * Whether the given user is the only remaining super-admin — removing
-     * the role from (or deleting) this account would leave the system with none.
+     * Number of super-admins in a specific team (platform or school).
+     */
+    public static function countInTeam(int $teamId): int
+    {
+        return DB::table('model_has_roles')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', self::role())
+            ->where('model_has_roles.model_type', (new User)->getMorphClass())
+            ->where('model_has_roles.school_id', $teamId)
+            ->count();
+    }
+
+    /**
+     * Whether the user holds super-admin in the given team.
+     */
+    public static function userHasInTeam(User $user, int $teamId): bool
+    {
+        return DB::table('model_has_roles')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->where('roles.name', self::role())
+            ->where('model_has_roles.model_type', $user->getMorphClass())
+            ->where('model_has_roles.model_id', $user->id)
+            ->where('model_has_roles.school_id', $teamId)
+            ->exists();
+    }
+
+    /**
+     * Team id where this user's super-admin (if any) is scoped.
+     */
+    public static function teamIdFor(User $user): ?int
+    {
+        if ($user->type === UserType::PLATFORM) {
+            return PlatformTeamResolver::PLATFORM_TEAM_ID;
+        }
+
+        if ($user->type === UserType::SCHOOL && $user->school_id !== null) {
+            return (int) $user->school_id;
+        }
+
+        return null;
+    }
+
+    /**
+     * Whether the user is a super-admin in their own dashboard team.
+     */
+    public static function isSuperAdminUser(User $user): bool
+    {
+        $teamId = self::teamIdFor($user);
+
+        return $teamId !== null && self::userHasInTeam($user, $teamId);
+    }
+
+    /**
+     * Whether removing/deleting this user would leave their team with no super-admin.
      */
     public static function isLast(User $user): bool
     {
-        return $user->isSuperAdmin() && self::count() <= 1;
+        $teamId = self::teamIdFor($user);
+
+        if ($teamId === null || ! self::userHasInTeam($user, $teamId)) {
+            return false;
+        }
+
+        return self::countInTeam($teamId) <= 1;
     }
 
     /**

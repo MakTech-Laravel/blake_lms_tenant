@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\User;
 
+use App\Support\PlatformTeamResolver;
 use App\Support\SuperAdmin;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 
 class StoreUserRequest extends FormRequest
@@ -31,22 +33,42 @@ class StoreUserRequest extends FormRequest
             'avatar' => 'nullable|image|max:2048',
             'remove_avatar' => 'nullable|boolean',
             'roles' => 'nullable|array',
-            'roles.*' => 'string|exists:roles,name',
+            // Isolation: only the platform's own roles may be assigned, never a
+            // tenant's identically-named team-scoped role.
+            'roles.*' => [
+                'string',
+                Rule::exists('roles', 'name')
+                    ->where('school_id', PlatformTeamResolver::PLATFORM_TEAM_ID),
+            ],
         ];
     }
 
     /**
-     * Enforce that only a super-admin may grant the super-admin role.
+     * Enforce that only a super-admin may grant the super-admin role, and that
+     * the platform keeps exactly one super-admin account.
      */
     public function withValidator(Validator $validator): void
     {
         $validator->after(function (Validator $validator): void {
             $roles = (array) $this->input('roles', []);
 
-            if (SuperAdmin::isGrantedBy($roles) && ! $this->user()->isSuperAdmin()) {
+            if (! SuperAdmin::isGrantedBy($roles)) {
+                return;
+            }
+
+            if (! $this->user()->isSuperAdmin()) {
                 $validator->errors()->add(
                     'roles',
                     'Only a super administrator can assign the super-admin role.'
+                );
+
+                return;
+            }
+
+            if (SuperAdmin::countInTeam(PlatformTeamResolver::PLATFORM_TEAM_ID) >= 1) {
+                $validator->errors()->add(
+                    'roles',
+                    'The platform may only have one super administrator.'
                 );
             }
         });

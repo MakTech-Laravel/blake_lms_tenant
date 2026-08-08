@@ -6,6 +6,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { usePermission } from '@/hooks/use-permissions';
 import { toUrl } from '@/lib/utils';
 import type { NavItem } from '@/types';
 
@@ -16,6 +17,19 @@ export function NavFooter({
 }: ComponentPropsWithoutRef<typeof SidebarGroup> & {
     items: NavItem[];
 }) {
+    const { canAny } = usePermission();
+
+    const visible = items.filter(
+        (item) =>
+            !item.permissions ||
+            item.permissions.length === 0 ||
+            canAny(item.permissions),
+    );
+
+    if (visible.length === 0) {
+        return null;
+    }
+
     return (
         <SidebarGroup
             {...props}
@@ -23,7 +37,7 @@ export function NavFooter({
         >
             <SidebarGroupContent>
                 <SidebarMenu>
-                    {items.map((item) => (
+                    {visible.map((item) => (
                         <SidebarMenuItem key={item.title}>
                             <SidebarMenuButton
                                 asChild

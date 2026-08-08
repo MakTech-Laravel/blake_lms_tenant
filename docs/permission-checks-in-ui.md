@@ -89,20 +89,70 @@ Show something if the user has **any** of several permissions. This is exactly h
 
 ```tsx
 const { canAny } = usePermission();
-const visible = useMemo(() => filterNavNodes(items, canAny), [items]);
+const visible = useMemo(() => filterNavNodes(items, canAny), [items, canAny]);
 ```
 
-…and a nav group declares its permissions as an OR set (from [`platform-sidebar.tsx`](../resources/js/components/platform/platform-sidebar.tsx)):
+…and each leaf declares the permission(s) that unlock it (from [`platform-sidebar.tsx`](../resources/js/components/platform/platform-sidebar.tsx)):
 
 ```tsx
 {
-    title: 'Access Control',
-    permissions: [PERMISSIONS.USERS.INDEX, PERMISSIONS.ROLES.INDEX, PERMISSIONS.PERMISSIONS.INDEX],
-    items: [ /* … */ ],
-}
+    title: 'People',
+    href: '/platform/people',
+    icon: Users,
+    permissions: [PERMISSIONS.USERS.INDEX],
+},
+{
+    title: 'Roles & Permissions',
+    href: '/platform/access',
+    icon: Shield,
+    permissions: [PERMISSIONS.ROLES.INDEX],
+},
 ```
 
-The group renders if the user can reach **any** of Users, Roles, or Permissions. To use it directly in a component:
+Omitting `permissions` means the node is always visible (e.g. the platform Dashboard). School sidebars declare the same pattern, with branch-vs-head-office remaining an independent axis on top of permissions. The teacher sidebar stays ungated.
+
+Shared AquaCert components accept permission props so Create / Export buttons stay declarative:
+
+- `ModuleFixturePage` — `createPermission` (a single key, or a list where any one unlocks the button), `exportPermission`
+- `DataTableToolbar` / `StaticModulePage` — `exportPermission`
+- `QuickActions` — each `QuickAction` may list `permissions?: PermissionKey[]`
+
+`createPermission` and `exportPermission` **fail closed**: leave one out and the
+button never renders, not even for a super-admin. A forgotten prop therefore
+hides an action rather than exposing ungated data.
+[`PageGatingCoverageTest`](../tests/Feature/PageGatingCoverageTest.php) asserts
+that every page rendering one of these components declares `exportPermission`,
+and that every page offering a create button declares `createPermission`. A
+read-only module such as the school locations directory declares neither a
+`createLabel` nor a `createHref`, so it has no create button to gate.
+
+`QuickActions` is the one exception — it stays fail-open, because the teacher
+dashboard's tiles are intentionally permission-free.
+
+### Tab-level gates
+
+Pages whose tabs each need their own permission (both settings modules) map tab
+id → permission and **must fail closed**, so a tab added to the fixture without
+an entry disappears instead of showing to everyone who can open the page:
+
+```tsx
+const tabPermissions: Record<string, PermissionKey> = {
+    general: PERMISSIONS.SCHOOL_SETTINGS.EDIT,
+    branding: PERMISSIONS.SCHOOL_SETTINGS.BRANDING_EDIT,
+    // …one entry per tab
+};
+
+const tabs = schoolSettings.tabs.filter((tab) => {
+    const permission = tabPermissions[tab.id];
+
+    return permission !== undefined && can(permission);
+});
+```
+
+Gate a tab on the action it performs (`*.edit`), never on the permission the
+page's own route already requires (`*.view`) — that check could never be false.
+`PageGatingCoverageTest` asserts every `tabPermissions` lookup uses the
+fail-closed form.
 
 ```tsx
 const { canAny } = usePermission();

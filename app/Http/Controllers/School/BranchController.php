@@ -39,6 +39,37 @@ class BranchController extends Controller
         ]);
     }
 
+    /**
+     * AquaCert Locations module — branch directory with Figma-oriented layout.
+     */
+    public function locations(Request $request, School $school): Response
+    {
+        $query = Branch::query()
+            ->where('school_id', $school->id)
+            ->withCount(['users', 'courses']);
+
+        if (! $request->user()->isHeadOffice() && $request->user()->branch_id) {
+            $query->where('id', $request->user()->branch_id);
+        }
+
+        $locations = $query
+            ->orderBy('name')
+            ->limit(50)
+            ->get()
+            ->map(fn (Branch $branch): array => [
+                'id' => (string) $branch->id,
+                'name' => $branch->name,
+                'manager' => '—',
+                'staff' => $branch->users_count,
+                'compliance' => '—',
+                'status' => $branch->is_active ? 'Active' : 'Inactive',
+            ]);
+
+        return Inertia::render('school/locations/index', [
+            'locations' => $locations,
+        ]);
+    }
+
     public function create(School $school): Response
     {
         return Inertia::render('school/branches/create');

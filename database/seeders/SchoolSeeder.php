@@ -22,8 +22,9 @@ use Spatie\Permission\PermissionRegistrar;
  *  - super-admin → everything via Gate::before; head office (branch_id NULL)
  *  - admin       → every school-domain permission, including school.branches.*;
  *                  head office, so the Branches nav and CRUD are usable
- *  - manager     → staff/courses (read + write staff) and billing view; deliberately
- *                  no school.branches.* — branch structure is head-office only.
+ *  - manager     → dashboard, staff, locations read, courses, assignments,
+ *                  certificates issue/download, reports, notifications, billing view;
+ *                  deliberately no school.branches.* — branch structure is head-office only.
  *                  The same role is reused by BranchSeeder's pinned managers.
  */
 class SchoolSeeder extends Seeder
@@ -118,12 +119,27 @@ class SchoolSeeder extends Seeder
     private function managerPermissions(): array
     {
         return [
+            PermissionEnum::SCHOOL_DASHBOARD_VIEW->value,
             PermissionEnum::SCHOOL_STAFF_INDEX->value,
             PermissionEnum::SCHOOL_STAFF_VIEW->value,
             PermissionEnum::SCHOOL_STAFF_CREATE->value,
             PermissionEnum::SCHOOL_STAFF_EDIT->value,
+            PermissionEnum::SCHOOL_LOCATIONS_INDEX->value,
+            PermissionEnum::SCHOOL_LOCATIONS_VIEW->value,
             PermissionEnum::SCHOOL_COURSES_INDEX->value,
             PermissionEnum::SCHOOL_COURSES_VIEW->value,
+            PermissionEnum::SCHOOL_ASSIGNMENTS_INDEX->value,
+            PermissionEnum::SCHOOL_ASSIGNMENTS_VIEW->value,
+            PermissionEnum::SCHOOL_ASSIGNMENTS_CREATE->value,
+            PermissionEnum::SCHOOL_ASSIGNMENTS_EDIT->value,
+            PermissionEnum::SCHOOL_CERTIFICATES_INDEX->value,
+            PermissionEnum::SCHOOL_CERTIFICATES_VIEW->value,
+            PermissionEnum::SCHOOL_CERTIFICATES_ISSUE->value,
+            PermissionEnum::SCHOOL_CERTIFICATES_DOWNLOAD->value,
+            PermissionEnum::SCHOOL_REPORTS_INDEX->value,
+            PermissionEnum::SCHOOL_REPORTS_VIEW->value,
+            PermissionEnum::SCHOOL_NOTIFICATIONS_INDEX->value,
+            PermissionEnum::SCHOOL_NOTIFICATIONS_VIEW->value,
             PermissionEnum::SCHOOL_BILLING_VIEW->value,
         ];
     }

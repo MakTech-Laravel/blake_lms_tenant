@@ -39,9 +39,7 @@ export function SidebarNav({
 
     const visible = useMemo(
         () => filterNavNodes(items, canAny),
-        // canAny is derived from the page's auth props; recompute when items change.
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [items],
+        [items, canAny],
     );
 
     if (visible.length === 0) {

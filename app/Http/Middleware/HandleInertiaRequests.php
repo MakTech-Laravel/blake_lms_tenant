@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\RoleEnum;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -52,7 +53,7 @@ class HandleInertiaRequests extends Middleware
                     'roles' => $user->getRoleNames(),
                     'permissions' => $user->getAllPermissions()
                         ->pluck('name'),
-                    'is_super_admin' => $user->hasRole('super-admin'),
+                    'is_super_admin' => $user->hasRole(RoleEnum::SUPER_ADMIN->value),
                 ]) : null,
             ],
             // The current tenant, or null outside the school dashboard.

@@ -83,7 +83,7 @@ export default function CoursesIndex({
         <>
             <Head title="Courses" />
 
-            <div className="w-full space-y-6 px-4 py-6 sm:px-6 lg:px-8">
+            <div className="w-full space-y-6 bg-canvas px-4 py-6 sm:px-6 lg:px-8">
                 <AdminPageHeader
                     title="Courses"
                     description="Certification courses offered by your school."
@@ -92,7 +92,7 @@ export default function CoursesIndex({
 
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                     <div className="relative w-full sm:max-w-xs">
-                        <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-navy-300" />
                         <Input
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
@@ -121,24 +121,24 @@ export default function CoursesIndex({
                     )}
                 </div>
 
-                <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
+                <div className="overflow-hidden rounded-xl border border-navy-50 bg-white shadow-sm">
                     <div className="overflow-x-auto">
                         <Table>
                             <TableHeader>
-                                <TableRow className="bg-muted/50 hover:bg-muted/50">
-                                    <TableHead>Course</TableHead>
-                                    <TableHead className="hidden sm:table-cell">
+                                <TableRow className="bg-navy-50/60 hover:bg-navy-50/60">
+                                    <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase">Course</TableHead>
+                                    <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase hidden sm:table-cell">
                                         Duration
                                     </TableHead>
-                                    <TableHead className="hidden sm:table-cell">
+                                    <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase hidden sm:table-cell">
                                         Enrolled
                                     </TableHead>
                                     {isHeadOffice && (
-                                        <TableHead className="hidden lg:table-cell">
+                                        <TableHead className="text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase hidden lg:table-cell">
                                             Branch
                                         </TableHead>
                                     )}
-                                    <TableHead className="text-right">
+                                    <TableHead className="text-right text-caption-1 font-semibold tracking-wide text-aqua-600 uppercase">
                                         Status
                                     </TableHead>
                                 </TableRow>
@@ -157,7 +157,7 @@ export default function CoursesIndex({
                                                 stiffness: 350,
                                                 damping: 28,
                                             }}
-                                            className="border-b transition-colors hover:bg-muted/30"
+                                            className="border-b transition-colors hover:bg-aqua-50/40"
                                         >
                                             <TableCell>
                                                 <div className="flex items-center gap-3">
@@ -168,14 +168,14 @@ export default function CoursesIndex({
                                                         <p className="truncate font-medium">
                                                             {course.title}
                                                         </p>
-                                                        <p className="text-xs text-muted-foreground">
+                                                        <p className="text-xs text-navy-300">
                                                             ${course.price}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </TableCell>
                                             <TableCell className="hidden sm:table-cell">
-                                                <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                                                <span className="flex items-center gap-1.5 text-sm text-navy-300">
                                                     <Clock className="h-3.5 w-3.5" />
                                                     {course.duration_hours
                                                         ? `${course.duration_hours}h`
@@ -183,7 +183,7 @@ export default function CoursesIndex({
                                                 </span>
                                             </TableCell>
                                             <TableCell className="hidden sm:table-cell">
-                                                <span className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                                                <span className="flex items-center gap-1.5 text-sm text-navy-300">
                                                     <GraduationCap className="h-3.5 w-3.5" />
                                                     {course.enrollments_count}
                                                 </span>
@@ -199,7 +199,7 @@ export default function CoursesIndex({
                                                             {course.branch.name}
                                                         </Badge>
                                                     ) : (
-                                                        <span className="text-xs text-muted-foreground">
+                                                        <span className="text-xs text-navy-300">
                                                             School-wide
                                                         </span>
                                                     )}
@@ -226,7 +226,7 @@ export default function CoursesIndex({
 
                         {paginated.data.length === 0 && (
                             <div className="px-4 py-16 text-center">
-                                <BookOpen className="mx-auto h-10 w-10 text-muted-foreground/40" />
+                                <BookOpen className="mx-auto h-10 w-10 text-navy-200" />
                                 <h3 className="mt-4 text-sm font-semibold">
                                     No courses found
                                 </h3>

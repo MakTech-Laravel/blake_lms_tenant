@@ -1,17 +1,20 @@
 <?php
 
+use App\Enums\PermissionEnum;
+use App\Enums\RoleEnum;
+use App\Models\School;
+use App\Models\User;
+use Database\Seeders\PermissionSeeder;
+use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
 /*
 |--------------------------------------------------------------------------
 | Test Case
 |--------------------------------------------------------------------------
-|
-| The closure you provide to your test functions is always bound to a specific PHPUnit test
-| case class. By default, that class is "PHPUnit\Framework\TestCase". Of course, you may
-| need to change it using the "pest()" function to bind different classes or traits.
-|
 */
 
 pest()->extend(TestCase::class)
@@ -22,11 +25,6 @@ pest()->extend(TestCase::class)
 |--------------------------------------------------------------------------
 | Expectations
 |--------------------------------------------------------------------------
-|
-| When you're writing tests, you often need to check that values meet certain conditions. The
-| "expect()" function gives you access to a set of "expectations" methods that you can use
-| to assert different things. Of course, you may extend the Expectation API at any time.
-|
 */
 
 expect()->extend('toBeOne', function () {
@@ -37,14 +35,103 @@ expect()->extend('toBeOne', function () {
 |--------------------------------------------------------------------------
 | Functions
 |--------------------------------------------------------------------------
-|
-| While Pest is very powerful out-of-the-box, you may have some testing code specific to your
-| project that you don't want to repeat in every file. Here you can also expose helpers as
-| global functions to help you to reduce the number of lines of code in your test files.
-|
 */
 
-function something()
+/**
+ * Platform user with the super-admin role (Gate::before grants everything).
+ */
+function platformSuperAdmin(): User
 {
-    // ..
+    test()->seed([PermissionSeeder::class, RoleSeeder::class]);
+
+    $user = User::factory()->platform()->create();
+    $user->assignRole(RoleEnum::SUPER_ADMIN->value);
+
+    return $user;
+}
+
+/**
+ * School staff with a team-scoped super-admin role for the given school.
+ */
+function schoolSuperAdmin(School $school): User
+{
+    test()->seed(PermissionSeeder::class);
+
+    app(PermissionRegistrar::class)->setPermissionsTeamId($school->id);
+
+    $role = Role::query()->firstOrCreate([
+        'name' => RoleEnum::SUPER_ADMIN->value,
+        'guard_name' => 'web',
+        'school_id' => $school->id,
+    ]);
+
+    $user = User::factory()->schoolStaff($school)->create();
+    $user->assignRole($role);
+
+    app(PermissionRegistrar::class)->setPermissionsTeamId(null);
+
+    return $user;
+}
+
+/**
+ * School staff granted specific school-domain permissions for the given school.
+ *
+ * @param  array<int, PermissionEnum|string>  $permissions
+ */
+function schoolStaffWithPermissions(School $school, array $permissions): User
+{
+    test()->seed(PermissionSeeder::class);
+
+    app(PermissionRegistrar::class)->setPermissionsTeamId($school->id);
+
+    $role = Role::create([
+        'name' => 'test-school-role-'.uniqid(),
+        'guard_name' => 'web',
+        'school_id' => $school->id,
+    ]);
+
+    $names = array_map(
+        fn (PermissionEnum|string $permission): string => $permission instanceof PermissionEnum
+            ? $permission->value
+            : $permission,
+        $permissions,
+    );
+
+    $role->givePermissionTo($names);
+
+    $user = User::factory()->schoolStaff($school)->create();
+    $user->assignRole($role);
+
+    app(PermissionRegistrar::class)->setPermissionsTeamId(null);
+
+    return $user;
+}
+
+/**
+ * Platform user granted specific platform-domain permissions.
+ *
+ * @param  array<int, PermissionEnum|string>  $permissions
+ */
+function platformUserWithPermissions(array $permissions): User
+{
+    test()->seed(PermissionSeeder::class);
+
+    $role = Role::create([
+        'name' => 'test-platform-role-'.uniqid(),
+        'guard_name' => 'web',
+    ]);
+
+    $names = array_map(
+        fn (PermissionEnum|string $permission): string => $permission instanceof PermissionEnum
+            ? $permission->value
+            : $permission,
+        $permissions,
+    );
+
+    $role->givePermissionTo($names);
+
+    $user = User::factory()->platform()->create();
+    $user->assignRole($role);
+
+    return $user;
 }
