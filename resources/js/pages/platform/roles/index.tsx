@@ -4,7 +4,6 @@ import {
     Download,
     FileSpreadsheet,
     FileText,
-    Filter,
     Pencil,
     Plus,
     Search,
@@ -12,6 +11,14 @@ import {
     Trash2,
 } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+    AquaFilterChips,
+    AquaFilterPopover,
+} from '@/components/aquacert/aqua-filter-popover';
+import type {
+    AquaFilterField,
+    AquaFilterValues,
+} from '@/components/aquacert/aqua-filter-popover';
 import { AquaPageHeader } from '@/components/aquacert/aqua-page-header';
 import { ConfirmDeleteDialog } from '@/components/admin/confirm-delete-dialog';
 import { DataPagination } from '@/components/admin/data-pagination';
@@ -25,19 +32,6 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/components/ui/popover';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
 import {
     Table,
     TableBody,
@@ -59,9 +53,7 @@ type RoleFilters = {
     permissions: string;
 };
 
-type AdvancedFilters = Omit<RoleFilters, 'search'>;
-
-function queryPayload(search: string, advanced: AdvancedFilters) {
+function queryPayload(search: string, advanced: AquaFilterValues) {
     return {
         search: search || undefined,
         kind: advanced.kind || undefined,
@@ -69,6 +61,37 @@ function queryPayload(search: string, advanced: AdvancedFilters) {
         permissions: advanced.permissions || undefined,
     };
 }
+
+const FILTER_FIELDS: AquaFilterField[] = [
+    {
+        key: 'kind',
+        label: 'Role type',
+        anyLabel: 'Any type',
+        options: [
+            { value: 'system', label: 'System (super admin)' },
+            { value: 'custom', label: 'Custom roles' },
+        ],
+    },
+    {
+        key: 'users',
+        label: 'Assigned users',
+        anyLabel: 'Any users',
+        options: [
+            { value: 'with', label: 'Has assigned users' },
+            { value: 'without', label: 'No assigned users' },
+        ],
+    },
+    {
+        key: 'permissions',
+        label: 'Permission volume',
+        anyLabel: 'Any permissions',
+        options: [
+            { value: 'none', label: 'No permissions' },
+            { value: 'some', label: 'Some (1–19)' },
+            { value: 'many', label: 'Many (20+)' },
+        ],
+    },
+];
 
 interface RolesIndexProps {
     roles: Paginated<AdminRoleListItem>;
@@ -81,15 +104,9 @@ export default function RolesIndex({
 }: RolesIndexProps) {
     const { can } = usePermission();
     const [search, setSearch] = useState(filters.search ?? '');
-    const [filtersOpen, setFiltersOpen] = useState(false);
-    const [draftFilters, setDraftFilters] = useState<AdvancedFilters>({
-        kind: filters.kind ?? '',
-        users: filters.users ?? '',
-        permissions: filters.permissions ?? '',
-    });
     const firstRender = useRef(true);
 
-    const activeFilters: AdvancedFilters = useMemo(
+    const activeFilters: AquaFilterValues = useMemo(
         () => ({
             kind: filters.kind ?? '',
             users: filters.users ?? '',
@@ -98,15 +115,9 @@ export default function RolesIndex({
         [filters.kind, filters.users, filters.permissions],
     );
 
-    const activeFilterCount = Object.values(activeFilters).filter(Boolean).length;
-
     useEffect(() => {
         setSearch(filters.search ?? '');
     }, [filters.search]);
-
-    useEffect(() => {
-        setDraftFilters(activeFilters);
-    }, [activeFilters]);
 
     useEffect(() => {
         if (firstRender.current) {
@@ -127,22 +138,11 @@ export default function RolesIndex({
         // eslint-disable-next-line react-hooks/exhaustive-deps -- advanced filters applied explicitly
     }, [search]);
 
-    const applyFilters = () => {
-        router.get(roles.index().url, queryPayload(search, draftFilters), {
+    const applyFilters = (next: AquaFilterValues) => {
+        router.get(roles.index().url, queryPayload(search, next), {
             preserveState: true,
             preserveScroll: true,
         });
-        setFiltersOpen(false);
-    };
-
-    const clearFilters = () => {
-        const empty = { kind: '', users: '', permissions: '' };
-        setDraftFilters(empty);
-        router.get(roles.index().url, queryPayload(search, empty), {
-            preserveState: true,
-            preserveScroll: true,
-        });
-        setFiltersOpen(false);
     };
 
     const exportHref = (format: 'csv' | 'xlsx') =>
@@ -196,156 +196,12 @@ export default function RolesIndex({
                             />
                         </div>
                         <div className="flex gap-2">
-                            <Popover
-                                open={filtersOpen}
-                                onOpenChange={setFiltersOpen}
-                            >
-                                <PopoverTrigger asChild>
-                                    <Button
-                                        type="button"
-                                        variant="outline"
-                                        className="border-navy-100 text-navy-400"
-                                    >
-                                        <Filter className="size-4" />
-                                        Filters
-                                        {activeFilterCount > 0 ? (
-                                            <span className="ml-1 rounded-full bg-aqua-100 px-1.5 text-caption-1 font-semibold text-aqua-700">
-                                                {activeFilterCount}
-                                            </span>
-                                        ) : null}
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent
-                                    align="end"
-                                    className="w-80 space-y-4 border-navy-100 p-4"
-                                >
-                                    <div>
-                                        <p className="font-semibold text-navy-500">
-                                            Filters
-                                        </p>
-                                        <p className="text-body-4 text-navy-300">
-                                            Narrow roles by type, assigned
-                                            users, or permission volume.
-                                        </p>
-                                    </div>
-
-                                    <div className="grid gap-2">
-                                        <Label>Role type</Label>
-                                        <Select
-                                            value={draftFilters.kind || 'all'}
-                                            onValueChange={(value) =>
-                                                setDraftFilters((current) => ({
-                                                    ...current,
-                                                    kind:
-                                                        value === 'all'
-                                                            ? ''
-                                                            : value,
-                                                }))
-                                            }
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Any type" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="all">
-                                                    Any type
-                                                </SelectItem>
-                                                <SelectItem value="system">
-                                                    System (super-admin)
-                                                </SelectItem>
-                                                <SelectItem value="custom">
-                                                    Custom roles
-                                                </SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-
-                                    <div className="grid gap-2">
-                                        <Label>Assigned users</Label>
-                                        <Select
-                                            value={draftFilters.users || 'all'}
-                                            onValueChange={(value) =>
-                                                setDraftFilters((current) => ({
-                                                    ...current,
-                                                    users:
-                                                        value === 'all'
-                                                            ? ''
-                                                            : value,
-                                                }))
-                                            }
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Any users" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="all">
-                                                    Any users
-                                                </SelectItem>
-                                                <SelectItem value="with">
-                                                    Has users
-                                                </SelectItem>
-                                                <SelectItem value="without">
-                                                    No users
-                                                </SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-
-                                    <div className="grid gap-2">
-                                        <Label>Permissions</Label>
-                                        <Select
-                                            value={
-                                                draftFilters.permissions || 'all'
-                                            }
-                                            onValueChange={(value) =>
-                                                setDraftFilters((current) => ({
-                                                    ...current,
-                                                    permissions:
-                                                        value === 'all'
-                                                            ? ''
-                                                            : value,
-                                                }))
-                                            }
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Any permissions" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="all">
-                                                    Any permissions
-                                                </SelectItem>
-                                                <SelectItem value="none">
-                                                    No permissions
-                                                </SelectItem>
-                                                <SelectItem value="some">
-                                                    Some (1–19)
-                                                </SelectItem>
-                                                <SelectItem value="many">
-                                                    Many (20+)
-                                                </SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-
-                                    <div className="flex justify-between gap-2 pt-1">
-                                        <Button
-                                            type="button"
-                                            variant="ghost"
-                                            className="text-navy-400"
-                                            onClick={clearFilters}
-                                        >
-                                            Clear
-                                        </Button>
-                                        <Button
-                                            type="button"
-                                            className="bg-navy-500 text-white hover:bg-navy-600"
-                                            onClick={applyFilters}
-                                        >
-                                            Apply filters
-                                        </Button>
-                                    </div>
-                                </PopoverContent>
-                            </Popover>
+                            <AquaFilterPopover
+                                fields={FILTER_FIELDS}
+                                values={activeFilters}
+                                onApply={applyFilters}
+                                description="Narrow roles by type, assigned users, or permission volume."
+                            />
 
                             {can(PERMISSIONS.ROLES.EXPORT) && (
                                 <DropdownMenu>
@@ -378,6 +234,13 @@ export default function RolesIndex({
                             )}
                         </div>
                     </div>
+
+                    <AquaFilterChips
+                        fields={FILTER_FIELDS}
+                        values={activeFilters}
+                        onChange={applyFilters}
+                        className="mt-3"
+                    />
 
                     <div className="mt-4 overflow-x-auto">
                         <Table>
