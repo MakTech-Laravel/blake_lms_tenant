@@ -3,6 +3,10 @@
 use App\Enums\RoleEnum;
 use App\Enums\UserStatus;
 use App\Enums\UserType;
+use App\Models\Branch;
+use App\Models\Certificate;
+use App\Models\Course;
+use App\Models\CourseEnrollment;
 use App\Models\School;
 use App\Models\User;
 use Database\Seeders\PermissionSeeder;
@@ -369,6 +373,124 @@ test('people export requires the export permission', function () {
     $this->actingAs($plain)
         ->get(route('platform.people.export', ['format' => 'csv']))
         ->assertForbidden();
+});
+
+test('person profile page shows learning records for a teacher', function () {
+    $school = School::factory()->create(['name' => 'Harbor Academy']);
+    $branch = Branch::factory()->for($school)->create(['name' => 'Main Campus']);
+    $teacher = User::factory()->teacher($school)->create([
+        'name' => 'Alice Teacher',
+        'branch_id' => $branch->id,
+        'last_login_at' => now()->subDay(),
+    ]);
+
+    $course = Course::factory()->for($school)->create(['title' => 'Water Safety 101']);
+    $enrollment = CourseEnrollment::factory()->completed()->create([
+        'user_id' => $teacher->id,
+        'course_id' => $course->id,
+    ]);
+    Certificate::factory()->forEnrollment($enrollment)->create([
+        'certificate_number' => 'CERT-ABCD-12345',
+    ]);
+
+    $this->actingAs($this->admin)
+        ->get(route('platform.people.show', $teacher))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('platform/people/show')
+            ->where('person.id', $teacher->id)
+            ->where('person.role', 'Instructor')
+            ->where('organization.name', 'Harbor Academy')
+            ->where('organization.branch_name', 'Main Campus')
+            ->where('organization.is_head_office', false)
+            ->where('account.email_verified', true)
+            ->where('learning.applicable', true)
+            ->where('learning.stats.completed', 1)
+            ->where('learning.stats.certificates', 1)
+            ->where('learning.enrollments.0.course', 'Water Safety 101')
+            ->where('learning.enrollments.0.status', 'Completed')
+            ->where('learning.certificates.0.number', 'CERT-ABCD-12345')
+            ->where('access.is_teacher', true));
+});
+
+test('person profile page shows roles and effective permissions for platform staff', function () {
+    $editor = User::factory()->platform()->create(['name' => 'Bob Editor']);
+    $editor->assignRole(RoleEnum::EDITOR->value);
+
+    $this->actingAs($this->admin)
+        ->get(route('platform.people.show', $editor))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('platform/people/show')
+            ->where('person.role', RoleEnum::EDITOR->value)
+            ->where('organization.name', 'AquaCert')
+            ->where('organization.is_head_office', true)
+            ->where('access.roles', [RoleEnum::EDITOR->value])
+            ->where('access.has_all_permissions', false)
+            ->where('access.permission_count', fn ($count): bool => $count > 0)
+            ->has('access.permission_groups.0.permissions')
+            ->where('learning.applicable', false));
+});
+
+test('person profile page flags a super admin as holding every permission', function () {
+    $this->actingAs($this->admin)
+        ->get(route('platform.people.show', $this->admin))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('access.has_all_permissions', true)
+            ->where('access.permission_count', 0)
+            ->where('person.role', RoleEnum::SUPER_ADMIN->value));
+});
+
+test('person profile page resolves organization user roles inside their own team', function () {
+    $school = School::factory()->create();
+    setPermissionsTeamId($school->id);
+    $role = Role::create([
+        'name' => RoleEnum::ADMIN->value,
+        'guard_name' => 'web',
+        'school_id' => $school->id,
+    ]);
+    $orgUser = User::factory()->schoolStaff($school)->create(['name' => 'Carol Org']);
+    $orgUser->assignRole($role);
+    setPermissionsTeamId(0);
+
+    $this->actingAs($this->admin)
+        ->get(route('platform.people.show', $orgUser))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('access.roles', [RoleEnum::ADMIN->value])
+            ->where('person.role', RoleEnum::ADMIN->value));
+});
+
+test('person profile page requires the users view permission', function () {
+    $school = School::factory()->create();
+    $teacher = User::factory()->teacher($school)->create();
+    $plain = User::factory()->platform()->create();
+
+    $this->actingAs($plain)
+        ->get(route('platform.people.show', $teacher))
+        ->assertForbidden();
+});
+
+test('guest cannot access a person profile page', function () {
+    $school = School::factory()->create();
+    $teacher = User::factory()->teacher($school)->create();
+
+    $this->get(route('platform.people.show', $teacher))->assertRedirect();
+});
+
+test('deleting from the profile page redirects to the people directory', function () {
+    $school = School::factory()->create();
+    $teacher = User::factory()->teacher($school)->create();
+
+    $this->actingAs($this->admin)
+        ->delete(route('platform.directory_users.destroy', [
+            'user' => $teacher,
+            'from' => 'profile',
+        ]))
+        ->assertRedirect(route('platform.people.index'));
+
+    expect(User::find($teacher->id))->toBeNull();
 });
 
 test('guest cannot access people directory', function () {

@@ -97,6 +97,8 @@ Route::middleware(['auth', 'verified', 'type:platform'])
             ->middleware(['permission:'.PermissionEnum::USERS_CREATE->value, HandlePrecognitiveRequests::class]);
         Route::post('people/organization', [UserController::class, 'storeOrganizationUser'])->name('people.store_organization')
             ->middleware(['permission:'.PermissionEnum::USERS_CREATE->value, HandlePrecognitiveRequests::class]);
+        Route::get('people/{user}', [UserController::class, 'showPerson'])->name('people.show')
+            ->middleware('permission:'.PermissionEnum::USERS_VIEW->value);
         Route::patch('directory-users/{user}/status', [UserController::class, 'updateStatus'])
             ->name('directory_users.status')
             ->middleware('permission:'.PermissionEnum::USERS_EDIT->value);

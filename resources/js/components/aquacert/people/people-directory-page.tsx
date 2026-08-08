@@ -33,7 +33,6 @@ import type {
     PeopleTypeFilter,
 } from '@/components/aquacert/people/types';
 import { PEOPLE_TYPE_TABS } from '@/components/aquacert/people/types';
-import { UserDetailsDialog } from '@/components/aquacert/people/user-details-dialog';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import {
@@ -65,6 +64,7 @@ type PeopleDirectoryPageProps = {
     indexUrl: string;
     statusUrl: (id: number) => string;
     destroyUrl: (id: number) => string;
+    showUrl: (id: number) => string;
 };
 
 function queryPayload(
@@ -95,15 +95,13 @@ export function PeopleDirectoryPage({
     indexUrl,
     statusUrl,
     destroyUrl,
+    showUrl,
 }: PeopleDirectoryPageProps) {
     const { can } = usePermission();
     const typeFilter = filters.type ?? 'all';
 
     const [search, setSearch] = useState(filters.search ?? '');
     const [addOpen, setAddOpen] = useState(false);
-    const [detailsPerson, setDetailsPerson] = useState<DirectoryPerson | null>(
-        null,
-    );
     const firstRender = useRef(true);
 
     const activeFilters: AquaFilterValues = useMemo(
@@ -113,7 +111,12 @@ export function PeopleDirectoryPage({
             role: filters.role ?? '',
             last_login: filters.last_login ?? '',
         }),
-        [filters.status, filters.organization, filters.role, filters.last_login],
+        [
+            filters.status,
+            filters.organization,
+            filters.role,
+            filters.last_login,
+        ],
     );
 
     const filterFields: AquaFilterField[] = useMemo(
@@ -175,11 +178,15 @@ export function PeopleDirectoryPage({
         }
 
         const timeout = setTimeout(() => {
-            router.get(indexUrl, queryPayload(typeFilter, search, activeFilters), {
-                preserveState: true,
-                preserveScroll: true,
-                replace: true,
-            });
+            router.get(
+                indexUrl,
+                queryPayload(typeFilter, search, activeFilters),
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                    replace: true,
+                },
+            );
         }, 350);
 
         return () => clearTimeout(timeout);
@@ -214,15 +221,9 @@ export function PeopleDirectoryPage({
             },
         });
 
+    /** Teachers have no dedicated edit screen, so fall back to their profile. */
     const handleEdit = (person: DirectoryPerson) => {
-        if (person.edit_url) {
-            router.visit(person.edit_url);
-
-            return;
-        }
-
-        setDetailsPerson(person);
-        setAddOpen(false);
+        router.visit(person.edit_url ?? showUrl(person.id));
     };
 
     return (
@@ -273,7 +274,9 @@ export function PeopleDirectoryPage({
                             <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-navy-200" />
                             <Input
                                 value={search}
-                                onChange={(event) => setSearch(event.target.value)}
+                                onChange={(event) =>
+                                    setSearch(event.target.value)
+                                }
                                 placeholder="Search users..."
                                 className="border-navy-100 pl-9"
                             />
@@ -298,14 +301,22 @@ export function PeopleDirectoryPage({
                                             <ChevronDown className="size-4 opacity-70" />
                                         </Button>
                                     </DropdownMenuTrigger>
-                                    <DropdownMenuContent align="end" className="w-52">
+                                    <DropdownMenuContent
+                                        align="end"
+                                        className="w-52"
+                                    >
                                         <DropdownMenuSub>
                                             <DropdownMenuSubTrigger>
                                                 All matching
                                             </DropdownMenuSubTrigger>
                                             <DropdownMenuSubContent>
                                                 <DropdownMenuItem asChild>
-                                                    <a href={exportHref('csv', 'all')}>
+                                                    <a
+                                                        href={exportHref(
+                                                            'csv',
+                                                            'all',
+                                                        )}
+                                                    >
                                                         <FileText className="size-4" />
                                                         CSV
                                                     </a>
@@ -372,7 +383,7 @@ export function PeopleDirectoryPage({
                             typeFilter={typeFilter}
                             statusUrl={statusUrl}
                             destroyUrl={destroyUrl}
-                            onView={setDetailsPerson}
+                            showUrl={showUrl}
                             onEdit={handleEdit}
                         />
                     </div>
@@ -390,21 +401,6 @@ export function PeopleDirectoryPage({
                 roles={roles}
                 schoolRoles={schoolRoles}
                 canAssignPlatformSuperAdmin={canAssignPlatformSuperAdmin}
-            />
-
-            <UserDetailsDialog
-                open={detailsPerson !== null}
-                onOpenChange={(open) => {
-                    if (!open) {
-                        setDetailsPerson(null);
-                    }
-                }}
-                person={detailsPerson}
-                onEdit={
-                    detailsPerson?.edit_url
-                        ? () => handleEdit(detailsPerson)
-                        : undefined
-                }
             />
         </>
     );

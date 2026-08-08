@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Platform;
 
+use App\Enums\PermissionEnum;
 use App\Enums\UserStatus;
 use App\Enums\UserType;
 use App\Exports\PeopleExport;
@@ -11,6 +12,8 @@ use App\Http\Requests\User\StoreTeacherRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Requests\User\UpdateUserStatusRequest;
+use App\Models\Certificate;
+use App\Models\CourseEnrollment;
 use App\Models\School;
 use App\Models\User;
 use App\Support\PlatformTeamResolver;
@@ -19,10 +22,13 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -167,6 +173,293 @@ class UserController extends Controller
         );
     }
 
+    /**
+     * Full profile page for any directory user — teacher, organization, or platform.
+     * Replaces the previous details modal, which could only show four fields.
+     */
+    public function showPerson(User $user): Response
+    {
+        $this->ensureDirectoryUser($user);
+
+        $user->load([
+            'school:id,name,slug,email,phone,address',
+            'branch:id,name,email,phone,address',
+        ]);
+
+        $access = $this->personAccess($user);
+
+        $person = $this->mapDirectoryUser($user);
+        $person['role'] = $user->isTeacher()
+            ? 'Instructor'
+            : ($access['roles'][0] ?? 'Staff');
+
+        return Inertia::render('platform/people/show', [
+            'person' => $person,
+            'account' => $this->personAccount($user),
+            'organization' => $this->personOrganization($user),
+            'access' => $access,
+            'learning' => $this->personLearning($user),
+            'sessions' => $this->personSessions($user),
+        ]);
+    }
+
+    /**
+     * @return array{
+     *     user_id: int,
+     *     email: string,
+     *     email_verified: bool,
+     *     email_verified_label: string,
+     *     joined_label: string,
+     *     last_login_label: string,
+     *     last_login_exact: string,
+     *     two_factor_enabled: bool,
+     *     user_type_label: string,
+     *     updated_label: string
+     * }
+     */
+    private function personAccount(User $user): array
+    {
+        return [
+            'user_id' => $user->id,
+            'email' => $user->email,
+            'email_verified' => $user->email_verified_at !== null,
+            'email_verified_label' => $user->email_verified_at
+                ? $user->email_verified_at->format('M j, Y')
+                : 'Not verified',
+            'joined_label' => $user->created_at?->format('M j, Y') ?? '—',
+            'last_login_label' => $user->last_login_at
+                ? $user->last_login_at->diffForHumans()
+                : 'Never signed in',
+            'last_login_exact' => $user->last_login_at?->format('M j, Y g:i A') ?? '—',
+            'two_factor_enabled' => $user->two_factor_confirmed_at !== null,
+            'user_type_label' => $user->type->label(),
+            'updated_label' => $user->updated_at?->diffForHumans() ?? '—',
+        ];
+    }
+
+    /**
+     * @return array{
+     *     name: string,
+     *     slug: string|null,
+     *     email: string|null,
+     *     phone: string|null,
+     *     address: string|null,
+     *     is_platform: bool,
+     *     branch_name: string|null,
+     *     branch_email: string|null,
+     *     branch_phone: string|null,
+     *     branch_address: string|null,
+     *     is_head_office: bool
+     * }
+     */
+    private function personOrganization(User $user): array
+    {
+        $isPlatform = $user->type === UserType::PLATFORM;
+
+        return [
+            'name' => $isPlatform ? 'AquaCert' : ($user->school?->name ?? '—'),
+            'slug' => $user->school?->slug,
+            'email' => $user->school?->email,
+            'phone' => $user->school?->phone,
+            'address' => $user->school?->address,
+            'is_platform' => $isPlatform,
+            'branch_name' => $user->branch?->name,
+            'branch_email' => $user->branch?->email,
+            'branch_phone' => $user->branch?->phone,
+            'branch_address' => $user->branch?->address,
+            'is_head_office' => $user->branch_id === null,
+        ];
+    }
+
+    /**
+     * Roles and effective permissions, resolved inside the user's own Spatie team.
+     *
+     * @return array{
+     *     roles: array<int, string>,
+     *     permission_groups: array<int, array{group: string, permissions: array<int, string>}>,
+     *     permission_count: int,
+     *     has_all_permissions: bool,
+     *     is_teacher: bool
+     * }
+     */
+    private function personAccess(User $user): array
+    {
+        if ($user->isTeacher()) {
+            return [
+                'roles' => [],
+                'permission_groups' => [],
+                'permission_count' => 0,
+                'has_all_permissions' => false,
+                'is_teacher' => true,
+            ];
+        }
+
+        $previousTeamId = getPermissionsTeamId();
+        setPermissionsTeamId($user->school_id ?? PlatformTeamResolver::PLATFORM_TEAM_ID);
+
+        try {
+            $user->unsetRelation('roles')->unsetRelation('permissions');
+
+            $roles = $user->roles->pluck('name')->sort()->values()->all();
+            $isSuperAdmin = SuperAdmin::isSuperAdminUser($user);
+
+            $permissions = $isSuperAdmin
+                ? collect()
+                : $user->getAllPermissions();
+        } finally {
+            setPermissionsTeamId($previousTeamId);
+            $user->unsetRelation('roles')->unsetRelation('permissions');
+        }
+
+        $groups = $permissions
+            ->groupBy(fn (Permission $permission): string => $permission->group ?? 'Other')
+            ->map(fn (mixed $items, string $group): array => [
+                'group' => $group,
+                'permissions' => collect($items)
+                    ->map(fn (Permission $permission): string => PermissionEnum::labelFor($permission->name))
+                    ->sort()
+                    ->values()
+                    ->all(),
+            ])
+            ->sortKeys()
+            ->values()
+            ->all();
+
+        return [
+            'roles' => $roles,
+            'permission_groups' => $groups,
+            'permission_count' => $permissions->count(),
+            'has_all_permissions' => $isSuperAdmin,
+            'is_teacher' => false,
+        ];
+    }
+
+    /**
+     * Course enrollments and certificates. Only teachers carry learning records.
+     *
+     * @return array{
+     *     applicable: bool,
+     *     stats: array{enrolled: int, in_progress: int, completed: int, certificates: int},
+     *     enrollments: array<int, array<string, mixed>>,
+     *     certificates: array<int, array<string, mixed>>
+     * }
+     */
+    private function personLearning(User $user): array
+    {
+        if (! $user->isTeacher()) {
+            return [
+                'applicable' => false,
+                'stats' => ['enrolled' => 0, 'in_progress' => 0, 'completed' => 0, 'certificates' => 0],
+                'enrollments' => [],
+                'certificates' => [],
+            ];
+        }
+
+        $enrollments = CourseEnrollment::query()
+            ->where('user_id', $user->id)
+            ->with('course:id,title')
+            ->orderByDesc('enrolled_at')
+            ->get();
+
+        $certificates = Certificate::query()
+            ->where('user_id', $user->id)
+            ->with('course:id,title')
+            ->orderByDesc('issued_at')
+            ->get();
+
+        return [
+            'applicable' => true,
+            'stats' => [
+                'enrolled' => $enrollments->count(),
+                'in_progress' => $enrollments->where('status', 'in_progress')->count(),
+                'completed' => $enrollments->where('status', 'completed')->count(),
+                'certificates' => $certificates->count(),
+            ],
+            'enrollments' => $enrollments->map(fn (CourseEnrollment $enrollment): array => [
+                'id' => $enrollment->id,
+                'course' => $enrollment->course?->title ?? '—',
+                'status' => $this->enrollmentStatusLabel($enrollment->status),
+                'progress' => $enrollment->progress,
+                'enrolled_label' => $enrollment->enrolled_at?->format('M j, Y') ?? '—',
+                'completed_label' => $enrollment->completed_at?->format('M j, Y') ?? '—',
+            ])->all(),
+            'certificates' => $certificates->map(fn (Certificate $certificate): array => [
+                'id' => $certificate->id,
+                'number' => $certificate->certificate_number,
+                'course' => $certificate->course?->title ?? '—',
+                'status' => ucfirst($certificate->status),
+                'issued_label' => $certificate->issued_at?->format('M j, Y') ?? '—',
+                'expires_label' => $certificate->expires_at?->format('M j, Y') ?? 'Never',
+            ])->all(),
+        ];
+    }
+
+    private function enrollmentStatusLabel(string $status): string
+    {
+        return match ($status) {
+            'completed' => 'Completed',
+            'in_progress' => 'In Progress',
+            default => 'Not Started',
+        };
+    }
+
+    /**
+     * Active sessions for the user, newest first. Empty unless the database
+     * session driver is in use.
+     *
+     * @return array<int, array{id: string, ip_address: string, device: string, last_active_label: string}>
+     */
+    private function personSessions(User $user): array
+    {
+        if (config('session.driver') !== 'database') {
+            return [];
+        }
+
+        return DB::table('sessions')
+            ->where('user_id', $user->id)
+            ->orderByDesc('last_activity')
+            ->limit(5)
+            ->get(['id', 'ip_address', 'user_agent', 'last_activity'])
+            ->map(fn (object $session): array => [
+                'id' => (string) $session->id,
+                'ip_address' => $session->ip_address ?? '—',
+                'device' => $this->deviceLabel($session->user_agent),
+                'last_active_label' => Carbon::createFromTimestamp($session->last_activity)
+                    ->diffForHumans(),
+            ])
+            ->all();
+    }
+
+    /**
+     * Best-effort browser and platform label from a raw user agent string.
+     */
+    private function deviceLabel(?string $userAgent): string
+    {
+        if (blank($userAgent)) {
+            return 'Unknown device';
+        }
+
+        $browser = match (true) {
+            str_contains($userAgent, 'Edg/') => 'Edge',
+            str_contains($userAgent, 'OPR/') => 'Opera',
+            str_contains($userAgent, 'Chrome/') => 'Chrome',
+            str_contains($userAgent, 'Firefox/') => 'Firefox',
+            str_contains($userAgent, 'Safari/') => 'Safari',
+            default => 'Browser',
+        };
+
+        $platform = match (true) {
+            str_contains($userAgent, 'Windows') => 'Windows',
+            str_contains($userAgent, 'Mac OS') => 'macOS',
+            str_contains($userAgent, 'Android') => 'Android',
+            str_contains($userAgent, 'iPhone'), str_contains($userAgent, 'iPad') => 'iOS',
+            str_contains($userAgent, 'Linux') => 'Linux',
+            default => 'Unknown OS',
+        };
+
+        return $browser.' · '.$platform;
+    }
+
     public function storeTeacher(StoreTeacherRequest $request): RedirectResponse
     {
         $data = $request->validated();
@@ -240,10 +533,7 @@ class UserController extends Controller
 
     public function updateStatus(UpdateUserStatusRequest $request, User $user): RedirectResponse
     {
-        abort_unless(
-            in_array($user->type, [UserType::TEACHER, UserType::SCHOOL, UserType::PLATFORM], true),
-            404,
-        );
+        $this->ensureDirectoryUser($user);
 
         if ($user->type === UserType::PLATFORM) {
             $this->authorize('update', $user);
@@ -274,12 +564,9 @@ class UserController extends Controller
         return redirect()->back();
     }
 
-    public function destroyDirectoryUser(User $user): RedirectResponse
+    public function destroyDirectoryUser(Request $request, User $user): RedirectResponse
     {
-        abort_unless(
-            in_array($user->type, [UserType::TEACHER, UserType::SCHOOL, UserType::PLATFORM], true),
-            404,
-        );
+        $this->ensureDirectoryUser($user);
 
         $this->authorize('delete', $user);
 
@@ -296,6 +583,12 @@ class UserController extends Controller
         $user->delete();
 
         Inertia::flash('toast', ['type' => 'success', 'message' => 'User deleted successfully.']);
+
+        // The profile page for this user no longer exists, so returning "back"
+        // would 404. The directory listing keeps its own filters via "back".
+        if ($request->query('from') === 'profile') {
+            return redirect()->route('platform.people.index');
+        }
 
         return redirect()->back();
     }
@@ -620,6 +913,17 @@ class UserController extends Controller
     private function ensurePlatformUser(User $user): void
     {
         abort_unless($user->type === UserType::PLATFORM, 404);
+    }
+
+    /**
+     * Guard for actions that accept any People directory user.
+     */
+    private function ensureDirectoryUser(User $user): void
+    {
+        abort_unless(
+            in_array($user->type, [UserType::TEACHER, UserType::SCHOOL, UserType::PLATFORM], true),
+            404,
+        );
     }
 
     /**
