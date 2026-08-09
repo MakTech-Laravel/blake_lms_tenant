@@ -95,6 +95,40 @@ export function NotificationsBell({ className }: NotificationsBellProps) {
         );
     };
 
+    /**
+     * Follow an announcement's action link, but not before its read receipt has
+     * been recorded. Letting the browser navigate while the request is in flight
+     * aborts it, and the notification stays unread even though the dot cleared.
+     */
+    const openAction = (notification: InboxNotification, href: string) => {
+        setOpen(false);
+
+        if (notification.is_read) {
+            window.location.href = href;
+
+            return;
+        }
+
+        setItems((current) =>
+            current.map((item) =>
+                item.id === notification.id ? { ...item, is_read: true } : item,
+            ),
+        );
+        setUnreadCount((current) => Math.max(current - 1, 0));
+
+        router.patch(
+            notification.read_url,
+            {},
+            {
+                preserveScroll: true,
+                preserveState: true,
+                onFinish: () => {
+                    window.location.href = href;
+                },
+            },
+        );
+    };
+
     const markAllRead = () => {
         setItems((current) => current.map((item) => ({ ...item, is_read: true })));
         setUnreadCount(0);
@@ -244,9 +278,14 @@ export function NotificationsBell({ className }: NotificationsBellProps) {
                                                             href={
                                                                 item.action_url
                                                             }
-                                                            onClick={() => {
-                                                                markRead(item);
-                                                                setOpen(false);
+                                                            onClick={(
+                                                                event,
+                                                            ) => {
+                                                                event.preventDefault();
+                                                                openAction(
+                                                                    item,
+                                                                    item.action_url!,
+                                                                );
                                                             }}
                                                             aria-label={
                                                                 item.action_label ??

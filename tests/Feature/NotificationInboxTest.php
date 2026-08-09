@@ -5,7 +5,15 @@ use App\Models\Notification;
 use App\Models\NotificationRecipient;
 use App\Models\School;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Inertia\Testing\AssertableInertia as Assert;
+
+beforeEach(function () {
+    // These render real Inertia pages, and the root view asks Vite for the page
+    // component. Without this the suite would only pass on a machine that had
+    // just built the frontend.
+    $this->withoutVite();
+});
 
 /**
  * Deliver an announcement to the given people, as the fan-out job would.
@@ -119,6 +127,24 @@ test('mark all read clears the badge in one action', function () {
         ->assertRedirect();
 
     expect($user->refresh()->unreadNotificationCount())->toBe(0);
+});
+
+test('mark all read reaches exactly what the badge was counting', function () {
+    $user = User::factory()->create();
+
+    $inbox = deliverTo(Notification::factory()->sent()->create(), [$user]);
+
+    // Filed away and then deliberately flagged unread again. The badge ignores
+    // archived copies, so clearing the badge must leave this one alone.
+    $archived = deliverTo(Notification::factory()->sent()->create(), [$user]);
+    $user->archiveNotification($archived);
+    $user->markNotificationUnread($archived);
+
+    expect($user->unreadNotificationCount())->toBe(1);
+    expect($user->markAllNotificationsRead())->toBe(1);
+
+    expect($user->notificationReceipt($inbox)->read_at)->not->toBeNull();
+    expect($user->notificationReceipt($archived)->read_at)->toBeNull();
 });
 
 test('archiving moves a notification out of the inbox and stops it counting', function () {
@@ -272,6 +298,35 @@ test('the unread count is shared with every page so the bell is right on first p
         ->get(route('school.dashboard', $school))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page->where('notifications.unread_count', 1));
+});
+
+test('the inbox costs the same number of queries however many rows it shows', function () {
+    $user = User::factory()->create();
+    $schools = School::factory()->count(6)->create();
+
+    // Each from a different organization, so a lazily loaded sender would show
+    // up as one query per row rather than being masked by Eloquent's identity map.
+    foreach ($schools as $school) {
+        deliverTo(Notification::factory()->forSchool($school)->sent()->create(), [$user]);
+    }
+
+    $queries = 0;
+    DB::listen(function () use (&$queries): void {
+        $queries++;
+    });
+
+    $this->actingAs($user)->get(route('notifications.index'))->assertOk();
+
+    $withSix = $queries;
+
+    foreach (School::factory()->count(6)->create() as $school) {
+        deliverTo(Notification::factory()->forSchool($school)->sent()->create(), [$user]);
+    }
+
+    $queries = 0;
+    $this->actingAs($user)->get(route('notifications.index'))->assertOk();
+
+    expect($queries)->toBe($withSix);
 });
 
 test('the inbox needs no permission at all', function () {

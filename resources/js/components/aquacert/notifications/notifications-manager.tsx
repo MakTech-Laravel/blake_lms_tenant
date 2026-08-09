@@ -11,6 +11,7 @@ import {
     FileEdit,
     FileSpreadsheet,
     FileText,
+    Loader2,
     Mail,
     Megaphone,
     MoreHorizontal,
@@ -121,13 +122,31 @@ export function NotificationsManager({
     const [composing, setComposing] = useState(false);
     const [editing, setEditing] = useState<NotificationListItem | null>(null);
     const firstRender = useRef(true);
+    // The last term this component asked the server for, so its echo can be told
+    // apart from the term changing for some other reason. State rather than a
+    // ref because the comparison below happens while rendering.
+    const [submitted, setSubmitted] = useState(filters.search ?? '');
+    const pendingSearch = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     // Adopt the server's value when it changes underneath us (a filter chip
     // cleared, the back button pressed) without an effect that would re-render.
+    // Our own echo is ignored: it arrives a request later than the keystrokes
+    // that caused it, and overwriting the box would delete whatever was typed
+    // while the response was in flight.
     if (serverSearch !== (filters.search ?? '')) {
         setServerSearch(filters.search ?? '');
-        setSearch(filters.search ?? '');
+
+        if ((filters.search ?? '') !== submitted) {
+            setSearch(filters.search ?? '');
+        }
     }
+
+    const cancelPendingSearch = () => {
+        if (pendingSearch.current !== null) {
+            clearTimeout(pendingSearch.current);
+            pendingSearch.current = null;
+        }
+    };
 
     const filterFields: AquaFilterField[] = useMemo(
         () => [
@@ -186,6 +205,12 @@ export function NotificationsManager({
     };
 
     const visit = (payload: ReturnType<typeof query>) => {
+        // A queued search still holds the tab and filters as they were when the
+        // last keystroke landed, so letting it fire after this would undo the
+        // choice being made here.
+        cancelPendingSearch();
+        setSubmitted(payload.search ?? '');
+
         router.get(routes.index, payload, {
             preserveState: true,
             preserveScroll: true,
@@ -199,15 +224,18 @@ export function NotificationsManager({
             return;
         }
 
-        const timeout = setTimeout(() => {
-            router.get(routes.index, query({ search }), {
+        pendingSearch.current = setTimeout(() => {
+            const payload = query({ search });
+            setSubmitted(payload.search ?? '');
+
+            router.get(routes.index, payload, {
                 preserveState: true,
                 preserveScroll: true,
                 replace: true,
             });
         }, 350);
 
-        return () => clearTimeout(timeout);
+        return cancelPendingSearch;
         // eslint-disable-next-line react-hooks/exhaustive-deps -- other filters apply immediately
     }, [search]);
 
@@ -222,6 +250,13 @@ export function NotificationsManager({
 
         return `${routes.export}?${params.toString()}`;
     };
+
+    // An empty list means something different when a filter is narrowing it, so
+    // the copy and the call to action both turn on this rather than on search
+    // alone: a category with no matches is not an empty module.
+    const isFiltered =
+        Boolean(filters.search || filters.status) ||
+        Object.values(activeFilters).some(Boolean);
 
     const compose = () => {
         setEditing(null);
@@ -313,6 +348,7 @@ export function NotificationsManager({
                             value={search}
                             onChange={(event) => setSearch(event.target.value)}
                             placeholder="Search announcements..."
+                            aria-label="Search announcements"
                             className="border-navy-100 bg-white pl-9"
                         />
                     </div>
@@ -369,11 +405,11 @@ export function NotificationsManager({
                             No announcements here
                         </h3>
                         <p className="mt-1 text-body-4 text-navy-300">
-                            {filters.search || filters.status
+                            {isFiltered
                                 ? 'Adjust your search or filters to see more results.'
                                 : 'Compose one to reach your organizations, staff, and teachers.'}
                         </p>
-                        {abilities.send && !filters.search && (
+                        {abilities.send && !isFiltered && (
                             <div className="mt-5">
                                 <Button
                                     type="button"
@@ -406,7 +442,9 @@ export function NotificationsManager({
                 )}
             </div>
 
-            {abilities.send && (
+            {/* Editing and sending are separate permissions, so a role that may
+                rewrite a draft but not broadcast it still needs the composer. */}
+            {(abilities.send || abilities.edit) && (
                 <AnnouncementBuilderDialog
                     open={composing}
                     onOpenChange={setComposing}
@@ -452,9 +490,19 @@ function NotificationRow({
     onEdit,
 }: NotificationRowProps) {
     const [confirmingDelete, setConfirmingDelete] = useState(false);
+    const [working, setWorking] = useState(false);
 
     const act = (method: 'post' | 'patch', url: string) => {
-        router[method](url, {}, { preserveScroll: true, preserveState: true });
+        setWorking(true);
+        router[method](
+            url,
+            {},
+            {
+                preserveScroll: true,
+                preserveState: true,
+                onFinish: () => setWorking(false),
+            },
+        );
     };
 
     return (
@@ -528,12 +576,17 @@ function NotificationRow({
                             <Button
                                 type="button"
                                 size="sm"
+                                disabled={working}
                                 onClick={() =>
                                     act('post', notification.send_url)
                                 }
                                 className="bg-navy-500 text-white hover:bg-navy-600"
                             >
-                                <Send className="size-3.5" />
+                                {working ? (
+                                    <Loader2 className="size-3.5 animate-spin" />
+                                ) : (
+                                    <Send className="size-3.5" />
+                                )}
                                 Send
                             </Button>
                         )}
@@ -613,11 +666,14 @@ function NotificationRow({
                             : ' This draft has not been delivered to anyone.'}
                     </>
                 }
-                onConfirm={() =>
+                processing={working}
+                onConfirm={() => {
+                    setWorking(true);
                     router.delete(notification.destroy_url, {
                         preserveScroll: true,
-                    })
-                }
+                        onFinish: () => setWorking(false),
+                    });
+                }}
             />
         </>
     );

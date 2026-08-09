@@ -334,6 +334,8 @@ export interface NotificationListItem {
     date_relative: string;
     /** `YYYY-MM-DDTHH:mm`, ready for a datetime-local input. */
     scheduled_at: string | null;
+    /** The same instant, written for people to read. */
+    scheduled_label: string | null;
     sent_label: string | null;
 
     recipients_count: number;

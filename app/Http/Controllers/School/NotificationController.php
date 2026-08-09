@@ -203,7 +203,7 @@ class NotificationController extends Controller
 
         Inertia::flash('toast', ['type' => 'success', 'message' => $notification->title.' deleted.']);
 
-        return redirect()->back();
+        return $this->redirectAfterDelete($notification);
     }
 
     public function export(Request $request, School $school): BinaryFileResponse

@@ -97,11 +97,17 @@ trait ReceivesNotifications
 
     /**
      * Clear the badge in one statement. Returns how many were affected.
+     *
+     * Scoped exactly as the badge counts, so the number reported back matches
+     * the number that was showing. Archived copies are left alone: the user
+     * filed those away deliberately, and they are not what the badge counts.
      */
     public function markAllNotificationsRead(): int
     {
         return $this->notificationReceipts()
             ->unread()
+            ->inbox()
+            ->whereHas('notification')
             ->update(['read_at' => now()]);
     }
 

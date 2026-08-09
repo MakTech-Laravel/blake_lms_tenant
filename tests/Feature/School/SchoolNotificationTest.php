@@ -10,6 +10,13 @@ use App\Models\School;
 use App\Models\User;
 use Inertia\Testing\AssertableInertia as Assert;
 
+beforeEach(function () {
+    // These render real Inertia pages, and the root view asks Vite for the page
+    // component. Without this the suite would only pass on a machine that had
+    // just built the frontend.
+    $this->withoutVite();
+});
+
 /**
  * Valid school announcement payload, overridable per test.
  *

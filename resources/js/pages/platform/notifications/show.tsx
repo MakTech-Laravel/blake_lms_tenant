@@ -32,6 +32,6 @@ PlatformNotificationShow.layout = {
     breadcrumbs: [
         { title: 'Dashboard', href: dashboard() },
         { title: 'Notifications', href: notifications.index() },
-        { title: 'Delivery report', href: notifications.index() },
+        { title: 'Delivery report' },
     ],
 };

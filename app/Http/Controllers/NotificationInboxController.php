@@ -68,6 +68,7 @@ class NotificationInboxController extends Controller
         $user = $request->user();
 
         $items = $user->appNotifications()
+            ->with('school:id,name')
             ->wherePivotNull('archived_at')
             ->orderByPivot('created_at', 'desc')
             ->limit(10)
@@ -147,7 +148,9 @@ class NotificationInboxController extends Controller
         // Built with statements rather than a `when()` chain: `when()` is not
         // defined on the relation, so it forwards to the underlying Eloquent
         // builder and the pivot helpers below would no longer be available.
-        $query = $request->user()->appNotifications();
+        // The sender name on every row comes from the school, so it is loaded
+        // with the page rather than one query per row.
+        $query = $request->user()->appNotifications()->with('school:id,name');
 
         if ($tab === 'archived') {
             $query->wherePivotNotNull('archived_at');

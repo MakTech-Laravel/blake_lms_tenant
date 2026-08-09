@@ -11,6 +11,7 @@ import {
     Trash2,
 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { ConfirmDeleteDialog } from '@/components/admin/confirm-delete-dialog';
 import { DataPagination } from '@/components/admin/data-pagination';
 import { AquaPageHeader } from '@/components/aquacert/aqua-page-header';
 import { AquaStatCard } from '@/components/aquacert/aqua-stat-card';
@@ -42,10 +43,15 @@ export default function NotificationsInbox({
 }: InboxProps) {
     const [search, setSearch] = useState(filters.search ?? '');
     const isFirstRender = useRef(true);
+    // The tab this component last searched under. Tabs are links, so a tab
+    // change has already been fetched by the time it arrives here; re-running
+    // the search for it would ask the server for the same page twice.
+    const searchedTab = useRef(filters.tab);
 
     useEffect(() => {
-        if (isFirstRender.current) {
+        if (isFirstRender.current || searchedTab.current !== filters.tab) {
             isFirstRender.current = false;
+            searchedTab.current = filters.tab;
 
             return;
         }
@@ -145,6 +151,7 @@ export default function NotificationsInbox({
                             value={search}
                             onChange={(event) => setSearch(event.target.value)}
                             placeholder="Search notifications..."
+                            aria-label="Search notifications"
                             className="h-10 border-navy-100 pl-9"
                         />
                     </div>
@@ -190,7 +197,17 @@ export default function NotificationsInbox({
 }
 
 function InboxRow({ notification }: { notification: InboxNotification }) {
-    const patch = (url: string) => router.patch(url, {}, { preserveScroll: true });
+    const [working, setWorking] = useState(false);
+    const [confirmingRemoval, setConfirmingRemoval] = useState(false);
+
+    const patch = (url: string) => {
+        setWorking(true);
+        router.patch(
+            url,
+            {},
+            { preserveScroll: true, onFinish: () => setWorking(false) },
+        );
+    };
 
     return (
         <li
@@ -256,6 +273,12 @@ function InboxRow({ notification }: { notification: InboxNotification }) {
                     type="button"
                     variant="ghost"
                     size="icon"
+                    disabled={working}
+                    aria-label={
+                        notification.is_read
+                            ? 'Mark as unread'
+                            : 'Mark as read'
+                    }
                     title={
                         notification.is_read
                             ? 'Mark as unread'
@@ -281,6 +304,12 @@ function InboxRow({ notification }: { notification: InboxNotification }) {
                     type="button"
                     variant="ghost"
                     size="icon"
+                    disabled={working}
+                    aria-label={
+                        notification.is_archived
+                            ? 'Move back to inbox'
+                            : 'Archive'
+                    }
                     title={
                         notification.is_archived
                             ? 'Move back to inbox'
@@ -306,16 +335,36 @@ function InboxRow({ notification }: { notification: InboxNotification }) {
                     type="button"
                     variant="ghost"
                     size="icon"
+                    disabled={working}
+                    aria-label="Remove from my notifications"
                     title="Remove from my notifications"
-                    onClick={() =>
-                        router.delete(notification.destroy_url, {
-                            preserveScroll: true,
-                        })
-                    }
+                    onClick={() => setConfirmingRemoval(true)}
                     className="size-8 text-navy-300 hover:bg-red-50 hover:text-red-600"
                 >
                     <Trash2 className="size-4" />
                 </Button>
+
+                <ConfirmDeleteDialog
+                    open={confirmingRemoval}
+                    onOpenChange={setConfirmingRemoval}
+                    processing={working}
+                    title="Remove this notification?"
+                    confirmLabel="Remove"
+                    description={
+                        <>
+                            <strong>{notification.title}</strong> will be removed
+                            from your notifications. Everyone else keeps their
+                            copy, and this cannot be undone.
+                        </>
+                    }
+                    onConfirm={() => {
+                        setWorking(true);
+                        router.delete(notification.destroy_url, {
+                            preserveScroll: true,
+                            onFinish: () => setWorking(false),
+                        });
+                    }}
+                />
             </div>
         </li>
     );

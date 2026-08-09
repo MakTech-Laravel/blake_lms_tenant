@@ -100,14 +100,20 @@ trait NotificationRules
 
             'intent' => ['required', Rule::in(self::INTENTS)],
 
-            // Required only for the Schedule button; ignored by the other two.
-            'scheduled_at' => [
-                Rule::requiredIf(fn (): bool => $this->input('intent') === 'schedule'),
-                'nullable',
-                'date',
-                'after:now',
-                'before:'.now()->addDays(self::SCHEDULE_MAX_DAYS)->toDateTimeString(),
-            ],
+            // Required only for the Schedule button; ignored by the other two,
+            // which is why the window is only enforced when scheduling. Saving a
+            // draft must not fail over a date the server is about to discard.
+            'scheduled_at' => array_merge(
+                [
+                    Rule::requiredIf(fn (): bool => $this->isScheduling()),
+                    'nullable',
+                    'date',
+                ],
+                $this->isScheduling() ? [
+                    'after:now',
+                    'before:'.now()->addDays(self::SCHEDULE_MAX_DAYS)->toDateTimeString(),
+                ] : [],
+            ),
         ];
     }
 
@@ -188,6 +194,14 @@ trait NotificationRules
     public function intent(): string
     {
         return (string) $this->validated('intent');
+    }
+
+    /**
+     * Whether this submission is the Schedule button rather than Save or Send.
+     */
+    private function isScheduling(): bool
+    {
+        return $this->input('intent') === 'schedule';
     }
 
     /**

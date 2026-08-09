@@ -40,6 +40,23 @@ const FIELD_CLASS =
 /** The three footer buttons, sent as `intent` so the server never has to guess. */
 type Intent = 'draft' | 'schedule' | 'send';
 
+type AnnouncementForm = {
+    title: string;
+    body: string;
+    category: string;
+    priority: string;
+    action_label: string;
+    action_url: string;
+    send_email: boolean;
+    audience_type: string;
+    school_ids: string[];
+    plan_ids: string[];
+    role_ids: string[];
+    user_ids: string[];
+    scheduled_at: string;
+    intent: Intent;
+};
+
 type AnnouncementBuilderDialogProps = {
     open: boolean;
     onOpenChange: (open: boolean) => void;
@@ -89,7 +106,7 @@ export function AnnouncementBuilderDialog({
         setPreview(false);
     }
 
-    const form = useForm({
+    const blankAnnouncement = (): AnnouncementForm => ({
         title: '',
         body: '',
         category: categoryOptions[0]?.value ?? 'announcement',
@@ -98,17 +115,25 @@ export function AnnouncementBuilderDialog({
         action_url: '',
         send_email: false,
         audience_type: audienceOptions[0]?.value ?? 'all_users',
-        school_ids: [] as string[],
-        plan_ids: [] as string[],
-        role_ids: [] as string[],
-        user_ids: [] as string[],
+        school_ids: [],
+        plan_ids: [],
+        role_ids: [],
+        user_ids: [],
         scheduled_at: '',
-        intent: 'draft' as Intent,
+        intent: 'draft',
     });
+
+    const form = useForm<AnnouncementForm>(blankAnnouncement());
 
     /**
      * Reload the form each time the dialog opens so a half-written announcement
      * from a previous open never bleeds into the next one.
+     *
+     * Written with `setData` rather than `defaults()` + `reset()`: the hook keeps
+     * its defaults in state, so a reset in the same tick still reads the previous
+     * render's values and would load the announcement edited before this one.
+     * The blank state is likewise spelled out rather than reset to, because a
+     * successful submit promotes whatever was sent to be the new defaults.
      */
     useEffect(() => {
         if (!open) {
@@ -118,7 +143,7 @@ export function AnnouncementBuilderDialog({
         form.clearErrors();
 
         if (!editing) {
-            form.reset();
+            form.setData(blankAnnouncement());
 
             return;
         }
@@ -126,7 +151,7 @@ export function AnnouncementBuilderDialog({
         const key = idsKeyFor(editing.audience_type, audienceOptions);
         const ids = editing.audience_ids.map(String);
 
-        form.setDefaults({
+        form.setData({
             title: editing.title,
             body: editing.body,
             category: editing.category_value,
@@ -142,7 +167,6 @@ export function AnnouncementBuilderDialog({
             scheduled_at: editing.scheduled_at ?? '',
             intent: editing.status_value === 'scheduled' ? 'schedule' : 'draft',
         });
-        form.reset();
         // eslint-disable-next-line react-hooks/exhaustive-deps -- reload only when the dialog opens
     }, [open, editing?.id]);
 

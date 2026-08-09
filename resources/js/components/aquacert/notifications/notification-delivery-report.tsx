@@ -2,12 +2,15 @@ import { Link, router } from '@inertiajs/react';
 import {
     ArrowLeft,
     CheckCircle2,
+    Loader2,
     Mail,
     MailOpen,
     Send,
     Trash2,
     Users,
 } from 'lucide-react';
+import { useState } from 'react';
+import { ConfirmDeleteDialog } from '@/components/admin/confirm-delete-dialog';
 import { DataPagination } from '@/components/admin/data-pagination';
 import { AquaPageHeader } from '@/components/aquacert/aqua-page-header';
 import { AquaStatCard } from '@/components/aquacert/aqua-stat-card';
@@ -67,6 +70,9 @@ export function NotificationDeliveryReport({
     routes,
     abilities,
 }: DeliveryReportProps) {
+    const [confirmingDelete, setConfirmingDelete] = useState(false);
+    const [working, setWorking] = useState(false);
+
     const unread = Math.max(
         notification.recipients_count - notification.read_count,
         0,
@@ -103,16 +109,26 @@ export function NotificationDeliveryReport({
                             {abilities.send && notification.is_sendable && (
                                 <Button
                                     type="button"
-                                    onClick={() =>
+                                    disabled={working}
+                                    onClick={() => {
+                                        setWorking(true);
                                         router.post(
                                             notification.send_url,
                                             {},
-                                            { preserveScroll: true },
-                                        )
-                                    }
+                                            {
+                                                preserveScroll: true,
+                                                onFinish: () =>
+                                                    setWorking(false),
+                                            },
+                                        );
+                                    }}
                                     className="bg-navy-500 text-white hover:bg-navy-600"
                                 >
-                                    <Send className="size-4" />
+                                    {working ? (
+                                        <Loader2 className="size-4 animate-spin" />
+                                    ) : (
+                                        <Send className="size-4" />
+                                    )}
                                     Send now
                                 </Button>
                             )}
@@ -120,9 +136,8 @@ export function NotificationDeliveryReport({
                                 <Button
                                     type="button"
                                     variant="outline"
-                                    onClick={() =>
-                                        router.delete(notification.destroy_url)
-                                    }
+                                    disabled={working}
+                                    onClick={() => setConfirmingDelete(true)}
                                     className="border-red-200 text-red-600 hover:bg-red-50"
                                 >
                                     <Trash2 className="size-4" />
@@ -228,7 +243,7 @@ export function NotificationDeliveryReport({
                             }
                             value={
                                 notification.sent_label ??
-                                notification.scheduled_at ??
+                                notification.scheduled_label ??
                                 'Not scheduled'
                             }
                         />
@@ -350,6 +365,26 @@ export function NotificationDeliveryReport({
                     </>
                 )}
             </Card>
+
+            <ConfirmDeleteDialog
+                open={confirmingDelete}
+                onOpenChange={setConfirmingDelete}
+                processing={working}
+                description={
+                    <>
+                        Delete <strong>{notification.title}</strong>?
+                        {notification.recipients_count > 0
+                            ? ` This also removes it from the ${notification.recipients_count} inboxes it was delivered to.`
+                            : ' This has not been delivered to anyone.'}
+                    </>
+                }
+                onConfirm={() => {
+                    setWorking(true);
+                    router.delete(notification.destroy_url, {
+                        onFinish: () => setWorking(false),
+                    });
+                }}
+            />
         </div>
     );
 }

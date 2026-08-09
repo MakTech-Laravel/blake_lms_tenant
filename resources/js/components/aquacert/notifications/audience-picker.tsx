@@ -70,10 +70,12 @@ export function AudiencePicker({
     // rather than listed and an unsearched name has no label to render.
     const [resolved, setResolved] = useState<SelectOption[]>([]);
     // Tagged with the selection it was counted for, so a stale figure is never
-    // shown against a selection that has since changed.
-    const [counted, setCounted] = useState<{ key: string; count: number } | null>(
-        null,
-    );
+    // shown against a selection that has since changed. A null count means the
+    // request was answered but failed, which is not the same as still waiting.
+    const [counted, setCounted] = useState<{
+        key: string;
+        count: number | null;
+    } | null>(null);
 
     const selected = useMemo(
         () => options.find((option) => option.value === value.audience_type),
@@ -81,6 +83,19 @@ export function AudiencePicker({
     );
 
     const resource = selected?.resource ?? null;
+    const [lastResource, setLastResource] = useState(resource);
+
+    // Ids are namespaced by resource — organization 4 and role 4 are unrelated
+    // records — so every label cached here belongs to one mode only. Carrying
+    // them across a mode change would let a role's name be used to caption a
+    // person, and its option row appear in the people list. The search box is
+    // cleared for the same reason: the term was aimed at a different list.
+    if (lastResource !== resource) {
+        setLastResource(resource);
+        setPeople([]);
+        setResolved([]);
+        setSearch('');
+    }
 
     const preloaded = useMemo<SelectOption[]>(() => {
         if (resource === 'organizations') {
@@ -158,10 +173,19 @@ export function AudiencePicker({
 
         byId.get(`${optionsUrl}?${query.toString()}`, {
             onSuccess: (response) =>
-                setResolved((current) => [
-                    ...current,
-                    ...(response.options ?? []),
-                ]),
+                setResolved((current) => {
+                    // Large selections resolve in batches, and a batch can
+                    // overlap one already held. Duplicates here would become
+                    // duplicate React keys in the option list.
+                    const held = new Set(current.map((option) => option.value));
+
+                    return [
+                        ...current,
+                        ...(response.options ?? []).filter(
+                            (option) => !held.has(option.value),
+                        ),
+                    ];
+                }),
         }).catch(() => undefined);
         // eslint-disable-next-line react-hooks/exhaustive-deps -- the http helper is stable
     }, [resource, unnamedIds, optionsUrl]);
@@ -187,14 +211,20 @@ export function AudiencePicker({
                             count: response.count ?? 0,
                         }),
                 })
-                .catch(() => setCounted(null));
+                .catch(() =>
+                    // Recorded against this selection so the reader is told the
+                    // count is unavailable rather than left watching a message
+                    // that says it is still being worked out.
+                    setCounted({ key: selectionKey, count: null }),
+                );
         }, 250);
 
         return () => clearTimeout(timeout);
         // eslint-disable-next-line react-hooks/exhaustive-deps -- the http helper is stable
     }, [selectionKey, estimateUrl]);
 
-    const reach = counted?.key === selectionKey ? counted.count : null;
+    const answered = counted?.key === selectionKey;
+    const reach = answered ? counted.count : null;
 
     // Search results only apply to the mode that produced them; a leftover list
     // from the people picker must not surface under "Selected Organizations".
@@ -373,8 +403,13 @@ export function AudiencePicker({
             <div className="flex items-center gap-2 rounded-lg bg-aqua-50/60 px-3 py-2">
                 <Users className="size-4 shrink-0 text-aqua-600" />
                 <p className="text-body-4 text-navy-400">
-                    {estimate.processing || reach === null ? (
+                    {!answered || estimate.processing ? (
                         'Working out who this reaches...'
+                    ) : reach === null ? (
+                        <span className="font-medium text-amber-700">
+                            Could not work out who this reaches. It will still be
+                            sent to the audience above.
+                        </span>
                     ) : reach === 0 ? (
                         <span className="font-medium text-amber-700">
                             This currently reaches nobody.

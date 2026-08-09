@@ -16,6 +16,7 @@ use App\Support\Notifications\AudienceSelection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -222,7 +223,10 @@ trait BuildsNotificationIndex
 
             'date_label' => $timeline->format('Y-m-d'),
             'date_relative' => $timeline->diffForHumans(),
+            // Two forms of the same instant: one for the datetime-local input
+            // the builder edits, one for people to read.
             'scheduled_at' => $notification->scheduled_at?->format('Y-m-d\TH:i'),
+            'scheduled_label' => $notification->scheduled_at?->format('M j, Y g:ia'),
             'sent_label' => $notification->sent_at?->format('M j, Y g:ia'),
 
             'recipients_count' => (int) $notification->recipients_count,
@@ -238,6 +242,27 @@ trait BuildsNotificationIndex
             'unarchive_url' => $this->notificationRoute('unarchive', $notification),
             'destroy_url' => $this->notificationRoute('destroy', $notification),
         ];
+    }
+
+    /**
+     * Where to go once an announcement has been deleted.
+     *
+     * Back to wherever the author was, unless that was the announcement's own
+     * delivery report: the row is soft deleted by then, so route binding could
+     * not resolve it and the author would land on a 404 for something they just
+     * deleted on purpose. Coming from the list, going back keeps their filters
+     * and page.
+     */
+    protected function redirectAfterDelete(Notification $notification): RedirectResponse
+    {
+        $cameFromItsOwnPage = str_starts_with(
+            url()->previous(),
+            $this->notificationRoute('show', $notification),
+        );
+
+        return $cameFromItsOwnPage
+            ? redirect()->to($this->notificationRoute('index'))
+            : redirect()->back();
     }
 
     /**
@@ -347,8 +372,8 @@ trait BuildsNotificationIndex
     protected function audienceOptionsFor(string $resource, string $search, ?array $ids = null): array
     {
         return match ($resource) {
-            'organizations' => $this->organizationAudienceOptions($search),
-            'plans' => $this->planAudienceOptions(),
+            'organizations' => $this->organizationAudienceOptions($search, $ids),
+            'plans' => $this->planAudienceOptions($ids),
             'roles' => $this->roleAudienceOptions($ids, $search),
             'users' => $this->userAudienceOptions($search, $ids),
             default => [],
@@ -396,29 +421,43 @@ trait BuildsNotificationIndex
     }
 
     /**
+     * Organizations, capped because there can be many. Asking for specific ids
+     * bypasses the cap: an existing draft may well target one that falls outside
+     * the first hundred by name, and its chip has to be nameable.
+     *
+     * @param  array<int, int>|null  $ids
      * @return array<int, array{value: string, label: string}>
      */
-    private function organizationAudienceOptions(string $search = ''): array
+    private function organizationAudienceOptions(string $search = '', ?array $ids = null): array
     {
         $schoolId = $this->notificationSchoolId();
 
         return $this->toOptions(
             School::query()
                 ->when($schoolId !== null, fn (Builder $query) => $query->whereKey($schoolId))
+                ->when($ids !== null, fn (Builder $query) => $query->whereKey($ids))
                 ->when($search !== '', fn (Builder $query) => $query->where('name', 'like', '%'.$search.'%'))
                 ->orderBy('name')
-                ->limit(100)
+                ->limit($ids !== null ? count($ids) : 100)
                 ->get(['id', 'name']),
         );
     }
 
     /**
+     * Plans, including retired ones when asked for by id, so a draft targeting a
+     * since-archived tier still names it.
+     *
+     * @param  array<int, int>|null  $ids
      * @return array<int, array{value: string, label: string}>
      */
-    private function planAudienceOptions(): array
+    private function planAudienceOptions(?array $ids = null): array
     {
         return $this->toOptions(
-            Plan::query()->orderBy('sort_order')->orderBy('name')->get(['id', 'name']),
+            Plan::query()
+                ->when($ids !== null, fn (Builder $query) => $query->withTrashed()->whereKey($ids))
+                ->orderBy('sort_order')
+                ->orderBy('name')
+                ->get(['id', 'name']),
         );
     }
 

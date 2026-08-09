@@ -6,9 +6,17 @@ use App\Enums\NotificationPriority;
 use App\Enums\NotificationStatus;
 use App\Enums\PermissionEnum;
 use App\Models\Notification;
+use App\Models\Plan;
 use App\Models\School;
 use App\Models\User;
 use Inertia\Testing\AssertableInertia as Assert;
+
+beforeEach(function () {
+    // These render real Inertia pages, and the root view asks Vite for the page
+    // component. Without this the suite would only pass on a machine that had
+    // just built the frontend.
+    $this->withoutVite();
+});
 
 /**
  * Valid announcement payload, overridable per test.
@@ -221,6 +229,87 @@ test('an action button needs both a label and a destination', function () {
         ->assertSessionHasErrors('action_label');
 });
 
+test('an action button cannot point at a script url', function () {
+    // The destination becomes a link in every recipient's inbox, so a scheme
+    // that executes rather than navigates would run in their session.
+    $this->actingAs(platformSuperAdmin())
+        ->post(route('platform.notifications.store'), announcementPayload([
+            'action_label' => 'Click here',
+            'action_url' => 'javascript:alert(document.cookie)',
+        ]))
+        ->assertSessionHasErrors('action_url');
+
+    $this->actingAs(platformSuperAdmin())
+        ->post(route('platform.notifications.store'), announcementPayload([
+            'action_label' => 'Click here',
+            'action_url' => 'data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==',
+        ]))
+        ->assertSessionHasErrors('action_url');
+
+    $this->actingAs(platformSuperAdmin())
+        ->post(route('platform.notifications.store'), announcementPayload([
+            'action_label' => 'Read the policy',
+            'action_url' => 'https://example.test/policy',
+        ]))
+        ->assertSessionHasNoErrors();
+});
+
+test('a draft is not held up by a date it left behind', function () {
+    // The author picked a time, thought better of it, and hit Save Draft. The
+    // server discards the date for a draft, so refusing to accept it would be
+    // refusing over a field that is about to be thrown away.
+    $this->actingAs(platformSuperAdmin())
+        ->post(route('platform.notifications.store'), [
+            'title' => 'Half-written',
+            'body' => 'Coming back to this later.',
+            'category' => 'announcement',
+            'priority' => 'normal',
+            'audience_type' => 'all_users',
+            'scheduled_at' => now()->subWeek()->format('Y-m-d\TH:i'),
+            'intent' => 'draft',
+        ])
+        ->assertSessionHasNoErrors();
+
+    expect(Notification::firstWhere('title', 'Half-written')->scheduled_at)->toBeNull();
+});
+
+test('a scheduled send still has to be in the future', function () {
+    $this->actingAs(platformSuperAdmin())
+        ->post(route('platform.notifications.store'), [
+            'title' => 'Backdated',
+            'body' => 'Should not be accepted.',
+            'category' => 'announcement',
+            'priority' => 'normal',
+            'audience_type' => 'all_users',
+            'scheduled_at' => now()->subWeek()->format('Y-m-d\TH:i'),
+            'intent' => 'schedule',
+        ])
+        ->assertSessionHasErrors('scheduled_at');
+});
+
+test('deleting from the delivery report lands somewhere that still exists', function () {
+    $notification = Notification::factory()->sent()->create();
+
+    // The report is the announcement's own page, so bouncing back to it after a
+    // soft delete would ask route binding for a row it can no longer find.
+    $this->actingAs(platformSuperAdmin())
+        ->from(route('platform.notifications.show', $notification))
+        ->delete(route('platform.notifications.destroy', $notification))
+        ->assertRedirect(route('platform.notifications.index'));
+
+    expect($notification->fresh()->trashed())->toBeTrue();
+});
+
+test('deleting from the list keeps the filters that were showing', function () {
+    $notification = Notification::factory()->create();
+    $list = route('platform.notifications.index', ['status' => 'draft', 'page' => 1]);
+
+    $this->actingAs(platformSuperAdmin())
+        ->from($list)
+        ->delete(route('platform.notifications.destroy', $notification))
+        ->assertRedirect($list);
+});
+
 test('a draft can be rewritten', function () {
     $notification = Notification::factory()->create(['title' => 'First attempt']);
 
@@ -389,6 +478,35 @@ test('the audience picker resolves chosen people by id', function () {
         ->assertJsonCount(1, 'options')
         ->assertJsonPath('options.0.value', (string) $chosen->id)
         ->assertJsonPath('options.0.label', fn (string $label): bool => str_contains($label, 'Marina Cole'));
+});
+
+test('the audience picker resolves every kind of chosen id, not just people', function () {
+    $wanted = School::factory()->create(['name' => 'Zenith Aquatics']);
+    School::factory()->count(3)->create();
+
+    // Asking for one organization must return one, not the whole list: the
+    // picker uses this to name a chip whose id it cannot otherwise account for.
+    $this->actingAs(platformSuperAdmin())
+        ->getJson(route('platform.notifications.audience_options', [
+            'resource' => 'organizations',
+            'ids' => [$wanted->id],
+        ]))
+        ->assertOk()
+        ->assertJsonCount(1, 'options')
+        ->assertJsonPath('options.0.label', 'Zenith Aquatics');
+
+    $retired = Plan::factory()->create(['name' => 'Legacy']);
+    $retired->delete();
+
+    // A draft can outlive the plan it targets, and the chip still has to read.
+    $this->actingAs(platformSuperAdmin())
+        ->getJson(route('platform.notifications.audience_options', [
+            'resource' => 'plans',
+            'ids' => [$retired->id],
+        ]))
+        ->assertOk()
+        ->assertJsonCount(1, 'options')
+        ->assertJsonPath('options.0.label', 'Legacy');
 });
 
 test('the export honours the active filters', function () {
