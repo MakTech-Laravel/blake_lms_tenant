@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BillingInterval;
 use App\Enums\SubscriptionStatus;
 use Carbon\CarbonInterface;
 use Database\Factories\SubscriptionFactory;
@@ -28,6 +29,9 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $trial_ends_at
  * @property Carbon|null $renews_at
  * @property Carbon|null $canceled_at
+ * @property BillingInterval $billing_interval
+ * @property string|null $stripe_price_id
+ * @property string|null $stripe_status
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
@@ -35,6 +39,8 @@ class Subscription extends Model
 {
     /** @use HasFactory<SubscriptionFactory> */
     use HasFactory;
+
+    protected $table = 'school_subscriptions';
 
     /**
      * Stripe caps `trial_period_days` at 730 days (2 years), so authoring a
@@ -52,6 +58,9 @@ class Subscription extends Model
         'trial_ends_at',
         'renews_at',
         'canceled_at',
+        'billing_interval',
+        'stripe_price_id',
+        'stripe_status',
     ];
 
     // ── Relationships ─────────────────────────────────────────────────────────
@@ -143,6 +152,7 @@ class Subscription extends Model
             'trial_ends_at' => 'datetime',
             'renews_at' => 'datetime',
             'canceled_at' => 'datetime',
+            'billing_interval' => BillingInterval::class,
         ];
     }
 }

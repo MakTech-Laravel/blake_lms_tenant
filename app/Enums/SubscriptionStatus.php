@@ -71,23 +71,23 @@ enum SubscriptionStatus: string
             self::Suspended => $query->where('schools.status', $suspended),
 
             self::Trial => $query->where('schools.status', '!=', $suspended)
-                ->whereNotNull('subscriptions.trial_ends_at')
-                ->where('subscriptions.trial_ends_at', '>', now()),
+                ->whereNotNull('school_subscriptions.trial_ends_at')
+                ->where('school_subscriptions.trial_ends_at', '>', now()),
 
             self::Expired => $query->where('schools.status', '!=', $suspended)
                 ->where(fn (Builder $builder) => $builder
-                    ->whereNull('subscriptions.trial_ends_at')
-                    ->orWhere('subscriptions.trial_ends_at', '<=', now()))
-                ->whereNotNull('subscriptions.renews_at')
-                ->where('subscriptions.renews_at', '<', now()),
+                    ->whereNull('school_subscriptions.trial_ends_at')
+                    ->orWhere('school_subscriptions.trial_ends_at', '<=', now()))
+                ->whereNotNull('school_subscriptions.renews_at')
+                ->where('school_subscriptions.renews_at', '<', now()),
 
             self::Active => $query->where('schools.status', '!=', $suspended)
                 ->where(fn (Builder $builder) => $builder
-                    ->whereNull('subscriptions.trial_ends_at')
-                    ->orWhere('subscriptions.trial_ends_at', '<=', now()))
+                    ->whereNull('school_subscriptions.trial_ends_at')
+                    ->orWhere('school_subscriptions.trial_ends_at', '<=', now()))
                 ->where(fn (Builder $builder) => $builder
-                    ->whereNull('subscriptions.renews_at')
-                    ->orWhere('subscriptions.renews_at', '>=', now())),
+                    ->whereNull('school_subscriptions.renews_at')
+                    ->orWhere('school_subscriptions.renews_at', '>=', now())),
         };
     }
 

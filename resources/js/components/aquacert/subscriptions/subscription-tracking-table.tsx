@@ -403,6 +403,7 @@ export function SubscriptionTrackingTable({
 
 function RowActions({ row }: { row: SubscriptionTrackingRow }) {
     const { can } = usePermission();
+    const canEdit = can(PERMISSIONS.PLATFORM_SUBSCRIPTIONS.EDIT);
 
     return (
         <DropdownMenu>
@@ -416,25 +417,39 @@ function RowActions({ row }: { row: SubscriptionTrackingRow }) {
                     <MoreHorizontal className="size-4" />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-44">
+            <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuItem asChild>
                     <Link href={row.show_url}>
                         <Eye className="size-4" />
                         View organization
                     </Link>
                 </DropdownMenuItem>
-                {can(PERMISSIONS.PLATFORM_SUBSCRIPTIONS.EDIT) && (
+                {canEdit && (
                     <DropdownMenuItem
                         onSelect={() =>
-                            router.patch(
-                                subscriptions.renew(row.id).url,
-                                {},
-                                { preserveScroll: true },
-                            )
+                            router.post(row.checkout_url, {}, { preserveScroll: true })
                         }
                     >
                         <RefreshCw className="size-4" />
-                        Renew a month
+                        Stripe checkout
+                    </DropdownMenuItem>
+                )}
+                {canEdit && row.on_stripe && !row.on_grace_period && (
+                    <DropdownMenuItem
+                        onSelect={() =>
+                            router.patch(row.cancel_url, {}, { preserveScroll: true })
+                        }
+                    >
+                        Cancel at period end
+                    </DropdownMenuItem>
+                )}
+                {canEdit && row.on_grace_period && (
+                    <DropdownMenuItem
+                        onSelect={() =>
+                            router.patch(row.resume_url, {}, { preserveScroll: true })
+                        }
+                    >
+                        Resume
                     </DropdownMenuItem>
                 )}
                 {can(PERMISSIONS.SCHOOLS.EDIT) &&

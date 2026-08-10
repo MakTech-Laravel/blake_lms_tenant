@@ -201,31 +201,6 @@ test('an unknown sort column falls back to the default instead of reaching the d
         ->assertInertia(fn (Assert $page) => $page->where('filters.sort', 'organization'));
 });
 
-test('renewing an expired subscription brings it current', function () {
-    $subscriptions = subscriptionsInEveryStatus();
-    $expired = $subscriptions['expired'];
-
-    $this->actingAs(platformSuperAdmin())
-        ->from(route('platform.subscriptions.index', ['tab' => 'tracking']))
-        ->patch(route('platform.subscriptions.renew', $expired))
-        ->assertRedirect(route('platform.subscriptions.index', ['tab' => 'tracking']));
-
-    expect($expired->refresh()->renews_at->isFuture())->toBeTrue()
-        ->and($expired->load('school')->status())->toBe(SubscriptionStatus::Active);
-});
-
-test('renewing early extends the term rather than shortening it', function () {
-    $renewal = now()->addMonths(3)->startOfSecond();
-    $subscription = Subscription::factory()->renewingOn($renewal->toDateTimeString())->create();
-
-    $this->actingAs(platformSuperAdmin())
-        ->from(route('platform.subscriptions.index'))
-        ->patch(route('platform.subscriptions.renew', $subscription));
-
-    expect($subscription->refresh()->renews_at->toDateString())
-        ->toBe($renewal->copy()->addMonth()->toDateString());
-});
-
 test('the tracking export honours the active filters', function () {
     subscriptionsInEveryStatus();
 
@@ -244,13 +219,13 @@ test('the subscriptions module is gated on its permissions', function () {
 
     $this->actingAs($user)->get(route('platform.subscriptions.index'))->assertForbidden();
     $this->actingAs($user)->get(route('platform.subscriptions.export'))->assertForbidden();
-    $this->actingAs($user)->patch(route('platform.subscriptions.renew', $subscription))->assertForbidden();
+    $this->actingAs($user)->post(route('platform.subscriptions.checkout', $subscription))->assertForbidden();
 });
 
-test('viewing the tracking table does not confer the right to renew', function () {
+test('viewing the tracking table does not confer the right to checkout', function () {
     $subscription = Subscription::factory()->create();
     $user = platformUserWithPermissions([PermissionEnum::PLATFORM_SUBSCRIPTIONS_INDEX]);
 
     $this->actingAs($user)->get(route('platform.subscriptions.index', ['tab' => 'tracking']))->assertOk();
-    $this->actingAs($user)->patch(route('platform.subscriptions.renew', $subscription))->assertForbidden();
+    $this->actingAs($user)->post(route('platform.subscriptions.checkout', $subscription))->assertForbidden();
 });

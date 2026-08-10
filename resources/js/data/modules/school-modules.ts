@@ -431,54 +431,6 @@ export const schoolCertificates = {
 export const schoolBilling = {
     title: 'Subscription & Billing',
     subtitle: 'Plan details and invoices',
-    columns: [
-        { key: 'invoice', label: 'Invoice' },
-        { key: 'period', label: 'Period' },
-        { key: 'amount', label: 'Amount' },
-        { key: 'method', label: 'Method' },
-        { key: 'status', label: 'Status' },
-    ],
-    rows: [
-        {
-            id: '1',
-            invoice: 'INV-10482',
-            period: 'Mar 2026',
-            amount: '$890.00',
-            method: 'Card',
-            status: 'Paid',
-        },
-        {
-            id: '2',
-            invoice: 'INV-10391',
-            period: 'Feb 2026',
-            amount: '$890.00',
-            method: 'Card',
-            status: 'Paid',
-        },
-        {
-            id: '3',
-            invoice: 'INV-10288',
-            period: 'Jan 2026',
-            amount: '$890.00',
-            method: 'Card',
-            status: 'Paid',
-        },
-        {
-            id: '4',
-            invoice: 'INV-10510',
-            period: 'Apr 2026',
-            amount: '$890.00',
-            method: 'Card',
-            status: 'Upcoming',
-        },
-    ] satisfies ModuleRow[],
-    plan: {
-        name: 'LMS + Training Content',
-        seats: 250,
-        used: 248,
-        renewal: '2026-11-01',
-        mrr: '$890',
-    },
 };
 
 export const schoolReports = {

@@ -40,7 +40,7 @@ class OrganizationsExport implements FromQuery, ShouldAutoSize, WithHeadings, Wi
      */
     public function map($school): array
     {
-        $subscription = $school->subscription;
+        $subscription = $school->schoolSubscription;
 
         return [
             $school->name,

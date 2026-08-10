@@ -46,6 +46,11 @@ trait SubscriptionRules
                 'min:'.Subscription::TRIAL_DAYS_MIN,
                 'max:'.Subscription::TRIAL_DAYS_MAX,
             ],
+            'billing_interval' => [
+                'nullable',
+                'string',
+                Rule::in(['monthly', 'annual']),
+            ],
         ];
     }
 

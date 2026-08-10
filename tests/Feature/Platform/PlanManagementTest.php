@@ -115,9 +115,9 @@ test('archiving a plan keeps the subscriptions priced against it', function () {
         ->assertRedirect(route('platform.subscriptions.index'));
 
     expect($plan->refresh()->trashed())->toBeTrue()
-        ->and($school->refresh()->subscription)->not->toBeNull()
+        ->and($school->refresh()->schoolSubscription)->not->toBeNull()
         // The agreement still resolves its plan, archived or not.
-        ->and($school->subscription->plan->id)->toBe($plan->id);
+        ->and($school->schoolSubscription->plan->id)->toBe($plan->id);
 });
 
 test('an archived plan can be restored to the catalog', function () {

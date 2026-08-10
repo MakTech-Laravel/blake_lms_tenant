@@ -259,9 +259,17 @@ export interface SubscriptionTrackingRow {
     status: string;
     /** Enum value, e.g. "expired". */
     status_value: string;
+    billing_interval: string;
+    billing_interval_label: string;
+    stripe_status: string | null;
     renewal_label: string;
     trial_label: string;
     show_url: string;
+    checkout_url: string;
+    cancel_url: string;
+    resume_url: string;
+    on_stripe: boolean;
+    on_grace_period: boolean;
 }
 
 /** One count per derived subscription status, keyed by enum value. */

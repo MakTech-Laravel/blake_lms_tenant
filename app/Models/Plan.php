@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BillingInterval;
 use App\Enums\PlanPricing;
 use Database\Factories\PlanFactory;
 use Illuminate\Database\Eloquent\Builder;
@@ -40,6 +41,9 @@ use Illuminate\Support\Str;
  * @property int $trial_days
  * @property int $sort_order
  * @property bool $is_active
+ * @property string|null $stripe_product_id
+ * @property string|null $stripe_monthly_price_id
+ * @property string|null $stripe_annual_price_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon|null $deleted_at
@@ -65,6 +69,9 @@ class Plan extends Model
         'trial_days',
         'sort_order',
         'is_active',
+        'stripe_product_id',
+        'stripe_monthly_price_id',
+        'stripe_annual_price_id',
     ];
 
     /**
@@ -86,6 +93,17 @@ class Plan extends Model
     }
 
     // ── Behaviour ─────────────────────────────────────────────────────────────
+
+    /**
+     * The Stripe Price id for a fixed plan at the given billing interval.
+     */
+    public function stripePriceIdFor(BillingInterval $interval): ?string
+    {
+        return match ($interval) {
+            BillingInterval::Monthly => $this->stripe_monthly_price_id,
+            BillingInterval::Annual => $this->stripe_annual_price_id,
+        };
+    }
 
     /**
      * Whether the rate is negotiated per organization rather than fixed here.

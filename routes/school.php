@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\PermissionEnum;
+use App\Http\Controllers\School\BillingController;
 use App\Http\Controllers\School\BranchController;
 use App\Http\Controllers\School\CertificateController;
 use App\Http\Controllers\School\CourseController;
@@ -125,7 +126,23 @@ Route::middleware(['auth', 'verified', 'tenant', 'type:school'])
             Route::get('certificates/{certificate}/download', 'download')->name('certificates.download')
                 ->middleware('permission:'.PermissionEnum::SCHOOL_CERTIFICATES_DOWNLOAD->value);
         });
-        Route::get('billing', fn () => Inertia::render('school/billing/index'))
+        Route::controller(BillingController::class)->group(function () {
+            Route::get('billing', 'index')->name('billing.index')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_BILLING_VIEW->value);
+            Route::post('billing/checkout', 'checkout')->name('billing.checkout')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_BILLING_MANAGE->value);
+            Route::get('billing/portal', 'portal')->name('billing.portal')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_BILLING_MANAGE->value);
+            Route::patch('billing/cancel', 'cancel')->name('billing.cancel')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_BILLING_MANAGE->value);
+            Route::patch('billing/resume', 'resume')->name('billing.resume')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_BILLING_MANAGE->value);
+            Route::get('billing/invoices/{invoice}/download', 'downloadInvoice')->name('billing.invoices.download')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_BILLING_INVOICE_DOWNLOAD->value);
+            Route::get('billing/export', 'export')->name('billing.export')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_BILLING_EXPORT->value);
+        });
+        Route::get('billing-ui', fn () => redirect()->route('school.billing.index', request()->route('school')))
             ->name('billing.ui')
             ->middleware('permission:'.PermissionEnum::SCHOOL_BILLING_VIEW->value);
         Route::get('reports', fn () => Inertia::render('school/reports/index'))

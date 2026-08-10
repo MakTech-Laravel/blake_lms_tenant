@@ -27,6 +27,7 @@ class SubscriptionFactory extends Factory
             'trial_ends_at' => null,
             'renews_at' => fake()->dateTimeBetween('+1 month', '+1 year'),
             'canceled_at' => null,
+            'billing_interval' => 'monthly',
         ];
     }
 

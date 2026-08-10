@@ -118,7 +118,13 @@ Route::middleware(['auth', 'verified', 'type:platform'])
                 ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_INDEX->value);
             Route::get('subscriptions/export', 'export')->name('subscriptions.export')
                 ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_EXPORT->value);
-            Route::patch('subscriptions/{subscription}/renew', 'renew')->name('subscriptions.renew')
+            Route::post('subscriptions/{subscription}/checkout', 'checkout')->name('subscriptions.checkout')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_EDIT->value);
+            Route::patch('subscriptions/{subscription}/cancel', 'cancel')->name('subscriptions.cancel')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_EDIT->value);
+            Route::patch('subscriptions/{subscription}/resume', 'resume')->name('subscriptions.resume')
+                ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_EDIT->value);
+            Route::post('subscriptions/{subscription}/refund', 'refund')->name('subscriptions.refund')
                 ->middleware('permission:'.PermissionEnum::PLATFORM_SUBSCRIPTIONS_EDIT->value);
         });
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Platform;
 
+use App\Enums\BillingInterval;
 use App\Enums\SchoolStatus;
 use App\Enums\UserStatus;
 use App\Enums\UserType;
@@ -106,7 +107,7 @@ class OrganizationController extends Controller
     public function show(School $organization): Response
     {
         $organization->load([
-            'subscription.plan',
+            'schoolSubscription.plan',
         ]);
 
         $organization->loadCount([
@@ -147,7 +148,7 @@ class OrganizationController extends Controller
 
     public function edit(School $organization): Response
     {
-        $organization->load('subscription');
+        $organization->load('schoolSubscription');
 
         return Inertia::render('platform/organizations/edit', [
             'organization' => [
@@ -159,9 +160,9 @@ class OrganizationController extends Controller
                 'address' => $organization->address,
                 'region' => $organization->region,
                 'status' => $organization->status->value,
-                'plan_id' => $organization->subscription?->plan_id,
-                'monthly_price' => $organization->subscription?->monthly_price,
-                'trial_days' => $organization->subscription?->trial_days ?? 0,
+                'plan_id' => $organization->schoolSubscription?->plan_id,
+                'monthly_price' => $organization->schoolSubscription?->monthly_price,
+                'trial_days' => $organization->schoolSubscription?->trial_days ?? 0,
             ],
             'planOptions' => $this->planOptions(),
             'regionOptions' => $this->regionOptions(),
@@ -258,16 +259,16 @@ class OrganizationController extends Controller
     {
         return School::query()
             ->select('schools.*')
-            ->leftJoin('subscriptions', 'subscriptions.school_id', '=', 'schools.id')
-            ->leftJoin('plans', 'plans.id', '=', 'subscriptions.plan_id')
+            ->leftJoin('school_subscriptions', 'school_subscriptions.school_id', '=', 'schools.id')
+            ->leftJoin('plans', 'plans.id', '=', 'school_subscriptions.plan_id')
             ->addSelect([
                 'plans.name as plan_name',
                 'plans.slug as plan_slug',
-                'subscriptions.monthly_price as subscription_price',
-                'subscriptions.renews_at as renews_at',
-                'subscriptions.trial_ends_at as trial_ends_at',
+                'school_subscriptions.monthly_price as subscription_price',
+                'school_subscriptions.renews_at as renews_at',
+                'school_subscriptions.trial_ends_at as trial_ends_at',
             ])
-            ->with('subscription.plan')
+            ->with('schoolSubscription.plan')
             ->withCount([
                 'branches as locations_count',
                 'users as staff_count',
@@ -296,16 +297,16 @@ class OrganizationController extends Controller
             )
             ->when(
                 $filters['renewal'] === '30',
-                fn (Builder $query) => $query->whereBetween('subscriptions.renews_at', [now(), now()->addDays(30)]),
+                fn (Builder $query) => $query->whereBetween('school_subscriptions.renews_at', [now(), now()->addDays(30)]),
             )
             ->when(
                 $filters['renewal'] === '90',
-                fn (Builder $query) => $query->whereBetween('subscriptions.renews_at', [now(), now()->addDays(90)]),
+                fn (Builder $query) => $query->whereBetween('school_subscriptions.renews_at', [now(), now()->addDays(90)]),
             )
             ->when(
                 $filters['renewal'] === 'overdue',
-                fn (Builder $query) => $query->whereNotNull('subscriptions.renews_at')
-                    ->where('subscriptions.renews_at', '<', now()),
+                fn (Builder $query) => $query->whereNotNull('school_subscriptions.renews_at')
+                    ->where('school_subscriptions.renews_at', '<', now()),
             )
             ->orderBy(self::SORTABLE[$filters['sort']], $filters['direction'])
             ->orderBy('schools.id');
@@ -375,7 +376,7 @@ class OrganizationController extends Controller
      */
     private function mapOrganization(School $school): array
     {
-        $subscription = $school->subscription;
+        $subscription = $school->schoolSubscription;
 
         return [
             'id' => $school->id,
@@ -456,7 +457,7 @@ class OrganizationController extends Controller
      */
     private function subscriptionSummary(School $school): ?array
     {
-        $subscription = $school->subscription;
+        $subscription = $school->schoolSubscription;
 
         if ($subscription === null) {
             return null;
@@ -555,7 +556,7 @@ class OrganizationController extends Controller
         $planId = $data['plan_id'] ?? null;
 
         if ($planId === null) {
-            $organization->subscription()->delete();
+            $organization->schoolSubscription()->delete();
 
             return;
         }
@@ -566,13 +567,15 @@ class OrganizationController extends Controller
             return;
         }
 
-        $existing = $organization->subscription;
+        $existing = $organization->schoolSubscription;
 
-        $organization->subscription()->updateOrCreate(
+        $organization->schoolSubscription()->updateOrCreate(
             ['school_id' => $organization->id],
             [
                 'plan_id' => $plan->id,
                 'monthly_price' => $plan->rateFor($data['monthly_price'] ?? null),
+                'billing_interval' => BillingInterval::tryFrom((string) ($data['billing_interval'] ?? ''))
+                    ?? BillingInterval::Monthly,
                 ...Subscription::scheduleFromTrialDays(
                     (int) ($data['trial_days'] ?? $plan->trial_days),
                     $existing?->created_at,

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('subscriptions', function (Blueprint $table) {
+        Schema::create('school_subscriptions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('school_id')->unique()->constrained()->cascadeOnDelete();
             $table->foreignId('plan_id')->constrained()->restrictOnDelete();
@@ -31,6 +31,11 @@ return new class extends Migration
             $table->timestamp('renews_at')->nullable()->index();
 
             $table->timestamp('canceled_at')->nullable();
+
+            $table->string('billing_interval')->default('monthly');
+            $table->string('stripe_price_id')->nullable();
+            $table->string('stripe_status')->nullable();
+
             $table->timestamps();
         });
     }
@@ -40,6 +45,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('subscriptions');
+        Schema::dropIfExists('school_subscriptions');
     }
 };

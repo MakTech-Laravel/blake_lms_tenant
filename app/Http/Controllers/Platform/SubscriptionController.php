@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers\Platform;
 
+use App\Enums\BillingInterval;
 use App\Enums\SubscriptionStatus;
 use App\Exports\SubscriptionsExport;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Billing\PlatformRefundRequest;
 use App\Models\Plan;
+use App\Models\School;
 use App\Models\Subscription;
+use App\Support\Billing\SubscriptionCheckout;
+use App\Support\Billing\SyncSchoolSubscriptionFromStripe;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Laravel\Cashier\Subscription as CashierSubscription;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -20,7 +26,7 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
  * agreements sold against it, presented as two tabs of one page.
  *
  * Writing to a plan lives on PlanController; this controller owns the read side
- * of both tabs plus the renewal action.
+ * of both tabs plus billing actions for commercial subscriptions.
  */
 class SubscriptionController extends Controller
 {
@@ -34,12 +40,17 @@ class SubscriptionController extends Controller
     private const SORTABLE = [
         'organization' => 'schools.name',
         'plan' => 'plans.name',
-        'mrr' => 'subscriptions.monthly_price',
-        'renewal' => 'subscriptions.renews_at',
+        'mrr' => 'school_subscriptions.monthly_price',
+        'renewal' => 'school_subscriptions.renews_at',
         'status' => 'schools.status',
     ];
 
     private const TABS = ['plans', 'tracking'];
+
+    public function __construct(
+        private readonly SubscriptionCheckout $subscriptionCheckout,
+        private readonly SyncSchoolSubscriptionFromStripe $syncSchoolSubscriptionFromStripe,
+    ) {}
 
     public function index(Request $request): Response
     {
@@ -90,18 +101,76 @@ class SubscriptionController extends Controller
     }
 
     /**
-     * Move the next renewal forward a month, bringing an expired subscription
-     * current again.
+     * Send the organization to Stripe Checkout to start or renew billing.
      */
-    public function renew(Subscription $subscription): RedirectResponse
+    public function checkout(Subscription $subscription): RedirectResponse
     {
-        $subscription->renew();
-        $subscription->load('school');
+        $subscription->loadMissing(['school', 'plan']);
+
+        abort_if($subscription->school === null, 404);
+
+        $interval = $subscription->billing_interval ?? BillingInterval::Monthly;
+
+        return $this->subscriptionCheckout->redirect(
+            $subscription->school,
+            $subscription,
+            $interval,
+            route('platform.subscriptions.index', ['tab' => 'tracking']).'?checkout=success',
+            route('platform.subscriptions.index', ['tab' => 'tracking']).'?checkout=cancel',
+        );
+    }
+
+    public function cancel(Subscription $subscription): RedirectResponse
+    {
+        $subscription->loadMissing('school');
+
+        abort_if($subscription->school === null, 404);
+
+        $this->cashierSubscription($subscription->school)?->cancel();
+        $this->syncSchoolSubscriptionFromStripe->sync($subscription->school);
 
         Inertia::flash('toast', [
             'type' => 'success',
-            'message' => ($subscription->school?->name ?? 'The subscription')
-                .' now renews on '.$subscription->renews_at->format('M j, Y').'.',
+            'message' => ($subscription->school->name ?? 'The subscription').' cancellation scheduled.',
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function resume(Subscription $subscription): RedirectResponse
+    {
+        $subscription->loadMissing('school');
+
+        abort_if($subscription->school === null, 404);
+
+        $this->cashierSubscription($subscription->school)?->resume();
+        $this->syncSchoolSubscriptionFromStripe->sync($subscription->school);
+
+        Inertia::flash('toast', [
+            'type' => 'success',
+            'message' => ($subscription->school->name ?? 'The subscription').' resumed.',
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function refund(PlatformRefundRequest $request, Subscription $subscription): RedirectResponse
+    {
+        $subscription->loadMissing('school');
+
+        abort_if($subscription->school === null, 404);
+
+        $options = [];
+
+        if ($request->filled('amount')) {
+            $options['amount'] = (int) $request->validated('amount');
+        }
+
+        $subscription->school->refund($request->validated('payment_intent'), $options);
+
+        Inertia::flash('toast', [
+            'type' => 'success',
+            'message' => 'Refund submitted for '.($subscription->school->name ?? 'the organization').'.',
         ]);
 
         return redirect()->back();
@@ -188,11 +257,11 @@ class SubscriptionController extends Controller
     private function trackingQuery(array $filters): Builder
     {
         return Subscription::query()
-            ->select('subscriptions.*')
-            ->join('schools', 'schools.id', '=', 'subscriptions.school_id')
+            ->select('school_subscriptions.*')
+            ->join('schools', 'schools.id', '=', 'school_subscriptions.school_id')
             // Archived plans are still referenced by live agreements, so the
             // join must not filter them out.
-            ->join('plans', 'plans.id', '=', 'subscriptions.plan_id')
+            ->join('plans', 'plans.id', '=', 'school_subscriptions.plan_id')
             ->with(['school:id,name,slug,status,region', 'plan'])
             ->when(
                 $filters['search'] !== '',
@@ -213,7 +282,7 @@ class SubscriptionController extends Controller
                 fn (Builder $query) => SubscriptionStatus::from($filters['status'])->constrain($query),
             )
             ->orderBy(self::SORTABLE[$filters['sort']], $filters['direction'])
-            ->orderBy('subscriptions.id');
+            ->orderBy('school_subscriptions.id');
     }
 
     /**
@@ -230,7 +299,7 @@ class SubscriptionController extends Controller
         foreach (SubscriptionStatus::cases() as $status) {
             $stats[$status->value] = $status
                 ->constrain(
-                    Subscription::query()->join('schools', 'schools.id', '=', 'subscriptions.school_id'),
+                    Subscription::query()->join('schools', 'schools.id', '=', 'school_subscriptions.school_id'),
                 )
                 ->count();
         }
@@ -274,9 +343,27 @@ class SubscriptionController extends Controller
                 : '$0',
             'status' => $status->label(),
             'status_value' => $status->value,
+            'billing_interval' => $subscription->billing_interval->value,
+            'billing_interval_label' => $subscription->billing_interval->label(),
+            'stripe_status' => $subscription->stripe_status,
             'renewal_label' => $subscription->renews_at?->format('Y-m-d') ?? '—',
             'trial_label' => $subscription->trial_days > 0 ? $subscription->trial_days.' days' : 'No trial',
             'show_url' => $school !== null ? route('platform.organizations.show', $school) : '',
+            'checkout_url' => route('platform.subscriptions.checkout', $subscription),
+            'cancel_url' => route('platform.subscriptions.cancel', $subscription),
+            'resume_url' => route('platform.subscriptions.resume', $subscription),
+            // Derived from the agreement's mirrored Stripe fields so the list
+            // does not N+1 into Cashier's subscriptions table.
+            'on_stripe' => filled($subscription->stripe_status)
+                && $subscription->stripe_status !== 'incomplete',
+            'on_grace_period' => $subscription->canceled_at !== null
+                && $subscription->renews_at !== null
+                && $subscription->renews_at->isFuture(),
         ];
+    }
+
+    private function cashierSubscription(School $school): ?CashierSubscription
+    {
+        return $school->subscription(SubscriptionCheckout::SUBSCRIPTION_NAME);
     }
 }

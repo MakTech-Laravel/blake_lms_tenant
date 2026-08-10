@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
+use Laravel\Cashier\Billable;
 
 /**
  * School
@@ -25,13 +26,17 @@ use Illuminate\Support\Carbon;
  * @property string|null $address
  * @property string|null $region
  * @property SchoolStatus $status
+ * @property string|null $stripe_id
+ * @property string|null $pm_type
+ * @property string|null $pm_last_four
+ * @property Carbon|null $trial_ends_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
 class School extends Model
 {
     /** @use HasFactory<SchoolFactory> */
-    use HasFactory;
+    use Billable, HasFactory;
 
     protected $fillable = [
         'name',
@@ -49,6 +54,22 @@ class School extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /**
+     * Get the customer name that should be synced to Stripe.
+     */
+    public function stripeName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * Get the customer email that should be synced to Stripe.
+     */
+    public function stripeEmail(): ?string
+    {
+        return $this->email;
     }
 
     // ── Relationships ─────────────────────────────────────────────────────────
@@ -83,7 +104,7 @@ class School extends Model
     /**
      * The commercial agreement for this organization. At most one.
      */
-    public function subscription(): HasOne
+    public function schoolSubscription(): HasOne
     {
         return $this->hasOne(Subscription::class);
     }
@@ -97,6 +118,7 @@ class School extends Model
     {
         return [
             'status' => SchoolStatus::class,
+            'trial_ends_at' => 'datetime',
         ];
     }
 }

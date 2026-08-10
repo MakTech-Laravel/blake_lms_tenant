@@ -6,6 +6,7 @@ use App\Enums\PlanPricing;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Plan\StorePlanRequest;
 use App\Http\Requests\Plan\UpdatePlanRequest;
+use App\Jobs\SyncPlanToStripe;
 use App\Models\Plan;
 use App\Models\Subscription;
 use Illuminate\Http\RedirectResponse;
@@ -37,6 +38,7 @@ class PlanController extends Controller
         $plan = Plan::create($this->attributes($request->validated()));
 
         $this->keepOnePopularPlan($plan);
+        SyncPlanToStripe::dispatch($plan->id);
 
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Plan created successfully.']);
 
@@ -75,6 +77,7 @@ class PlanController extends Controller
         $plan->update($this->attributes($request->validated()));
 
         $this->keepOnePopularPlan($plan);
+        SyncPlanToStripe::dispatch($plan->id);
 
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Plan updated successfully.']);
 
@@ -113,6 +116,7 @@ class PlanController extends Controller
         $subscribers = $plan->subscriptions()->count();
 
         $plan->delete();
+        SyncPlanToStripe::dispatch($plan->id);
 
         Inertia::flash('toast', [
             'type' => 'success',
@@ -131,6 +135,7 @@ class PlanController extends Controller
     public function restore(Plan $plan): RedirectResponse
     {
         $plan->restore();
+        SyncPlanToStripe::dispatch($plan->id);
 
         Inertia::flash('toast', ['type' => 'success', 'message' => $plan->name.' restored to the catalog.']);
 

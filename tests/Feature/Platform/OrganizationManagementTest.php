@@ -63,7 +63,7 @@ test('an organization is created with a fixed-price subscription at the plan rat
         ->assertRedirect();
 
     $organization = School::query()->where('slug', 'blue-lagoon-swim')->sole();
-    $subscription = $organization->subscription;
+    $subscription = $organization->schoolSubscription;
 
     expect($organization->region)->toBe('APAC')
         ->and($organization->status)->toBe(SchoolStatus::Active)
@@ -91,7 +91,7 @@ test('a custom-priced plan requires the negotiated rate', function () {
         ]))
         ->assertRedirect();
 
-    $subscription = School::query()->where('slug', 'blue-lagoon-swim')->sole()->subscription;
+    $subscription = School::query()->where('slug', 'blue-lagoon-swim')->sole()->schoolSubscription;
 
     expect((float) $subscription->monthly_price)->toBe(1990.00)
         ->and($subscription->plan->pricing_type)->toBe(PlanPricing::Custom);
@@ -119,7 +119,7 @@ test('clearing the plan removes the subscription', function () {
         ]))
         ->assertRedirect();
 
-    expect($organization->refresh()->subscription)->toBeNull();
+    expect($organization->refresh()->schoolSubscription)->toBeNull();
 });
 
 test('the slug must be unique across organizations', function () {
