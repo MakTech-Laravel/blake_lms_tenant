@@ -41,9 +41,14 @@ class HandleInertiaRequests extends Middleware
         // Roles/permissions are resolved in the active team context (set by
         // ResolveTenant on school routes, NULL on platform/teacher routes), so
         // these reflect the current dashboard the user is viewing.
-        $user?->load('roles', 'permissions');
+        $user?->load(['roles', 'permissions', 'school', 'branch']);
 
-        $school = $request->attributes->get('school');
+        // Prefer the school ResolveTenant pinned on the request. Shared pages
+        // such as the personal inbox sit outside `/school/{school}`, so fall
+        // back to the account's own school for school staff — otherwise their
+        // AquaCert school shell has no tenant to render the sidebar from.
+        $school = $request->attributes->get('school')
+            ?? ($user?->isSchoolStaff() ? $user->school : null);
 
         return [
             ...parent::share($request),
@@ -56,16 +61,14 @@ class HandleInertiaRequests extends Middleware
                     'is_super_admin' => $user->hasRole(RoleEnum::SUPER_ADMIN->value),
                 ]) : null,
             ],
-            // The current tenant, or null outside the school dashboard.
+            // The current tenant, or null outside a school context.
             'school' => $school ? [
                 'id' => $school->id,
                 'name' => $school->name,
                 'slug' => $school->slug,
             ] : null,
-            // The branch data-scoping context. Null outside the school
-            // dashboard. `pinned` is null for head-office staff, who see every
-            // branch; the relation is already loaded by ResolveTenant, which
-            // validated it, so this costs no extra query.
+            // The branch data-scoping context. Null outside a school context.
+            // `pinned` is null for head-office staff, who see every branch.
             'branch' => $school && $user ? [
                 'isHeadOffice' => $user->isHeadOffice(),
                 'pinned' => $user->branch ? [

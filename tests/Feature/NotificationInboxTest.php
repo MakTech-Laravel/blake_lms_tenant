@@ -31,6 +31,32 @@ function deliverTo(Notification $notification, array $recipients): Notification
     return $notification;
 }
 
+test('the inbox wraps itself in the account\'s home portal shell', function () {
+    // The personal inbox is a shared route, outside every portal prefix. The
+    // frontend picks Platform / School / Teacher chrome from this prop so
+    // "View all notifications" never drops into the starter-kit layout.
+    $this->actingAs(platformSuperAdmin())
+        ->get(route('notifications.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page->where('shell', 'platform'));
+
+    $school = School::factory()->create();
+    $staff = schoolSuperAdmin($school);
+
+    $this->actingAs($staff)
+        ->get(route('notifications.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->where('shell', 'school')
+            ->where('school.slug', $school->slug)
+        );
+
+    $this->actingAs(User::factory()->teacher()->create())
+        ->get(route('notifications.index'))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page->where('shell', 'teacher'));
+});
+
 test('the inbox shows the notifications a user holds and nobody else', function () {
     $user = User::factory()->create();
     $other = User::factory()->create();

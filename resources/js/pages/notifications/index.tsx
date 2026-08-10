@@ -28,6 +28,8 @@ interface InboxProps {
     notifications: Paginated<InboxNotification>;
     filters: { tab: string; search: string };
     stats: { total: number; unread: number; archived: number };
+    /** Which AquaCert shell wraps this page — set by the account's home portal. */
+    shell: 'platform' | 'school' | 'teacher';
 }
 
 const TABS = [
@@ -69,11 +71,11 @@ export default function NotificationsInbox({
 
     return (
         <div className="flex flex-1 flex-col gap-6 p-4 md:p-6">
-            <Head title="Notifications" />
+            <Head title="My notifications" />
 
             <AquaPageHeader
-                title="Notifications"
-                subtitle="Everything sent your way"
+                title="My notifications"
+                subtitle="Announcements and updates sent to you"
                 actions={
                     stats.unread > 0 ? (
                         <Button
@@ -195,6 +197,15 @@ export default function NotificationsInbox({
         </div>
     );
 }
+
+NotificationsInbox.layout = {
+    breadcrumbs: [
+        {
+            title: 'My notifications',
+            href: inboxIndex(),
+        },
+    ],
+};
 
 function InboxRow({ notification }: { notification: InboxNotification }) {
     const [working, setWorking] = useState(false);
