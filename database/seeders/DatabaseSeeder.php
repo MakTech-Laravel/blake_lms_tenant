@@ -18,11 +18,13 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RoleSeeder::class,      // global platform roles
             UserSeeder::class,      // platform staff
-            SchoolSeeder::class,    // schools + team-scoped roles + school staff
+            PlanSeeder::class,      // subscription tiers, needed by SchoolSeeder
+            SchoolSeeder::class,    // schools + subscriptions + team-scoped roles + school staff
             BranchSeeder::class,    // branches + branch-pinned managers
             CourseSeeder::class,    // courses per school, pinned to branches
             CertificateTemplateSeeder::class,
             TeacherSeeder::class,   // teachers + enrollments + certificates
+            NotificationSeeder::class, // platform announcements, fanned out to the users above
         ]);
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
     }

@@ -5,6 +5,7 @@ use App\Http\Middleware\EnsureUserType;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\ResolveTenant;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -23,6 +24,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(at: '*');
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
+        $middleware->validateCsrfTokens(except: [
+            'stripe/*',
+        ]);
 
         $middleware->web(append: [
             HandleAppearance::class,
@@ -46,6 +50,14 @@ return Application::configure(basePath: dirname(__DIR__))
             before: SubstituteBindings::class,
             prepend: ResolveTenant::class,
         );
+    })
+    ->withSchedule(function (Schedule $schedule): void {
+        // Scheduled announcements are only as punctual as this is, so production
+        // needs `php artisan schedule:run` on cron. withoutOverlapping keeps a
+        // slow fan-out from stacking runs on top of each other.
+        $schedule->command('notifications:dispatch-scheduled')
+            ->everyMinute()
+            ->withoutOverlapping();
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

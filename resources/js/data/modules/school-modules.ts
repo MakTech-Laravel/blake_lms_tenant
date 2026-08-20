@@ -431,54 +431,6 @@ export const schoolCertificates = {
 export const schoolBilling = {
     title: 'Subscription & Billing',
     subtitle: 'Plan details and invoices',
-    columns: [
-        { key: 'invoice', label: 'Invoice' },
-        { key: 'period', label: 'Period' },
-        { key: 'amount', label: 'Amount' },
-        { key: 'method', label: 'Method' },
-        { key: 'status', label: 'Status' },
-    ],
-    rows: [
-        {
-            id: '1',
-            invoice: 'INV-10482',
-            period: 'Mar 2026',
-            amount: '$890.00',
-            method: 'Card',
-            status: 'Paid',
-        },
-        {
-            id: '2',
-            invoice: 'INV-10391',
-            period: 'Feb 2026',
-            amount: '$890.00',
-            method: 'Card',
-            status: 'Paid',
-        },
-        {
-            id: '3',
-            invoice: 'INV-10288',
-            period: 'Jan 2026',
-            amount: '$890.00',
-            method: 'Card',
-            status: 'Paid',
-        },
-        {
-            id: '4',
-            invoice: 'INV-10510',
-            period: 'Apr 2026',
-            amount: '$890.00',
-            method: 'Card',
-            status: 'Upcoming',
-        },
-    ] satisfies ModuleRow[],
-    plan: {
-        name: 'LMS + Training Content',
-        seats: 250,
-        used: 248,
-        renewal: '2026-11-01',
-        mrr: '$890',
-    },
 };
 
 export const schoolReports = {
@@ -511,44 +463,6 @@ export const schoolReports = {
             category: 'Learning',
             lastRun: 'Mar 18',
             status: 'Scheduled',
-        },
-    ] satisfies ModuleRow[],
-};
-
-export const schoolNotifications = {
-    title: 'Notifications',
-    subtitle: 'School alerts and announcements',
-    columns: [
-        { key: 'title', label: 'Notification' },
-        { key: 'audience', label: 'Audience' },
-        { key: 'channel', label: 'Channel' },
-        { key: 'sent', label: 'Sent' },
-        { key: 'status', label: 'Status' },
-    ],
-    rows: [
-        {
-            id: '1',
-            title: 'March training deadline',
-            audience: 'All staff',
-            channel: 'Email',
-            sent: '2026-03-01',
-            status: 'Sent',
-        },
-        {
-            id: '2',
-            title: 'New pathway published',
-            audience: 'Managers',
-            channel: 'In-app',
-            sent: '2026-03-12',
-            status: 'Sent',
-        },
-        {
-            id: '3',
-            title: 'Eastgate opening briefing',
-            audience: 'Eastgate staff',
-            channel: 'Email',
-            sent: '—',
-            status: 'Draft',
         },
     ] satisfies ModuleRow[],
 };

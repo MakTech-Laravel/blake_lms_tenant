@@ -75,6 +75,7 @@ export function AddUserDialog({
 }: AddUserDialogProps) {
     const [step, setStep] = useState<'type' | 'form'>('type');
     const [audience, setAudience] = useState<PeopleAudience | null>(null);
+    const [wasOpen, setWasOpen] = useState(open);
 
     const platformRoleOptions = useMemo(
         () =>
@@ -102,27 +103,6 @@ export function AddUserDialog({
         [schoolRoles, form.data.school_id],
     );
 
-    useEffect(() => {
-        if (!open) {
-            setStep('type');
-            setAudience(null);
-            form.reset();
-            form.clearErrors();
-
-            return;
-        }
-
-        if (initialAudience) {
-            setAudience(initialAudience);
-            setStep('form');
-            seedRolesForAudience(initialAudience);
-        } else {
-            setStep('type');
-            setAudience(null);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps -- reset only when dialog opens
-    }, [open]);
-
     const seedRolesForAudience = (next: PeopleAudience) => {
         if (next === 'platform') {
             const first = platformRoleOptions[0]?.name;
@@ -148,6 +128,36 @@ export function AddUserDialog({
         }
     };
 
+    // Which step the dialog opens on is a function of how it was opened: from a
+    // scoped list ("Add teacher") the audience is already decided, so the type
+    // picker would be a pointless extra click. Adjusted during render rather than
+    // in an effect so the first paint already shows the right step.
+    if (wasOpen !== open) {
+        setWasOpen(open);
+
+        if (open && initialAudience) {
+            setAudience(initialAudience);
+            setStep('form');
+        } else {
+            setAudience(null);
+            setStep('type');
+        }
+    }
+
+    useEffect(() => {
+        if (!open) {
+            form.reset();
+            form.clearErrors();
+
+            return;
+        }
+
+        if (initialAudience) {
+            seedRolesForAudience(initialAudience);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps -- seed only when the dialog opens
+    }, [open]);
+
     const selectType = (next: PeopleAudience) => {
         setAudience(next);
         seedRolesForAudience(next);
@@ -163,52 +173,39 @@ export function AddUserDialog({
 
         const storeUrl = storeUrlForAudience(audience);
 
+        // Each audience posts to a different endpoint with its own shape, so the
+        // payload is narrowed before submitting rather than sending every field
+        // and letting validation reject the ones that do not apply.
         if (audience === 'teacher') {
-            form
-                .transform((data) => ({
-                    name: data.name,
-                    email: data.email,
-                    password: data.password,
-                    school_id: Number(data.school_id),
-                    branch_id: data.branch_id ? Number(data.branch_id) : null,
-                }))
-                .post(storeUrl, {
-                    preserveScroll: true,
-                    onSuccess: () => onOpenChange(false),
-                });
-
-            return;
-        }
-
-        if (audience === 'school') {
-            form
-                .transform((data) => ({
-                    name: data.name,
-                    email: data.email,
-                    password: data.password,
-                    school_id: Number(data.school_id),
-                    branch_id: data.branch_id ? Number(data.branch_id) : null,
-                    roles: data.roles,
-                }))
-                .post(storeUrl, {
-                    preserveScroll: true,
-                    onSuccess: () => onOpenChange(false),
-                });
-
-            return;
-        }
-
-        form
-            .transform((data) => ({
+            form.transform((data) => ({
+                name: data.name,
+                email: data.email,
+                password: data.password,
+                school_id: Number(data.school_id),
+                branch_id: data.branch_id ? Number(data.branch_id) : null,
+            }));
+        } else if (audience === 'school') {
+            form.transform((data) => ({
+                name: data.name,
+                email: data.email,
+                password: data.password,
+                school_id: Number(data.school_id),
+                branch_id: data.branch_id ? Number(data.branch_id) : null,
+                roles: data.roles,
+            }));
+        } else {
+            form.transform((data) => ({
                 name: data.name,
                 email: data.email,
                 password: data.password,
                 roles: data.roles,
-            }))
-            .post(storeUrl, {
-                preserveScroll: true,
-                onSuccess: () => onOpenChange(false),
-            });
+            }));
+        }
+
+        form.post(storeUrl, {
+            preserveScroll: true,
+            onSuccess: () => onOpenChange(false),
+        });
     };
 
     const title =

@@ -3,6 +3,7 @@
 use App\Enums\PermissionEnum;
 use App\Http\Controllers\FileUploadDemoController;
 use App\Http\Controllers\IconPickerDemoController;
+use App\Http\Controllers\NotificationInboxController;
 use App\Http\Controllers\PostAttachmentController;
 use App\Http\Controllers\Teacher\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,21 @@ Route::inertia('/', 'welcome', [
 Route::middleware(['auth', 'verified'])->group(function () {
     // Universal entry point: dispatches each account type to its dashboard.
     Route::get('dashboard', DashboardController::class)->name('dashboard');
+
+    // ── Personal notification inbox (every account type) ─────────────────────
+    // Ungated on purpose: an inbox belongs to whoever is signed in, and every
+    // action is scoped to their own receipts rather than to a permission. The
+    // authoring side lives in platform.php and school.php.
+    Route::controller(NotificationInboxController::class)->group(function () {
+        Route::get('notifications', 'index')->name('notifications.index');
+        Route::get('notifications/recent', 'recent')->name('notifications.recent');
+        Route::patch('notifications/read-all', 'readAll')->name('notifications.read_all');
+        Route::patch('notifications/{notification}/read', 'read')->name('notifications.read');
+        Route::patch('notifications/{notification}/unread', 'unread')->name('notifications.unread');
+        Route::patch('notifications/{notification}/archive', 'archive')->name('notifications.archive');
+        Route::patch('notifications/{notification}/unarchive', 'unarchive')->name('notifications.unarchive');
+        Route::delete('notifications/{notification}', 'destroy')->name('notifications.destroy');
+    });
 
     // ── Demo landing page ─────────────────────────────────────────────────────
     Route::get('/file-upload-demo', [FileUploadDemoController::class, 'index'])

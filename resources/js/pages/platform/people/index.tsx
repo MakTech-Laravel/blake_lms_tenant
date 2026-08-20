@@ -45,6 +45,7 @@ export default function PlatformPeoplePage({
             indexUrl="/platform/people"
             statusUrl={(id) => `/platform/directory-users/${id}/status`}
             destroyUrl={(id) => `/platform/directory-users/${id}`}
+            showUrl={(id) => `/platform/people/${id}`}
         />
     );
 }

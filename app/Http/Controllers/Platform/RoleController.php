@@ -6,12 +6,15 @@ use App\Enums\GuardEnum;
 use App\Enums\PermissionDomain;
 use App\Enums\PermissionEnum;
 use App\Enums\RoleEnum;
+use App\Enums\UserStatus;
 use App\Exports\RolesExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Role\StoreRoleRequest;
 use App\Http\Requests\Role\UpdateRoleRequest;
+use App\Models\User;
 use App\Support\PlatformTeamResolver;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -78,6 +81,49 @@ class RoleController extends Controller
         Inertia::flash('toast', ['type' => 'success', 'message' => 'Role created successfully.']);
 
         return redirect()->route('platform.roles.index');
+    }
+
+    /**
+     * Read-only role profile: summary, permission coverage per group, and the
+     * users currently holding the role.
+     */
+    public function show(Role $role): Response
+    {
+        $this->ensurePlatformRole($role);
+
+        $role->loadCount('users');
+        $role->load('permissions:id,name,group');
+
+        $isSuperAdmin = $role->name === RoleEnum::SUPER_ADMIN->value;
+
+        $allPermissions = Permission::query()
+            ->where('domain', PermissionDomain::PLATFORM->value)
+            ->orderBy('group')
+            ->orderBy('id')
+            ->get(['id', 'name', 'group']);
+
+        $grantedNames = ($isSuperAdmin ? $allPermissions : $role->permissions)
+            ->pluck('name')
+            ->flip();
+
+        return Inertia::render('platform/roles/show', [
+            'role' => [
+                'id' => $role->id,
+                'name' => $role->name,
+                'display_name' => $this->displayName($role->name),
+                'guard_name' => $role->guard_name,
+                'is_system' => $isSuperAdmin,
+                'scope' => 'Global',
+                'users_count' => $role->users_count,
+                'granted_count' => $grantedNames->count(),
+                'total_count' => $allPermissions->count(),
+                'created_label' => $role->created_at?->format('M j, Y') ?? '—',
+                'updated_label' => $role->updated_at?->format('M j, Y') ?? '—',
+                'updated_relative' => $role->updated_at?->diffForHumans() ?? '—',
+            ],
+            'permissionGroups' => $this->permissionCoverage($allPermissions, $grantedNames),
+            'assignedUsers' => $this->assignedUsers($role),
+        ]);
     }
 
     public function edit(Role $role): Response
@@ -230,6 +276,85 @@ class RoleController extends Controller
     private function ensurePlatformRole(Role $role): void
     {
         abort_unless($role->school_id === PlatformTeamResolver::PLATFORM_TEAM_ID, 404);
+    }
+
+    /**
+     * Turn a slug-style role name into a title, e.g. "super-admin" → "Super Admin".
+     */
+    private function displayName(string $name): string
+    {
+        return ucwords(str_replace(['-', '_'], ' ', $name));
+    }
+
+    /**
+     * Every platform permission grouped by module, flagged with whether the role
+     * grants it, so the detail page can show coverage instead of only grants.
+     *
+     * @param  EloquentCollection<int, Permission>  $allPermissions
+     * @param  Collection<string, int>  $grantedNames
+     * @return array<int, array{
+     *     group: string,
+     *     total: int,
+     *     granted_count: int,
+     *     permissions: array<int, array{name: string, label: string, granted: bool}>
+     * }>
+     */
+    private function permissionCoverage(EloquentCollection $allPermissions, Collection $grantedNames): array
+    {
+        return $allPermissions
+            ->groupBy(fn (Permission $permission): string => $permission->group ?? 'Other')
+            ->map(function (mixed $items, string $group) use ($grantedNames): array {
+                $permissions = collect($items)
+                    ->map(fn (Permission $permission): array => [
+                        'name' => $permission->name,
+                        'label' => PermissionEnum::labelFor($permission->name),
+                        'granted' => $grantedNames->has($permission->name),
+                    ])
+                    ->values();
+
+                return [
+                    'group' => $group,
+                    'total' => $permissions->count(),
+                    'granted_count' => $permissions->where('granted', true)->count(),
+                    'permissions' => $permissions->all(),
+                ];
+            })
+            ->sortKeys()
+            ->values()
+            ->all();
+    }
+
+    /**
+     * Users currently holding the role, linked to their profile pages.
+     *
+     * @return array<int, array{
+     *     id: int,
+     *     name: string,
+     *     email: string,
+     *     initials: string,
+     *     avatar_url: string|null,
+     *     type_label: string,
+     *     status: string,
+     *     profile_url: string
+     * }>
+     */
+    private function assignedUsers(Role $role): array
+    {
+        return $role->users()
+            ->orderBy('name')
+            ->limit(50)
+            ->get()
+            ->map(fn (User $user): array => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'initials' => $user->initials(),
+                'avatar_url' => $user->avatarUrl(),
+                'type_label' => $user->type->label(),
+                'status' => $user->status?->label() ?? UserStatus::Active->label(),
+                'profile_url' => route('platform.people.show', $user),
+            ])
+            ->all();
     }
 
     /**

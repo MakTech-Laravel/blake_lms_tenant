@@ -13,7 +13,7 @@ export default function SchoolLayout({
             <SchoolSidebar />
             <AppContent variant="sidebar">
                 <AppSidebarHeader breadcrumbs={breadcrumbs} />
-                <div className="flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto pb-6 md:pb-8">
+                <div className="flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto bg-canvas pb-6 md:pb-8">
                     {children}
                 </div>
             </AppContent>

@@ -66,7 +66,7 @@ export default function RolesIndex({
         <>
             <Head title="Roles" />
 
-            <div className="w-full space-y-6 bg-canvas px-4 py-6 sm:px-6 lg:px-8">
+            <div className="w-full space-y-6 px-4 py-6 sm:px-6 lg:px-8">
                 <AdminPageHeader
                     title="Roles"
                     description="Define roles and the permissions they grant in your school."

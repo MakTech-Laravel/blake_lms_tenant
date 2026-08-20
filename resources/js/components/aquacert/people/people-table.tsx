@@ -1,17 +1,11 @@
-import { router } from '@inertiajs/react';
-import {
-    Ban,
-    Eye,
-    MoreVertical,
-    Pencil,
-    Trash2,
-} from 'lucide-react';
+import { Link, router } from '@inertiajs/react';
+import { Ban, Eye, MoreVertical, Pencil, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import { StatusBadge } from '@/components/aquacert/status-badge';
 import type {
     DirectoryPerson,
     PeopleTypeFilter,
 } from '@/components/aquacert/people/types';
+import { StatusBadge } from '@/components/aquacert/status-badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -38,7 +32,7 @@ type PeopleTableProps = {
     typeFilter: PeopleTypeFilter;
     statusUrl: (id: number) => string;
     destroyUrl: (id: number) => string;
-    onView: (person: DirectoryPerson) => void;
+    showUrl: (id: number) => string;
     onEdit: (person: DirectoryPerson) => void;
 };
 
@@ -47,13 +41,12 @@ export function PeopleTable({
     typeFilter,
     statusUrl,
     destroyUrl,
-    onView,
+    showUrl,
     onEdit,
 }: PeopleTableProps) {
     const { can } = usePermission();
     const [selected, setSelected] = useState<number[]>([]);
-    const showOrganization =
-        typeFilter === 'all' || typeFilter === 'school';
+    const showOrganization = typeFilter === 'all' || typeFilter === 'school';
     const showType = typeFilter === 'all';
     const showRole = typeFilter !== 'all';
 
@@ -63,7 +56,9 @@ export function PeopleTable({
 
     const toggleOne = (id: number, checked: boolean) => {
         setSelected((current) =>
-            checked ? [...current, id] : current.filter((value) => value !== id),
+            checked
+                ? [...current, id]
+                : current.filter((value) => value !== id),
         );
     };
 
@@ -124,10 +119,9 @@ export function PeopleTable({
                                 />
                             </TableCell>
                             <TableCell>
-                                <button
-                                    type="button"
+                                <Link
+                                    href={showUrl(person.id)}
                                     className="flex items-center gap-3 text-left"
-                                    onClick={() => onView(person)}
                                 >
                                     <Avatar className="size-9 bg-aqua-50">
                                         {person.avatar_url ? (
@@ -148,7 +142,7 @@ export function PeopleTable({
                                             {person.email}
                                         </span>
                                     </span>
-                                </button>
+                                </Link>
                             </TableCell>
                             {showOrganization && (
                                 <TableCell className="text-body-3 text-navy-500">
@@ -184,9 +178,11 @@ export function PeopleTable({
                                         </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align="end">
-                                        <DropdownMenuItem onClick={() => onView(person)}>
-                                            <Eye className="size-4" />
-                                            View
+                                        <DropdownMenuItem asChild>
+                                            <Link href={showUrl(person.id)}>
+                                                <Eye className="size-4" />
+                                                View
+                                            </Link>
                                         </DropdownMenuItem>
                                         {can(PERMISSIONS.USERS.EDIT) && (
                                             <DropdownMenuItem
@@ -201,9 +197,15 @@ export function PeopleTable({
                                                 <DropdownMenuItem
                                                     onClick={() =>
                                                         router.patch(
-                                                            statusUrl(person.id),
-                                                            { status: 'disabled' },
-                                                            { preserveScroll: true },
+                                                            statusUrl(
+                                                                person.id,
+                                                            ),
+                                                            {
+                                                                status: 'disabled',
+                                                            },
+                                                            {
+                                                                preserveScroll: true,
+                                                            },
                                                         )
                                                     }
                                                 >
@@ -216,9 +218,15 @@ export function PeopleTable({
                                                 <DropdownMenuItem
                                                     onClick={() =>
                                                         router.patch(
-                                                            statusUrl(person.id),
-                                                            { status: 'active' },
-                                                            { preserveScroll: true },
+                                                            statusUrl(
+                                                                person.id,
+                                                            ),
+                                                            {
+                                                                status: 'active',
+                                                            },
+                                                            {
+                                                                preserveScroll: true,
+                                                            },
                                                         )
                                                     }
                                                 >
@@ -228,30 +236,32 @@ export function PeopleTable({
                                             )}
                                         {can(PERMISSIONS.USERS.DELETE) &&
                                             person.can_delete && (
-                                            <>
-                                                <DropdownMenuSeparator />
-                                                <DropdownMenuItem
-                                                    className="text-red-600 focus:text-red-600"
-                                                    onClick={() => {
-                                                        if (
-                                                            confirm(
-                                                                `Delete ${person.name}?`,
-                                                            )
-                                                        ) {
-                                                            router.delete(
-                                                                destroyUrl(person.id),
-                                                                {
-                                                                    preserveScroll: true,
-                                                                },
-                                                            );
-                                                        }
-                                                    }}
-                                                >
-                                                    <Trash2 className="size-4" />
-                                                    Delete
-                                                </DropdownMenuItem>
-                                            </>
-                                        )}
+                                                <>
+                                                    <DropdownMenuSeparator />
+                                                    <DropdownMenuItem
+                                                        className="text-red-600 focus:text-red-600"
+                                                        onClick={() => {
+                                                            if (
+                                                                confirm(
+                                                                    `Delete ${person.name}?`,
+                                                                )
+                                                            ) {
+                                                                router.delete(
+                                                                    destroyUrl(
+                                                                        person.id,
+                                                                    ),
+                                                                    {
+                                                                        preserveScroll: true,
+                                                                    },
+                                                                );
+                                                            }
+                                                        }}
+                                                    >
+                                                        <Trash2 className="size-4" />
+                                                        Delete
+                                                    </DropdownMenuItem>
+                                                </>
+                                            )}
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </TableCell>

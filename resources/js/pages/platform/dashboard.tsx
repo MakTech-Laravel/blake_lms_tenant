@@ -36,7 +36,7 @@ export default function PlatformDashboard({ stats }: PlatformDashboardProps) {
         <>
             <Head title="Platform Dashboard" />
 
-            <div className="flex h-full flex-1 flex-col gap-6 bg-canvas p-4 md:p-6">
+            <div className="flex flex-1 flex-col gap-6 p-4 md:p-6">
                 <AquaPageHeader title={data.title} subtitle={data.subtitle} />
 
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8">

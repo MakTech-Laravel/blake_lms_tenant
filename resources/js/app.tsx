@@ -16,9 +16,28 @@ import TeacherLayout from '@/layouts/teacher-layout';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
+/**
+ * Shared pages (personal notification inbox, account settings) live outside
+ * every portal prefix, so they cannot be routed by path alone. The server
+ * shares `shell` from the account type so the AquaCert chrome matches the
+ * user's home portal instead of falling through to the starter-kit layout.
+ */
+function layoutForShell(shell: unknown) {
+    switch (shell) {
+        case 'school':
+            return SchoolLayout;
+        case 'teacher':
+            return TeacherLayout;
+        case 'platform':
+            return PlatformLayout;
+        default:
+            return AppLayout;
+    }
+}
+
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
-    layout: (name) => {
+    layout: (name, page) => {
         switch (true) {
             case name === 'welcome':
             case name === 'auth/login':
@@ -31,8 +50,10 @@ createInertiaApp({
                 return SchoolLayout;
             case name.startsWith('teacher/'):
                 return TeacherLayout;
+            case name === 'notifications/index':
+                return layoutForShell(page?.props?.shell);
             case name.startsWith('settings/'):
-                return [AppLayout, SettingsLayout];
+                return [layoutForShell(page?.props?.shell), SettingsLayout];
             default:
                 return AppLayout;
         }

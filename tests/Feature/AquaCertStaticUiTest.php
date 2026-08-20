@@ -17,15 +17,6 @@ test('platform dashboard renders aqua cert overview', function () {
         ->assertInertia(fn (Assert $page) => $page->component('platform/dashboard'));
 });
 
-test('platform organizations static page renders', function () {
-    $user = platformSuperAdmin();
-
-    $this->actingAs($user)
-        ->get(route('platform.organizations.index'))
-        ->assertOk()
-        ->assertInertia(fn (Assert $page) => $page->component('platform/organizations'));
-});
-
 test('platform locations static page renders', function () {
     $user = platformSuperAdmin();
 

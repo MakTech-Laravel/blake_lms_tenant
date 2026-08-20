@@ -27,16 +27,10 @@ test('the html shell never receives a dark class even with a system appearance c
         ->assertSee("classList.remove('dark')", false);
 });
 
-test('handle appearance always shares light regardless of cookie', function () {
+test('appearance settings redirect to profile because the product is light-mode only', function () {
     $user = User::factory()->create();
 
     $this->actingAs($user)
-        ->withCookie('appearance', 'dark')
         ->get(route('appearance.edit'))
-        ->assertOk()
-        ->assertInertia(fn ($page) => $page
-            // Shared via View::share for Blade; Inertia page itself does not
-            // expose appearance as a prop — assert the settings page still loads.
-            ->component('settings/appearance')
-        );
+        ->assertRedirect('/settings/profile');
 });

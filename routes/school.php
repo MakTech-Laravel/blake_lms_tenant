@@ -1,10 +1,12 @@
 <?php
 
 use App\Enums\PermissionEnum;
+use App\Http\Controllers\School\BillingController;
 use App\Http\Controllers\School\BranchController;
 use App\Http\Controllers\School\CertificateController;
 use App\Http\Controllers\School\CourseController;
 use App\Http\Controllers\School\DashboardController;
+use App\Http\Controllers\School\NotificationController;
 use App\Http\Controllers\School\RoleController;
 use App\Http\Controllers\School\UserController;
 use Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests;
@@ -124,15 +126,55 @@ Route::middleware(['auth', 'verified', 'tenant', 'type:school'])
             Route::get('certificates/{certificate}/download', 'download')->name('certificates.download')
                 ->middleware('permission:'.PermissionEnum::SCHOOL_CERTIFICATES_DOWNLOAD->value);
         });
-        Route::get('billing', fn () => Inertia::render('school/billing/index'))
+        Route::controller(BillingController::class)->group(function () {
+            Route::get('billing', 'index')->name('billing.index')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_BILLING_VIEW->value);
+            Route::post('billing/checkout', 'checkout')->name('billing.checkout')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_BILLING_MANAGE->value);
+            Route::get('billing/portal', 'portal')->name('billing.portal')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_BILLING_MANAGE->value);
+            Route::patch('billing/cancel', 'cancel')->name('billing.cancel')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_BILLING_MANAGE->value);
+            Route::patch('billing/resume', 'resume')->name('billing.resume')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_BILLING_MANAGE->value);
+            Route::get('billing/invoices/{invoice}/download', 'downloadInvoice')->name('billing.invoices.download')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_BILLING_INVOICE_DOWNLOAD->value);
+            Route::get('billing/export', 'export')->name('billing.export')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_BILLING_EXPORT->value);
+        });
+        Route::get('billing-ui', fn () => redirect()->route('school.billing.index', request()->route('school')))
             ->name('billing.ui')
             ->middleware('permission:'.PermissionEnum::SCHOOL_BILLING_VIEW->value);
         Route::get('reports', fn () => Inertia::render('school/reports/index'))
             ->name('reports.ui')
             ->middleware('permission:'.PermissionEnum::SCHOOL_REPORTS_INDEX->value);
-        Route::get('notifications', fn () => Inertia::render('school/notifications/index'))
-            ->name('notifications.ui')
-            ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_INDEX->value);
+        // ── Notifications & announcements ─────────────────────────────────────
+        // The same module as the platform's, scoped to this organization's own
+        // announcements and its own people.
+        Route::controller(NotificationController::class)->group(function () {
+            Route::get('notifications', 'index')->name('notifications.index')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_INDEX->value);
+            Route::get('notifications/export', 'export')->name('notifications.export')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_EXPORT->value);
+            Route::get('notifications/audience-options', 'audienceOptions')->name('notifications.audience_options')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_SEND->value);
+            Route::get('notifications/estimate', 'estimate')->name('notifications.estimate')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_SEND->value);
+            Route::post('notifications', 'store')->name('notifications.store')
+                ->middleware(['permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_SEND->value, HandlePrecognitiveRequests::class]);
+            Route::get('notifications/{notification}', 'show')->name('notifications.show')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_VIEW->value);
+            Route::put('notifications/{notification}', 'update')->name('notifications.update')
+                ->middleware(['permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_EDIT->value, HandlePrecognitiveRequests::class]);
+            Route::post('notifications/{notification}/send', 'send')->name('notifications.send')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_SEND->value);
+            Route::patch('notifications/{notification}/archive', 'archive')->name('notifications.archive')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_EDIT->value);
+            Route::patch('notifications/{notification}/unarchive', 'unarchive')->name('notifications.unarchive')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_EDIT->value);
+            Route::delete('notifications/{notification}', 'destroy')->name('notifications.destroy')
+                ->middleware('permission:'.PermissionEnum::SCHOOL_NOTIFICATIONS_DELETE->value);
+        });
         Route::get('settings', fn () => Inertia::render('school/settings/index'))
             ->name('settings.ui')
             ->middleware('permission:'.PermissionEnum::SCHOOL_SETTINGS_VIEW->value);

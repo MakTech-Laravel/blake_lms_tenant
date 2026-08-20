@@ -87,7 +87,7 @@ test('school billing certificates and settings pages share gating permissions', 
     $user->assignRole($role);
 
     $this->actingAs($user)
-        ->get(route('school.billing.ui', $school))
+        ->get(route('school.billing.index', $school))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
             ->component('school/billing/index')

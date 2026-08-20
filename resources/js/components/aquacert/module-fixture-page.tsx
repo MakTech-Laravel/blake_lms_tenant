@@ -82,7 +82,7 @@ export function ModuleFixturePage({
         return (
             <>
                 <Head title={title} />
-                <div className="flex h-full flex-1 flex-col gap-6 bg-canvas p-4 md:p-6">
+                <div className="flex flex-1 flex-col gap-6 p-4 md:p-6">
                     <ModuleEmptyState
                         title={`No ${title.toLowerCase()} yet`}
                         description={`Create your first entry to start managing ${title.toLowerCase()}.`}

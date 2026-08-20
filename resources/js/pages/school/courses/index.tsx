@@ -83,7 +83,7 @@ export default function CoursesIndex({
         <>
             <Head title="Courses" />
 
-            <div className="w-full space-y-6 bg-canvas px-4 py-6 sm:px-6 lg:px-8">
+            <div className="w-full space-y-6 px-4 py-6 sm:px-6 lg:px-8">
                 <AdminPageHeader
                     title="Courses"
                     description="Certification courses offered by your school."

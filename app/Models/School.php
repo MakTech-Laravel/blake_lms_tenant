@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Enums\SchoolStatus;
 use Database\Factories\SchoolFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
+use Laravel\Cashier\Billable;
 
 /**
  * School
@@ -21,14 +24,19 @@ use Illuminate\Support\Carbon;
  * @property string|null $email
  * @property string|null $phone
  * @property string|null $address
- * @property bool $is_active
+ * @property string|null $region
+ * @property SchoolStatus $status
+ * @property string|null $stripe_id
+ * @property string|null $pm_type
+ * @property string|null $pm_last_four
+ * @property Carbon|null $trial_ends_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  */
 class School extends Model
 {
     /** @use HasFactory<SchoolFactory> */
-    use HasFactory;
+    use Billable, HasFactory;
 
     protected $fillable = [
         'name',
@@ -36,7 +44,8 @@ class School extends Model
         'email',
         'phone',
         'address',
-        'is_active',
+        'region',
+        'status',
     ];
 
     /**
@@ -45,6 +54,22 @@ class School extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /**
+     * Get the customer name that should be synced to Stripe.
+     */
+    public function stripeName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * Get the customer email that should be synced to Stripe.
+     */
+    public function stripeEmail(): ?string
+    {
+        return $this->email;
     }
 
     // ── Relationships ─────────────────────────────────────────────────────────
@@ -76,6 +101,14 @@ class School extends Model
         return $this->hasMany(Branch::class);
     }
 
+    /**
+     * The commercial agreement for this organization. At most one.
+     */
+    public function schoolSubscription(): HasOne
+    {
+        return $this->hasOne(Subscription::class);
+    }
+
     // ── Casts ─────────────────────────────────────────────────────────────────
 
     /**
@@ -84,7 +117,8 @@ class School extends Model
     protected function casts(): array
     {
         return [
-            'is_active' => 'boolean',
+            'status' => SchoolStatus::class,
+            'trial_ends_at' => 'datetime',
         ];
     }
 }

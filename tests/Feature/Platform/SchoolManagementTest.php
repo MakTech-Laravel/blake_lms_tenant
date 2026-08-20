@@ -14,7 +14,7 @@ beforeEach(function () {
     $this->seed(PermissionSeeder::class);
 });
 
-test('a platform user with the schools permission can view the schools list', function () {
+test('the legacy schools path redirects to the organizations list', function () {
     School::factory()->count(3)->create();
 
     $role = Role::create(['name' => 'ops', 'guard_name' => 'web']);
@@ -25,10 +25,14 @@ test('a platform user with the schools permission can view the schools list', fu
 
     $this->actingAs($user)
         ->get(route('platform.schools.index'))
+        ->assertRedirect(route('platform.organizations.index'));
+
+    $this->actingAs($user)
+        ->get(route('platform.organizations.index'))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
-            ->component('platform/schools/index')
-            ->has('schools.data', 3)
+            ->component('platform/organizations/index')
+            ->has('organizations.data', 3)
         );
 });
 
