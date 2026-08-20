@@ -20,5 +20,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware('throttle:6,1')
         ->name('user-password.update');
 
-    Route::inertia('settings/appearance', 'settings/appearance')->name('appearance.edit');
+    // Light-mode only product — keep the named route so old bookmarks still work.
+    Route::redirect('settings/appearance', '/settings/profile')->name('appearance.edit');
 });

@@ -1,10 +1,10 @@
 import { Form } from '@inertiajs/react';
 import { useRef } from 'react';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
-import Heading from '@/components/heading';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import {
     Dialog,
     DialogClose,
@@ -20,17 +20,21 @@ export default function DeleteUser() {
     const passwordInput = useRef<HTMLInputElement>(null);
 
     return (
-        <div className="space-y-6">
-            <Heading
-                variant="small"
-                title="Delete account"
-                description="Delete your account and all of its resources"
-            />
-            <div className="space-y-4 rounded-lg border border-red-100 bg-red-50 p-4 dark:border-red-200/10 dark:bg-red-700/10">
-                <div className="relative space-y-0.5 text-red-600 dark:text-red-100">
+        <Card className="border-navy-50 bg-white p-6 shadow-sm">
+            <div className="mb-6 border-b border-navy-50 pb-5">
+                <h2 className="text-h6 font-semibold text-navy-500">
+                    Delete account
+                </h2>
+                <p className="mt-1 text-body-2 text-aqua-600">
+                    Permanently delete your account and all of its resources
+                </p>
+            </div>
+
+            <div className="space-y-4 rounded-lg border border-red-100 bg-red-50 p-4">
+                <div className="space-y-0.5 text-red-700">
                     <p className="font-medium">Warning</p>
                     <p className="text-sm">
-                        Please proceed with caution, this cannot be undone.
+                        Please proceed with caution — this cannot be undone.
                     </p>
                 </div>
 
@@ -115,6 +119,6 @@ export default function DeleteUser() {
                     </DialogContent>
                 </Dialog>
             </div>
-        </div>
+        </Card>
     );
 }

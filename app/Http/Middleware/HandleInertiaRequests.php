@@ -55,12 +55,20 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => $user ? array_merge($user->toArray(), [
+                    'avatar_url' => $user->avatarUrl(),
                     'roles' => $user->getRoleNames(),
                     'permissions' => $user->getAllPermissions()
                         ->pluck('name'),
                     'is_super_admin' => $user->hasRole(RoleEnum::SUPER_ADMIN->value),
                 ]) : null,
             ],
+            // Portal chrome for shared pages (settings, personal inbox) that live
+            // outside /platform, /school/{slug}, and /teacher prefixes.
+            'shell' => $user ? match (true) {
+                $user->isPlatformStaff() => 'platform',
+                $user->isSchoolStaff() => 'school',
+                default => 'teacher',
+            } : null,
             // The current tenant, or null outside a school context.
             'school' => $school ? [
                 'id' => $school->id,

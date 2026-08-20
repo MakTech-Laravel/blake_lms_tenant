@@ -56,23 +56,7 @@ class NotificationInboxController extends Controller
                 'unread' => $user->unreadNotificationCount(),
                 'archived' => $user->notificationReceipts()->archived()->whereHas('notification')->count(),
             ],
-            // Which AquaCert shell to wrap this shared page in. Resolved from the
-            // account type because `/notifications` sits outside every portal
-            // prefix and would otherwise fall through to the starter-kit layout.
-            'shell' => $this->shellFor($user),
         ]);
-    }
-
-    /**
-     * The dashboard shell that matches this account's home portal.
-     */
-    private function shellFor(User $user): string
-    {
-        return match (true) {
-            $user->isPlatformStaff() => 'platform',
-            $user->isSchoolStaff() => 'school',
-            default => 'teacher',
-        };
     }
 
     /**
