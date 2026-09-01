@@ -1,0 +1,21 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "branch",
+    "live",
+    "main",
+    "platform"
+  ],
+  "parent": {
+    "branch": "main",
+    "live": "main",
+    "main": null,
+    "platform": "main"
+  },
+  "order": [
+    "main",
+    "branch",
+    "live",
+    "platform"
+  ]
+}
